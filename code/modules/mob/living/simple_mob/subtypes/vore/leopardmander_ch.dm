@@ -42,7 +42,6 @@
 	vore_icons = 4
 	vore_capacity = 4
 	swallowTime = 100
-	vore_ignores_undigestable = TRUE
 	vore_default_mode = DM_HEAL
 	vore_pounce_maxhealth = 125
 	vore_bump_emote = "tries to snap up"
