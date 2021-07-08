@@ -52,7 +52,8 @@ const digestModeToPreyMode = {
  *   show_liq, liq_interacts, liq_reagent_gen, liq_reagent_type, liq_reagent_name,
  *   liq_reagent_transfer_verb, liq_reagent_nutri_rate, liq_reagent_capacity, liq_sloshing, liq_reagent_addons,
  *   show_liq_fullness, liq_messages, liq_msg_toggle1, liq_msg_toggle2, liq_msg_toggle3, liq_msg_toggle4,
- *   liq_msg_toggle5, liq_msg1, liq_msg2, liq_msg3, liq_msg4, liq_msg5,
+ *   liq_msg_toggle5, liq_msg1, liq_msg2, liq_msg3, liq_msg4, liq_msg5, vorespawn_blacklist, vore_sprite,
+ *   vore_sprite_colour, tailvore_sprite, tailvore_sprite_color
  *
  * To the tabs section of VoreSelectedBelly return
  *       <Tabs.Tab selected={tabIndex === 5} onClick={() => setTabIndex(5)}>
@@ -62,7 +63,7 @@ const digestModeToPreyMode = {
  *        Liquid Messages
  *      </Tabs.Tab>
  *
- * All of the content for tabIndex === 5 and tabIndex === 6
+ * All of the content for tabIndex === 5, tabIndex === 6 and tabIndex === 7
  *
  * Under VoreUserPreferences the following strings have been added to const{}:
  *   liq_rec, liq_giv,
@@ -270,7 +271,6 @@ const VoreBellySelectionAndCustomization = (props, context) => {
  */
 const VoreSelectedBelly = (props, context) => {
   const { act } = useBackend(context);
-
   const { belly } = props;
   const {
     belly_name,
@@ -328,6 +328,10 @@ const VoreSelectedBelly = (props, context) => {
     liq_msg4,
     liq_msg5,
     vorespawn_blacklist,
+    vore_sprite,
+    vore_sprite_color,
+    tailvore_sprite,
+    tailvore_sprite_color,
   } = belly;
 
   const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
@@ -355,6 +359,9 @@ const VoreSelectedBelly = (props, context) => {
         </Tabs.Tab>
         <Tabs.Tab selected={tabIndex === 6} onClick={() => setTabIndex(6)}>
           Liquid Messages
+        </Tabs.Tab>
+        <Tabs.Tab selected={tabIndex === 7} onClick={() => setTabIndex(7)}>
+          Vore Sprite Options
         </Tabs.Tab>
       </Tabs>
       {tabIndex === 0 && (
@@ -828,6 +835,37 @@ const VoreSelectedBelly = (props, context) => {
               </LabeledList.Item>
             </LabeledList>
           ) : "These options only display while liquid examination settings are turned on."}
+        </Section>
+      ) || tabIndex === 7 && (
+        <Section title="Belly Sprites">
+          <LabeledList>
+            <LabeledList.Item label="Uses Vore Sprite">
+              <Button
+                onClick={() => act("set_attribute", { attribute: "b_vore_sprite" })}
+                icon={vore_sprite ? "toggle-on" : "toggle-off"}
+                selected={vore_sprite}
+                content={vore_sprite ? "Yes" : "No"} />
+            </LabeledList.Item>
+            <LabeledList.Item label="Vore Sprite Color">
+              <Button
+                onClick={() => act("set_attribute", { attribute: "b_vore_sprite_color" })}
+                icon="pen"
+                content={capitalize(vore_sprite_color)} />
+            </LabeledList.Item>
+            <LabeledList.Item label="Uses TailVore Sprite">
+              <Button
+                onClick={() => act("set_attribute", { attribute: "b_tailvore_sprite" })}
+                icon={tailvore_sprite ? "toggle-on" : "toggle-off"}
+                selected={tailvore_sprite}
+                content={tailvore_sprite ? "Yes" : "No"} />
+            </LabeledList.Item>
+            <LabeledList.Item label="TailVore Sprite Color">
+              <Button
+                onClick={() => act("set_attribute", { attribute: "b_tailvore_sprite_color" })}
+                icon="pen"
+                content={capitalize(tailvore_sprite_color)} />
+            </LabeledList.Item>
+          </LabeledList>
         </Section>
       ) || "Error"}
     </Fragment>

@@ -189,36 +189,13 @@
 		"fullness3_messages",
 		"fullness4_messages",
 		"fullness5_messages",
-		"vorespawn_blacklist",     //CHOMP end of variables from CHOMP
+		"vorespawn_blacklist",
+		"vore_sprite",
+		"vore_sprite_color",
+		"tailvore_sprite",
+		"tailvore_sprite_color",     //CHOMP end of variables from CHOMP
 		"egg_type"
 		)
-
-/*These have been pulled from the above list as these were chomp edits for liquid belly stuff. This needs to be ported back in for TGUI port
-		"reagent_mode_flags",	//CHOMP start of variables from CHOMP
-		"reagentbellymode",
-		"liquid_fullness1_messages",
-		"liquid_fullness2_messages",
-		"liquid_fullness3_messages",
-		"liquid_fullness4_messages",
-		"liquid_fullness5_messages",
-		"reagent_name",
-		"reagent_chosen",
-		"reagentid",
-		"reagentcolor",
-		"gen_cost",
-		"gen_amount",
-		"gen_time",
-		"gen_time_display",
-		"reagent_transfer_verb",
-		"custom_max_volume",
-		"generated_reagents",
-		"vorefootsteps_sounds",
-		"fullness1_messages",
-		"fullness2_messages",
-		"fullness3_messages",
-		"fullness4_messages",
-		"fullness5_messages"	//CHOMP end of variables from CHOMP
-*/
 
 /obj/belly/Initialize()
 	. = ..()
@@ -866,7 +843,11 @@
 	dupe.gen_time_display = gen_time_display
 	dupe.reagent_transfer_verb = reagent_transfer_verb
 	dupe.custom_max_volume = custom_max_volume
-	dupe.vorespawn_blacklist = vorespawn_blacklist	//CHOMP end of variables from CHOMP
+	dupe.vorespawn_blacklist = vorespawn_blacklist
+	dupe.vore_sprite = vore_sprite
+	dupe.vore_sprite_color = vore_sprite_color
+	dupe.tailvore_sprite = tailvore_sprite
+	dupe.tailvore_sprite_color = tailvore_sprite_color	//CHOMP end of variables from CHOMP
 
 	dupe.belly_fullscreen = belly_fullscreen
 	dupe.disable_hud = disable_hud

@@ -176,11 +176,17 @@
 			"emote_time" = selected.emote_time,
 			"emote_active" = selected.emote_active,
 			"belly_fullscreen" = selected.belly_fullscreen,
-			"belly_fullscreen_color" = selected.belly_fullscreen_color,	//CHOMPEdit
-			"mapRef" = map_name,	//CHOMPEdit
-			"possible_fullscreens" = icon_states('icons/mob/screen_full_vore_ch.dmi'), //CHOMPedit
-			"vorespawn_blacklist" = selected.vorespawn_blacklist
-		) //CHOMP Addition: vorespawn blacklist
+			//CHOMPEdit start. Extra vars
+			"belly_fullscreen_color" = selected.belly_fullscreen_color,
+			"mapRef" = map_name,
+			"possible_fullscreens" = icon_states('icons/mob/screen_full_vore_ch.dmi'),
+			"vorespawn_blacklist" = selected.vorespawn_blacklist,
+			"vore_sprite" = selected.vore_sprite,
+			"vore_sprite_color" = selected.vore_sprite_color,
+			"tailvore_sprite" = selected.tailvore_sprite,
+			"tailvore_sprite_color" = selected.tailvore_sprite_color
+			//CHOMPEdit end.
+		)
 
 		var/list/addons = list()
 		for(var/flag_name in selected.mode_flag_list)
@@ -1041,6 +1047,26 @@
 			. = TRUE
 		if("b_vorespawn_blacklist") //CHOMP Addition
 			host.vore_selected.vorespawn_blacklist = !host.vore_selected.vorespawn_blacklist
+			. = TRUE
+		if("b_vore_sprite")
+			host.vore_selected.vore_sprite = !host.vore_selected.vore_sprite
+			. = TRUE
+		if("b_vore_sprite_color")
+			var/new_color = input("Pick belly color:","Belly Color", host.vore_selected.vore_sprite_color) as null|color
+			if(!new_color)
+				return FALSE
+			host.vore_selected.vore_sprite_color = new_color
+			host.vore_selected.update_belly_sprite()
+			. = TRUE
+		if("b_tailvore_sprite")
+			host.vore_selected.tailvore_sprite = !host.vore_selected.tailvore_sprite
+			. = TRUE
+		if("b_tailvore_sprite_color")
+			var/new_color = input("Pick tail belly color:","Tail Belly Color", host.vore_selected.tailvore_sprite_color) as null|color
+			if(!new_color)
+				return FALSE
+			host.vore_selected.tailvore_sprite_color = new_color
+			host.vore_selected.update_belly_sprite()
 			. = TRUE
 
 	if(.)

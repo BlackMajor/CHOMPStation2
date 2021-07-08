@@ -1,3 +1,7 @@
+/datum/sprite_accessory/tail
+	var/has_vore_sprite = 0
+	var/vore_sprites = 0
+
 /datum/sprite_accessory/tail/alien_slug
 	name = "Alien slug tail"
 	desc = "The tail of a slug from space"

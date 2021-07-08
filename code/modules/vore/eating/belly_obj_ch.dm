@@ -39,7 +39,11 @@
 	var/liquid_fullness4_messages = FALSE
 	var/liquid_fullness5_messages = FALSE
 	var/vorespawn_blacklist = FALSE
-	var/autotransferchance = 0 				// % Chance of prey being autotransferred to transfer location
+	var/vore_sprite = FALSE
+	var/vore_sprite_color = "#FFFFFF"
+	var/tailvore_sprite = FALSE
+	var/tailvore_sprite_color = "#FFFFFF"
+	var/autotransferchance = 0 				// % Chance of prey being autotransferred to transfer location. These are disabled when owner has a client
 	var/autotransferwait = 10 				// Time between trying to transfer.
 	var/autotransferlocation				// Place to send them
 
@@ -303,3 +307,7 @@
 		else
 			// Didn't transfer, so wait before retrying
 			addtimer(CALLBACK(src, /obj/belly/.proc/check_autotransfer, prey, autotransferlocation), autotransferwait)
+
+/obj/belly/proc/update_belly_sprite()
+	message_admins("Consider it updated")
+	return
