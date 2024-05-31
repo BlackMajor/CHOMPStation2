@@ -1,10 +1,10 @@
 import { useBackend } from '../backend';
-import { Section, Button, Box } from '../components';
+import { Box, Button, Section } from '../components';
 import { Window } from '../layouts';
 
 export const StationAlertConsole = () => {
   return (
-    <Window width={425} height={600} resizable>
+    <Window width={425} height={600}>
       <Window.Content scrollable>
         <StationAlertConsoleContent />
       </Window.Content>
@@ -12,8 +12,8 @@ export const StationAlertConsole = () => {
   );
 };
 
-export const StationAlertConsoleContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const StationAlertConsoleContent = (props) => {
+  const { act, data } = useBackend();
   const { categories = [] } = data;
   return categories.map((category) => (
     <Section key={category.category} title={category.category}>
@@ -32,14 +32,15 @@ export const StationAlertConsoleContent = (props, context) => {
                   <Button
                     key={camera.name}
                     disabled={camera.deact}
-                    content={camera.name + (camera.deact ? ' (deactived)' : '')}
                     icon="video"
                     onClick={() =>
                       act('switchTo', {
                         camera: camera.camera,
                       })
                     }
-                  />
+                  >
+                    {camera.name + (camera.deact ? ' (deactived)' : '')}
+                  </Button>
                 ))}
               </Section>
             );

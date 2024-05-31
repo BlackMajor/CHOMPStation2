@@ -4,9 +4,9 @@ import { Box, Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
 const State = {
-  'open': 'Open',
-  'resolved': 'Resolved',
-  'unknown': 'Unknown',
+  open: 'Open',
+  resolved: 'Resolved',
+  unknown: 'Unknown',
 };
 
 type Data = {
@@ -22,8 +22,8 @@ type Data = {
   log: string[];
 };
 
-export const MentorTicketPanel = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+export const MentorTicketPanel = (props) => {
+  const { act, data } = useBackend<Data>();
   const {
     id,
     title,
@@ -43,14 +43,13 @@ export const MentorTicketPanel = (props, context) => {
           title={'Ticket #' + id}
           buttons={
             <Box nowrap>
-              <Button
-                icon="arrow-up"
-                content="Escalate"
-                onClick={() => act('escalate')}
-              />{' '}
-              <Button content="Legacy UI" onClick={() => act('legacy')} />
+              <Button icon="arrow-up" onClick={() => act('escalate')}>
+                Escalate
+              </Button>
+              <Button onClick={() => act('legacy')}>Legacy UI</Button>
             </Box>
-          }>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Mentor Help Ticket">
               #{id}: <div dangerouslySetInnerHTML={{ __html: name }} />
@@ -58,22 +57,22 @@ export const MentorTicketPanel = (props, context) => {
             <LabeledList.Item label="State">{State[state]}</LabeledList.Item>
             {State[state] === State.open ? (
               <LabeledList.Item label="Opened At">
-                {opened_at_date} ({Math.round((opened_at / 600) * 10) / 10}{' '}
+                {opened_at_date} ({Math.round((opened_at / 600) * 10) / 10}
                 minutes ago.)
               </LabeledList.Item>
             ) : (
               <LabeledList.Item label="Closed At">
-                {closed_at_date} ({Math.round((closed_at / 600) * 10) / 10}{' '}
-                minutes ago.){' '}
-                <Button content="Reopen" onClick={() => act('reopen')} />
+                {closed_at_date} ({Math.round((closed_at / 600) * 10) / 10}
+                minutes ago.)
+                <Button onClick={() => act('reopen')}>Reopen</Button>
               </LabeledList.Item>
             )}
             <LabeledList.Item label="Actions">
               <div dangerouslySetInnerHTML={{ __html: actions }} />
             </LabeledList.Item>
             <LabeledList.Item label="Log">
-              {Object.keys(log).map((L) => (
-                <div dangerouslySetInnerHTML={{ __html: log[L] }} />
+              {Object.keys(log).map((L, i) => (
+                <div key={i} dangerouslySetInnerHTML={{ __html: log[L] }} />
               ))}
             </LabeledList.Item>
           </LabeledList>

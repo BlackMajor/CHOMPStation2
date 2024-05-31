@@ -1,10 +1,9 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Box, Button, Icon, Input, Section, Table } from '../components';
 import { NtosWindow } from '../layouts';
 
-export const NtosNetChat = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosNetChat = (props) => {
+  const { act, data } = useBackend();
   const {
     can_admin,
     adminmode,
@@ -28,22 +27,23 @@ export const NtosNetChat = (props, context) => {
                 verticalAlign="top"
                 style={{
                   width: '200px',
-                }}>
+                }}
+              >
                 <Box height="560px" overflowY="scroll">
                   <Button.Input
                     fluid
-                    content="New Channel..."
                     onCommit={(e, value) =>
                       act('PRG_newchannel', {
                         new_channel_name: value,
                       })
                     }
-                  />
+                  >
+                    New Channel...
+                  </Button.Input>
                   {all_channels.map((channel) => (
                     <Button
                       fluid
                       key={channel.chan}
-                      content={channel.chan}
                       selected={channel.id === active_channel}
                       color="transparent"
                       onClick={() =>
@@ -51,28 +51,32 @@ export const NtosNetChat = (props, context) => {
                           id: channel.id,
                         })
                       }
-                    />
+                    >
+                      {channel.chan}
+                    </Button>
                   ))}
                 </Box>
                 <Button.Input
                   fluid
                   mt={1}
-                  content={username + '...'}
                   currentValue={username}
                   onCommit={(e, value) =>
                     act('PRG_changename', {
                       new_name: value,
                     })
                   }
-                />
+                >
+                  {username + '...'}
+                </Button.Input>
                 {!!can_admin && (
                   <Button
                     fluid
                     bold
-                    content={'ADMIN MODE: ' + (adminmode ? 'ON' : 'OFF')}
                     color={adminmode ? 'bad' : 'good'}
                     onClick={() => act('PRG_toggleadmin')}
-                  />
+                  >
+                    {'ADMIN MODE: ' + (adminmode ? 'ON' : 'OFF')}
+                  </Button>
                 )}
               </Table.Cell>
               <Table.Cell>
@@ -111,57 +115,63 @@ export const NtosNetChat = (props, context) => {
                 verticalAlign="top"
                 style={{
                   width: '150px',
-                }}>
+                }}
+              >
                 <Box height="465px" overflowY="scroll">
                   {clients.map((client) => (
                     <Box key={client.name}>{client.name}</Box>
                   ))}
                 </Box>
                 {in_channel && authorized && (
-                  <Fragment>
+                  <>
                     <Button.Input
                       fluid
-                      content="Save log..."
                       defaultValue="new_log"
                       onCommit={(e, value) =>
                         act('PRG_savelog', {
                           log_name: value,
                         })
                       }
-                    />
+                    >
+                      Save log...
+                    </Button.Input>
                     <Button.Confirm
                       fluid
-                      content="Leave Channel"
                       onClick={() => act('PRG_leavechannel')}
-                    />
-                  </Fragment>
+                    >
+                      Leave Channel
+                    </Button.Confirm>
+                  </>
                 )}
                 {!!is_operator && authed && (
-                  <Fragment>
+                  <>
                     <Button.Confirm
                       fluid
-                      content="Delete Channel"
                       onClick={() => act('PRG_deletechannel')}
-                    />
+                    >
+                      Delete Channel
+                    </Button.Confirm>
                     <Button.Input
                       fluid
-                      content="Rename Channel..."
                       onCommit={(e, value) =>
                         act('PRG_renamechannel', {
                           new_name: value,
                         })
                       }
-                    />
+                    >
+                      Rename Channel...
+                    </Button.Input>
                     <Button.Input
                       fluid
-                      content="Set Password..."
                       onCommit={(e, value) =>
                         act('PRG_setpassword', {
                           new_password: value,
                         })
                       }
-                    />
-                  </Fragment>
+                    >
+                      Set Password...
+                    </Button.Input>
+                  </>
                 )}
               </Table.Cell>
             </Table.Row>

@@ -20,8 +20,8 @@ const PROGRAM_ICONS = {
   shipping: 'tags',
 };
 
-export const NtosMain = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosMain = (props) => {
+  const { act, data } = useBackend();
   const {
     device_theme,
     programs = [],
@@ -39,7 +39,7 @@ export const NtosMain = (props, context) => {
       theme={device_theme}
       width={400}
       height={500}
-      resizable>
+    >
       <NtosWindow.Content scrollable>
         {!!has_light && (
           <Section>
@@ -47,7 +47,8 @@ export const NtosMain = (props, context) => {
               width="144px"
               icon="lightbulb"
               selected={light_on}
-              onClick={() => act('PC_toggle_light')}>
+              onClick={() => act('PC_toggle_light')}
+            >
               Flashlight: {light_on ? 'ON' : 'OFF'}
             </Button>
             <Button ml={1} onClick={() => act('PC_light_color')}>
@@ -61,11 +62,13 @@ export const NtosMain = (props, context) => {
           buttons={
             <Button
               icon="eject"
-              content="Eject ID"
               disabled={!login.IDName}
               onClick={() => act('PC_Eject_Disk', { name: 'ID' })}
-            />
-          }>
+            >
+              Eject ID
+            </Button>
+          }
+        >
           <Table>
             <Table.Row>ID Name: {login.IDName}</Table.Row>
             <Table.Row>Assignment: {login.IDJob}</Table.Row>
@@ -81,9 +84,10 @@ export const NtosMain = (props, context) => {
                       fluid
                       color="transparent"
                       icon="eject"
-                      content={device}
                       onClick={() => act('PC_Eject_Disk', { name: device })}
-                    />
+                    >
+                      {device}
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               ))}
@@ -99,13 +103,14 @@ export const NtosMain = (props, context) => {
                     fluid
                     color="transparent"
                     icon={PROGRAM_ICONS[program.name] || 'window-maximize-o'}
-                    content={program.desc}
                     onClick={() =>
                       act('PC_runprogram', {
                         name: program.name,
                       })
                     }
-                  />
+                  >
+                    {program.desc}
+                  </Button>
                 </Table.Cell>
                 <Table.Cell collapsing width="18px">
                   {!!program.running && (
@@ -132,7 +137,8 @@ export const NtosMain = (props, context) => {
                       act('PC_setautorun', {
                         name: program.name,
                       })
-                    }>
+                    }
+                  >
                     AR
                   </Button>
                 </Table.Cell>

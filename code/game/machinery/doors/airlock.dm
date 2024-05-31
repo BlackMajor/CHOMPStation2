@@ -1003,7 +1003,6 @@ About the new airlock wires panel:
 		..(user)
 	return
 
-/* // CHOMPEDIT: disabling becaue alt-clicking to view a turf is pretty important.
 /obj/machinery/door/airlock/AltClick(mob/user as mob)
 
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
@@ -1026,7 +1025,6 @@ About the new airlock wires panel:
 		src.add_fingerprint(user)
 		playsound(src, knock_unpowered_sound, 50, 0, 3)
 	return
-*/ //ChompEDIT - disable end
 
 /obj/machinery/door/airlock/tgui_act(action, params)
 	if(..())
@@ -1145,7 +1143,11 @@ About the new airlock wires panel:
 	if(istype(C, /mob/living))
 		..()
 		return
-	if(!repairing && C.has_tool_quality(TOOL_WELDER) && !( src.operating > 0 ) && src.density)
+	 //VOREstation Edit: Removing material cost from repair requirements
+	if(C.has_tool_quality(TOOL_WELDER) && !( src.operating > 0 ) && src.density)
+		if(health < maxhealth && user.a_intent == I_HELP)
+			..()
+			return
 		var/obj/item/weapon/weldingtool/W = C.get_welder()
 		if(W.remove_fuel(0,user))
 			if(!src.welded)
@@ -1180,7 +1182,7 @@ About the new airlock wires panel:
 	else if(istype(C, /obj/item/weapon/pai_cable))	// -- TLE
 		var/obj/item/weapon/pai_cable/cable = C
 		cable.plugin(src, user)
-	else if(!repairing && C.has_tool_quality(TOOL_CROWBAR))
+	else if(C.has_tool_quality(TOOL_CROWBAR))
 		if(can_remove_electronics())
 			playsound(src, C.usesound, 75, 1)
 			user.visible_message("[user] removes the electronics from the airlock assembly.", "You start to remove electronics from the airlock assembly.")

@@ -1,12 +1,22 @@
 import { sortBy } from 'common/collections';
 import { capitalize, decodeHtmlEntities } from 'common/string';
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, ByondUi, Flex, LabeledList, Section, Tabs, ColorBox } from '../components';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  ByondUi,
+  ColorBox,
+  Flex,
+  LabeledList,
+  Section,
+  Tabs,
+} from '../components';
 import { Window } from '../layouts';
 
-export const AppearanceChanger = (props, context) => {
-  const { act, config, data } = useBackend(context);
+export const AppearanceChanger = (props) => {
+  const { act, config, data } = useBackend();
 
   const {
     name,
@@ -53,11 +63,7 @@ export const AppearanceChanger = (props, context) => {
     firstAccesibleTab = 5;
   }
 
-  const [tabIndex, setTabIndex] = useLocalState(
-    context,
-    'tabIndex',
-    firstAccesibleTab
-  );
+  const [tabIndex, setTabIndex] = useState(firstAccesibleTab);
 
   return (
     <Window width={700} height={650} title={decodeHtmlEntities(title)}>
@@ -69,44 +75,52 @@ export const AppearanceChanger = (props, context) => {
                 <LabeledList.Item label="Name">{name}</LabeledList.Item>
                 <LabeledList.Item
                   label="Species"
-                  color={!change_race ? 'grey' : null}>
+                  color={!change_race ? 'grey' : null}
+                >
                   {specimen}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Biological Sex"
-                  color={!change_gender ? 'grey' : null}>
+                  color={!change_gender ? 'grey' : null}
+                >
                   {gender ? capitalize(gender) : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Gender Identity"
-                  color={!change_color ? 'grey' : null}>
+                  color={!change_color ? 'grey' : null}
+                >
                   {gender_id ? capitalize(gender_id) : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Hair Style"
-                  color={!change_hair ? 'grey' : null}>
+                  color={!change_hair ? 'grey' : null}
+                >
                   {hair_style ? capitalize(hair_style) : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Facial Hair Style"
-                  color={!change_facial_hair ? 'grey' : null}>
+                  color={!change_facial_hair ? 'grey' : null}
+                >
                   {facial_hair_style
                     ? capitalize(facial_hair_style)
                     : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Ear Style"
-                  color={!change_hair ? 'grey' : null}>
+                  color={!change_hair ? 'grey' : null}
+                >
                   {ear_style ? capitalize(ear_style) : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Tail Style"
-                  color={!change_hair ? 'grey' : null}>
+                  color={!change_hair ? 'grey' : null}
+                >
                   {tail_style ? capitalize(tail_style) : 'Not Set'}
                 </LabeledList.Item>
                 <LabeledList.Item
                   label="Wing Style"
-                  color={!change_hair ? 'grey' : null}>
+                  color={!change_hair ? 'grey' : null}
+                >
                   {wing_style ? capitalize(wing_style) : 'Not Set'}
                 </LabeledList.Item>
               </LabeledList>
@@ -142,33 +156,38 @@ export const AppearanceChanger = (props, context) => {
             </Tabs.Tab>
           ) : null}
           {change_hair ? (
-            <Fragment>
+            <>
               <Tabs.Tab
                 selected={tabIndex === 3}
-                onClick={() => setTabIndex(3)}>
+                onClick={() => setTabIndex(3)}
+              >
                 Hair
               </Tabs.Tab>
               <Tabs.Tab
                 selected={tabIndex === 5}
-                onClick={() => setTabIndex(5)}>
+                onClick={() => setTabIndex(5)}
+              >
                 Ear
               </Tabs.Tab>
               <Tabs.Tab
                 selected={tabIndex === 6}
-                onClick={() => setTabIndex(6)}>
+                onClick={() => setTabIndex(6)}
+              >
                 Tail
               </Tabs.Tab>
               <Tabs.Tab
                 selected={tabIndex === 7}
-                onClick={() => setTabIndex(7)}>
+                onClick={() => setTabIndex(7)}
+              >
                 Wing
               </Tabs.Tab>
               <Tabs.Tab
                 selected={tabIndex === 8}
-                onClick={() => setTabIndex(8)}>
+                onClick={() => setTabIndex(8)}
+              >
                 Markings
               </Tabs.Tab>
-            </Fragment>
+            </>
           ) : null}
           {change_facial_hair ? (
             <Tabs.Tab selected={tabIndex === 4} onClick={() => setTabIndex(4)}>
@@ -194,8 +213,8 @@ export const AppearanceChanger = (props, context) => {
   );
 };
 
-const AppearanceChangerSpecies = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerSpecies = (props) => {
+  const { act, data } = useBackend();
   const { species, specimen } = data;
 
   const sortedSpecies = sortBy((val) => val.specimen)(species || []);
@@ -205,17 +224,18 @@ const AppearanceChangerSpecies = (props, context) => {
       {sortedSpecies.map((spec) => (
         <Button
           key={spec.specimen}
-          content={spec.specimen}
           selected={specimen === spec.specimen}
           onClick={() => act('race', { race: spec.specimen })}
-        />
+        >
+          {spec.specimen}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerGender = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerGender = (props) => {
+  const { act, data } = useBackend();
 
   const { gender, gender_id, genders, id_genders } = data;
 
@@ -227,9 +247,10 @@ const AppearanceChangerGender = (props, context) => {
             <Button
               key={g.gender_key}
               selected={g.gender_key === gender}
-              content={g.gender_name}
-              onClick={() => act('gender', { 'gender': g.gender_key })}
-            />
+              onClick={() => act('gender', { gender: g.gender_key })}
+            >
+              {g.gender_name}
+            </Button>
           ))}
         </LabeledList.Item>
         <LabeledList.Item label="Gender Identity">
@@ -237,9 +258,10 @@ const AppearanceChangerGender = (props, context) => {
             <Button
               key={g.gender_key}
               selected={g.gender_key === gender_id}
-              content={g.gender_name}
-              onClick={() => act('gender_id', { 'gender_id': g.gender_key })}
-            />
+              onClick={() => act('gender_id', { gender_id: g.gender_key })}
+            >
+              {g.gender_name}
+            </Button>
           ))}
         </LabeledList.Item>
       </LabeledList>
@@ -247,8 +269,8 @@ const AppearanceChangerGender = (props, context) => {
   );
 };
 
-const AppearanceChangerColors = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerColors = (props) => {
+  const { act, data } = useBackend();
 
   const {
     change_eye_color,
@@ -273,91 +295,72 @@ const AppearanceChangerColors = (props, context) => {
       {change_eye_color ? (
         <Box>
           <ColorBox color={eye_color} mr={1} />
-          <Button content="Change Eye Color" onClick={() => act('eye_color')} />
+          <Button onClick={() => act('eye_color')}>Change Eye Color</Button>
         </Box>
       ) : null}
       {change_skin_tone ? (
         <Box>
-          <Button content="Change Skin Tone" onClick={() => act('skin_tone')} />
+          <Button onClick={() => act('skin_tone')}>Change Skin Tone</Button>
         </Box>
       ) : null}
       {change_skin_color ? (
         <Box>
           <ColorBox color={skin_color} mr={1} />
-          <Button
-            content="Change Skin Color"
-            onClick={() => act('skin_color')}
-          />
+          <Button onClick={() => act('skin_color')}>Change Skin Color</Button>
         </Box>
       ) : null}
       {change_hair_color ? (
-        <Fragment>
+        <>
           <Box>
             <ColorBox color={hair_color} mr={1} />
-            <Button
-              content="Change Hair Color"
-              onClick={() => act('hair_color')}
-            />
+            <Button onClick={() => act('hair_color')}>Change Hair Color</Button>
           </Box>
           <Box>
             <ColorBox color={ears_color} mr={1} />
-            <Button
-              content="Change Ears Color"
-              onClick={() => act('ears_color')}
-            />
+            <Button onClick={() => act('ears_color')}>Change Ears Color</Button>
           </Box>
           <Box>
             <ColorBox color={ears2_color} mr={1} />
-            <Button
-              content="Change Secondary Ears Color"
-              onClick={() => act('ears2_color')}
-            />
+            <Button onClick={() => act('ears2_color')}>
+              Change Secondary Ears Color
+            </Button>
           </Box>
           <Box>
             <ColorBox color={tail_color} mr={1} />
-            <Button
-              content="Change Tail Color"
-              onClick={() => act('tail_color')}
-            />
+            <Button onClick={() => act('tail_color')}>Change Tail Color</Button>
           </Box>
           <Box>
             <ColorBox color={tail2_color} mr={1} />
-            <Button
-              content="Change Secondary Tail Color"
-              onClick={() => act('tail2_color')}
-            />
+            <Button onClick={() => act('tail2_color')}>
+              Change Secondary Tail Color
+            </Button>
           </Box>
           <Box>
             <ColorBox color={wing_color} mr={1} />
-            <Button
-              content="Change Wing Color"
-              onClick={() => act('wing_color')}
-            />
+            <Button onClick={() => act('wing_color')}>Change Wing Color</Button>
           </Box>
           <Box>
             <ColorBox color={wing2_color} mr={1} />
-            <Button
-              content="Change Secondary Wing Color"
-              onClick={() => act('wing2_color')}
-            />
+            <Button onClick={() => act('wing2_color')}>
+              Change Secondary Wing Color
+            </Button>
           </Box>
-        </Fragment>
+        </>
       ) : null}
       {change_facial_hair_color ? (
         <Box>
           <ColorBox color={facial_hair_color} mr={1} />
-          <Button
-            content="Change Facial Hair Color"
-            onClick={() => act('facial_hair_color')}
-          />
+          <Button onClick={() => act('facial_hair_color')}>
+            Change Facial Hair Color
+          </Button>
         </Box>
       ) : null}
     </Section>
   );
 };
 
-const AppearanceChangerHair = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerHair = (props) => {
+  const { act, data } = useBackend();
 
   const { hair_style, hair_styles } = data;
 
@@ -368,15 +371,16 @@ const AppearanceChangerHair = (props, context) => {
           key={hair.hairstyle}
           onClick={() => act('hair', { hair: hair.hairstyle })}
           selected={hair.hairstyle === hair_style}
-          content={hair.hairstyle}
-        />
+        >
+          {hair.hairstyle}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerFacialHair = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerFacialHair = (props) => {
+  const { act, data } = useBackend();
 
   const { facial_hair_style, facial_hair_styles } = data;
 
@@ -389,15 +393,16 @@ const AppearanceChangerFacialHair = (props, context) => {
             act('facial_hair', { facial_hair: hair.facialhairstyle })
           }
           selected={hair.facialhairstyle === facial_hair_style}
-          content={hair.facialhairstyle}
-        />
+        >
+          {hair.facialhairstyle}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerEars = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerEars = (props) => {
+  const { act, data } = useBackend();
 
   const { ear_style, ear_styles } = data;
 
@@ -406,22 +411,24 @@ const AppearanceChangerEars = (props, context) => {
       <Button
         onClick={() => act('ear', { clear: true })}
         selected={ear_style === null}
-        content="-- Not Set --"
-      />
+      >
+        -- Not Set --
+      </Button>
       {sortBy((e) => e.name.toLowerCase())(ear_styles).map((ear) => (
         <Button
           key={ear.instance}
           onClick={() => act('ear', { ref: ear.instance })}
           selected={ear.name === ear_style}
-          content={ear.name}
-        />
+        >
+          {ear.name}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerTails = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerTails = (props) => {
+  const { act, data } = useBackend();
 
   const { tail_style, tail_styles } = data;
 
@@ -430,22 +437,24 @@ const AppearanceChangerTails = (props, context) => {
       <Button
         onClick={() => act('tail', { clear: true })}
         selected={tail_style === null}
-        content="-- Not Set --"
-      />
+      >
+        -- Not Set --
+      </Button>
       {sortBy((e) => e.name.toLowerCase())(tail_styles).map((tail) => (
         <Button
           key={tail.instance}
           onClick={() => act('tail', { ref: tail.instance })}
           selected={tail.name === tail_style}
-          content={tail.name}
-        />
+        >
+          {tail.name}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerWings = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerWings = (props) => {
+  const { act, data } = useBackend();
 
   const { wing_style, wing_styles } = data;
 
@@ -454,53 +463,58 @@ const AppearanceChangerWings = (props, context) => {
       <Button
         onClick={() => act('wing', { clear: true })}
         selected={wing_style === null}
-        content="-- Not Set --"
-      />
+      >
+        -- Not Set --
+      </Button>
       {sortBy((e) => e.name.toLowerCase())(wing_styles).map((wing) => (
         <Button
           key={wing.instance}
           onClick={() => act('wing', { ref: wing.instance })}
           selected={wing.name === wing_style}
-          content={wing.name}
-        />
+        >
+          {wing.name}
+        </Button>
       ))}
     </Section>
   );
 };
 
-const AppearanceChangerMarkings = (props, context) => {
-  const { act, data } = useBackend(context);
+const AppearanceChangerMarkings = (props) => {
+  const { act, data } = useBackend();
 
   const { markings } = data;
 
   return (
     <Section title="Markings" fill scrollable>
       <Box>
-        <Button
-          content="Add Marking"
-          onClick={() => act('marking', { todo: 1, name: 'na' })}
-        />
+        <Button onClick={() => act('marking', { todo: 1, name: 'na' })}>
+          Add Marking
+        </Button>
       </Box>
       <LabeledList>
         {markings.map((m) => (
           <LabeledList.Item key={m.marking_name} label={m.marking_name}>
             <ColorBox color={m.marking_color} mr={1} />
             <Button
-              content="Change Color"
               onClick={() => act('marking', { todo: 4, name: m.marking_name })}
-            />
+            >
+              Change Color
+            </Button>
             <Button
-              content="-"
               onClick={() => act('marking', { todo: 0, name: m.marking_name })}
-            />
+            >
+              -
+            </Button>
             <Button
-              content="Move down"
               onClick={() => act('marking', { todo: 3, name: m.marking_name })}
-            />
+            >
+              Move down
+            </Button>
             <Button
-              content="Move up"
               onClick={() => act('marking', { todo: 2, name: m.marking_name })}
-            />
+            >
+              Move up
+            </Button>
           </LabeledList.Item>
         ))}
       </LabeledList>

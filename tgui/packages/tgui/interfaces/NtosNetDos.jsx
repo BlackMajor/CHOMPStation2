@@ -1,4 +1,3 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Box, Button, LabeledList, NoticeBox, Section } from '../components';
 import { NtosWindow } from '../layouts';
@@ -13,22 +12,19 @@ export const NtosNetDos = () => {
   );
 };
 
-export const NtosNetDosContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosNetDosContent = (props) => {
+  const { act, data } = useBackend();
 
   const { relays = [], focus, target, speed, overload, capacity, error } = data;
 
   if (error) {
     return (
-      <Fragment>
+      <>
         <NoticeBox>{error}</NoticeBox>
-        <Button
-          fluid
-          content="Reset"
-          textAlign="center"
-          onClick={() => act('PRG_reset')}
-        />
-      </Fragment>
+        <Button fluid textAlign="center" onClick={() => act('PRG_reset')}>
+          Reset
+        </Button>
+      </>
     );
   }
 
@@ -70,27 +66,29 @@ export const NtosNetDosContent = (props, context) => {
           {relays.map((relay) => (
             <Button
               key={relay.id}
-              content={relay.id}
               selected={focus === relay.id}
               onClick={() =>
                 act('PRG_target_relay', {
                   targid: relay.id,
                 })
               }
-            />
+            >
+              {relay.id}
+            </Button>
           ))}
         </LabeledList.Item>
       </LabeledList>
       <Button
         fluid
         bold
-        content="EXECUTE"
         color="bad"
         textAlign="center"
         disabled={!focus}
         mt={1}
         onClick={() => act('PRG_execute')}
-      />
+      >
+        EXECUTE
+      </Button>
     </Section>
   );
 };

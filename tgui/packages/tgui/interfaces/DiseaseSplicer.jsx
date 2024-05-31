@@ -1,10 +1,9 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Box, Button, LabeledList, ProgressBar, Section } from '../components';
 import { Window } from '../layouts';
 
-export const DiseaseSplicer = (props, context) => {
-  const { act, data } = useBackend(context);
+export const DiseaseSplicer = (props) => {
+  const { act, data } = useBackend();
 
   const { busy } = data;
 
@@ -18,18 +17,18 @@ export const DiseaseSplicer = (props, context) => {
             </center>
           </Section>
         ) : (
-          <Fragment>
+          <>
             <DiseaseSplicerVirusDish />
             <DiseaseSplicerStorage />
-          </Fragment>
+          </>
         )}
       </Window.Content>
     </Window>
   );
 };
 
-const DiseaseSplicerVirusDish = (props, context) => {
-  const { act, data } = useBackend(context);
+const DiseaseSplicerVirusDish = (props) => {
+  const { act, data } = useBackend();
 
   const { dish_inserted, effects, info, growth, affected_species } = data;
 
@@ -39,11 +38,13 @@ const DiseaseSplicerVirusDish = (props, context) => {
       buttons={
         <Button
           icon="eject"
-          content="Eject Dish"
           disabled={!dish_inserted}
           onClick={() => act('eject')}
-        />
-      }>
+        >
+          Eject Dish
+        </Button>
+      }
+    >
       <LabeledList>
         <LabeledList.Item label="Growth Density">
           <ProgressBar
@@ -63,7 +64,7 @@ const DiseaseSplicerVirusDish = (props, context) => {
           <Box color="bad">{info}</Box>
         </Section>
       ) : (
-        <Fragment>
+        <>
           <Section level={2} title="Symptoms">
             {(effects &&
               effects.map((effect) => (
@@ -84,25 +85,24 @@ const DiseaseSplicerVirusDish = (props, context) => {
             {effects.map((e) => (
               <Button
                 key={e.stage}
-                content={e.stage}
                 icon="exchange-alt"
                 onClick={() => act('grab', { grab: e.reference })}
-              />
+              >
+                {e.stage}
+              </Button>
             ))}
-            <Button
-              content="Species"
-              icon="exchange-alt"
-              onClick={() => act('affected_species')}
-            />
+            <Button icon="exchange-alt" onClick={() => act('affected_species')}>
+              Species
+            </Button>
           </Section>
-        </Fragment>
+        </>
       )}
     </Section>
   );
 };
 
-const DiseaseSplicerStorage = (props, context) => {
-  const { act, data } = useBackend(context);
+const DiseaseSplicerStorage = (props) => {
+  const { act, data } = useBackend();
 
   const {
     dish_inserted,
@@ -133,45 +133,51 @@ const DiseaseSplicerStorage = (props, context) => {
       <Button
         mt={1}
         icon="save"
-        content="Save To Disk"
         disabled={!buffer && !species_buffer}
         onClick={() => act('disk')}
-      />
+      >
+        Save To Disk
+      </Button>
       {buffer ? (
         <Box>
           <Button
             icon="pen"
-            content="Splice #1"
             disabled={buffer.stage > 1}
             onClick={() => act('splice', { splice: 1 })}
-          />
+          >
+            Splice #1
+          </Button>
           <Button
             icon="pen"
-            content="Splice #2"
             disabled={buffer.stage > 2}
             onClick={() => act('splice', { splice: 2 })}
-          />
+          >
+            Splice #2
+          </Button>
           <Button
             icon="pen"
-            content="Splice #3"
             disabled={buffer.stage > 3}
             onClick={() => act('splice', { splice: 3 })}
-          />
+          >
+            Splice #3
+          </Button>
           <Button
             icon="pen"
-            content="Splice #4"
             disabled={buffer.stage > 4}
             onClick={() => act('splice', { splice: 4 })}
-          />
+          >
+            Splice #4
+          </Button>
         </Box>
       ) : species_buffer ? (
         <Box>
           <Button
             icon="pen"
-            content="Splice Species"
             disabled={!species_buffer || info}
             onClick={() => act('splice', { splice: 5 })}
-          />
+          >
+            Splice Species
+          </Button>
         </Box>
       ) : null}
     </Section>

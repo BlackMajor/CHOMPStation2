@@ -1,9 +1,15 @@
 import { useBackend } from '../../backend';
-import { Fragment } from 'inferno';
-import { Box, Section, LabeledList, Button, AnimatedNumber, ProgressBar } from '../../components';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from '../../components';
 
-export const PortableBasicInfo = (props, context) => {
-  const { act, data } = useBackend(context);
+export const PortableBasicInfo = (props) => {
+  const { act, data } = useBackend();
 
   const {
     connected,
@@ -16,17 +22,19 @@ export const PortableBasicInfo = (props, context) => {
   } = data;
 
   return (
-    <Fragment>
+    <>
       <Section
         title="Status"
         buttons={
           <Button
             icon={on ? 'power-off' : 'times'}
-            content={on ? 'On' : 'Off'}
             selected={on}
             onClick={() => act('power')}
-          />
-        }>
+          >
+            {on ? 'On' : 'Off'}
+          </Button>
+        }
+      >
         <LabeledList>
           <LabeledList.Item label="Pressure">
             <AnimatedNumber value={pressure} />
@@ -45,7 +53,8 @@ export const PortableBasicInfo = (props, context) => {
                 good: [cellMaxCharge * 0.5, Infinity],
                 average: [cellMaxCharge * 0.25, cellMaxCharge * 0.5],
                 bad: [-Infinity, cellMaxCharge * 0.25],
-              }}>
+              }}
+            >
               {cellCharge} W
             </ProgressBar>
           </LabeledList.Item>
@@ -55,13 +64,11 @@ export const PortableBasicInfo = (props, context) => {
         title="Holding Tank"
         minHeight="82px"
         buttons={
-          <Button
-            icon="eject"
-            content="Eject"
-            disabled={!holding}
-            onClick={() => act('eject')}
-          />
-        }>
+          <Button icon="eject" disabled={!holding} onClick={() => act('eject')}>
+            Eject
+          </Button>
+        }
+      >
         {holding ? (
           <LabeledList>
             <LabeledList.Item label="Label">{holding.name}</LabeledList.Item>
@@ -74,6 +81,6 @@ export const PortableBasicInfo = (props, context) => {
           <Box color="average">No holding tank</Box>
         )}
       </Section>
-    </Fragment>
+    </>
   );
 };

@@ -1,11 +1,23 @@
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { ComplexModal, modalRegisterBodyOverride } from '../interfaces/common/ComplexModal';
-import { Box, Button, Flex, NoticeBox, LabeledList, Section, Tabs } from '../components';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  Flex,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Tabs,
+} from '../components';
+import {
+  ComplexModal,
+  modalRegisterBodyOverride,
+} from '../interfaces/common/ComplexModal';
 import { Window } from '../layouts';
 
-const virusModalBodyOverride = (modal, context) => {
-  const { act, data } = useBackend(context);
+const virusModalBodyOverride = (modal) => {
+  const { act, data } = useBackend();
   const { can_print } = data;
   const virus = modal.args;
   return (
@@ -14,18 +26,20 @@ const virusModalBodyOverride = (modal, context) => {
       m="-1rem"
       title={virus.name || 'Virus'}
       buttons={
-        <Fragment>
+        <>
           <Button
             disabled={!can_print}
             icon="print"
-            content="Print"
             onClick={() =>
               act('print', { type: 'virus_record', vir: virus.record })
             }
-          />
+          >
+            Print
+          </Button>
           <Button icon="times" color="red" onClick={() => act('modal_close')} />
-        </Fragment>
-      }>
+        </>
+      }
+    >
       <Box mx="0.5rem">
         <LabeledList>
           <LabeledList.Item label="Spread">
@@ -69,12 +83,12 @@ const virusModalBodyOverride = (modal, context) => {
   );
 };
 
-export const PathogenicIsolator = (props, context) => {
-  const { act, data } = useBackend(context);
+export const PathogenicIsolator = (props) => {
+  const { act, data } = useBackend();
 
   const { isolating } = data;
 
-  const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   let tab = null;
   if (tabIndex === 0) {
@@ -85,7 +99,7 @@ export const PathogenicIsolator = (props, context) => {
 
   modalRegisterBodyOverride('virus', virusModalBodyOverride);
   return (
-    <Window height={500} width={520} resizable>
+    <Window height={500} width={520}>
       <ComplexModal maxHeight="100%" maxWidth="95%" />
       <Window.Content scrollable>
         {(isolating && (
@@ -106,28 +120,31 @@ export const PathogenicIsolator = (props, context) => {
   );
 };
 
-const PathogenicIsolatorTabHome = (props, context) => {
-  const { act, data } = useBackend(context);
+const PathogenicIsolatorTabHome = (props) => {
+  const { act, data } = useBackend();
   const { syringe_inserted, pathogen_pool, can_print } = data;
   return (
     <Section
       title="Pathogens"
       buttons={
-        <Fragment>
+        <>
           <Button
             icon="print"
-            content="Print"
             disabled={!can_print}
             onClick={() => act('print', { type: 'patient_diagnosis' })}
-          />
+          >
+            Print
+          </Button>
           <Button
             icon="eject"
-            content="Eject Syringe"
             disabled={!syringe_inserted}
             onClick={() => act('eject')}
-          />
-        </Fragment>
-      }>
+          >
+            Eject Syringe
+          </Button>
+        </>
+      }
+    >
       {(pathogen_pool.length &&
         pathogen_pool.map((pathogen) => (
           <Section key={pathogen.unique_id}>
@@ -140,17 +157,19 @@ const PathogenicIsolatorTabHome = (props, context) => {
                 <Flex.Item>
                   <Button
                     icon="virus"
-                    content="Isolate"
                     onClick={() =>
                       act('isolate', { isolate: pathogen.reference })
                     }
-                  />
+                  >
+                    Isolate
+                  </Button>
                   <Button
                     icon="search"
-                    content="Database"
                     disabled={!pathogen.is_in_database}
                     onClick={() => act('view_entry', { vir: pathogen.record })}
-                  />
+                  >
+                    Database
+                  </Button>
                 </Flex.Item>
               </Flex>
             </Box>
@@ -171,8 +190,8 @@ const PathogenicIsolatorTabHome = (props, context) => {
   );
 };
 
-const PathogenicIsolatorTabDatabase = (props, context) => {
-  const { act, data } = useBackend(context);
+const PathogenicIsolatorTabDatabase = (props) => {
+  const { act, data } = useBackend();
   const { database, can_print } = data;
   return (
     <Section
@@ -180,18 +199,21 @@ const PathogenicIsolatorTabDatabase = (props, context) => {
       buttons={
         <Button
           icon="print"
-          content="Print"
           disabled={!can_print}
           onClick={() => act('print', { type: 'virus_list' })}
-        />
-      }>
+        >
+          Print
+        </Button>
+      }
+    >
       {(database.length &&
         database.map((entry) => (
           <Button
             key={entry.name}
             fluid
             icon="search"
-            onClick={() => act('view_entry', { vir: entry.record })}>
+            onClick={() => act('view_entry', { vir: entry.record })}
+          >
             {entry.name}
           </Button>
         ))) || <Box color="average">The viral database is empty.</Box>}

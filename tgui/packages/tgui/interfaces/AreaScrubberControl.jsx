@@ -1,12 +1,14 @@
-import { Flex, Button, Box, LabeledList, Section } from '../components';
-import { useBackend, useLocalState } from '../backend';
-import { Window } from '../layouts';
 import { toTitleCase } from 'common/string';
+import { useState } from 'react';
 
-export const AreaScrubberControl = (props, context) => {
-  const { act, data } = useBackend(context);
+import { useBackend } from '../backend';
+import { Box, Button, Flex, LabeledList, Section } from '../components';
+import { Window } from '../layouts';
 
-  const [showArea, setShowArea] = useLocalState(context, 'showArea', false);
+export const AreaScrubberControl = (props) => {
+  const { act, data } = useBackend();
+
+  const [showArea, setShowArea] = useState(false);
 
   const { scrubbers } = data;
 
@@ -14,18 +16,15 @@ export const AreaScrubberControl = (props, context) => {
     return (
       <Section title="Error">
         <Box color="bad">No Scrubbers Detected.</Box>
-        <Button
-          fluid
-          icon="search"
-          content="Scan"
-          onClick={() => act('scan')}
-        />
+        <Button fluid icon="search" onClick={() => act('scan')}>
+          Scan
+        </Button>
       </Section>
     );
   }
 
   return (
-    <Window width={600} height={400} resizable>
+    <Window width={600} height={400}>
       <Window.Content scrollable>
         <Section>
           <Flex wrap="wrap">
@@ -34,37 +33,41 @@ export const AreaScrubberControl = (props, context) => {
                 textAlign="center"
                 fluid
                 icon="search"
-                content="Scan"
                 onClick={() => act('scan')}
-              />
+              >
+                Scan
+              </Button>
             </Flex.Item>
             <Flex.Item m="2px" basis="49%" grow={1}>
               <Button
                 textAlign="center"
                 fluid
                 icon="layer-group"
-                content="Show Areas"
                 selected={showArea}
                 onClick={() => setShowArea(!showArea)}
-              />
+              >
+                Show Areas
+              </Button>
             </Flex.Item>
             <Flex.Item m="2px" basis="49%">
               <Button
                 textAlign="center"
                 fluid
                 icon="toggle-on"
-                content="All On"
                 onClick={() => act('allon')}
-              />
+              >
+                All On
+              </Button>
             </Flex.Item>
             <Flex.Item m="2px" basis="49%" grow={1}>
               <Button
                 textAlign="center"
                 fluid
                 icon="toggle-off"
-                content="All Off"
                 onClick={() => act('alloff')}
-              />
+              >
+                All Off
+              </Button>
             </Flex.Item>
           </Flex>
           <Flex wrap="wrap">
@@ -80,8 +83,8 @@ export const AreaScrubberControl = (props, context) => {
   );
 };
 
-const BigScrubber = (props, context) => {
-  const { act } = useBackend(context);
+const BigScrubber = (props) => {
+  const { act } = useBackend();
 
   const { scrubber, showArea } = props;
 
@@ -90,10 +93,11 @@ const BigScrubber = (props, context) => {
       <Button
         fluid
         icon="power-off"
-        content={scrubber.on ? 'Enabled' : 'Disabled'}
         selected={scrubber.on}
         onClick={() => act('toggle', { id: scrubber.id })}
-      />
+      >
+        {scrubber.on ? 'Enabled' : 'Disabled'}
+      </Button>
       <LabeledList>
         <LabeledList.Item label="Pressure">
           {scrubber.pressure} kPa

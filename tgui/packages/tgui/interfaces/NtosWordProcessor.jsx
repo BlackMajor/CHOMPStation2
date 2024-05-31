@@ -1,10 +1,10 @@
 /* eslint react/no-danger: "off" */
 import { useBackend } from '../backend';
-import { Button, Box, Section, Table } from '../components';
+import { Box, Button, Section, Table } from '../components';
 import { NtosWindow } from '../layouts';
 
-export const NtosWordProcessor = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosWordProcessor = (props) => {
+  const { act, data } = useBackend();
 
   const {
     PC_device_theme,
@@ -26,11 +26,9 @@ export const NtosWordProcessor = (props, context) => {
             Additional Information: {error}
             Please try again. If the problem persists, contact your system
             administrator for assistance.
-            <Button
-              icon="arrow-left"
-              content="Back to menu"
-              onClick={() => act('PRG_backtomenu')}
-            />
+            <Button icon="arrow-left" onClick={() => act('PRG_backtomenu')}>
+              Back to menu
+            </Button>
           </Box>
         )) ||
           (browsing && (
@@ -39,10 +37,12 @@ export const NtosWordProcessor = (props, context) => {
               buttons={
                 <Button
                   icon="arrow-left"
-                  content="Back to editor"
                   onClick={() => act('PRG_closebrowser')}
-                />
-              }>
+                >
+                  Back to editor
+                </Button>
+              }
+            >
               <Section title="Available documents (local)" level={2}>
                 <Table>
                   <Table.Row header>
@@ -58,8 +58,9 @@ export const NtosWordProcessor = (props, context) => {
                         <Button
                           icon="file-word"
                           onClick={() =>
-                            act('PRG_openfile', { 'PRG_openfile': file.name })
-                          }>
+                            act('PRG_openfile', { PRG_openfile: file.name })
+                          }
+                        >
                           Open
                         </Button>
                       </Table.Cell>
@@ -84,7 +85,8 @@ export const NtosWordProcessor = (props, context) => {
                 </Button>
                 <Button
                   disabled={!filedata}
-                  onClick={() => act('PRG_printfile')}>
+                  onClick={() => act('PRG_printfile')}
+                >
                   Print
                 </Button>
               </Box>

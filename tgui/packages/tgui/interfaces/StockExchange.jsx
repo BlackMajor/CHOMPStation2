@@ -2,8 +2,8 @@ import { useBackend } from '../backend';
 import { Box, Button, Chart, Divider, Section, Table } from '../components';
 import { Window } from '../layouts';
 
-export const StockExchange = (props, context) => {
-  const { act, data } = useBackend(context);
+export const StockExchange = (props) => {
+  const { act, data } = useBackend();
 
   const { screen, stationName } = data;
 
@@ -19,7 +19,7 @@ export const StockExchange = (props, context) => {
   }
 
   return (
-    <Window width={600} height={600} resizable>
+    <Window width={600} height={600}>
       <Window.Content scrollable>
         <Section title={`${stationName} Stock Exchange`}>{body}</Section>
       </Window.Content>
@@ -27,8 +27,8 @@ export const StockExchange = (props, context) => {
   );
 };
 
-const StockExchangeStockList = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeStockList = (props) => {
+  const { act, data } = useBackend();
 
   const { balance, stationName, viewMode } = data;
 
@@ -43,18 +43,20 @@ const StockExchangeStockList = (props, context) => {
   return (
     <Box>
       <span>
-        Welcome, <b>{stationName} Cargo Department</b> |{' '}
+        Welcome, <b>{stationName} Cargo Department</b> |
       </span>
       <span>
         <b>Credits:</b> {balance}
       </span>
       <br />
       <b>View mode: </b>
-      <Button content={viewMode} onClick={() => act('stocks_cycle_view')} />
+      <Button onClick={() => act('stocks_cycle_view')}>{viewMode}</Button>
       <br />
 
       <b>Stock Transaction Log: </b>
-      <Button icon="list" content="Check" onClick={() => act('stocks_check')} />
+      <Button icon="list" onClick={() => act('stocks_check')}>
+        Check
+      </Button>
       <br />
       <b>This is a work in progress. Certain features may not be available.</b>
 
@@ -63,8 +65,8 @@ const StockExchangeStockList = (props, context) => {
   );
 };
 
-const StockExchangeFullView = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeFullView = (props) => {
+  const { act, data } = useBackend();
 
   const { stocks = [] } = data;
 
@@ -104,13 +106,15 @@ const StockExchangeFullView = (props, context) => {
               />
               <br />
               <Button
-                content="A"
                 onClick={() => act('stocks_archive', { share: stock.REF })}
-              />
+              >
+                A
+              </Button>
               <Button
-                content="H"
                 onClick={() => act('stocks_history', { share: stock.REF })}
-              />
+              >
+                H
+              </Button>
               <br />
             </Table.Cell>
           </Table.Row>
@@ -120,8 +124,8 @@ const StockExchangeFullView = (props, context) => {
   );
 };
 
-const StockExchangeCompactView = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeCompactView = (props) => {
+  const { act, data } = useBackend();
 
   const { stocks = [] } = data;
 
@@ -134,11 +138,10 @@ const StockExchangeCompactView = (props, context) => {
           <br />
           <b>Unified shares</b> {stock.Unification} ago.
           <br />
-          <b>Current value per share:</b> {stock.Value} |{' '}
-          <Button
-            content="View history"
-            onClick={() => act('stocks_history', { share: stock.REF })}
-          />
+          <b>Current value per share:</b> {stock.Value} |
+          <Button onClick={() => act('stocks_history', { share: stock.REF })}>
+            View history
+          </Button>
           <br />
           You currently own <b>{stock.Owned}</b> shares in this company.
           <br />
@@ -148,15 +151,13 @@ const StockExchangeCompactView = (props, context) => {
             <span>You cannot buy or sell shares in a bankrupt company!</span>
           ) : (
             <span>
-              <Button
-                content="Buy shares"
-                onClick={() => act('stocks_buy', { share: stock.REF })}
-              />{' '}
-              |{' '}
-              <Button
-                content="Sell shares"
-                onClick={() => act('stocks_sell', { share: stock.REF })}
-              />
+              <Button onClick={() => act('stocks_buy', { share: stock.REF })}>
+                Buy shares
+              </Button>
+              |
+              <Button onClick={() => act('stocks_sell', { share: stock.REF })}>
+                Sell shares
+              </Button>
             </span>
           )}
           <br />
@@ -164,10 +165,9 @@ const StockExchangeCompactView = (props, context) => {
           <br />
           <i>{stock.Products}</i>
           <br />
-          <Button
-            content="View news archives"
-            onClick={() => act('stocks_archive', { share: stock.REF })}
-          />{' '}
+          <Button onClick={() => act('stocks_archive', { share: stock.REF })}>
+            View news archives
+          </Button>
           {/* [news ? " <span style='color:red'>(updated)</span>" : null] */}
           <Divider />
         </Box>
@@ -177,8 +177,8 @@ const StockExchangeCompactView = (props, context) => {
 };
 
 // "<div><a href='?src=[REF(src)];show_logs=1'>Refresh</a></div></br>"
-const StockExchangeLogs = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeLogs = (props) => {
+  const { act, data } = useBackend();
 
   const { logs = [] } = data;
 
@@ -186,33 +186,33 @@ const StockExchangeLogs = (props, context) => {
     <Box>
       <h2>Stock Transaction Logs</h2>
       <br />
-      <Button content="Go back" onClick={() => act('stocks_backbutton')} />
+      <Button onClick={() => act('stocks_backbutton')}>Go back</Button>
       <Divider />
       <div>
         {logs.map((log) => (
           <Box key={log.time}>
             {log.type !== 'borrow' ? (
               <div>
-                {log.time} | <b>{log.user_name}</b>{' '}
+                {log.time} | <b>{log.user_name}</b>
                 {log.type === 'transaction_bought' ? (
                   <span>bought</span>
                 ) : (
                   <span>sold</span>
-                )}{' '}
-                <b>{log.stocks}</b> stocks at {log.shareprice} a share for{' '}
-                <b>{log.money}</b> total credits{' '}
+                )}
+                <b>{log.stocks}</b> stocks at {log.shareprice} a share for
+                <b>{log.money}</b> total credits
                 {log.type === 'transaction_bought' ? (
                   <span>in</span>
                 ) : (
                   <span>from</span>
-                )}{' '}
+                )}
                 <b>{log.company_name}</b>.
                 <br />
               </div>
             ) : (
               <div>
-                {log.time} | <b>{log.user_name}</b> borrowed <b>{log.stocks}</b>{' '}
-                stocks with a deposit of <b>{log.money}</b> credits in{' '}
+                {log.time} | <b>{log.user_name}</b> borrowed <b>{log.stocks}</b>
+                stocks with a deposit of <b>{log.money}</b> credits in
                 <b>{log.company_name}</b>.<br />
               </div>
             )}
@@ -224,15 +224,15 @@ const StockExchangeLogs = (props, context) => {
   );
 };
 
-const StockExchangeArchive = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeArchive = (props) => {
+  const { act, data } = useBackend();
 
   const { name, events = [], articles = [] } = data;
 
   return (
     <Box>
       <h2>News feed for {name}</h2>
-      <Button content="Go back" onClick={() => act('stocks_backbutton')} />
+      <Button onClick={() => act('stocks_backbutton')}>Go back</Button>
       <h3>Events</h3>
       <Divider />
       <div>
@@ -258,7 +258,7 @@ const StockExchangeArchive = (props, context) => {
               <i>{article.subtitle}</i>
               <br />
               {article.article}
-              <br />- {article.author}, {article.spacetime} (via{' '}
+              <br />- {article.author}, {article.spacetime} (via
               <i>{article.outlet}</i>)
             </div>
             <Divider />
@@ -269,14 +269,14 @@ const StockExchangeArchive = (props, context) => {
   );
 };
 
-const StockExchangeGraph = (props, context) => {
-  const { act, data } = useBackend(context);
+const StockExchangeGraph = (props) => {
+  const { act, data } = useBackend();
 
   const { name, maxValue, values = [] } = data;
 
   return (
     <Box>
-      <Button content="Go back" onClick={() => act('stocks_backbutton')} />
+      <Button onClick={() => act('stocks_backbutton')}>Go back</Button>
       <Divider />
       <Section position="relative" height="100%">
         <Chart.Line

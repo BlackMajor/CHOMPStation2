@@ -1,11 +1,17 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
-import { Box, Button, LabeledList, NoticeBox, ProgressBar, Section } from '../components';
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  ProgressBar,
+  Section,
+} from '../components';
 import { Window } from '../layouts';
 
 export const AiRestorer = () => {
   return (
-    <Window width={370} height={360} resizable>
+    <Window width={370} height={360}>
       <Window.Content scrollable>
         <AiRestorerContent />
       </Window.Content>
@@ -13,8 +19,8 @@ export const AiRestorer = () => {
   );
 };
 
-export const AiRestorerContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AiRestorerContent = (props) => {
+  const { act, data } = useBackend();
   const {
     AI_present,
     error,
@@ -26,16 +32,17 @@ export const AiRestorerContent = (props, context) => {
     ejectable,
   } = data;
   return (
-    <Fragment>
+    <>
       {error && <NoticeBox textAlign="center">{error}</NoticeBox>}
       {!!ejectable && (
         <Button
           fluid
           icon="eject"
-          content={AI_present ? name : '----------'}
           disabled={!AI_present}
           onClick={() => act('PRG_eject')}
-        />
+        >
+          {AI_present ? name : '----------'}
+        </Button>
       )}
       {!!AI_present && (
         <Section
@@ -44,7 +51,8 @@ export const AiRestorerContent = (props, context) => {
             <Box inline bold color={isDead ? 'bad' : 'good'}>
               {isDead ? 'Nonfunctional' : 'Functional'}
             </Box>
-          }>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Integrity">
               <ProgressBar
@@ -67,11 +75,12 @@ export const AiRestorerContent = (props, context) => {
           <Button
             fluid
             icon="plus"
-            content="Begin Reconstruction"
             disabled={restoring}
             mt={1}
             onClick={() => act('PRG_beginReconstruction')}
-          />
+          >
+            Begin Reconstruction
+          </Button>
           <Section title="Laws" level={2}>
             {laws.map((law) => (
               <Box key={law} className="candystripe">
@@ -81,6 +90,6 @@ export const AiRestorerContent = (props, context) => {
           </Section>
         </Section>
       )}
-    </Fragment>
+    </>
   );
 };

@@ -1,10 +1,16 @@
-import { formatPower } from '../format';
 import { useBackend } from '../backend';
-import { AnimatedNumber, Box, Button, LabeledList, Section } from '../components';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  Section,
+} from '../components';
+import { formatPower } from '../format';
 import { Window } from '../layouts';
 
-export const TurbineControl = (props, context) => {
-  const { act, data } = useBackend(context);
+export const TurbineControl = (props) => {
+  const { act, data } = useBackend();
 
   const {
     connected,
@@ -19,7 +25,7 @@ export const TurbineControl = (props, context) => {
   } = data;
 
   return (
-    <Window width={520} height={440} resizable>
+    <Window width={520} height={440}>
       <Window.Content scrollable>
         <Section title="Turbine Controller">
           <LabeledList>
@@ -27,11 +33,9 @@ export const TurbineControl = (props, context) => {
               {(broken && (
                 <Box color="bad">
                   Setup is broken
-                  <Button
-                    icon="sync"
-                    onClick={() => act('reconnect')}
-                    content="Reconnect"
-                  />
+                  <Button icon="sync" onClick={() => act('reconnect')}>
+                    Reconnect
+                  </Button>
                 </Box>
               )) || (
                 <Box color={online ? 'good' : 'bad'}>
@@ -51,9 +55,10 @@ export const TurbineControl = (props, context) => {
                   <Box>
                     <Button.Checkbox
                       checked={online}
-                      content="Compressor Power"
                       onClick={() => act(online ? 'power-off' : 'power-on')}
-                    />
+                    >
+                      Compressor Power
+                    </Button.Checkbox>
                   </Box>
                 )}
             </LabeledList.Item>
@@ -61,8 +66,9 @@ export const TurbineControl = (props, context) => {
               <Button.Checkbox
                 checked={door_status}
                 onClick={() => act('doors')}
-                content={door_status ? 'Closed' : 'Open'}
-              />
+              >
+                {door_status ? 'Closed' : 'Open'}
+              </Button.Checkbox>
             </LabeledList.Item>
           </LabeledList>
         </Section>

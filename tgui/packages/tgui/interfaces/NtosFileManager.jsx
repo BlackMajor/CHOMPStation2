@@ -1,11 +1,11 @@
 /* eslint react/no-danger: "off" */
-import { Fragment } from 'inferno';
+
 import { useBackend } from '../backend';
-import { Button, Section, Table, Flex } from '../components';
+import { Button, Flex, Section, Table } from '../components';
 import { NtosWindow } from '../layouts';
 
-export const NtosFileManager = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosFileManager = (props) => {
+  const { act, data } = useBackend();
   const {
     PC_device_theme,
     usbconnected,
@@ -22,31 +22,26 @@ export const NtosFileManager = (props, context) => {
           <Section
             title={'Viewing File ' + filename}
             buttons={
-              <Fragment>
-                <Button
-                  icon="pen"
-                  content="Edit"
-                  onClick={() => act('PRG_edit')}
-                />
-                <Button
-                  icon="print"
-                  content="Print"
-                  onClick={() => act('PRG_printfile')}
-                />
-                <Button
-                  icon="times"
-                  content="Close"
-                  onClick={() => act('PRG_closefile')}
-                />
-              </Fragment>
-            }>
+              <>
+                <Button icon="pen" onClick={() => act('PRG_edit')}>
+                  Edit
+                </Button>
+                <Button icon="print" onClick={() => act('PRG_printfile')}>
+                  Print
+                </Button>
+                <Button icon="times" onClick={() => act('PRG_closefile')}>
+                  Close
+                </Button>
+              </>
+            }
+          >
             {/* This dangerouslySetInnerHTML is only ever passed data that has passed through pencode2html
              * It should be safe enough to support pencode in this way.
              */}
             {filedata && <div dangerouslySetInnerHTML={{ __html: filedata }} />}
           </Section>
         )) || (
-          <Fragment>
+          <>
             <Section>
               <FileTable
                 files={files}
@@ -88,7 +83,7 @@ export const NtosFileManager = (props, context) => {
                 New Text File
               </Button>
             </Section>
-          </Fragment>
+          </>
         )}
         {error && (
           <Flex wrap="wrap" position="fixed" bottom="5px">
@@ -133,16 +128,17 @@ const FileTable = (props) => {
         <Table.Row key={file.name} className="candystripe">
           <Table.Cell>
             {!file.undeletable ? (
-              <Fragment>
+              <>
                 <Button.Input
                   width="80%"
-                  content={file.name}
                   currentValue={file.name}
                   tooltip="Rename"
                   onCommit={(e, value) => onRename(file.uid, value)}
-                />
-                <Button content="Open" onClick={() => onOpen(file.uid)} />
-              </Fragment>
+                >
+                  {file.name}
+                </Button.Input>
+                <Button onClick={() => onOpen(file.uid)}>Open</Button>
+              </>
             ) : (
               file.name
             )}
@@ -151,7 +147,7 @@ const FileTable = (props) => {
           <Table.Cell>{file.size}</Table.Cell>
           <Table.Cell collapsing>
             {!file.undeletable && (
-              <Fragment>
+              <>
                 <Button.Confirm
                   icon="trash"
                   confirmIcon="times"
@@ -173,7 +169,7 @@ const FileTable = (props) => {
                       onClick={() => onUpload(file.uid)}
                     />
                   ))}
-              </Fragment>
+              </>
             )}
           </Table.Cell>
         </Table.Row>

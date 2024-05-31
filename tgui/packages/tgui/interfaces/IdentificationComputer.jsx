@@ -1,23 +1,33 @@
 import { sortBy } from 'common/collections';
-import { Fragment } from 'inferno';
-import { useBackend } from '../backend';
-import { Box, Button, Flex, Input, LabeledList, Section, Table, Tabs } from '../components';
-import { Window } from '../layouts';
 import { decodeHtmlEntities } from 'common/string';
+import { Fragment } from 'react';
+
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  LabeledList,
+  Section,
+  Table,
+  Tabs,
+} from '../components';
+import { Window } from '../layouts';
 import { CrewManifestContent } from './CrewManifest';
 
 export const IdentificationComputer = () => {
   return (
     <Window width={600} height={700}>
-      <Window.Content resizable>
+      <Window.Content>
         <IdentificationComputerContent />
       </Window.Content>
     </Window>
   );
 };
 
-export const IdentificationComputerContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const IdentificationComputerContent = (props) => {
+  const { act, data } = useBackend();
 
   const { ntos } = props;
 
@@ -33,20 +43,22 @@ export const IdentificationComputerContent = (props, context) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Tabs>
         {(!ntos || !!data.have_id_slot) && (
           <Tabs.Tab
             icon="home"
             selected={mode === 0}
-            onClick={() => act('mode', { 'mode_target': 0 })}>
+            onClick={() => act('mode', { mode_target: 0 })}
+          >
             Access Modification
           </Tabs.Tab>
         )}
         <Tabs.Tab
           icon="home"
           selected={mode === 1}
-          onClick={() => act('mode', { 'mode_target': 1 })}>
+          onClick={() => act('mode', { mode_target: 1 })}
+        >
           Crew Manifest
         </Tabs.Tab>
         {!ntos ||
@@ -56,22 +68,23 @@ export const IdentificationComputerContent = (props, context) => {
               icon="print"
               onClick={() => act('print')}
               disabled={!mode && !has_modify}
-              color="">
+              color=""
+            >
               Print
             </Tabs.Tab>
           ))}
       </Tabs>
       {body}
-    </Fragment>
+    </>
   );
 };
 
-export const IdentificationComputerPrinting = (props, context) => {
+export const IdentificationComputerPrinting = (props) => {
   return <Section title="Printing">Please wait...</Section>;
 };
 
-export const IdentificationComputerAccessModification = (props, context) => {
-  const { act, data } = useBackend(context);
+export const IdentificationComputerAccessModification = (props) => {
+  const { act, data } = useBackend();
 
   const { ntos } = props;
 
@@ -99,26 +112,20 @@ export const IdentificationComputerAccessModification = (props, context) => {
       )}
       <LabeledList>
         <LabeledList.Item label="Target Identitity">
-          <Button
-            icon="eject"
-            fluid
-            content={target_name}
-            onClick={() => act('modify')}
-          />
+          <Button icon="eject" fluid onClick={() => act('modify')}>
+            {target_name}
+          </Button>
         </LabeledList.Item>
         {!ntos && (
           <LabeledList.Item label="Authorized Identitity">
-            <Button
-              icon="eject"
-              fluid
-              content={scan_name}
-              onClick={() => act('scan')}
-            />
+            <Button icon="eject" fluid onClick={() => act('scan')}>
+              {scan_name}
+            </Button>
           </LabeledList.Item>
         )}
       </LabeledList>
       {!!authenticated && !!has_modify && (
-        <Fragment>
+        <>
           <Section title="Details" level={2}>
             <LabeledList>
               <LabeledList.Item label="Registered Name">
@@ -141,12 +148,13 @@ export const IdentificationComputerAccessModification = (props, context) => {
                   icon="exclamation-triangle"
                   confirmIcon="fire"
                   fluid
-                  content={'Dismiss ' + target_owner}
                   confirmContent={
                     'You are dismissing ' + target_owner + ', confirm?'
                   }
                   onClick={() => act('terminate')}
-                />
+                >
+                  {'Dismiss ' + target_owner}
+                </Button.Confirm>
               </LabeledList.Item>
             </LabeledList>
           </Section>
@@ -164,8 +172,9 @@ export const IdentificationComputerAccessModification = (props, context) => {
                           key={job.job}
                           selected={job.job === id_rank}
                           onClick={() =>
-                            act('assign', { 'assign_target': job.job })
-                          }>
+                            act('assign', { assign_target: job.job })
+                          }
+                        >
                           {decodeHtmlEntities(job.display_name)}
                         </Button>
                       ))}
@@ -181,9 +190,8 @@ export const IdentificationComputerAccessModification = (props, context) => {
                 </Table.Cell>
                 <Table.Cell>
                   <Button
-                    onClick={() =>
-                      act('assign', { 'assign_target': 'Custom' })
-                    }>
+                    onClick={() => act('assign', { assign_target: 'Custom' })}
+                  >
                     Custom
                   </Button>
                 </Table.Cell>
@@ -202,7 +210,8 @@ export const IdentificationComputerAccessModification = (props, context) => {
                         access_target: access.ref,
                         allowed: access.allowed,
                       })
-                    }>
+                    }
+                  >
                     {decodeHtmlEntities(access.desc)}
                   </Button>
                 </Box>
@@ -213,14 +222,14 @@ export const IdentificationComputerAccessModification = (props, context) => {
               <IdentificationComputerRegions actName="access" />
             </Section>
           )}
-        </Fragment>
+        </>
       )}
     </Section>
   );
 };
 
-export const IdentificationComputerRegions = (props, context) => {
-  const { act, data } = useBackend(context);
+export const IdentificationComputerRegions = (props) => {
+  const { act, data } = useBackend();
 
   const { actName } = props;
 
@@ -241,7 +250,8 @@ export const IdentificationComputerRegions = (props, context) => {
                       access_target: access.ref,
                       allowed: access.allowed,
                     })
-                  }>
+                  }
+                >
                   {decodeHtmlEntities(access.desc)}
                 </Button>
               </Box>

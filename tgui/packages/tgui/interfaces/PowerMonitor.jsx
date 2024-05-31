@@ -1,10 +1,21 @@
 import { map, sortBy } from 'common/collections';
 import { flow } from 'common/fp';
 import { toFixed } from 'common/math';
-import { pureComponentHooks } from 'common/react';
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Chart, ColorBox, Flex, Icon, LabeledList, ProgressBar, Section, Table } from '../components';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  Chart,
+  ColorBox,
+  Flex,
+  Icon,
+  LabeledList,
+  ProgressBar,
+  Section,
+  Table,
+} from '../components';
 import { Window } from '../layouts';
 
 const PEAK_DRAW = 500000;
@@ -16,7 +27,7 @@ export const powerRank = (str) => {
 
 export const PowerMonitor = () => {
   return (
-    <Window width={550} height={700} resizable>
+    <Window width={550} height={700}>
       <Window.Content scrollable>
         <PowerMonitorContent />
       </Window.Content>
@@ -24,8 +35,8 @@ export const PowerMonitor = () => {
   );
 };
 
-export const PowerMonitorContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const PowerMonitorContent = (props) => {
+  const { act, data } = useBackend();
 
   const { map_levels, all_sensors, focus } = data;
 
@@ -42,10 +53,11 @@ export const PowerMonitorContent = (props, context) => {
           <Table.Row key={sensor.name}>
             <Table.Cell>
               <Button
-                content={sensor.name}
                 icon={sensor.alarm ? 'bell' : 'sign-in-alt'}
                 onClick={() => act('setsensor', { id: sensor.name })}
-              />
+              >
+                {sensor.name}
+              </Button>
             </Table.Cell>
           </Table.Row>
         ))}
@@ -57,26 +69,21 @@ export const PowerMonitorContent = (props, context) => {
     <Section
       title="No active sensor. Listing all."
       buttons={
-        <Button
-          content="Scan For Sensors"
-          icon="undo"
-          onClick={() => act('refresh')}
-        />
-      }>
+        <Button icon="undo" onClick={() => act('refresh')}>
+          Scan For Sensors
+        </Button>
+      }
+    >
       {body}
     </Section>
   );
 };
 
-export const PowerMonitorFocus = (props, context) => {
-  const { act, data } = useBackend(context);
+export const PowerMonitorFocus = (props) => {
+  const { act, data } = useBackend();
   const { focus } = props;
   const { history } = focus;
-  const [sortByField, setSortByField] = useLocalState(
-    context,
-    'sortByField',
-    null
-  );
+  const [sortByField, setSortByField] = useState(null);
   const supply = history.supply[history.supply.length - 1] || 0;
   const demand = history.demand[history.demand.length - 1] || 0;
   const supplyData = history.supply.map((value, i) => [i, value]);
@@ -94,7 +101,7 @@ export const PowerMonitorFocus = (props, context) => {
     sortByField === 'draw' &&
       sortBy(
         (area) => -powerRank(area.load),
-        (area) => -parseFloat(area.load)
+        (area) => -parseFloat(area.load),
       ),
     sortByField === 'problems' &&
       sortBy(
@@ -102,19 +109,17 @@ export const PowerMonitorFocus = (props, context) => {
         (area) => area.lgt,
         (area) => area.env,
         (area) => area.charge,
-        (area) => area.name
+        (area) => area.name,
       ),
   ])(focus.areas);
   return (
-    <Fragment>
+    <>
       <Section
         title={focus.name}
         buttons={
-          <Button
-            icon="sign-out-alt"
-            content="Back To Main"
-            onClick={() => act('clear')}
-          />
+          <Button icon="sign-out-alt" onClick={() => act('clear')}>
+            Back To Main
+          </Button>
         }
       />
       <Flex mx={-0.5} mb={1}>
@@ -126,7 +131,8 @@ export const PowerMonitorFocus = (props, context) => {
                   value={supply}
                   minValue={0}
                   maxValue={maxValue}
-                  color="teal">
+                  color="teal"
+                >
                   {toFixed(supply / 1000) + ' kW'}
                 </ProgressBar>
               </LabeledList.Item>
@@ -135,7 +141,8 @@ export const PowerMonitorFocus = (props, context) => {
                   value={demand}
                   minValue={0}
                   maxValue={maxValue}
-                  color="pink">
+                  color="pink"
+                >
                   {toFixed(demand / 1000) + ' kW'}
                 </ProgressBar>
               </LabeledList.Item>
@@ -170,26 +177,30 @@ export const PowerMonitorFocus = (props, context) => {
           </Box>
           <Button.Checkbox
             checked={sortByField === 'name'}
-            content="Name"
             onClick={() => setSortByField(sortByField !== 'name' && 'name')}
-          />
+          >
+            Name
+          </Button.Checkbox>
           <Button.Checkbox
             checked={sortByField === 'charge'}
-            content="Charge"
             onClick={() => setSortByField(sortByField !== 'charge' && 'charge')}
-          />
+          >
+            Charge
+          </Button.Checkbox>
           <Button.Checkbox
             checked={sortByField === 'draw'}
-            content="Draw"
             onClick={() => setSortByField(sortByField !== 'draw' && 'draw')}
-          />
+          >
+            Draw
+          </Button.Checkbox>
           <Button.Checkbox
             checked={sortByField === 'problems'}
-            content="Problems"
             onClick={() =>
               setSortByField(sortByField !== 'problems' && 'problems')
             }
-          />
+          >
+            Problems
+          </Button.Checkbox>
         </Box>
         <Table>
           <Table.Row header>
@@ -228,14 +239,14 @@ export const PowerMonitorFocus = (props, context) => {
           ))}
         </Table>
       </Section>
-    </Fragment>
+    </>
   );
 };
 
 export const AreaCharge = (props) => {
   const { charging, charge } = props;
   return (
-    <Fragment>
+    <>
       <Icon
         width="18px"
         textAlign="center"
@@ -254,11 +265,9 @@ export const AreaCharge = (props) => {
       <Box inline width="36px" textAlign="right">
         {toFixed(charge) + '%'}
       </Box>
-    </Fragment>
+    </>
   );
 };
-
-AreaCharge.defaultHooks = pureComponentHooks;
 
 const AreaStatusColorBox = (props) => {
   const { status } = props;
@@ -273,5 +282,3 @@ const AreaStatusColorBox = (props) => {
     />
   );
 };
-
-AreaStatusColorBox.defaultHooks = pureComponentHooks;

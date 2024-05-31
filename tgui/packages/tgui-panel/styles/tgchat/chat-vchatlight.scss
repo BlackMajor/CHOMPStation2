@@ -388,12 +388,18 @@ img.icon.bigicon {
 .say,
 .emote,
 .emotesubtle,
+.multizsay,
 .npcemote,
+.npcsay,
 .infoplain,
 .oocplain,
 .warningplain,
-.chatexport {
-  color: #ffffff;
+.chatexport,
+.body {
+}
+
+.hivemind {
+  font-style: italic;
 }
 
 .nif {
@@ -414,9 +420,8 @@ img.icon.bigicon {
 }
 
 .binarysay {
-  color: #20c20e;
-  background-color: #000000;
-  display: block;
+  font-style: italic;
+  color: #000000;
 }
 
 .binarysay a {
@@ -690,8 +695,52 @@ h2.alert {
   color: #ff0000;
 }
 
+.crimson {
+  color: #dc143c;
+}
+
+.maroon {
+  color: #800000;
+}
+
+.brown {
+  color: #8d4925;
+}
+
 .blue {
   color: #0000ff;
+}
+
+.black {
+  color: #000000;
+}
+
+.white {
+  color: #000000;
+}
+
+.darkgray {
+  color: #808080;
+}
+
+.gray {
+  color: #a9a9a9;
+}
+
+.yellow {
+  color: #ffcc00;
+}
+
+.pink {
+  color: #ffc0cb;
+}
+
+.cyan {
+  color: #00ffff;
+}
+
+.orange {
+  color: #ff8c00;
 }
 
 .nicegreen {
@@ -770,6 +819,14 @@ h2.alert {
 
 .purple {
   color: #5e2d79;
+}
+
+.lightpurple {
+  color: #ad5aad;
+}
+
+.darkpink {
+  color: #e3209b;
 }
 
 .holoparasite {
@@ -1199,6 +1256,24 @@ $border-width-px: $border-width * 1px;
 
 .announcement_header {
   padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ooc_alert {
+  background: #bdc8ff;
+  border: 1px solid #002eb8;
+  margin: 0.5em;
+  padding: 0.5em 0.5em 0.5em 0.2em;
+  color: #00283a;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.ooc_announcement_text {
+  color: #002eb8;
+  padding: 0.5em 0 0 0.35em;
   display: flex;
   flex-direction: column;
 }

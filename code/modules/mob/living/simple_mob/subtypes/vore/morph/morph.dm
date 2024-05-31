@@ -62,10 +62,10 @@
 	/obj/effect))
 
 /mob/living/simple_mob/vore/morph/Initialize()
-	verbs += /mob/living/proc/ventcrawl
-	verbs += /mob/living/simple_mob/vore/morph/proc/take_over_prey
+	add_verb(src,/mob/living/proc/ventcrawl) //CHOMPEdit TGPanel
+	add_verb(src,/mob/living/simple_mob/vore/morph/proc/take_over_prey) //CHOMPEdit TGPanel
 	if(!istype(src, /mob/living/simple_mob/vore/morph/dominated_prey))
-		verbs += /mob/living/simple_mob/vore/morph/proc/morph_color
+		add_verb(src,/mob/living/simple_mob/vore/morph/proc/morph_color) //CHOMPEdit TGPanel
 
 	return ..()
 
@@ -221,7 +221,7 @@
 						if(target.buckled)
 							target.buckled.unbuckle_mob(target, force = TRUE)
 						target.forceMove(vore_selected)
-						to_chat(target,"<span class='warning'>\The [src] quickly engulfs you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
+						to_chat(target,"<span class='vwarning'>\The [src] quickly engulfs you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
 	else
 		..()
 
@@ -247,7 +247,7 @@
 
 /mob/living/simple_mob/vore/morph/proc/morph_color()
 	set name = "Pick Color"
-	set category = "Abilities"
+	set category = "Abilities.Settings" //CHOMPEdit
 	set desc = "You can set your color!"
 	var/newcolor = input(usr, "Choose a color.", "", color) as color|null
 	if(newcolor)
@@ -257,7 +257,7 @@
 
 /mob/living/simple_mob/vore/morph/proc/take_over_prey()
 	set name = "Take Over Prey"
-	set category = "Abilities"
+	set category = "Abilities.Morph" //CHOMPEdit
 	set desc = "Take command of your prey's body."
 	if(morphed)
 		to_chat(src, "<span class='warning'>You must restore to your original form first!</span>")

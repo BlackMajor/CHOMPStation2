@@ -1,8 +1,8 @@
 import { useBackend } from '../../backend';
 import { Box, Button, LabeledList, Section } from '../../components';
 
-export const pda_security = (props, context) => {
-  const { act, data } = useBackend(context);
+export const pda_security = (props) => {
+  const { act, data } = useBackend();
 
   const { recordsList, records } = data;
 
@@ -70,9 +70,10 @@ export const pda_security = (props, context) => {
           key={record.ref}
           icon="eye"
           fluid
-          content={record.Name}
           onClick={() => act('Records', { target: record.ref })}
-        />
+        >
+          {record.Name}
+        </Button>
       ))}
     </Section>
   );

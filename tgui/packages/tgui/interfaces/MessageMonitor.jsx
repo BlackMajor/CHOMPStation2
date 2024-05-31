@@ -1,13 +1,24 @@
 import { decodeHtmlEntities } from 'common/string';
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Dropdown, Flex, Icon, Input, LabeledList, Section, Tabs } from '../components';
-import { Window } from '../layouts';
-import { TemporaryNotice } from './common/TemporaryNotice';
-import { FullscreenNotice } from './common/FullscreenNotice';
+import { useState } from 'react';
 
-export const MessageMonitor = (props, context) => {
-  const { act, data } = useBackend(context);
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  Dropdown,
+  Flex,
+  Icon,
+  Input,
+  LabeledList,
+  Section,
+  Tabs,
+} from '../components';
+import { Window } from '../layouts';
+import { FullscreenNotice } from './common/FullscreenNotice';
+import { TemporaryNotice } from './common/TemporaryNotice';
+
+export const MessageMonitor = (props) => {
+  const { act, data } = useBackend();
 
   const { auth, linkedServer, message, hacking, emag } = data;
 
@@ -23,7 +34,7 @@ export const MessageMonitor = (props, context) => {
   }
 
   return (
-    <Window width={670} height={450} resizable>
+    <Window width={670} height={450}>
       <Window.Content scrollable>
         <TemporaryNotice />
         {body}
@@ -32,8 +43,8 @@ export const MessageMonitor = (props, context) => {
   );
 };
 
-const MessageMonitorHack = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorHack = (props) => {
+  const { act, data } = useBackend();
 
   const { isMalfAI } = data;
 
@@ -121,8 +132,8 @@ const MessageMonitorHack = (props, context) => {
   );
 };
 
-const MessageMonitorLogin = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorLogin = (props) => {
+  const { act, data } = useBackend();
 
   const { isMalfAI } = data;
 
@@ -146,7 +157,9 @@ const MessageMonitorLogin = (props, context) => {
         />
       </Box>
       {!!isMalfAI && (
-        <Button icon="terminal" content="Hack" onClick={() => act('hack')} />
+        <Button icon="terminal" onClick={() => act('hack')}>
+          Hack
+        </Button>
       )}
       <Box color="label">
         Please authenticate with the server in order to show additional options.
@@ -155,12 +168,12 @@ const MessageMonitorLogin = (props, context) => {
   );
 };
 
-const MessageMonitorContent = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorContent = (props) => {
+  const { act, data } = useBackend();
 
   const { linkedServer } = data;
 
-  const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   let body;
   if (tabIndex === 0) {
@@ -176,36 +189,41 @@ const MessageMonitorContent = (props, context) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Tabs>
         <Tabs.Tab
           key="Main"
           selected={0 === tabIndex}
-          onClick={() => setTabIndex(0)}>
+          onClick={() => setTabIndex(0)}
+        >
           <Icon name="bars" /> Main Menu
         </Tabs.Tab>
         <Tabs.Tab
           key="MessageLogs"
           selected={1 === tabIndex}
-          onClick={() => setTabIndex(1)}>
+          onClick={() => setTabIndex(1)}
+        >
           <Icon name="font" /> Message Logs
         </Tabs.Tab>
         <Tabs.Tab
           key="RequestLogs"
           selected={2 === tabIndex}
-          onClick={() => setTabIndex(2)}>
+          onClick={() => setTabIndex(2)}
+        >
           <Icon name="bold" /> Request Logs
         </Tabs.Tab>
         <Tabs.Tab
           key="AdminMessage"
           selected={3 === tabIndex}
-          onClick={() => setTabIndex(3)}>
+          onClick={() => setTabIndex(3)}
+        >
           <Icon name="comment-alt" /> Admin Messaging
         </Tabs.Tab>
         <Tabs.Tab
           key="SpamFilter"
           selected={4 === tabIndex}
-          onClick={() => setTabIndex(4)}>
+          onClick={() => setTabIndex(4)}
+        >
           <Icon name="comment-slash" /> Spam Filter
         </Tabs.Tab>
         <Tabs.Tab key="Logout" color="red" onClick={() => act('deauth')}>
@@ -213,12 +231,12 @@ const MessageMonitorContent = (props, context) => {
         </Tabs.Tab>
       </Tabs>
       <Box m={2}>{body}</Box>
-    </Fragment>
+    </>
   );
 };
 
-const MessageMonitorMain = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorMain = (props) => {
+  const { act, data } = useBackend();
 
   const { linkedServer } = data;
 
@@ -226,49 +244,48 @@ const MessageMonitorMain = (props, context) => {
     <Section
       title="Main Menu"
       buttons={
-        <Fragment>
-          <Button
-            icon="link"
-            content="Server Link"
-            onClick={() => act('find')}
-          />
+        <>
+          <Button icon="link" onClick={() => act('find')}>
+            Server Link
+          </Button>
           <Button
             icon="power-off"
-            content={'Server ' + (linkedServer.active ? 'Enabled' : 'Disabled')}
             selected={linkedServer.active}
             onClick={() => act('active')}
-          />
-        </Fragment>
-      }>
+          >
+            {'Server ' + (linkedServer.active ? 'Enabled' : 'Disabled')}
+          </Button>
+        </>
+      }
+    >
       <LabeledList>
         <LabeledList.Item label="Server Status">
           <Box color="good">Good</Box>
         </LabeledList.Item>
       </LabeledList>
-      <Button
-        mt={1}
-        icon="key"
-        content="Set Custom Key"
-        onClick={() => act('pass')}
-      />
+      <Button mt={1} icon="key" onClick={() => act('pass')}>
+        Set Custom Key
+      </Button>
       <Button.Confirm
         color="red"
         confirmIcon="exclamation-triangle"
         icon="exclamation-triangle"
-        content="Clear Message Logs"
-      />
+      >
+        Clear Message Logs
+      </Button.Confirm>
       <Button.Confirm
         color="red"
         confirmIcon="exclamation-triangle"
         icon="exclamation-triangle"
-        content="Clear Request Logs"
-      />
+      >
+        Clear Request Logs
+      </Button.Confirm>
     </Section>
   );
 };
 
-const MessageMonitorLogs = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorLogs = (props) => {
+  const { act, data } = useBackend();
 
   const { logs, pda, rc } = props;
 
@@ -280,10 +297,12 @@ const MessageMonitorLogs = (props, context) => {
           color="red"
           icon="trash"
           confirmIcon="trash"
-          content="Delete All"
           onClick={() => act(pda ? 'del_pda' : 'del_rc')}
-        />
-      }>
+        >
+          Delete All
+        </Button.Confirm>
+      }
+    >
       <Flex wrap="wrap">
         {logs.map((log, i) => (
           <Flex.Item m="2px" key={log.ref} basis="49%" grow={i % 2}>
@@ -302,7 +321,8 @@ const MessageMonitorLogs = (props, context) => {
                     })
                   }
                 />
-              }>
+              }
+            >
               {rc ? (
                 <LabeledList>
                   <LabeledList.Item label="Message">
@@ -310,7 +330,8 @@ const MessageMonitorLogs = (props, context) => {
                   </LabeledList.Item>
                   <LabeledList.Item
                     label="Verification"
-                    color={log.id_auth === 'Unauthenticated' ? 'bad' : 'good'}>
+                    color={log.id_auth === 'Unauthenticated' ? 'bad' : 'good'}
+                  >
                     {decodeHtmlEntities(log.id_auth)}
                   </LabeledList.Item>
                   <LabeledList.Item label="Stamp">{log.stamp}</LabeledList.Item>
@@ -326,8 +347,8 @@ const MessageMonitorLogs = (props, context) => {
   );
 };
 
-const MessageMonitorAdmin = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorAdmin = (props) => {
+  const { act, data } = useBackend();
 
   const {
     possibleRecipients,
@@ -358,13 +379,13 @@ const MessageMonitorAdmin = (props, context) => {
         </LabeledList.Item>
         <LabeledList.Item label="Recipient">
           <Dropdown
-            value={customrecepient}
+            selected={customrecepient}
             options={recipientOptions}
             width="100%"
             mb={-0.7}
             onSelected={(key) =>
               act('set_recipient', {
-                'val': possibleRecipients[key],
+                val: possibleRecipients[key],
               })
             }
           />
@@ -378,18 +399,15 @@ const MessageMonitorAdmin = (props, context) => {
           />
         </LabeledList.Item>
       </LabeledList>
-      <Button
-        fluid
-        icon="comment"
-        content="Send Message"
-        onClick={() => act('send_message')}
-      />
+      <Button fluid icon="comment" onClick={() => act('send_message')}>
+        Send Message
+      </Button>
     </Section>
   );
 };
 
-const MessageMonitorSpamFilter = (props, context) => {
-  const { act, data } = useBackend(context);
+const MessageMonitorSpamFilter = (props) => {
+  const { act, data } = useBackend();
 
   const { linkedServer } = data;
 
@@ -404,19 +422,19 @@ const MessageMonitorSpamFilter = (props, context) => {
               <Button
                 icon="trash"
                 color="bad"
-                content="Delete"
                 onClick={() => act('deltoken', { deltoken: spam.index })}
-              />
-            }>
+              >
+                Delete
+              </Button>
+            }
+          >
             {spam.token}
           </LabeledList.Item>
         ))}
       </LabeledList>
-      <Button
-        icon="plus"
-        content="Add New Entry"
-        onClick={() => act('addtoken')}
-      />
+      <Button icon="plus" onClick={() => act('addtoken')}>
+        Add New Entry
+      </Button>
     </Section>
   );
 };

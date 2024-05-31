@@ -1,14 +1,26 @@
 import { filter, sortBy } from 'common/collections';
-import { Fragment } from 'inferno';
-import { formatTime } from '../format';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, LabeledList, Section, Tabs, AnimatedNumber, Stack } from '../components';
-import { ComplexModal, modalRegisterBodyOverride } from '../interfaces/common/ComplexModal';
-import { Window } from '../layouts';
 import { flow } from 'common/fp';
+import { useState } from 'react';
 
-const viewCrateContents = (modal, context) => {
-  const { act, data } = useBackend(context);
+import { useBackend } from '../backend';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  Section,
+  Stack,
+  Tabs,
+} from '../components';
+import { formatTime } from '../format';
+import {
+  ComplexModal,
+  modalRegisterBodyOverride,
+} from '../interfaces/common/ComplexModal';
+import { Window } from '../layouts';
+
+const viewCrateContents = (modal) => {
+  const { act, data } = useBackend();
   const { supply_points } = data;
   const { name, cost, manifest, ref, random } = modal.args;
   return (
@@ -21,15 +33,18 @@ const viewCrateContents = (modal, context) => {
       buttons={
         <Button
           icon="shopping-cart"
-          content={'Buy - ' + cost + ' points'}
           disabled={cost > supply_points}
           onClick={() => act('request_crate', { ref: ref })}
-        />
-      }>
+        >
+          {'Buy - ' + cost + ' points'}
+        </Button>
+      }
+    >
       <Section
         title={'Contains' + (random ? ' any ' + random + ' of:' : '')}
         scrollable
-        height="200px">
+        height="200px"
+      >
         {manifest.map((m) => (
           <Box key={m}>{m}</Box>
         ))}
@@ -38,8 +53,8 @@ const viewCrateContents = (modal, context) => {
   );
 };
 
-export const SupplyConsole = (props, context) => {
-  const { act, data } = useBackend(context);
+export const SupplyConsole = (props) => {
+  const { act, data } = useBackend();
   modalRegisterBodyOverride('view_crate', viewCrateContents);
   return (
     <Window width={700} height={620}>
@@ -54,8 +69,8 @@ export const SupplyConsole = (props, context) => {
   );
 };
 
-const SupplyConsoleShuttleStatus = (props, context) => {
-  const { act, data } = useBackend(context);
+const SupplyConsoleShuttleStatus = (props) => {
+  const { act, data } = useBackend();
 
   const { supply_points, shuttle, shuttle_auth } = data;
 
@@ -67,9 +82,10 @@ const SupplyConsoleShuttleStatus = (props, context) => {
       shuttle_buttons = (
         <Button
           icon="rocket"
-          content="Send Away"
           onClick={() => act('send_shuttle', { mode: 'send_away' })}
-        />
+        >
+          Send Away
+        </Button>
       );
     } else if (
       shuttle.launch === 2 &&
@@ -78,17 +94,19 @@ const SupplyConsoleShuttleStatus = (props, context) => {
       shuttle_buttons = (
         <Button
           icon="ban"
-          content="Cancel Launch"
           onClick={() => act('send_shuttle', { mode: 'cancel_shuttle' })}
-        />
+        >
+          Cancel Launch
+        </Button>
       );
     } else if (shuttle.launch === 1 && shuttle.mode === 5) {
       shuttle_buttons = (
         <Button
           icon="rocket"
-          content="Send Shuttle"
           onClick={() => act('send_shuttle', { mode: 'send_to_station' })}
-        />
+        >
+          Send Shuttle
+        </Button>
       );
     }
     if (shuttle.force) {
@@ -108,19 +126,21 @@ const SupplyConsoleShuttleStatus = (props, context) => {
           <LabeledList.Item
             label="Location"
             buttons={
-              <Fragment>
+              <>
                 {shuttle_buttons}
                 {showShuttleForce ? (
                   <Button
                     icon="exclamation-triangle"
-                    content="Force Launch"
                     onClick={() =>
                       act('send_shuttle', { mode: 'force_shuttle' })
                     }
-                  />
+                  >
+                    Force Launch
+                  </Button>
                 ) : null}
-              </Fragment>
-            }>
+              </>
+            }
+          >
             {shuttle.location}
           </LabeledList.Item>
           <LabeledList.Item label="Engine">{shuttle.engine}</LabeledList.Item>
@@ -135,12 +155,12 @@ const SupplyConsoleShuttleStatus = (props, context) => {
   );
 };
 
-const SupplyConsoleMenu = (props, context) => {
-  const { act, data } = useBackend(context);
+const SupplyConsoleMenu = (props) => {
+  const { act, data } = useBackend();
 
   const { order_auth } = data;
 
-  const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
+  const [tabIndex, setTabIndex] = useState(0);
 
   return (
     <Section title="Menu">
@@ -148,31 +168,36 @@ const SupplyConsoleMenu = (props, context) => {
         <Tabs.Tab
           icon="box"
           selected={tabIndex === 0}
-          onClick={() => setTabIndex(0)}>
+          onClick={() => setTabIndex(0)}
+        >
           Request
         </Tabs.Tab>
         <Tabs.Tab
           icon="check-circle-o"
           selected={tabIndex === 1}
-          onClick={() => setTabIndex(1)}>
+          onClick={() => setTabIndex(1)}
+        >
           Accepted
         </Tabs.Tab>
         <Tabs.Tab
           icon="circle-o"
           selected={tabIndex === 2}
-          onClick={() => setTabIndex(2)}>
+          onClick={() => setTabIndex(2)}
+        >
           Requests
         </Tabs.Tab>
         <Tabs.Tab
           icon="book"
           selected={tabIndex === 3}
-          onClick={() => setTabIndex(3)}>
+          onClick={() => setTabIndex(3)}
+        >
           Order history
         </Tabs.Tab>
         <Tabs.Tab
           icon="book"
           selected={tabIndex === 4}
-          onClick={() => setTabIndex(4)}>
+          onClick={() => setTabIndex(4)}
+        >
           Export history
         </Tabs.Tab>
       </Tabs>
@@ -185,16 +210,12 @@ const SupplyConsoleMenu = (props, context) => {
   );
 };
 
-const SupplyConsoleMenuOrder = (props, context) => {
-  const { act, data } = useBackend(context);
+const SupplyConsoleMenuOrder = (props) => {
+  const { act, data } = useBackend();
 
   const { categories, supply_packs, contraband, supply_points } = data;
 
-  const [activeCategory, setActiveCategory] = useLocalState(
-    context,
-    'activeCategory',
-    null
-  );
+  const [activeCategory, setActiveCategory] = useState(null);
 
   const viewingPacks = flow([
     filter((val) => val.group === activeCategory),
@@ -214,10 +235,11 @@ const SupplyConsoleMenuOrder = (props, context) => {
               <Button
                 key={category}
                 fluid
-                content={category}
                 selected={category === activeCategory}
                 onClick={() => setActiveCategory(category)}
-              />
+              >
+                {category}
+              </Button>
             ))}
           </Section>
         </Stack.Item>
@@ -231,26 +253,29 @@ const SupplyConsoleMenuOrder = (props, context) => {
                       fluid
                       icon="shopping-cart"
                       ellipsis
-                      content={pack.name}
                       color={pack.cost > supply_points ? 'red' : null}
                       onClick={() => act('request_crate', { ref: pack.ref })}
-                    />
+                    >
+                      {pack.name}
+                    </Button>
                   </Stack.Item>
                   <Stack.Item>
                     <Button
-                      content="#"
                       color={pack.cost > supply_points ? 'red' : null}
                       onClick={() =>
                         act('request_crate_multi', { ref: pack.ref })
                       }
-                    />
+                    >
+                      #
+                    </Button>
                   </Stack.Item>
                   <Stack.Item>
                     <Button
-                      content="C"
                       color={pack.cost > supply_points ? 'red' : null}
                       onClick={() => act('view_crate', { crate: pack.ref })}
-                    />
+                    >
+                      C
+                    </Button>
                   </Stack.Item>
                   <Stack.Item grow={1}>{pack.cost} points</Stack.Item>
                 </Stack>
@@ -268,7 +293,9 @@ const SupplyConsoleMenuOrder = (props, context) => {
                   <Button
                     fluid
                     color="green"
-                    content={"Buy - " + pack.cost + " points"} />
+                  >
+                    {"Buy - " + pack.cost + " points"}
+                  </Button>
                 </center>
               </Collapsible>
             ))} */}
@@ -279,13 +306,13 @@ const SupplyConsoleMenuOrder = (props, context) => {
   );
 };
 
-const SupplyConsoleMenuOrderList = (props, context) => {
-  const { act, data } = useBackend(context);
+const SupplyConsoleMenuOrderList = (props) => {
+  const { act, data } = useBackend();
   const { mode } = props;
   const { orders, order_auth, supply_points } = data;
 
   const displayedOrders = orders.filter(
-    (val) => val.status === mode || mode === 'All'
+    (val) => val.status === mode || mode === 'All',
   );
 
   if (!displayedOrders.length) {
@@ -301,9 +328,10 @@ const SupplyConsoleMenuOrderList = (props, context) => {
           fluid
           color="red"
           icon="trash"
-          content="Clear all requests"
           onClick={() => act('clear_all_requests')}
-        />
+        >
+          Clear all requests
+        </Button>
       ) : null}
       {displayedOrders.map((order, i) => (
         <Section
@@ -314,21 +342,23 @@ const SupplyConsoleMenuOrderList = (props, context) => {
               <Button
                 color="red"
                 icon="trash"
-                content="Delete Record"
                 onClick={() => act('delete_order', { ref: order.ref })}
-              />
+              >
+                Delete Record
+              </Button>
             ) : null
-          }>
+          }
+        >
           <LabeledList>
-            {order.entries.map((field) =>
+            {order.entries.map((field, i) =>
               field.entry ? (
                 <LabeledList.Item
+                  key={i}
                   label={field.field}
                   buttons={
                     order_auth ? (
                       <Button
                         icon="pen"
-                        content="Edit"
                         onClick={() => {
                           act('edit_order_value', {
                             ref: order.ref,
@@ -336,31 +366,36 @@ const SupplyConsoleMenuOrderList = (props, context) => {
                             default: field.entry,
                           });
                         }}
-                      />
+                      >
+                        Edit
+                      </Button>
                     ) : null
-                  }>
+                  }
+                >
                   {field.entry}
                 </LabeledList.Item>
-              ) : null
+              ) : null,
             )}
             {mode === 'All' ? (
               <LabeledList.Item label="Status">{order.status}</LabeledList.Item>
             ) : null}
           </LabeledList>
           {order_auth && mode === 'Requested' ? (
-            <Fragment>
+            <>
               <Button
                 icon="check"
-                content="Approve"
                 disabled={order.cost > supply_points}
                 onClick={() => act('approve_order', { ref: order.ref })}
-              />
+              >
+                Approve
+              </Button>
               <Button
                 icon="times"
-                content="Deny"
                 onClick={() => act('deny_order', { ref: order.ref })}
-              />
-            </Fragment>
+              >
+                Deny
+              </Button>
+            </>
           ) : null}
         </Section>
       ))}
@@ -368,8 +403,8 @@ const SupplyConsoleMenuOrderList = (props, context) => {
   );
 };
 
-const SupplyConsoleMenuHistoryExport = (props, context) => {
-  const { act, data } = useBackend(context);
+const SupplyConsoleMenuHistoryExport = (props) => {
+  const { act, data } = useBackend();
   const { receipts, order_auth } = data;
 
   if (!receipts.length) {
@@ -389,7 +424,6 @@ const SupplyConsoleMenuHistoryExport = (props, context) => {
                   order_auth ? (
                     <Button
                       icon="pen"
-                      content="Edit"
                       onClick={() =>
                         act('export_edit', {
                           ref: r.ref,
@@ -397,9 +431,12 @@ const SupplyConsoleMenuHistoryExport = (props, context) => {
                           default: title.entry,
                         })
                       }
-                    />
+                    >
+                      Edit
+                    </Button>
                   ) : null
-                }>
+                }
+              >
                 {title.entry}
               </LabeledList.Item>
             ))}
@@ -414,10 +451,9 @@ const SupplyConsoleMenuHistoryExport = (props, context) => {
                   key={i}
                   buttons={
                     order_auth ? (
-                      <Fragment>
+                      <>
                         <Button
                           icon="pen"
-                          content="Edit"
                           onClick={() =>
                             act('export_edit_field', {
                               ref: r.ref,
@@ -426,40 +462,46 @@ const SupplyConsoleMenuHistoryExport = (props, context) => {
                               default: item.object,
                             })
                           }
-                        />
+                        >
+                          Edit
+                        </Button>
                         <Button
                           icon="trash"
                           color="red"
-                          content="Delete"
                           onClick={() =>
                             act('export_delete_field', {
                               ref: r.ref,
                               index: i + 1,
                             })
                           }
-                        />
-                      </Fragment>
+                        >
+                          Delete
+                        </Button>
+                      </>
                     ) : null
-                  }>
+                  }
+                >
                   {item.quantity}x -&gt; {item.value} points
                 </LabeledList.Item>
               ))
             )}
           </LabeledList>
           {order_auth ? (
-            <Fragment>
+            <>
               <Button
                 mt={1}
                 icon="plus"
-                content="Add Item To Record"
                 onClick={() => act('export_add_field', { ref: r.ref })}
-              />
+              >
+                Add Item To Record
+              </Button>
               <Button
                 icon="trash"
-                content="Delete Record"
                 onClick={() => act('export_delete', { ref: r.ref })}
-              />
-            </Fragment>
+              >
+                Delete Record
+              </Button>
+            </>
           ) : null}
         </Section>
       ))}

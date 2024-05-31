@@ -1,14 +1,14 @@
 import { useBackend } from '../backend';
-import { Box, Button, Section, Collapsible, Table } from '../components';
+import { Box, Button, Collapsible, Section, Table } from '../components';
 import { Window } from '../layouts';
 
-export const Stack = (props, context) => {
-  const { act, data } = useBackend(context);
+export const Stack = (props) => {
+  const { act, data } = useBackend();
 
   const { amount, recipes } = data;
 
   return (
-    <Window width={400} height={600} resizable>
+    <Window width={400} height={600}>
       <Window.Content scrollable>
         <Section title={'Amount: ' + amount}>
           <RecipeList recipes={recipes} />
@@ -18,8 +18,8 @@ export const Stack = (props, context) => {
   );
 };
 
-const RecipeList = (props, context) => {
-  const { act, data } = useBackend(context);
+const RecipeList = (props) => {
+  const { act, data } = useBackend();
 
   const { recipes } = props;
 
@@ -34,7 +34,7 @@ const RecipeList = (props, context) => {
 
   // let newSortedKeys = nonCategories.concat(categories);
 
-  return sortedKeys.map((title) => {
+  return sortedKeys.map((title, index) => {
     // if (title === "--DIVIDER--") {
     //   return (
     //     <Box mt={1} mb={1}>
@@ -45,14 +45,14 @@ const RecipeList = (props, context) => {
     let recipe = recipes[title];
     if (recipe.ref === undefined) {
       return (
-        <Collapsible ml={1} mb={-0.7} color="label" title={title}>
+        <Collapsible key={index} ml={1} mb={-0.7} color="label" title={title}>
           <Box ml={1}>
             <RecipeList recipes={recipe} />
           </Box>
         </Collapsible>
       );
     } else {
-      return <Recipe title={title} recipe={recipe} />;
+      return <Recipe key={index} title={title} recipe={recipe} />;
     }
   });
 };
@@ -65,14 +65,14 @@ const buildMultiplier = (recipe, amount) => {
   return Math.floor(amount / recipe.req_amount);
 };
 
-const Multipliers = (props, context) => {
-  const { act, data } = useBackend(context);
+const Multipliers = (props) => {
+  const { act, data } = useBackend();
 
   const { recipe, maxMultiplier } = props;
 
   let maxM = Math.min(
     maxMultiplier,
-    Math.floor(recipe.max_res_amount / recipe.res_amount)
+    Math.floor(recipe.max_res_amount / recipe.res_amount),
   );
 
   let multipliers = [5, 10, 25];
@@ -83,14 +83,15 @@ const Multipliers = (props, context) => {
     if (maxM >= multiplier) {
       finalResult.push(
         <Button
-          content={multiplier * recipe.res_amount + 'x'}
           onClick={() =>
             act('make', {
               ref: recipe.ref,
               multiplier: multiplier,
             })
           }
-        />
+        >
+          {multiplier * recipe.res_amount + 'x'}
+        </Button>,
       );
     }
   }
@@ -98,22 +99,23 @@ const Multipliers = (props, context) => {
   if (multipliers.indexOf(maxM) === -1) {
     finalResult.push(
       <Button
-        content={maxM * recipe.res_amount + 'x'}
         onClick={() =>
           act('make', {
             ref: recipe.ref,
             multiplier: maxM,
           })
         }
-      />
+      >
+        {maxM * recipe.res_amount + 'x'}
+      </Button>,
     );
   }
 
   return finalResult;
 };
 
-const Recipe = (props, context) => {
-  const { act, data } = useBackend(context);
+const Recipe = (props) => {
+  const { act, data } = useBackend();
 
   const { amount } = data;
 
@@ -142,14 +144,15 @@ const Recipe = (props, context) => {
               fluid
               disabled={!maxMultiplier}
               icon="wrench"
-              content={buttonName}
               onClick={() =>
                 act('make', {
                   ref: recipe.ref,
                   multiplier: 1,
                 })
               }
-            />
+            >
+              {buttonName}
+            </Button>
           </Table.Cell>
           {max_res_amount > 1 && maxMultiplier > 1 && (
             <Table.Cell collapsing>

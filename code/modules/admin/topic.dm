@@ -178,19 +178,19 @@
 				if(null,"") return
 				if("*New Rank*")
 					new_rank = tgui_input_text(usr, "Please input a new rank", "New custom rank")
-					if(config.admin_legacy_system)
+					if(CONFIG_GET(flag/admin_legacy_system)) // CHOMPEdit
 						new_rank = ckeyEx(new_rank)
 					if(!new_rank)
 						to_chat(usr, "<span class='filter_adminlog warning'>Error: Topic 'editrights': Invalid rank</span>")
 						return
-					if(config.admin_legacy_system)
+					if(CONFIG_GET(flag/admin_legacy_system)) // CHOMPEdit
 						if(admin_ranks.len)
 							if(new_rank in admin_ranks)
 								rights = admin_ranks[new_rank]		//we typed a rank which already exists, use its rights
 							else
 								admin_ranks[new_rank] = 0			//add the new rank to admin_ranks
 				else
-					if(config.admin_legacy_system)
+					if(CONFIG_GET(flag/admin_legacy_system)) // CHOMPEdit
 						new_rank = ckeyEx(new_rank)
 						rights = admin_ranks[new_rank]				//we input an existing rank, use its rights
 
@@ -237,7 +237,7 @@
 				if (emergency_shuttle.can_call())
 					emergency_shuttle.call_evac()
 					log_admin("[key_name(usr)] called the Emergency Shuttle")
-					message_admins("<font color='blue'>[key_name_admin(usr)] called the Emergency Shuttle to the station.</font>", 1)
+					message_admins(span_blue("[key_name_admin(usr)] called the Emergency Shuttle to the station."), 1)
 
 			if("2")
 				if (!( ticker ) || !emergency_shuttle.location())
@@ -245,12 +245,12 @@
 				if (emergency_shuttle.can_call())
 					emergency_shuttle.call_evac()
 					log_admin("[key_name(usr)] called the Emergency Shuttle")
-					message_admins("<font color='blue'>[key_name_admin(usr)] called the Emergency Shuttle to the station.</font>", 1)
+					message_admins(span_blue("[key_name_admin(usr)] called the Emergency Shuttle to the station."), 1)
 
 				else if (emergency_shuttle.can_recall())
 					emergency_shuttle.recall()
 					log_admin("[key_name(usr)] sent the Emergency Shuttle back")
-					message_admins("<font color='blue'>[key_name_admin(usr)] sent the Emergency Shuttle back.</font>", 1)
+					message_admins(span_blue("[key_name_admin(usr)] sent the Emergency Shuttle back."), 1)
 
 		href_list["secretsadmin"] = "check_antagonist"
 
@@ -263,14 +263,14 @@
 			emergency_shuttle.launch_time = world.time + new_time_left*10
 
 			log_admin("[key_name(usr)] edited the Emergency Shuttle's launch time to [new_time_left]")
-			message_admins("<font color='blue'>[key_name_admin(usr)] edited the Emergency Shuttle's launch time to [new_time_left*10]</font>", 1)
+			message_admins(span_blue("[key_name_admin(usr)] edited the Emergency Shuttle's launch time to [new_time_left*10]"), 1)
 		else if (emergency_shuttle.shuttle.has_arrive_time())
 
 			var/new_time_left = tgui_input_number(usr, "Enter new shuttle arrival time (seconds):","Edit Shuttle Arrival Time", emergency_shuttle.estimate_arrival_time() )
 			emergency_shuttle.shuttle.arrive_time = world.time + new_time_left*10
 
 			log_admin("[key_name(usr)] edited the Emergency Shuttle's arrival time to [new_time_left]")
-			message_admins("<font color='blue'>[key_name_admin(usr)] edited the Emergency Shuttle's arrival time to [new_time_left*10]</font>", 1)
+			message_admins(span_blue("[key_name_admin(usr)] edited the Emergency Shuttle's arrival time to [new_time_left*10]"), 1)
 		else
 			tgui_alert_async(usr, "The shuttle is neither counting down to launch nor is it in transit. Please try again when it is.")
 
@@ -281,7 +281,7 @@
 
 		ticker.delay_end = !ticker.delay_end
 		log_admin("[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"].")
-		message_admins("<font color='blue'>[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"].</font>", 1)
+		message_admins(span_blue("[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"]."), 1)
 		href_list["secretsadmin"] = "check_antagonist"
 
 	else if(href_list["simplemake"])
@@ -299,7 +299,7 @@
 			if("Yes")		delmob = 1
 
 		log_admin("[key_name(usr)] has used rudimentary transformation on [key_name(M)]. Transforming to [href_list["simplemake"]]; deletemob=[delmob]")
-		message_admins("<font color='blue'>[key_name_admin(usr)] has used rudimentary transformation on [key_name_admin(M)]. Transforming to [href_list["simplemake"]]; deletemob=[delmob]</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] has used rudimentary transformation on [key_name_admin(M)]. Transforming to [href_list["simplemake"]]; deletemob=[delmob]"), 1)
 
 		switch(href_list["simplemake"])
 			if("observer")			M.change_mob_type( /mob/observer/dead , null, null, delmob )
@@ -379,7 +379,7 @@
 
 		log_admin("[key_name(usr)] edited [banned_key]'s ban. Reason: [reason] Duration: [duration]")
 		ban_unban_log_save("[key_name(usr)] edited [banned_key]'s ban. Reason: [reason] Duration: [duration]")
-		message_admins("<font color='blue'>[key_name_admin(usr)] edited [banned_key]'s ban. Reason: [reason] Duration: [duration]</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] edited [banned_key]'s ban. Reason: [reason] Duration: [duration]"), 1)
 		Banlist.cd = "/base/[banfolder]"
 		Banlist["reason"] << reason
 		Banlist["temp"] << temp
@@ -680,7 +680,7 @@
 			to_chat(usr, "<span class='filter_adminlog warning'>You do not have the appropriate permissions to add job bans!</span>")
 			return
 
-		if(check_rights(R_MOD,0) && !check_rights(R_ADMIN,0) && !config.mods_can_job_tempban) // If mod and tempban disabled
+		if(check_rights(R_MOD,0) && !check_rights(R_ADMIN,0) && !CONFIG_GET(flag/mods_can_job_tempban)) // If mod and tempban disabled // CHOMPEdit
 			to_chat(usr, "<span class='filter_adminlog warning'>Mod jobbanning is disabled!</span>")
 			return
 
@@ -781,14 +781,14 @@
 					if(!check_rights(R_MOD,0) && !check_rights(R_BAN, 0))
 						to_chat(usr, "<span class='filter_adminlog warning'> You cannot issue temporary job-bans!</span>")
 						return
-					if(config.ban_legacy_system)
+					if(CONFIG_GET(flag/ban_legacy_system)) // CHOMPEdit
 						to_chat(usr, "<span class='filter_adminlog warning'>Your server is using the legacy banning system, which does not support temporary job bans. Consider upgrading. Aborting ban.</span>")
 						return
 					var/mins = tgui_input_number(usr,"How long (in minutes)?","Ban time",1440)
 					if(!mins)
 						return
-					if(check_rights(R_MOD, 0) && !check_rights(R_BAN, 0) && mins > config.mod_job_tempban_max)
-						to_chat(usr, "<span class='filter_adminlog warning'> Moderators can only job tempban up to [config.mod_job_tempban_max] minutes!</span>")
+					if(check_rights(R_MOD, 0) && !check_rights(R_BAN, 0) && mins > CONFIG_GET(number/mod_job_tempban_max)) // CHOMPEdit
+						to_chat(usr, "<span class='filter_adminlog warning'> Moderators can only job tempban up to [CONFIG_GET(number/mod_job_tempban_max)] minutes!</span>") // CHOMPEdit
 						return
 					var/reason = sanitize(tgui_input_text(usr,"Reason?","Please State Reason",""))
 					if(!reason)
@@ -807,10 +807,10 @@
 						else
 							msg += ", [job]"
 					notes_add(M.ckey, "Banned  from [msg] - [reason]", usr)
-					message_admins("<font color='blue'>[key_name_admin(usr)] banned [key_name_admin(M)] from [msg] for [mins] minutes</font>", 1)
-					to_chat(M, "<span class='filter_system'><font color='red'><BIG><B>You have been jobbanned by [usr.client.ckey] from: [msg].</B></BIG></font></span>")
-					to_chat(M, "<span class='filter_system'><font color='red'><B>The reason is: [reason]</B></font></span>")
-					to_chat(M, "<span class='filter_system'><font color='red'>This jobban will be lifted in [mins] minutes.</font></span>")
+					message_admins(span_blue("[key_name_admin(usr)] banned [key_name_admin(M)] from [msg] for [mins] minutes"), 1)
+					to_chat(M, "<span class='filter_system'>[span_red("<BIG><B>You have been jobbanned by [usr.client.ckey] from: [msg].</B></BIG>")]</span>")
+					to_chat(M, "<span class='filter_system'>[span_red("<B>The reason is: [reason]</B>")]</span>")
+					to_chat(M, "<span class='filter_system'>[span_red("This jobban will be lifted in [mins] minutes.")]</span>")
 					href_list["jobban2"] = 1 // lets it fall through and refresh
 					return 1
 				if("No")
@@ -828,10 +828,10 @@
 							if(!msg)	msg = job
 							else		msg += ", [job]"
 						notes_add(M.ckey, "Banned  from [msg] - [reason]", usr)
-						message_admins("<font color='blue'>[key_name_admin(usr)] banned [key_name_admin(M)] from [msg]</font>", 1)
-						to_chat(M, "<span class='filter_system'><font color='red'><BIG><B>You have been jobbanned by [usr.client.ckey] from: [msg].</B></BIG></font></span>")
-						to_chat(M, "<span class='filter_system'><font color='red'><B>The reason is: [reason]</B></font></span>")
-						to_chat(M, "<span class='filter_system'><font color='red'>Jobban can be lifted only upon request.</font></span>")
+						message_admins(span_blue("[key_name_admin(usr)] banned [key_name_admin(M)] from [msg]"), 1)
+						to_chat(M, "<span class='filter_system'>[span_red("<BIG><B>You have been jobbanned by [usr.client.ckey] from: [msg].</B></BIG>")]</span>")
+						to_chat(M, "<span class='filter_system'>[span_red("<B>The reason is: [reason]</B>")]</span>")
+						to_chat(M, "<span class='filter_system'>[span_red("Jobban can be lifted only upon request.")]</span>")
 						href_list["jobban2"] = 1 // lets it fall through and refresh
 						return 1
 				if("Cancel")
@@ -840,7 +840,7 @@
 		//Unbanning joblist
 		//all jobs in joblist are banned already OR we didn't give a reason (implying they shouldn't be banned)
 		if(joblist.len) //at least 1 banned job exists in joblist so we have stuff to unban.
-			if(!config.ban_legacy_system)
+			if(!CONFIG_GET(flag/ban_legacy_system)) // CHOMPEdit
 				to_chat(usr, "<span class='filter_adminlog'>Unfortunately, database based unbanning cannot be done through this panel</span>")
 				DB_ban_panel(M.ckey)
 				return
@@ -861,7 +861,7 @@
 					else
 						continue
 			if(msg)
-				message_admins("<font color='blue'>[key_name_admin(usr)] unbanned [key_name_admin(M)] from [msg]</font>", 1)
+				message_admins(span_blue("[key_name_admin(usr)] unbanned [key_name_admin(M)] from [msg]"), 1)
 				to_chat(M, "<span class='filter_system danger'><BIG>You have been un-jobbanned by [usr.client.ckey] from [msg].</BIG></span>")
 				href_list["jobban2"] = 1 // lets it fall through and refresh
 			return 1
@@ -878,7 +878,7 @@
 
 			to_chat(M, span("filter_system critical", "You have been kicked from the server: [reason]"))
 			log_admin("[key_name(usr)] booted [key_name(M)] for reason: '[reason]'.")
-			message_admins("<font color='blue'>[key_name_admin(usr)] booted [key_name_admin(M)] for reason '[reason]'.</font>", 1)
+			message_admins(span_blue("[key_name_admin(usr)] booted [key_name_admin(M)] for reason '[reason]'."), 1)
 			//M.client = null
 			admin_action_message(usr.key, M.key, "kicked", reason, 0) //VOREStation Add
 			qdel(M.client)
@@ -890,7 +890,7 @@
 		if(t)
 			if((tgui_alert(usr, "Do you want to unjobban [t]?","Unjobban confirmation", list("Yes", "No")) == "Yes") && t) //No more misclicks! Unless you do it twice.
 				log_admin("[key_name(usr)] removed [t]")
-				message_admins("<font color='blue'>[key_name_admin(usr)] removed [t]</font>", 1)
+				message_admins(span_blue("[key_name_admin(usr)] removed [t]"), 1)
 				jobban_remove(t)
 				href_list["ban"] = 1 // lets it fall through and refresh
 				var/t_split = splittext(t, " - ")
@@ -903,7 +903,7 @@
 			to_chat(usr, "<span class='warning'>You do not have the appropriate permissions to add bans!</span>")
 			return
 
-		if(check_rights(R_MOD,0) && !check_rights(R_ADMIN, 0) && !config.mods_can_job_tempban) // If mod and tempban disabled
+		if(check_rights(R_MOD,0) && !check_rights(R_ADMIN, 0) && !CONFIG_GET(flag/mods_can_job_tempban)) // If mod and tempban disabled // CHOMPEdit
 			to_chat(usr, "<span class='warning'>Mod jobbanning is disabled!</span>")
 			return
 
@@ -917,8 +917,8 @@
 				var/mins = tgui_input_number(usr,"How long (in minutes)?","Ban time",1440)
 				if(!mins)
 					return
-				if(check_rights(R_MOD, 0) && !check_rights(R_BAN, 0) && mins > config.mod_tempban_max)
-					to_chat(usr, "<span class='warning'>Moderators can only job tempban up to [config.mod_tempban_max] minutes!</span>")
+				if(check_rights(R_MOD, 0) && !check_rights(R_BAN, 0) && mins > CONFIG_GET(number/mod_tempban_max)) // CHOMPEdit
+					to_chat(usr, "<span class='warning'>Moderators can only job tempban up to [CONFIG_GET(number/mod_tempban_max)] minutes!</span>") // CHOMPEdit
 					return
 				if(mins >= 525600) mins = 525599
 				var/reason = sanitize(tgui_input_text(usr,"Reason?","reason","Griefer"))
@@ -932,12 +932,12 @@
 				feedback_inc("ban_tmp",1)
 				DB_ban_record(BANTYPE_TEMP, M, mins, reason)
 				feedback_inc("ban_tmp_mins",mins)
-				if(config.banappeals)
-					to_chat(M, "<span class='filter_system warning'>To try to resolve this matter head to [config.banappeals]</span>")
+				if(CONFIG_GET(string/banappeals)) // CHOMPEdit
+					to_chat(M, "<span class='filter_system warning'>To try to resolve this matter head to [CONFIG_GET(string/banappeals)]</span>") // CHOMPEdit
 				else
 					to_chat(M, "<span class='filter_system warning'>No ban appeals URL has been set.</span>")
 				log_admin("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes.")
-				message_admins("<font color='blue'>[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes.</font>")
+				message_admins(span_blue("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes."))
 				// CHOMPedit Start - Tickets System
 				var/datum/ticket/T = M.client ? M.client.current_ticket : null
 				if(T)
@@ -958,14 +958,14 @@
 						AddBan(M.ckey, M.computer_id, reason, usr.ckey, 0, 0)
 				to_chat(M, "<span class='filter_system critical'>You have been banned by [usr.client.ckey].\nReason: [reason].</span>")
 				to_chat(M, "<span class='filter_system warning'>This is a permanent ban.</span>")
-				if(config.banappeals)
-					to_chat(M, "<span class='filter_system warning'>To try to resolve this matter head to [config.banappeals]</span>")
+				if(CONFIG_GET(string/banappeals)) // CHOMPEdit
+					to_chat(M, "<span class='filter_system warning'>To try to resolve this matter head to [CONFIG_GET(string/banappeals)]</span>") // CHOMPEdit
 				else
 					to_chat(M, "<span class='filter_system warning'>No ban appeals URL has been set.</span>")
 				ban_unban_log_save("[usr.client.ckey] has permabanned [M.ckey]. - Reason: [reason] - This is a permanent ban.")
 				notes_add(M.ckey,"[usr.client.ckey] has permabanned [M.ckey]. - Reason: [reason] - This is a permanent ban.",usr)
 				log_admin("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis is a permanent ban.")
-				message_admins("<font color='blue'>[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis is a permanent ban.</font>")
+				message_admins(span_blue("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis is a permanent ban."))
 				feedback_inc("ban_perma",1)
 				DB_ban_record(BANTYPE_PERMA, M, -1, reason)
 				// CHOMPedit Start - Tickets System
@@ -1025,8 +1025,8 @@
 			return tgui_alert_async(usr, "The game has already started.")
 		master_mode = href_list["c_mode2"]
 		log_admin("[key_name(usr)] set the mode as [config.mode_names[master_mode]].")
-		message_admins("<font color='blue'>[key_name_admin(usr)] set the mode as [config.mode_names[master_mode]].</font>", 1)
-		to_world("<font color='blue'><b>The mode is now: [config.mode_names[master_mode]]</b></font>")
+		message_admins(span_blue("[key_name_admin(usr)] set the mode as [config.mode_names[master_mode]]."), 1)
+		to_world(span_blue("<b>The mode is now: [config.mode_names[master_mode]]</b>"))
 		Game() // updates the main game menu
 		world.save_mode(master_mode)
 		.(href, list("c_mode"=1))
@@ -1040,7 +1040,7 @@
 			return tgui_alert_async(usr, "The game mode has to be secret!")
 		secret_force_mode = href_list["f_secret2"]
 		log_admin("[key_name(usr)] set the forced secret mode as [secret_force_mode].")
-		message_admins("<font color='blue'>[key_name_admin(usr)] set the forced secret mode as [secret_force_mode].</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] set the forced secret mode as [secret_force_mode]."), 1)
 		Game() // updates the main game menu
 		.(href, list("f_secret"=1))
 
@@ -1053,7 +1053,7 @@
 			return
 
 		log_admin("[key_name(usr)] attempting to monkeyize [key_name(H)]")
-		message_admins("<font color='blue'>[key_name_admin(usr)] attempting to monkeyize [key_name_admin(H)]</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] attempting to monkeyize [key_name_admin(H)]"), 1)
 		H.monkeyize()
 
 	else if(href_list["corgione"])
@@ -1065,7 +1065,7 @@
 			return
 
 		log_admin("[key_name(usr)] attempting to corgize [key_name(H)]")
-		message_admins("<font color='blue'>[key_name_admin(usr)] attempting to corgize [key_name_admin(H)]</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] attempting to corgize [key_name_admin(H)]"), 1)
 		H.corgize()
 
 	else if(href_list["forcespeech"])
@@ -1080,7 +1080,7 @@
 		M.say(speech)
 		speech = sanitize(speech) // Nah, we don't trust them
 		log_admin("[key_name(usr)] forced [key_name(M)] to say: [speech]")
-		message_admins("<font color='blue'>[key_name_admin(usr)] forced [key_name_admin(M)] to say: [speech]</font>")
+		message_admins(span_blue("[key_name_admin(usr)] forced [key_name_admin(M)] to say: [speech]"))
 
 	else if(href_list["sendtoprison"])
 		if(!check_rights(R_ADMIN))	return
@@ -1120,7 +1120,7 @@
 
 		to_chat(M, "<span class='filter_system warning'>You have been sent to the prison station!</span>")
 		log_admin("[key_name(usr)] sent [key_name(M)] to the prison station.")
-		message_admins("<font color='blue'>[key_name_admin(usr)] sent [key_name_admin(M)] to the prison station.</font>", 1)
+		message_admins(span_blue("[key_name_admin(usr)] sent [key_name_admin(M)] to the prison station."), 1)
 
 	else if(href_list["sendbacktolobby"])
 		if(!check_rights(R_ADMIN))
@@ -1254,9 +1254,9 @@
 			to_chat(usr, "<span class='filter_adminlog'>This can only be used on instances of type /mob/living</span>")
 			return
 
-		if(config.allow_admin_rev)
+		if(CONFIG_GET(flag/allow_admin_rev)) // CHOMPEdit
 			L.revive()
-			message_admins("<font color='red'>Admin [key_name_admin(usr)] healed / revived [key_name_admin(L)]!</font>", 1)
+			message_admins(span_red("Admin [key_name_admin(usr)] healed / revived [key_name_admin(L)]!"), 1)
 			log_admin("[key_name(usr)] healed / Rrvived [key_name(L)]")
 		else
 			to_chat(usr, "<span class='filter_adminlog filter_warning'>Admin Rejuvinates have been disabled</span>")
@@ -1269,7 +1269,7 @@
 			to_chat(usr, "<span class='filter_adminlog'>This can only be used on instances of type /mob/living/carbon/human</span>")
 			return
 
-		message_admins("<font color='red'>Admin [key_name_admin(usr)] AIized [key_name_admin(H)]!</font>", 1)
+		message_admins(span_red("Admin [key_name_admin(usr)] AIized [key_name_admin(H)]!"), 1)
 		log_admin("[key_name(usr)] AIized [key_name(H)]")
 		H.AIize()
 
@@ -1362,13 +1362,13 @@
 					to_chat(X, take_msg)
 			to_chat(M, "<span class='filter_pm notice'><b>Your adminhelp is being attended to by [usr.client]. Thanks for your patience!</b></span>")
 			// VoreStation Edit Start
-			if (config.chat_webhook_url)
+			if (CONFIG_GET(string/chat_webhook_url)) // CHOMPEdit
 				spawn(0)
 					var/query_string = "type=admintake"
-					query_string += "&key=[url_encode(config.chat_webhook_key)]"
+					query_string += "&key=[url_encode(CONFIG_GET(string/chat_webhook_key))]" // CHOMPEdit
 					query_string += "&admin=[url_encode(key_name(usr.client))]"
 					query_string += "&user=[url_encode(key_name(M))]"
-					world.Export("[config.chat_webhook_url]?[query_string]")
+					world.Export("[CONFIG_GET(string/chat_webhook_url)]?[query_string]") // CHOMPEdit
 			// VoreStation Edit End
 		else
 			to_chat(usr, "<span class='warning'>Unable to locate mob.</span>")
@@ -1409,7 +1409,7 @@
 
 		//Job + antagonist
 		if(M.mind)
-			special_role_description = "Role: <b>[M.mind.assigned_role]</b>; Antagonist: <font color='red'><b>[M.mind.special_role]</b></font>; Has been rev: [(M.mind.has_been_rev)?"Yes":"No"]"
+			special_role_description = "Role: <b>[M.mind.assigned_role]</b>; Antagonist: [span_red("<b>[M.mind.special_role]</b>")]; Has been rev: [(M.mind.has_been_rev)?"Yes":"No"]"
 		else
 			special_role_description = "Role: <i>Mind datum missing</i> Antagonist: <i>Mind datum missing</i>; Has been rev: <i>Mind datum missing</i>;"
 
@@ -1419,8 +1419,8 @@
 			var/status
 			switch (M.stat)
 				if (0) status = "Alive"
-				if (1) status = "<font color='orange'><b>Unconscious</b></font>"
-				if (2) status = "<font color='red'><b>Dead</b></font>"
+				if (1) status = span_orange("<b>Unconscious</b>")
+				if (2) status = span_red("<b>Dead</b>")
 			health_description = "Status = [status]"
 			health_description += "<BR>Oxy: [L.getOxyLoss()] - Tox: [L.getToxLoss()] - Fire: [L.getFireLoss()] - Brute: [L.getBruteLoss()] - Clone: [L.getCloneLoss()] - Brain: [L.getBrainLoss()]"
 		else
@@ -1429,7 +1429,7 @@
 		//Gener
 		switch(M.gender)
 			if(MALE,FEMALE)	gender_description = "[M.gender]"
-			else			gender_description = "<font color='red'><b>[M.gender]</b></font>"
+			else			gender_description = span_red("<b>[M.gender]</b>")
 
 		to_chat(src.owner, "<span class='filter_adminlog'><b>Info about [M.name]:</b><br>\
 							Mob type = [M.type]; Gender = [gender_description] Damage = [health_description]<br>\
@@ -1581,7 +1581,7 @@
 	else if(href_list["jumpto"])
 		if(!check_rights(R_ADMIN|R_MOD|R_DEBUG|R_EVENT))
 			return
-		if(!config.allow_admin_jump)
+		if(!CONFIG_GET(flag/allow_admin_jump)) // CHOMPEdit
 			tgui_alert_async(usr, "Admin jumping disabled")
 			return
 
@@ -1601,7 +1601,7 @@
 	else if(href_list["getmob"])
 		if(!check_rights(R_ADMIN|R_MOD|R_DEBUG|R_EVENT))
 			return
-		if(!config.allow_admin_jump)
+		if(!CONFIG_GET(flag/allow_admin_jump)) // CHOMPEdit
 			tgui_alert_async(usr, "Admin jumping disabled")
 			return
 		if(tgui_alert(usr, "Confirm?", "Message", list("Yes", "No")) != "Yes")
@@ -1620,7 +1620,7 @@
 	else if(href_list["sendmob"])
 		if(!check_rights(R_ADMIN|R_MOD|R_DEBUG|R_EVENT))
 			return
-		if(!config.allow_admin_jump)
+		if(!CONFIG_GET(flag/allow_admin_jump)) // CHOMPEdit
 			tgui_alert_async(usr, "Admin jumping disabled")
 			return
 
@@ -1688,7 +1688,7 @@
 	else if(href_list["object_list"])			//this is the laggiest thing ever
 		if(!check_rights(R_SPAWN))	return
 
-		if(!config.allow_admin_spawning)
+		if(!CONFIG_GET(flag/allow_admin_spawning)) // CHOMPEdit
 			to_chat(usr, "<span class='filter_adminlog'>Spawning of items is not allowed.</span>")
 			return
 

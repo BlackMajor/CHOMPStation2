@@ -1,14 +1,15 @@
 import { sortBy } from 'common/collections';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
+import { Box, Button, Icon, NanoMap, Section, Tabs } from '../components';
 import { Window } from '../layouts';
-import { Fragment } from 'inferno';
-import { Button, Box, Tabs, Icon, Section, NanoMap } from '../components';
-import { useBackend, useLocalState } from '../backend';
 import { createLogger } from '../logging';
 const logger = createLogger('fuck');
 
-export const AtmosControl = (props, context) => {
+export const AtmosControl = (props) => {
   return (
-    <Window width={600} height={440} resizable>
+    <Window width={600} height={440}>
       <Window.Content scrollable>
         <AtmosControlContent />
       </Window.Content>
@@ -16,15 +17,15 @@ export const AtmosControl = (props, context) => {
   );
 };
 
-export const AtmosControlContent = (props, context) => {
-  const { act, data, config } = useBackend(context);
+export const AtmosControlContent = (props) => {
+  const { act, data, config } = useBackend();
 
   let sortedAlarms = sortBy((alarm) => alarm.name)(data.alarms || []);
 
   // sortedAlarms = sortedAlarms.slice(1, 3);
 
-  const [tabIndex, setTabIndex] = useLocalState(context, 'tabIndex', 0);
-  const [zoom, setZoom] = useLocalState(context, 'zoom', 1);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [zoom, setZoom] = useState(1);
 
   let body;
   // Alarms View
@@ -34,12 +35,13 @@ export const AtmosControlContent = (props, context) => {
         {sortedAlarms.map((alarm) => (
           <Button
             key={alarm.name}
-            content={alarm.name}
             color={
               alarm.danger === 2 ? 'bad' : alarm.danger === 1 ? 'average' : ''
             }
-            onClick={() => act('alarm', { 'alarm': alarm.ref })}
-          />
+            onClick={() => act('alarm', { alarm: alarm.ref })}
+          >
+            {alarm.name}
+          </Button>
         ))}
       </Section>
     );
@@ -49,7 +51,7 @@ export const AtmosControlContent = (props, context) => {
     // and change the @for scss to match.
     body = (
       <Box height="526px" mb="0.5rem" overflow="hidden">
-        <NanoMap onZoom={(v) => setZoom(v)}>
+        <NanoMap zoomScale={data.zoomScale} onZoom={(v) => setZoom(v)}>
           {sortedAlarms
             .filter((x) => ~~x.z === ~~config.mapZLevel)
             .map((cm) => (
@@ -61,7 +63,7 @@ export const AtmosControlContent = (props, context) => {
                 icon="bell"
                 tooltip={cm.name}
                 color={cm.danger ? 'red' : 'green'}
-                onClick={() => act('alarm', { 'alarm': cm.ref })}
+                onClick={() => act('alarm', { alarm: cm.ref })}
               />
             ))}
         </NanoMap>
@@ -70,22 +72,24 @@ export const AtmosControlContent = (props, context) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Tabs>
         <Tabs.Tab
           key="AlarmView"
           selected={0 === tabIndex}
-          onClick={() => setTabIndex(0)}>
+          onClick={() => setTabIndex(0)}
+        >
           <Icon name="table" /> Alarm View
         </Tabs.Tab>
         <Tabs.Tab
           key="MapView"
           selected={1 === tabIndex}
-          onClick={() => setTabIndex(1)}>
+          onClick={() => setTabIndex(1)}
+        >
           <Icon name="map-marked-alt" /> Map View
         </Tabs.Tab>
       </Tabs>
       <Box m={2}>{body}</Box>
-    </Fragment>
+    </>
   );
 };

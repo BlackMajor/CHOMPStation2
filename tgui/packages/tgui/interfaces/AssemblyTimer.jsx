@@ -1,11 +1,12 @@
 import { round } from 'common/math';
+
 import { useBackend } from '../backend';
 import { Button, LabeledList, NumberInput, Section } from '../components';
-import { Window } from '../layouts';
 import { formatTime } from '../format';
+import { Window } from '../layouts';
 
-export const AssemblyTimer = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AssemblyTimer = (props) => {
+  const { act, data } = useBackend();
   const { timing, time } = data;
   return (
     <Window>
@@ -18,17 +19,19 @@ export const AssemblyTimer = (props, context) => {
                 <Button
                   icon="stopwatch"
                   selected={timing}
-                  onClick={() => act('timing')}>
+                  onClick={() => act('timing')}
+                >
                   {timing ? 'Counting Down' : 'Disabled'}
                 </Button>
-              }>
+              }
+            >
               <NumberInput
                 animated
                 fluid
-                value={time / 10}
+                value={time}
                 minValue={0}
                 maxValue={600}
-                format={(val) => formatTime(round(val))}
+                format={(val) => formatTime(round(val * 10))}
                 onDrag={(e, val) => act('set_time', { time: val })}
               />
             </LabeledList.Item>

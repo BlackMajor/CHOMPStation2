@@ -1,6 +1,8 @@
-import { Component } from 'inferno';
-import { Box, Button, Icon, Tooltip, LabeledList, Slider } from '.';
+import { Component } from 'react';
+
+import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
+import { Box, Button, Icon, LabeledList, Slider, Tooltip } from '.';
 
 const pauseEvent = (e) => {
   if (e.stopPropagation) {
@@ -13,8 +15,6 @@ const pauseEvent = (e) => {
   e.returnValue = false;
   return false;
 };
-
-const zoomScale = 280;
 
 export class NanoMap extends Component {
   constructor(props) {
@@ -77,8 +77,8 @@ export class NanoMap extends Component {
     };
 
     this.handleOnClick = (e) => {
-      let byondX = e.offsetX / this.state.zoom / zoomScale;
-      let byondY = 1 - e.offsetY / this.state.zoom / zoomScale; // Byond origin is bottom left, this is top left
+      let byondX = e.offsetX / this.state.zoom / this.props.zoomScale;
+      let byondY = 1 - e.offsetY / this.state.zoom / this.props.zoomScale; // Byond origin is bottom left, this is top left
 
       e.byondX = byondX;
       e.byondY = byondY;
@@ -120,25 +120,27 @@ export class NanoMap extends Component {
   }
 
   render() {
-    const { config } = useBackend(this.context);
+    const { config } = useBackend();
     const { dragging, offsetX, offsetY, zoom = 1 } = this.state;
     const { children } = this.props;
 
-    const mapUrl = config.map + '_nanomap_z' + config.mapZLevel + '.png';
+    const mapUrl = resolveAsset(
+      config.map + '_nanomap_z' + config.mapZLevel + '.png',
+    );
     // (x * zoom), x Needs to be double the turf- map size. (for virgo, 140x140)
-    const mapSize = zoomScale * zoom + 'px';
+    const mapSize = this.props.zoomScale * zoom + 'px';
     const newStyle = {
       width: mapSize,
       height: mapSize,
       'margin-top': offsetY + 'px',
       'margin-left': offsetX + 'px',
-      'overflow': 'hidden',
-      'position': 'relative',
+      overflow: 'hidden',
+      position: 'relative',
       'background-image': 'url(' + mapUrl + ')',
       'background-size': 'cover',
       'background-repeat': 'no-repeat',
       'text-align': 'center',
-      'cursor': dragging ? 'move' : 'auto',
+      cursor: dragging ? 'move' : 'auto',
     };
 
     return (
@@ -147,7 +149,8 @@ export class NanoMap extends Component {
           style={newStyle}
           textAlign="center"
           onMouseDown={this.handleDragStart}
-          onClick={this.handleOnClick}>
+          onClick={this.handleOnClick}
+        >
           <Box>{children}</Box>
         </Box>
         <NanoMapZoomer zoom={zoom} onZoom={this.handleZoom} />
@@ -156,7 +159,7 @@ export class NanoMap extends Component {
   }
 }
 
-const NanoMapMarker = (props, context) => {
+const NanoMapMarker = (props) => {
   const { x, y, zoom = 1, icon, tooltip, color, onClick } = props;
 
   const handleOnClick = (e) => {
@@ -176,7 +179,8 @@ const NanoMapMarker = (props, context) => {
         lineHeight="0"
         bottom={ry + 'px'}
         left={rx + 'px'}
-        onMouseDown={handleOnClick}>
+        onMouseDown={handleOnClick}
+      >
         <Icon name={icon} color={color} fontSize="6px" />
         <Tooltip content={tooltip} />
       </Box>
@@ -186,8 +190,8 @@ const NanoMapMarker = (props, context) => {
 
 NanoMap.Marker = NanoMapMarker;
 
-const NanoMapZoomer = (props, context) => {
-  const { act, config, data } = useBackend(context);
+const NanoMapZoomer = (props) => {
+  const { act, config, data } = useBackend();
   return (
     <Box className="NanoMap__zoomer">
       <LabeledList>
@@ -208,11 +212,12 @@ const NanoMapZoomer = (props, context) => {
               <Button
                 key={level}
                 selected={~~level === ~~config.mapZLevel}
-                content={level}
                 onClick={() => {
-                  act('setZLevel', { 'mapZLevel': level });
+                  act('setZLevel', { mapZLevel: level });
                 }}
-              />
+              >
+                {level}
+              </Button>
             ))}
         </LabeledList.Item>
       </LabeledList>

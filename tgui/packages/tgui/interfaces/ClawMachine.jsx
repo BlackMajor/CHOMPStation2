@@ -1,9 +1,9 @@
 import { useBackend } from '../backend';
-import { Button, ProgressBar, Box, LabeledList } from '../components';
+import { Box, Button, LabeledList, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
-export const ClawMachine = (props, context) => {
-  const { act, data } = useBackend(context);
+export const ClawMachine = (props) => {
+  const { act, data } = useBackend();
   const { wintick, instructions, gameStatus, winscreen } = data;
 
   let body;
@@ -15,7 +15,7 @@ export const ClawMachine = (props, context) => {
         <b>Pay to Play!</b> <br /> <hr />
         {instructions}
         <br /> <hr /> <br />
-        <Button content="Start" onClick={() => act('newgame')} />
+        <Button onClick={() => act('newgame')}>Start</Button>
       </Box>
     );
   } else if (gameStatus === 'CLAWMACHINE_END') {
@@ -25,7 +25,7 @@ export const ClawMachine = (props, context) => {
         <b>Thank you for playing!</b> <br /> <hr />
         {winscreen}
         <br /> <hr /> <br />
-        <Button content="Close" onClick={() => act('return')} />
+        <Button onClick={() => act('return')}>Close</Button>
       </Box>
     );
   } else if (gameStatus === 'CLAWMACHINE_ON') {
@@ -49,18 +49,18 @@ export const ClawMachine = (props, context) => {
           <br /> <hr /> <br />
           {instructions}
           <br /> <br /> <hr /> <br /> <br />
-          <Button content="Up" onClick={() => act('pointless')} />
+          <Button onClick={() => act('pointless')}>Up</Button>
           <br /> <br />
-          <Button content="Left" onClick={() => act('pointless')} />
-          <Button content="Right" onClick={() => act('pointless')} />
+          <Button onClick={() => act('pointless')}>Left</Button>
+          <Button onClick={() => act('pointless')}>Right</Button>
           <br /> <br />
-          <Button content="Down" onClick={() => act('pointless')} />
+          <Button onClick={() => act('pointless')}>Down</Button>
         </Box>
       </Window.Content>
     );
   }
   return (
-    <Window resizable>
+    <Window>
       <center>{body}</center>
     </Window>
   );

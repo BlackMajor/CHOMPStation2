@@ -1,22 +1,30 @@
 import { useBackend } from '../backend';
-import { Button, LabeledList, NumberInput, Section, AnimatedNumber, Box } from '../components';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  NumberInput,
+  Section,
+} from '../components';
 import { Window } from '../layouts';
 
-export const AtmosFilter = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AtmosFilter = (props) => {
+  const { act, data } = useBackend();
   const filterTypes = data.filter_types || [];
   return (
-    <Window width={390} height={187} resizable>
+    <Window width={390} height={187}>
       <Window.Content>
         <Section>
           <LabeledList>
             <LabeledList.Item label="Power">
               <Button
                 icon={data.on ? 'power-off' : 'times'}
-                content={data.on ? 'On' : 'Off'}
                 selected={data.on}
                 onClick={() => act('power')}
-              />
+              >
+                {data.on ? 'On' : 'Off'}
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Transfer Rate">
               <Box inline mr={1}>
@@ -41,27 +49,29 @@ export const AtmosFilter = (props, context) => {
               <Button
                 ml={1}
                 icon="plus"
-                content="Max"
                 disabled={data.rate === data.max_rate}
                 onClick={() =>
                   act('rate', {
                     rate: 'max',
                   })
                 }
-              />
+              >
+                Max
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Filter">
               {filterTypes.map((filter) => (
                 <Button
                   key={filter.name}
                   selected={filter.selected}
-                  content={filter.name}
                   onClick={() =>
                     act('filter', {
                       filterset: filter.f_type,
                     })
                   }
-                />
+                >
+                  {filter.name}
+                </Button>
               ))}
             </LabeledList.Item>
           </LabeledList>

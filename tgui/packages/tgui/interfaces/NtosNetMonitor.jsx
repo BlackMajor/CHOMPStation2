@@ -1,10 +1,16 @@
-import { Section, Box, Button, NoticeBox, LabeledList, NumberInput } from '../components';
 import { useBackend } from '../backend';
-import { Fragment } from 'inferno';
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+} from '../components';
 import { NtosWindow } from '../layouts';
 
-export const NtosNetMonitor = (props, context) => {
-  const { act, data } = useBackend(context);
+export const NtosNetMonitor = (props) => {
+  const { act, data } = useBackend();
   const {
     ntnetrelays,
     ntnetstatus,
@@ -21,7 +27,7 @@ export const NtosNetMonitor = (props, context) => {
     ntnetlogs = [],
   } = data;
   return (
-    <NtosWindow resizable>
+    <NtosWindow>
       <NtosWindow.Content scrollable>
         <NoticeBox>
           WARNING: Disabling wireless transmitters when using a wireless device
@@ -32,11 +38,13 @@ export const NtosNetMonitor = (props, context) => {
           buttons={
             <Button.Confirm
               icon={ntnetstatus ? 'power-off' : 'times'}
-              content={ntnetstatus ? 'ENABLED' : 'DISABLED'}
               selected={ntnetstatus}
               onClick={() => act('toggleWireless')}
-            />
-          }>
+            >
+              {ntnetstatus ? 'ENABLED' : 'DISABLED'}
+            </Button.Confirm>
+          }
+        >
           {ntnetrelays ? (
             <LabeledList>
               <LabeledList.Item label="Active NTNet Relays">
@@ -54,10 +62,11 @@ export const NtosNetMonitor = (props, context) => {
               buttons={
                 <Button
                   icon={config_softwaredownload ? 'power-off' : 'times'}
-                  content={config_softwaredownload ? 'ENABLED' : 'DISABLED'}
                   selected={config_softwaredownload}
                   onClick={() => act('toggle_function', { id: '1' })}
-                />
+                >
+                  {config_softwaredownload ? 'ENABLED' : 'DISABLED'}
+                </Button>
               }
             />
             <LabeledList.Item
@@ -65,10 +74,11 @@ export const NtosNetMonitor = (props, context) => {
               buttons={
                 <Button
                   icon={config_peertopeer ? 'power-off' : 'times'}
-                  content={config_peertopeer ? 'ENABLED' : 'DISABLED'}
                   selected={config_peertopeer}
                   onClick={() => act('toggle_function', { id: '2' })}
-                />
+                >
+                  {config_peertopeer ? 'ENABLED' : 'DISABLED'}
+                </Button>
               }
             />
             <LabeledList.Item
@@ -76,10 +86,11 @@ export const NtosNetMonitor = (props, context) => {
               buttons={
                 <Button
                   icon={config_communication ? 'power-off' : 'times'}
-                  content={config_communication ? 'ENABLED' : 'DISABLED'}
                   selected={config_communication}
                   onClick={() => act('toggle_function', { id: '3' })}
-                />
+                >
+                  {config_communication ? 'ENABLED' : 'DISABLED'}
+                </Button>
               }
             />
             <LabeledList.Item
@@ -87,56 +98,60 @@ export const NtosNetMonitor = (props, context) => {
               buttons={
                 <Button
                   icon={config_systemcontrol ? 'power-off' : 'times'}
-                  content={config_systemcontrol ? 'ENABLED' : 'DISABLED'}
                   selected={config_systemcontrol}
                   onClick={() => act('toggle_function', { id: '4' })}
-                />
+                >
+                  {config_systemcontrol ? 'ENABLED' : 'DISABLED'}
+                </Button>
               }
             />
           </LabeledList>
         </Section>
         <Section title="Security Systems">
           {!!idsalarm && (
-            <Fragment>
+            <>
               <NoticeBox>NETWORK INCURSION DETECTED</NoticeBox>
               <Box italics>
                 Abnormal activity has been detected in the network. Check system
                 logs for more information
               </Box>
-            </Fragment>
+            </>
           )}
           <LabeledList>
             <LabeledList.Item
               label="Banned NIDs"
               buttons={
-                <Fragment>
+                <>
                   <Button icon="ban" onClick={() => act('ban_nid')}>
                     Ban NID
                   </Button>
                   <Button icon="balance-scale" onClick={() => act('unban_nid')}>
                     Unban NID
                   </Button>
-                </Fragment>
-              }>
+                </>
+              }
+            >
               {banned_nids.join(', ') || 'None'}
             </LabeledList.Item>
             <LabeledList.Item
               label="IDS Status"
               buttons={
-                <Fragment>
+                <>
                   <Button
                     icon={idsstatus ? 'power-off' : 'times'}
-                    content={idsstatus ? 'ENABLED' : 'DISABLED'}
                     selected={idsstatus}
                     onClick={() => act('toggleIDS')}
-                  />
+                  >
+                    {idsstatus ? 'ENABLED' : 'DISABLED'}
+                  </Button>
                   <Button
                     icon="sync"
-                    content="Reset"
                     color="bad"
                     onClick={() => act('resetIDS')}
-                  />
-                </Fragment>
+                  >
+                    Reset
+                  </Button>
+                </>
               }
             />
             <LabeledList.Item
@@ -160,12 +175,11 @@ export const NtosNetMonitor = (props, context) => {
             title="System Log"
             level={2}
             buttons={
-              <Button.Confirm
-                icon="trash"
-                content="Clear Logs"
-                onClick={() => act('purgelogs')}
-              />
-            }>
+              <Button.Confirm icon="trash" onClick={() => act('purgelogs')}>
+                Clear Logs
+              </Button.Confirm>
+            }
+          >
             {ntnetlogs.map((log) => (
               <Box key={log.entry} className="candystripe">
                 {log.entry}

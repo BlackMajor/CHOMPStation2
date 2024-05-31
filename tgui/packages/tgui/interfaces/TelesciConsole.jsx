@@ -1,15 +1,24 @@
 import { sortBy } from 'common/collections';
+
 import { useBackend } from '../backend';
-import { AnimatedNumber, Box, Button, LabeledList, NoticeBox, NumberInput, Section } from '../components';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+} from '../components';
 import { Window } from '../layouts';
 
-export const TelesciConsole = (props, context) => {
-  const { act, data } = useBackend(context);
+export const TelesciConsole = (props) => {
+  const { act, data } = useBackend();
 
   const { noTelepad } = data;
 
   return (
-    <Window width={400} height={450} resizable>
+    <Window width={400} height={450}>
       <Window.Content scrollable>
         {(noTelepad && <TelesciNoTelepadError />) || <TelesciConsoleContent />}
       </Window.Content>
@@ -17,7 +26,7 @@ export const TelesciConsole = (props, context) => {
   );
 };
 
-const TelesciNoTelepadError = (props, context) => {
+const TelesciNoTelepadError = (props) => {
   return (
     <Section title="Error" color="bad">
       No telepad located.
@@ -27,8 +36,8 @@ const TelesciNoTelepadError = (props, context) => {
   );
 };
 
-export const TelesciConsoleContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const TelesciConsoleContent = (props) => {
+  const { act, data } = useBackend();
 
   const {
     insertedGps,
@@ -53,13 +62,15 @@ export const TelesciConsoleContent = (props, context) => {
           icon="eject"
           disabled={!insertedGps}
           onClick={() => act('ejectGPS')}
-          content="Eject GPS"
-        />
-      }>
+        >
+          Eject GPS
+        </Button>
+      }
+    >
       <NoticeBox info>
         {(cooldown && (
           <Box>
-            Telepad is recharging. Please wait{' '}
+            Telepad is recharging. Please wait
             <AnimatedNumber value={cooldown} /> seconds.
           </Box>
         )) || <Box>{tempMsg}</Box>}
@@ -93,31 +104,23 @@ export const TelesciConsoleContent = (props, context) => {
             <Button
               key={z}
               icon="check-circle"
-              content={z}
               selected={currentZ === z}
               onClick={() => act('setz', { setz: z })}
-            />
+            >
+              {z}
+            </Button>
           ))}
         </LabeledList.Item>
         <LabeledList.Item label="Controls">
-          <Button
-            icon="share"
-            iconRotation={-90}
-            onClick={() => act('send')}
-            content="Send"
-          />
-          <Button
-            icon="share"
-            iconRotation={90}
-            onClick={() => act('receive')}
-            content="Receive"
-          />
-          <Button
-            icon="sync"
-            iconRotation={90}
-            onClick={() => act('recal')}
-            content="Recalibrate"
-          />
+          <Button icon="share" iconRotation={-90} onClick={() => act('send')}>
+            Send
+          </Button>
+          <Button icon="share" iconRotation={90} onClick={() => act('receive')}>
+            Receive
+          </Button>
+          <Button icon="sync" iconRotation={90} onClick={() => act('recal')}>
+            Recalibrate
+          </Button>
         </LabeledList.Item>
       </LabeledList>
       {(lastTeleData && (

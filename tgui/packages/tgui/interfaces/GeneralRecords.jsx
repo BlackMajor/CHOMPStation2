@@ -1,28 +1,37 @@
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Icon, Input, LabeledList, Section, Tabs } from '../components';
-import { ComplexModal, modalOpen } from './common/ComplexModal';
+import { filter } from 'common/collections';
+import { flow } from 'common/fp';
+import { createSearch } from 'common/string';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
+import {
+  Box,
+  Button,
+  Icon,
+  Input,
+  LabeledList,
+  Section,
+  Tabs,
+} from '../components';
 import { Window } from '../layouts';
+import { ComplexModal, modalOpen } from './common/ComplexModal';
 import { LoginInfo } from './common/LoginInfo';
 import { LoginScreen } from './common/LoginScreen';
 import { TemporaryNotice } from './common/TemporaryNotice';
-import { createSearch } from 'common/string';
-import { filter } from 'common/collections';
-import { flow } from 'common/fp';
 
-const doEdit = (context, field) => {
-  modalOpen(context, 'edit', {
+const doEdit = (field) => {
+  modalOpen('edit', {
     field: field.edit,
     value: field.value,
   });
 };
 
-export const GeneralRecords = (_properties, context) => {
-  const { data } = useBackend(context);
+export const GeneralRecords = (_properties) => {
+  const { data } = useBackend();
   const { authenticated, screen } = data;
   if (!authenticated) {
     return (
-      <Window width={800} height={380} resizable>
+      <Window width={800} height={380}>
         <Window.Content>
           <LoginScreen />
         </Window.Content>
@@ -43,7 +52,7 @@ export const GeneralRecords = (_properties, context) => {
   }
 
   return (
-    <Window width={800} height={640} resizable>
+    <Window width={800} height={640}>
       <ComplexModal />
       <Window.Content className="Layout__content--flexColumn" scrollable>
         <LoginInfo />
@@ -76,16 +85,18 @@ const selectRecords = (records, searchText = '') => {
   return fl;
 };
 
-const GeneralRecordsList = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const GeneralRecordsList = (_properties) => {
+  const { act, data } = useBackend();
 
-  const [searchText, setSearchText] = useLocalState(context, 'searchText', '');
+  const [searchText, setSearchText] = useState('');
 
   const records = selectRecords(data.records, searchText);
   return (
-    <Fragment>
+    <>
       <Box mb="0.2rem">
-        <Button icon="pen" content="New Record" onClick={() => act('new')} />
+        <Button icon="pen" onClick={() => act('new')}>
+          New Record
+        </Button>
       </Box>
       <Input
         fluid
@@ -98,31 +109,30 @@ const GeneralRecordsList = (_properties, context) => {
             key={i}
             icon="user"
             mb="0.5rem"
-            content={record.id + ': ' + record.name}
             onClick={() => act('d_rec', { d_rec: record.ref })}
-          />
+          >
+            {record.id + ': ' + record.name}
+          </Button>
         ))}
       </Box>
-    </Fragment>
+    </>
   );
 };
 
-const GeneralRecordsMaintenance = (_properties, context) => {
-  const { act } = useBackend(context);
+const GeneralRecordsMaintenance = (_properties) => {
+  const { act } = useBackend();
   return (
-    <Button.Confirm
-      icon="trash"
-      content="Delete All Employment Records"
-      onClick={() => act('del_all')}
-    />
+    <Button.Confirm icon="trash" onClick={() => act('del_all')}>
+      Delete All Employment Records
+    </Button.Confirm>
   );
 };
 
-const GeneralRecordsView = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const GeneralRecordsView = (_properties) => {
+  const { act, data } = useBackend();
   const { general, printing } = data;
   return (
-    <Fragment>
+    <>
       <Section title="General Data" level={2} mt="-6px">
         <GeneralRecordsViewGeneral />
       </Section>
@@ -130,48 +140,48 @@ const GeneralRecordsView = (_properties, context) => {
         <Button.Confirm
           icon="trash"
           disabled={!!general.empty}
-          content="Delete Employment Record"
           color="bad"
           onClick={() => act('del_r')}
-        />
+        >
+          Delete Employment Record
+        </Button.Confirm>
         <Button
           icon={printing ? 'spinner' : 'print'}
           disabled={printing}
           iconSpin={!!printing}
-          content="Print Entry"
           ml="0.5rem"
           onClick={() => act('print_p')}
-        />
+        >
+          Print Entry
+        </Button>
         <br />
         <Button
           icon="arrow-left"
-          content="Back"
           mt="0.5rem"
           onClick={() => act('screen', { screen: 2 })}
-        />
+        >
+          Back
+        </Button>
       </Section>
-    </Fragment>
+    </>
   );
 };
 
-const GeneralRecordsViewGeneral = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const GeneralRecordsViewGeneral = (_properties) => {
+  const { act, data } = useBackend();
   const { general } = data;
   if (!general || !general.fields) {
     return (
       <Box color="bad">
         General record lost!
-        <Button
-          icon="pen"
-          content="New Record"
-          ml="0.5rem"
-          onClick={() => act('new')}
-        />
+        <Button icon="pen" ml="0.5rem" onClick={() => act('new')}>
+          New Record
+        </Button>
       </Box>
     );
   }
   return (
-    <Fragment>
+    <>
       <Box width="50%" float="left">
         <LabeledList>
           {general.fields.map((field, i) => (
@@ -180,11 +190,7 @@ const GeneralRecordsViewGeneral = (_properties, context) => {
                 {field.value}
               </Box>
               {!!field.edit && (
-                <Button
-                  icon="pen"
-                  ml="0.5rem"
-                  onClick={() => doEdit(context, field)}
-                />
+                <Button icon="pen" ml="0.5rem" onClick={() => doEdit(field)} />
               )}
             </LabeledList.Item>
           ))}
@@ -215,12 +221,13 @@ const GeneralRecordsViewGeneral = (_properties, context) => {
 
           <Button
             icon="comment"
-            content="Add Entry"
             color="good"
             mt="0.5rem"
             mb="0"
-            onClick={() => modalOpen(context, 'add_c')}
-          />
+            onClick={() => modalOpen('add_c')}
+          >
+            Add Entry
+          </Button>
         </Section>
       </Box>
       <Box width="50%" float="right" textAlign="right">
@@ -230,7 +237,8 @@ const GeneralRecordsViewGeneral = (_properties, context) => {
               key={i}
               display="inline-block"
               textAlign="center"
-              color="label">
+              color="label"
+            >
               <img
                 src={p.substr(1, p.length - 1)}
                 style={{
@@ -244,24 +252,26 @@ const GeneralRecordsViewGeneral = (_properties, context) => {
             </Box>
           ))}
       </Box>
-    </Fragment>
+    </>
   );
 };
 
-const GeneralRecordsNavigation = (_properties, context) => {
-  const { act, data } = useBackend(context);
+const GeneralRecordsNavigation = (_properties) => {
+  const { act, data } = useBackend();
   const { screen } = data;
   return (
     <Tabs>
       <Tabs.Tab
         selected={screen === 2}
-        onClick={() => act('screen', { screen: 2 })}>
+        onClick={() => act('screen', { screen: 2 })}
+      >
         <Icon name="list" />
         List Records
       </Tabs.Tab>
       <Tabs.Tab
         selected={screen === 3}
-        onClick={() => act('screen', { screen: 3 })}>
+        onClick={() => act('screen', { screen: 3 })}
+      >
         <Icon name="wrench" />
         Record Maintenance
       </Tabs.Tab>

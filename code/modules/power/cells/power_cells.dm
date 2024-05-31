@@ -2,7 +2,7 @@
 /*
  * Empty
  */
-/obj/item/weapon/cell/empty/New()
+/obj/item/weapon/cell/empty/Initialize() //ChompEDIT New --> Initialize
 	..()
 	charge = 0
 
@@ -21,7 +21,7 @@
 /obj/item/weapon/cell/crap/update_icon() //No visible charge indicator
 	return
 
-/obj/item/weapon/cell/crap/empty/New()
+/obj/item/weapon/cell/crap/empty/Initialize() //ChompEDIT New --> Initialize
 	..()
 	charge = 0
 
@@ -39,7 +39,7 @@
  * Robot
  */
 /obj/item/weapon/cell/robot_station
-	name = "A standard robot power cell"
+	name = "standard robot power cell"
 	maxcharge = 7500
 
 /*
@@ -52,7 +52,7 @@
 	maxcharge = 10000
 	matter = list(MAT_STEEL = 700, MAT_GLASS = 60)
 
-/obj/item/weapon/cell/high/empty/New()
+/obj/item/weapon/cell/high/empty/Initialize() //ChompEDIT New --> Initialize
 	..()
 	charge = 0
 	update_icon()
@@ -67,7 +67,7 @@
 	maxcharge = 20000
 	matter = list(MAT_STEEL = 700, MAT_GLASS = 70)
 
-/obj/item/weapon/cell/super/empty/New()
+/obj/item/weapon/cell/super/empty/Initialize() //ChompEDIT New --> Initialize
 	..()
 	charge = 0
 	update_icon()
@@ -76,7 +76,7 @@
  * Syndicate
  */
 /obj/item/weapon/cell/robot_syndi
-	name = "A syndicate robot power cell"
+	name = "syndicate robot power cell"
 	description_fluff = "Almost as good as a hyper."
 	icon_state = "super" //We don't want roboticists confuse it with a low standard cell
 	maxcharge = 25000
@@ -91,7 +91,7 @@
 	maxcharge = 30000
 	matter = list(MAT_STEEL = 700, MAT_GLASS = 80)
 
-/obj/item/weapon/cell/hyper/empty/New()
+/obj/item/weapon/cell/hyper/empty/Initialize() //ChompEDIT New --> Initialize
 	..()
 	charge = 0
 	update_icon()

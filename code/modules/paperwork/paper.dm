@@ -74,7 +74,7 @@
 	desc = "A gift card with a heart on the cover."
 	icon_state = "greetingcard_heart"
 
-/obj/item/weapon/paper/card/New()
+/obj/item/weapon/paper/card/Initialize() //ChompEDIT New --> Initialize
 	..()
 	pixel_y = rand(-8, 8)
 	pixel_x = rand(-9, 9)
@@ -116,7 +116,7 @@
     if(mapload) // Jank, but we do this to prevent maploaded papers from somehow stacking across rounds if re-added to the board by a player.
         was_maploaded = TRUE
 
-/obj/item/weapon/paper/New(var/newloc, var/text, var/title)
+/obj/item/weapon/paper/Initialize(var/newloc, var/text, var/title) //ChompEDIT New --> Initialize
 	..()
 	pixel_y = rand(-8, 8)
 	pixel_x = rand(-9, 9)
@@ -440,7 +440,7 @@
 				qdel(src)
 
 			else
-				to_chat(user, "<font color='red'>You must hold \the [P] steady to burn \the [src].</font>")
+				to_chat(user, span_red("You must hold \the [P] steady to burn \the [src]."))
 
 
 /obj/item/weapon/paper/Topic(href, href_list)

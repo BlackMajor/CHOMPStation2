@@ -53,7 +53,7 @@
 
 /obj/item/mail/Initialize()
 	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, .proc/disposal_handling)
+	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, PROC_REF(disposal_handling))
 
 	// Icons
 	// Add some random stamps.
@@ -91,14 +91,14 @@
 		var/obj/item/device/destTagger/O = W
 		if(O.currTag)
 			if(src.sortTag != O.currTag)
-				to_chat(user, "<span class='notice'>You have labeled the destination as [O.currTag].</span>")
-				if(!src.sortTag)
-					src.sortTag = O.currTag
+				balloon_alert(user, "You have labeled the destination as [O.currTag].")
+				src.sortTag = O.currTag
 				playsound(src, 'sound/machines/twobeep.ogg', 50, 1)
+				W.description_info = " It is labeled for [O.currTag]"
 			else
-				to_chat(user, "<span class='warning'>The mail is already labeled for [O.currTag].</span>")
+				balloon_alert(user, "The mail is already labeled for [O.currTag].")
 		else
-			to_chat(user, "<span class='warning'>You need to set a destination first!</span>")
+			balloon_alert(user, "You need to set a destination first!")
 	return
 
 /obj/item/mail/attack_self(mob/user)
@@ -108,14 +108,15 @@
 
 /obj/item/mail/proc/unwrap(mob/user)
 	if(recipient && user != recipient)
-		to_chat(user, "<span class='notice'>You can't open somebody's mail! That's <em>illegal</em></span>")
+		balloon_alert(user, "You can't open somebody's mail! That's <em>illegal</em>")
 		return FALSE
 
 	if(opening)
-		to_chat(user, "<span class='notice'>You are already opening that!</span>")
+		balloon_alert(user, "You are already opening that!")
 		return FALSE
 
 	opening = TRUE
+	balloon_alert(user, "Unwrapping...")
 	if(!do_after(user, 1.5 SECONDS, target = user))
 		opening = FALSE
 		return FALSE
@@ -143,7 +144,7 @@
 		var/image/envelope = image(icon, icon_state)
 		envelope.color = this_job.get_mail_color()
 		add_overlay(envelope)
-		var/list/job_goodies = this_job.get_mail_goodies()
+		var/list/job_goodies = this_job.get_mail_goodies(new_recipient, current_title)
 		if(LAZYLEN(job_goodies))
 			if(this_job.exclusive_mail_goodies)
 				goodies = job_goodies
@@ -204,7 +205,9 @@
 	can_hold = list(
 		/obj/item/mail,
 		/obj/item/smallDelivery,
-		/obj/item/weapon/paper
+		/obj/item/weapon/paper,
+		/obj/item/stolenpackage,
+		/obj/item/contraband
 	)
 
 // JUNK MAIL STUFF
@@ -234,7 +237,8 @@
 			/obj/item/weapon/reagent_containers/food/snacks/donkpocket/pizza,
 			/obj/item/weapon/reagent_containers/food/snacks/donkpocket/spicy,
 			/obj/item/weapon/reagent_containers/food/snacks/donkpocket/teriyaki,
-			/obj/item/toy/figure
+			/obj/item/toy/figure,
+			/obj/item/contraband
 		))
 
 	var/list/junk_names = list(
@@ -251,7 +255,8 @@
 		/obj/item/weapon/reagent_containers/food/snacks/donkpocket/pizza = "[initial(name)] with NEW PIZZA-POCKET.",
 		/obj/item/weapon/reagent_containers/food/snacks/donkpocket/spicy = "[initial(name)] with NEW SPICY-POCKET.",
 		/obj/item/weapon/reagent_containers/food/snacks/donkpocket/teriyaki = "[initial(name)] with NEW TERIYAKI-POCKET.",
-		/obj/item/toy/figure = "[initial(name)] from DoN**K*oC"
+		/obj/item/toy/figure = "[initial(name)] from DoN**K*oC",
+		/obj/item/contraband = "[pick("oddly shaped", "strangely wrapped", "weird", "bulging")] [initial(name)]"
 	)
 
 	name = special_name ? junk_names[junk] : "important [initial(name)]"

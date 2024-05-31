@@ -1,7 +1,8 @@
-import { useBackend, useLocalState } from '../backend';
+import { useState } from 'react';
+
+import { useBackend } from '../backend';
 import { Box, Button, Flex, Icon, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
-
 /* This is all basically stolen from routes.js. */
 import { routingError } from '../routes';
 
@@ -24,8 +25,8 @@ const getPdaApp = (name) => {
   return Component;
 };
 
-export const Pda = (props, context) => {
-  const { act, data } = useBackend(context);
+export const Pda = (props) => {
+  const { act, data } = useBackend();
 
   const { app, owner, useRetro } = data;
 
@@ -43,22 +44,18 @@ export const Pda = (props, context) => {
 
   let App = getPdaApp(app.template);
 
-  const [settingsMode, setSettingsMode] = useLocalState(
-    context,
-    'settingsMode',
-    false
-  );
+  const [settingsMode, setSettingsMode] = useState(false);
+
+  function handleSettingsMode(value) {
+    setSettingsMode(value);
+  }
 
   return (
-    <Window
-      width={580}
-      height={670}
-      theme={useRetro ? 'pda-retro' : null}
-      resizable>
+    <Window width={580} height={670} theme={useRetro ? 'pda-retro' : null}>
       <Window.Content scrollable>
         <PDAHeader
           settingsMode={settingsMode}
-          setSettingsMode={setSettingsMode}
+          onSettingsMode={handleSettingsMode}
         />
         {(settingsMode && <PDASettings />) || (
           <Section
@@ -68,21 +65,20 @@ export const Pda = (props, context) => {
                 {app.name}
               </Box>
             }
-            p={1}>
+            p={1}
+          >
             <App />
           </Section>
         )}
         <Box mb={8} />
-        <PDAFooter setSettingsMode={setSettingsMode} />
+        <PDAFooter onSettingsMode={handleSettingsMode} />
       </Window.Content>
     </Window>
   );
 };
 
-const PDAHeader = (props, context) => {
-  const { act, data } = useBackend(context);
-
-  const { settingsMode, setSettingsMode } = props;
+const PDAHeader = (props) => {
+  const { act, data } = useBackend();
 
   const { idInserted, idLink, cartridge_name, stationTime } = data;
 
@@ -95,8 +91,9 @@ const PDAHeader = (props, context) => {
               icon="eject"
               color="transparent"
               onClick={() => act('Authenticate')}
-              content={idLink}
-            />
+            >
+              {idLink}
+            </Button>
           </Flex.Item>
         )}
         <Flex.Item grow={1} textAlign="center" bold>
@@ -104,8 +101,8 @@ const PDAHeader = (props, context) => {
         </Flex.Item>
         <Flex.Item>
           <Button
-            selected={settingsMode}
-            onClick={() => setSettingsMode(!settingsMode)}
+            selected={props.settingsMode}
+            onClick={() => props.onSettingsMode(!props.settingsMode)}
             icon="cog"
           />
           <Button onClick={() => act('Retro')} icon="adjust" />
@@ -115,8 +112,8 @@ const PDAHeader = (props, context) => {
   );
 };
 
-const PDASettings = (props, context) => {
-  const { act, data } = useBackend(context);
+const PDASettings = (props) => {
+  const { act, data } = useBackend();
 
   const { idInserted, idLink, cartridge_name, touch_silent } = data;
 
@@ -124,36 +121,31 @@ const PDASettings = (props, context) => {
     <Section title="Settings">
       <LabeledList>
         <LabeledList.Item label="R.E.T.R.O Mode">
-          <Button
-            icon="cog"
-            content={'Retro Theme'}
-            onClick={() => act('Retro')}
-          />
+          <Button icon="cog" onClick={() => act('Retro')}>
+            Retro Theme
+          </Button>
         </LabeledList.Item>
         <LabeledList.Item label="Touch Sounds">
           <Button
             icon="cog"
             selected={!touch_silent}
-            content={touch_silent ? 'Disabled' : 'Enabled'}
             onClick={() => act('TouchSounds')}
-          />
+          >
+            {touch_silent ? 'Disabled' : 'Enabled'}
+          </Button>
         </LabeledList.Item>
         {!!cartridge_name && (
           <LabeledList.Item label="Cartridge">
-            <Button
-              icon="eject"
-              onClick={() => act('Eject')}
-              content={cartridge_name}
-            />
+            <Button icon="eject" onClick={() => act('Eject')}>
+              {cartridge_name}
+            </Button>
           </LabeledList.Item>
         )}
         {!!idInserted && (
           <LabeledList.Item label="ID Card">
-            <Button
-              icon="eject"
-              onClick={() => act('Authenticate')}
-              content={idLink}
-            />
+            <Button icon="eject" onClick={() => act('Authenticate')}>
+              {idLink}
+            </Button>
           </LabeledList.Item>
         )}
       </LabeledList>
@@ -161,10 +153,8 @@ const PDASettings = (props, context) => {
   );
 };
 
-const PDAFooter = (props, context) => {
-  const { act, data } = useBackend(context);
-
-  const { setSettingsMode } = props;
+const PDAFooter = (props) => {
+  const { act, data } = useBackend();
 
   const { app, useRetro } = data;
 
@@ -174,7 +164,8 @@ const PDAFooter = (props, context) => {
       bottom="0%"
       left="0%"
       right="0%"
-      backgroundColor={useRetro ? '#6f7961' : '#1b1b1b'}>
+      backgroundColor={useRetro ? '#6f7961' : '#1b1b1b'}
+    >
       <Flex>
         <Flex.Item basis="33%">
           <Button
@@ -198,7 +189,7 @@ const PDAFooter = (props, context) => {
             mb={0}
             fontSize={1.7}
             onClick={() => {
-              setSettingsMode(false);
+              props.onSettingsMode(false);
               act('Home');
             }}
           />

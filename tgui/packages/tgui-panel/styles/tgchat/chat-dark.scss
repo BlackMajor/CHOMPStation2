@@ -370,11 +370,18 @@ img.icon.bigicon {
 .say,
 .emote,
 .emotesubtle,
+.multizsay,
 .npcemote,
+.npcsay,
 .infoplain,
 .oocplain,
 .warningplain,
-.chatexport {
+.chatexport,
+.body {
+}
+
+.hivemind {
+  font-style: italic;
 }
 
 .nif {
@@ -395,6 +402,7 @@ img.icon.bigicon {
 }
 
 .binarysay {
+  font-style: italic;
   color: #1e90ff;
 }
 
@@ -662,8 +670,52 @@ img.icon.bigicon {
   color: #ff0000;
 }
 
+.crimson {
+  color: #dc143c;
+}
+
+.maroon {
+  color: #c60000;
+}
+
+.brown {
+  color: #db733b;
+}
+
 .blue {
-  color: #215cff;
+  color: #4173fd;
+}
+
+.black {
+  color: #ffffff;
+}
+
+.white {
+  color: #ffffff;
+}
+
+.darkgray {
+  color: #808080;
+}
+
+.gray {
+  color: #a9a9a9;
+}
+
+.yellow {
+  color: #ffcc00;
+}
+
+.pink {
+  color: #ffc0cb;
+}
+
+.cyan {
+  color: #00ffff;
+}
+
+.orange {
+  color: #ff8c00;
 }
 
 .nicegreen {
@@ -742,6 +794,14 @@ img.icon.bigicon {
 
 .purple {
   color: #9956d3;
+}
+
+.lightpurple {
+  color: #ad5aad;
+}
+
+.darkpink {
+  color: #e3209b;
 }
 
 .holoparasite {
@@ -833,7 +893,7 @@ img.icon.bigicon {
 }
 
 .interface {
-  color: #750e75;
+  color: #961196;
 }
 
 .sans {
@@ -1171,6 +1231,24 @@ $border-width-px: $border-width * 1px;
 
 .announcement_header {
   padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ooc_alert {
+  background: #4d4100;
+  border: 1px solid #cca300;
+  margin: 0.5em;
+  padding: 0.5em 0.5em 0.5em 0.2em;
+  color: #ffffff;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+}
+
+.ooc_announcement_text {
+  color: #cca300;
+  padding: 0.5em 0 0 0.35em;
   display: flex;
   flex-direction: column;
 }

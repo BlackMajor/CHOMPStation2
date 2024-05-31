@@ -1,9 +1,9 @@
 import { useBackend } from '../backend';
-import { Button, ProgressBar, LabeledList, Box, Section } from '../components';
+import { Box, Button, LabeledList, ProgressBar, Section } from '../components';
 import { Window } from '../layouts';
 
-export const AICard = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AICard = (props) => {
+  const { act, data } = useBackend();
 
   const {
     has_ai,
@@ -18,7 +18,7 @@ export const AICard = (props, context) => {
 
   if (has_ai === 0) {
     return (
-      <Window width={600} height={470} resizable>
+      <Window width={600} height={470}>
         <Window.Content>
           <Section title="Stored AI">
             <Box>
@@ -49,7 +49,7 @@ export const AICard = (props, context) => {
     }
 
     return (
-      <Window width={600} height={470} resizable>
+      <Window width={600} height={470}>
         <Window.Content scrollable>
           <Section title="Stored AI">
             <Box bold display="inline-block">
@@ -94,18 +94,20 @@ export const AICard = (props, context) => {
               <LabeledList.Item label="Wireless Activity">
                 <Button
                   icon={wireless ? 'check' : 'times'}
-                  content={wireless ? 'Enabled' : 'Disabled'}
                   color={wireless ? 'green' : 'red'}
                   onClick={() => act('wireless')}
-                />
+                >
+                  {wireless ? 'Enabled' : 'Disabled'}
+                </Button>
               </LabeledList.Item>
               <LabeledList.Item label="Subspace Transceiver">
                 <Button
                   icon={radio ? 'check' : 'times'}
-                  content={radio ? 'Enabled' : 'Disabled'}
                   color={radio ? 'green' : 'red'}
                   onClick={() => act('radio')}
-                />
+                >
+                  {radio ? 'Enabled' : 'Disabled'}
+                </Button>
               </LabeledList.Item>
               <LabeledList.Item label="AI Power">
                 <Button.Confirm
@@ -113,9 +115,10 @@ export const AICard = (props, context) => {
                   confirmIcon="radiation"
                   disabled={flushing || integrity === 0}
                   confirmColor="red"
-                  content="Shutdown"
                   onClick={() => act('wipe')}
-                />
+                >
+                  Shutdown
+                </Button.Confirm>
               </LabeledList.Item>
             </LabeledList>
           </Section>

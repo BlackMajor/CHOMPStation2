@@ -1,6 +1,6 @@
 /mob/living/carbon/human/proc/reconstitute_form() //Scree's race ability.in exchange for: No cloning.
 	set name = "Reconstitute Form"
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	// Sanity is mostly handled in chimera_regenerate()
 	if(stat == DEAD)
@@ -57,7 +57,7 @@
 			// Was dead, still dead.
 			else
 				to_chat(src, "<span class='notice'>Consciousness begins to stir as your new body awakens, ready to hatch.</span>")
-				verbs |= /mob/living/carbon/human/proc/hatch
+				add_verb(src,/mob/living/carbon/human/proc/hatch) //CHOMPEdit TGPanel
 				revive_ready = REVIVING_DONE
 				src << sound('sound/effects/mob_effects/xenochimera/hatch_notification.ogg',0,0,0,30)
 				clear_alert("regen")
@@ -79,7 +79,7 @@
 				to_chat(src, "<span class='notice'>Consciousness begins to stir as your new body awakens, ready to hatch..</span>")
 			else
 				to_chat(src, "<span class='warning'>Consciousness begins to stir as your battered body struggles to recover from its ordeal..</span>")
-			verbs |= /mob/living/carbon/human/proc/hatch
+			add_verb(src,/mob/living/carbon/human/proc/hatch) //CHOMPEdit TGPanel
 			revive_ready = REVIVING_DONE
 			src << sound('sound/effects/mob_effects/xenochimera/hatch_notification.ogg',0,0,0,30)
 			clear_alert("regen")
@@ -106,11 +106,11 @@
 
 /mob/living/carbon/human/proc/hatch()
 	set name = "Hatch"
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	if(revive_ready != REVIVING_DONE)
 		//Hwhat?
-		verbs -= /mob/living/carbon/human/proc/hatch
+		remove_verb(src,/mob/living/carbon/human/proc/hatch) //CHOMPEdit TGPanel
 		return
 
 	var/confirm = tgui_alert(usr, "Are you sure you want to hatch right now? This will be very obvious to anyone in view.", "Confirm Regeneration", list("Yes", "No"))
@@ -138,7 +138,7 @@
 			clear_alert("hatch")
 
 /mob/living/carbon/human/proc/chimera_hatch()
-	verbs -= /mob/living/carbon/human/proc/hatch
+	remove_verb(src,/mob/living/carbon/human/proc/hatch) //CHOMPEdit TGPanel
 	to_chat(src, "<span class='notice'>Your new body awakens, bursting free from your old skin.</span>")
 	//Modify and record values (half nutrition and braindamage)
 	var/old_nutrition = nutrition
@@ -387,7 +387,7 @@
 /mob/living/carbon/human/proc/bloodsuck()
 	set name = "Partially Drain prey of blood"
 	set desc = "Bites prey and drains them of a significant portion of blood, feeding you in the process. You may only do this once per minute."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 
 	if(stat || paralysis || stunned || weakened || lying || restrained() || buckled)
@@ -430,7 +430,7 @@
 		to_chat(src, "You cannot bite in your current state.")
 		return
 	if(B.vessel.total_volume <= 0 || B.isSynthetic()) //Do they have any blood in the first place, and are they synthetic?
-		to_chat(src, "<font color='red'>There appears to be no blood in this prey...</font>")
+		to_chat(src, span_red("There appears to be no blood in this prey..."))
 		return
 
 	last_special = world.time + 600
@@ -468,9 +468,9 @@
 
 
 	if(noise)
-		src.visible_message("<font color='red'><b>[src] moves their head next to [B]'s neck, seemingly looking for something!</b></font>")
+		src.visible_message(span_red("<b>[src] moves their head next to [B]'s neck, seemingly looking for something!</b>"))
 	else
-		src.visible_message("<font color='red'><i>[src] moves their head next to [B]'s neck, seemingly looking for something!</i></font>", range = 1)
+		src.visible_message(span_red("<i>[src] moves their head next to [B]'s neck, seemingly looking for something!</i>"), range = 1)
 
 	if(bleed) //Due to possibility of missing/misclick and missing the bleeding cues, we are warning the scene members of BLEEDING being on
 		to_chat(src, SPAN_WARNING("This is going to cause [B] to keep bleeding!"))
@@ -479,9 +479,9 @@
 	if(do_after(src, 300, B)) //Thrirty seconds.
 		if(!Adjacent(B)) return
 		if(noise)
-			src.visible_message("<font color='red'><b>[src] suddenly extends their fangs and plunges them down into [B]'s neck!</b></font>")
+			src.visible_message(span_red("<b>[src] suddenly extends their fangs and plunges them down into [B]'s neck!</b>"))
 		else
-			src.visible_message("<font color='red'><i>[src] suddenly extends their fangs and plunges them down into [B]'s neck!</i></font>", range = 1)
+			src.visible_message(span_red("<i>[src] suddenly extends their fangs and plunges them down into [B]'s neck!</i>"), range = 1)
 		if(bleed)
 			B.apply_damage(10, BRUTE, BP_HEAD, blocked = 0, soaked = 0, sharp = TRUE, edge = FALSE)
 			var/obj/item/organ/external/E = B.get_organ(BP_HEAD)
@@ -509,7 +509,7 @@
 /mob/living/carbon/human/proc/succubus_drain()
 	set name = "Drain prey of nutrition"
 	set desc = "Slowly drain prey of all the nutrition in their body, feeding you in the process. You may only do this to one person at a time."
-	set category = "Abilities"
+	set category = "Abilities.Succubus" //CHOMPEdit
 	if(!ishuman(src))
 		return //If you're not a human you don't have permission to do this.
 	var/mob/living/carbon/human/C = src
@@ -572,7 +572,7 @@
 /mob/living/carbon/human/proc/succubus_drain_lethal()
 	set name = "Lethally drain prey" //Provide a warning that THIS WILL KILL YOUR PREY.
 	set desc = "Slowly drain prey of all the nutrition in their body, feeding you in the process. Once prey run out of nutrition, you will begin to drain them lethally. You may only do this to one person at a time."
-	set category = "Abilities"
+	set category = "Abilities.Succubus" //CHOMPEdit
 	if(!ishuman(src))
 		return //If you're not a human you don't have permission to do this.
 
@@ -664,7 +664,7 @@
 /mob/living/carbon/human/proc/slime_feed()
 	set name = "Feed prey with self"
 	set desc = "Slowly feed prey with your body, draining you in the process. You may only do this to one person at a time."
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 	if(!ishuman(src))
 		return //If you're not a human you don't have permission to do this.
 	var/mob/living/carbon/human/C = src
@@ -725,7 +725,7 @@
 /mob/living/carbon/human/proc/succubus_drain_finalize()
 	set name = "Drain/Feed Finalization"
 	set desc = "Toggle to allow for draining to be prolonged. Turn this on to make it so prey will be knocked out/die while being drained, or you will feed yourself to the prey's selected stomach if you're feeding them. Can be toggled at any time."
-	set category = "Abilities"
+	set category = "Abilities.Succubus" //CHOMPEdit
 
 	var/mob/living/carbon/human/C = src
 	C.drain_finalized = !C.drain_finalized
@@ -817,7 +817,7 @@
 /mob/living/proc/shred_limb()
 	set name = "Damage/Remove Prey's Organ"
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 
 	//can_shred() will return a mob we can shred, if we can shred any.
 	var/mob/living/carbon/human/T = can_shred()
@@ -893,13 +893,13 @@
 /mob/living/proc/shred_limb_temp()
 	set name = "Damage/Remove Prey's Organ (beartrap)"
 	set desc = "Severely damages prey's organ. If the limb is already severely damaged, it will be torn off."
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 	shred_limb()
 
 /mob/living/proc/flying_toggle()
 	set name = "Toggle Flight"
 	set desc = "While flying over open spaces, you will use up some nutrition. If you run out nutrition, you will fall."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	var/mob/living/carbon/human/C = src
 	if(!C.wing_style) //The species var isn't taken into account here, as it's only purpose is to give this proc to a person.
@@ -922,7 +922,7 @@
 /mob/living/proc/flying_vore_toggle()
 	set name = "Toggle Flight Vore"
 	set desc = "Allows you to engage in voracious misadventures while flying."
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 
 	flight_vore = !flight_vore
 	if(flight_vore)
@@ -934,7 +934,7 @@
 /mob/living/proc/start_wings_hovering()
 	set name = "Hover"
 	set desc = "Allows you to stop gliding and hover. This will take a fair amount of nutrition to perform."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	var/mob/living/carbon/human/C = src
 	if(!C.wing_style) //The species var isn't taken into account here, as it's only purpose is to give this proc to a person.
@@ -966,13 +966,13 @@
 /mob/living/proc/toggle_pass_table()
 	set name = "Toggle Agility" //Dunno a better name for this. You have to be pretty agile to hop over stuff!!!
 	set desc = "Allows you to start/stop hopping over things such as hydroponics trays, tables, and railings."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 	pass_flags ^= PASSTABLE //I dunno what this fancy ^= is but Aronai gave it to me.
 	to_chat(src, "You [pass_flags&PASSTABLE ? "will" : "will NOT"] move over tables/railings/trays!")
 
 /mob/living/carbon/human/proc/check_silk_amount()
 	set name = "Check Silk Amount"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 
 	if(species.is_weaver)
 		to_chat(src, "Your silk reserves are at [species.silk_reserve]/[species.silk_max_reserve].")
@@ -981,7 +981,7 @@
 
 /mob/living/carbon/human/proc/toggle_silk_production()
 	set name = "Toggle Silk Production"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 
 	if(species.is_weaver)
 		species.silk_production = !(species.silk_production)
@@ -991,7 +991,7 @@
 
 /mob/living/carbon/human/proc/weave_structure()
 	set name = "Weave Structure"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 
 	if(!(species.is_weaver))
 		to_chat(src, "<span class='warning'>You are not a weaver! How are you doing this? Tell a developer!</span>")
@@ -1051,7 +1051,7 @@
 
 /mob/living/carbon/human/proc/weave_item()
 	set name = "Weave Item"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 
 	if(!(species.is_weaver))
 		return
@@ -1105,7 +1105,7 @@
 
 /mob/living/carbon/human/proc/set_silk_color()
 	set name = "Set Silk Color"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 
 	if(!(species.is_weaver))
 		to_chat(src, "<span class='warning'>You are not a weaver! How are you doing this? Tell a developer!</span>")
@@ -1117,7 +1117,7 @@
 
 /mob/living/carbon/human/proc/toggle_eye_glow()
 	set name = "Toggle Eye Glowing"
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	species.has_glowing_eyes = !species.has_glowing_eyes
 	update_eyes()
@@ -1127,7 +1127,7 @@
 
 /mob/living/carbon/human/proc/enter_cocoon()
 	set name = "Spin Cocoon"
-	set category = "Abilities"
+	set category = "Abilities.Weaver" //CHOMPEdit
 	if(!isturf(loc))
 		to_chat(src, "You don't have enough space to spin a cocoon!")
 		return
@@ -1152,7 +1152,7 @@
 /mob/living/carbon/human/proc/water_stealth()
 	set name = "Dive under water / Resurface"
 	set desc = "Dive under water, allowing for you to be stealthy and move faster."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	if(last_special > world.time)
 		return
@@ -1184,7 +1184,7 @@
 /mob/living/carbon/human/proc/underwater_devour()
 	set name = "Devour From Water"
 	set desc = "Grab something in the water with you and devour them with your selected stomach."
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 
 	if(last_special > world.time)
 		return
@@ -1232,15 +1232,15 @@
 			return
 		if(target.buckled) //how are you buckled in the water?!
 			target.buckled.unbuckle_mob()
-		target.visible_message("<span class='warning'>\The [target] suddenly disappears, being dragged into the water!</span>",\
-			"<span class='danger'>You are dragged below the water and feel yourself slipping directly into \the [src]'s [lowertext(vore_selected)]!</span>")
-		to_chat(src, "<span class='notice'>You successfully drag \the [target] into the water, slipping them into your [lowertext(vore_selected)].</span>")
+		target.visible_message("<span class='vwarning'>\The [target] suddenly disappears, being dragged into the water!</span>",\
+			"<span class='vdanger'>You are dragged below the water and feel yourself slipping directly into \the [src]'s [lowertext(vore_selected)]!</span>")
+		to_chat(src, "<span class='vnotice'>You successfully drag \the [target] into the water, slipping them into your [lowertext(vore_selected)].</span>")
 		target.forceMove(src.vore_selected)
 
 /mob/living/carbon/human/proc/toggle_pain_module()
 	set name = "Toggle pain simulation."
 	set desc = "Turn on your pain simulation for that organic experience! Or turn it off for repairs, or if it's too much."
-	set category = "Abilities"
+	set category = "Abilities.General" //CHOMPEdit
 
 	if(synth_cosmetic_pain)
 		to_chat(src, "<span class='notice'> You turn off your pain simulators.</span>")
@@ -1255,7 +1255,7 @@
 
 /mob/living/proc/long_vore() // Allows the user to tongue grab a creature in range. Made a /living proc so frogs can frog you.
 	set name = "Grab Prey With Appendage"
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 	set desc = "Grab a target with any of your appendages!"
 
 	if(stat || paralysis || weakened || stunned || world.time < last_special) //No tongue flicking while stunned.
@@ -1309,8 +1309,8 @@
 			to_chat(src, "<span class='warning'>You need to be closer to do that.</span>")
 			return
 
-		visible_message("<span class='notice'>\The [src] attempts to snatch up [target]!</span>", \
-						"<span class='notice'>You attempt to snatch up [target]!</span>" )
+		visible_message("<span class='vnotice'>\The [src] attempts to snatch up [target]!</span>", \
+						"<span class='vnotice'>You attempt to snatch up [target]!</span>" )
 		playsound(src, 'sound/vore/sunesound/pred/schlorp.ogg', 25)
 
 		//Code to shoot the beam here.
@@ -1464,7 +1464,7 @@
 
 /mob/living/proc/target_lunge() //The leaper leap, but usable as an ability
 	set name = "Lunge At Prey"
-	set category = "Abilities"
+	set category = "Abilities.Vore" //CHOMPEdit
 	set desc = "Dive atop your prey and gobble them up!"
 
 	var/leap_warmup = 1 SECOND //Easy to modify

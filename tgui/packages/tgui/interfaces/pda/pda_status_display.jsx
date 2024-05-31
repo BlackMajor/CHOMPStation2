@@ -1,8 +1,8 @@
 import { useBackend } from '../../backend';
 import { Box, Button, LabeledList } from '../../components';
 
-export const pda_status_display = (props, context) => {
-  const { act, data } = useBackend(context);
+export const pda_status_display = (props) => {
+  const { act, data } = useBackend();
 
   const { records } = data;
 
@@ -13,41 +13,47 @@ export const pda_status_display = (props, context) => {
           <Button
             color="transparent"
             icon="trash"
-            content="Clear"
             onClick={() => act('Status', { statdisp: 'blank' })}
-          />
+          >
+            Clear
+          </Button>
           <Button
             color="transparent"
             icon="cog"
-            content="Evac ETA"
             onClick={() => act('Status', { statdisp: 'shuttle' })}
-          />
+          >
+            Evac ETA
+          </Button>
           <Button
             color="transparent"
             icon="cog"
-            content="Message"
             onClick={() => act('Status', { statdisp: 'message' })}
-          />
+          >
+            Message
+          </Button>
           <Button
             color="transparent"
             icon="exclamation-triangle"
-            content="ALERT"
             onClick={() => act('Status', { statdisp: 'alert' })}
-          />
+          >
+            ALERT
+          </Button>
         </LabeledList.Item>
         <LabeledList.Item label="Message line 1">
           <Button
-            content={records.message1 + ' (set)'}
             icon="pen"
             onClick={() => act('Status', { statdisp: 'setmsg1' })}
-          />
+          >
+            {records.message1 + ' (set)'}
+          </Button>
         </LabeledList.Item>
         <LabeledList.Item label="Message line 2">
           <Button
-            content={records.message2 + ' (set)'}
             icon="pen"
             onClick={() => act('Status', { statdisp: 'setmsg2' })}
-          />
+          >
+            {records.message2 + ' (set)'}
+          </Button>
         </LabeledList.Item>
       </LabeledList>
     </Box>

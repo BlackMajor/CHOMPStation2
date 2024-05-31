@@ -1,15 +1,14 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
-import { Box, Button, LabeledList, Section, Dropdown } from '../components';
+import { Box, Button, Dropdown, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const DroneConsole = (props, context) => {
-  const { act, data } = useBackend(context);
+export const DroneConsole = (props) => {
+  const { act, data } = useBackend();
 
   const { drones, areas, selected_area, fabricator, fabPower } = data;
 
   return (
-    <Window width={600} height={350} resizable>
+    <Window width={600} height={350}>
       <Window.Content scrollable>
         <Section
           title="Drone Fabricator"
@@ -18,18 +17,18 @@ export const DroneConsole = (props, context) => {
               disabled={!fabricator}
               selected={fabPower}
               icon="power-off"
-              content={fabPower ? 'Enabled' : 'Disabled'}
               onClick={() => act('toggle_fab')}
-            />
-          }>
+            >
+              {fabPower ? 'Enabled' : 'Disabled'}
+            </Button>
+          }
+        >
           {!fabricator ? (
             <Box color="bad">
               Fabricator not detected.
-              <Button
-                icon="sync"
-                content="Search for Fabricator"
-                onClick={() => act('search_fab')}
-              />
+              <Button icon="sync" onClick={() => act('search_fab')}>
+                Search for Fabricator
+              </Button>
             </Box>
           ) : (
             <Box color="good">Linked.</Box>
@@ -42,11 +41,9 @@ export const DroneConsole = (props, context) => {
             width="100%"
             onSelected={(val) => act('set_dcall_area', { area: val })}
           />
-          <Button
-            icon="share-square"
-            content="Send Ping"
-            onClick={() => act('ping')}
-          />
+          <Button icon="share-square" onClick={() => act('ping')}>
+            Send Ping
+          </Button>
         </Section>
         <Section title="Maintenance Units">
           {drones && drones.length ? (
@@ -56,20 +53,23 @@ export const DroneConsole = (props, context) => {
                   key={drone.name}
                   label={drone.name}
                   buttons={
-                    <Fragment>
+                    <>
                       <Button
                         icon="sync"
-                        content="Resync"
                         onClick={() => act('resync', { ref: drone.ref })}
-                      />
+                      >
+                        Resync
+                      </Button>
                       <Button.Confirm
                         icon="exclamation-triangle"
                         color="red"
-                        content="Shutdown"
                         onClick={() => act('shutdown', { ref: drone.ref })}
-                      />
-                    </Fragment>
-                  }>
+                      >
+                        Shutdown
+                      </Button.Confirm>
+                    </>
+                  }
+                >
                   <LabeledList>
                     <LabeledList.Item label="Location">
                       {drone.loc}

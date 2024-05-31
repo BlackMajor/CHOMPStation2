@@ -1,12 +1,13 @@
 import { map } from 'common/collections';
+
 import { useBackend } from '../backend';
-import { Button, Box, NoticeBox, Section, Table } from '../components';
+import { Box, Button, NoticeBox, Section, Table } from '../components';
 import { Window } from '../layouts';
 
-export const SmartVend = (props, context) => {
-  const { act, config, data } = useBackend(context);
+export const SmartVend = (props) => {
+  const { act, config, data } = useBackend();
   return (
-    <Window width={500} height={550} resizable>
+    <Window width={500} height={550}>
       <Window.Content scrollable>
         <Section title="Storage">
           {(data.secure && (
@@ -43,7 +44,6 @@ export const SmartVend = (props, context) => {
                   </Table.Cell>
                   <Table.Cell collapsing>
                     <Button
-                      content="1"
                       disabled={value.amount < 1}
                       onClick={() =>
                         act('Release', {
@@ -51,9 +51,10 @@ export const SmartVend = (props, context) => {
                           amount: 1,
                         })
                       }
-                    />
+                    >
+                      1
+                    </Button>
                     <Button
-                      content="5"
                       disabled={value.amount < 5}
                       onClick={() =>
                         act('Release', {
@@ -61,9 +62,10 @@ export const SmartVend = (props, context) => {
                           amount: 5,
                         })
                       }
-                    />
+                    >
+                      5
+                    </Button>
                     <Button
-                      content="25"
                       disabled={value.amount < 25}
                       onClick={() =>
                         act('Release', {
@@ -71,9 +73,10 @@ export const SmartVend = (props, context) => {
                           amount: 25,
                         })
                       }
-                    />
+                    >
+                      25
+                    </Button>
                     <Button
-                      content="50"
                       disabled={value.amount < 50}
                       onClick={() =>
                         act('Release', {
@@ -81,18 +84,20 @@ export const SmartVend = (props, context) => {
                           amount: 50,
                         })
                       }
-                    />
+                    >
+                      50
+                    </Button>
                     <Button
-                      content="Custom"
                       disabled={value.amount < 1}
                       onClick={() =>
                         act('Release', {
                           index: value.index,
                         })
                       }
-                    />
+                    >
+                      Custom
+                    </Button>
                     <Button
-                      content="All"
                       disabled={value.amount < 1}
                       onClick={() =>
                         act('Release', {
@@ -100,7 +105,9 @@ export const SmartVend = (props, context) => {
                           amount: value.amount,
                         })
                       }
-                    />
+                    >
+                      All
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               ))(data.contents)}

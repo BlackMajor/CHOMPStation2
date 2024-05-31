@@ -1,9 +1,17 @@
 import { useBackend, useSharedState } from '../backend';
-import { Box, Button, LabeledList, Input, Section, Table, Tabs } from '../components';
+import {
+  Box,
+  Button,
+  Input,
+  LabeledList,
+  Section,
+  Table,
+  Tabs,
+} from '../components';
 import { Window } from '../layouts';
 
-export const AccountsTerminal = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AccountsTerminal = (props) => {
+  const { act, data } = useBackend();
 
   const { id_inserted, id_card, access_level, machine_id } = data;
 
@@ -19,9 +27,10 @@ export const AccountsTerminal = (props, context) => {
               <Button
                 icon={id_inserted ? 'eject' : 'sign-in-alt'}
                 fluid
-                content={id_card}
                 onClick={() => act('insert_card')}
-              />
+              >
+                {id_card}
+              </Button>
             </LabeledList.Item>
           </LabeledList>
         </Section>
@@ -31,8 +40,8 @@ export const AccountsTerminal = (props, context) => {
   );
 };
 
-const AccountTerminalContent = (props, context) => {
-  const { act, data } = useBackend(context);
+const AccountTerminalContent = (props) => {
+  const { act, data } = useBackend();
 
   const { creating_new_account, detailed_account_view } = data;
 
@@ -42,21 +51,28 @@ const AccountTerminalContent = (props, context) => {
         <Tabs.Tab
           selected={!creating_new_account && !detailed_account_view}
           icon="home"
-          onClick={() => act('view_accounts_list')}>
+          onClick={() => act('view_accounts_list')}
+        >
           Home
         </Tabs.Tab>
         <Tabs.Tab
           selected={creating_new_account}
           icon="cog"
-          onClick={() => act('create_account')}>
+          onClick={() => act('create_account')}
+        >
           New Account
         </Tabs.Tab>
-        <Tabs.Tab
-          disabled={creating_new_account}
-          icon="print"
-          onClick={() => act('print')}>
-          Print
-        </Tabs.Tab>
+        {!creating_new_account ? (
+          <Tabs.Tab
+            disabled={creating_new_account}
+            icon="print"
+            onClick={() => act('print')}
+          >
+            Print
+          </Tabs.Tab>
+        ) : (
+          ''
+        )}
       </Tabs>
       {(creating_new_account && <NewAccountView />) ||
         (detailed_account_view && <DetailedView />) || <ListView />}
@@ -64,11 +80,11 @@ const AccountTerminalContent = (props, context) => {
   );
 };
 
-const NewAccountView = (props, context) => {
-  const { act } = useBackend(context);
+const NewAccountView = (props) => {
+  const { act } = useBackend();
 
-  const [holder, setHolder] = useSharedState(context, 'holder', '');
-  const [newMoney, setMoney] = useSharedState(context, 'money', '');
+  const [holder, setHolder] = useSharedState('holder', '');
+  const [newMoney, setMoney] = useSharedState('money', '');
 
   return (
     <Section title="Create Account" level={2}>
@@ -91,14 +107,15 @@ const NewAccountView = (props, context) => {
             starting_funds: newMoney,
           })
         }
-        content="Create"
-      />
+      >
+        Create
+      </Button>
     </Section>
   );
 };
 
-const DetailedView = (props, context) => {
-  const { act, data } = useBackend(context);
+const DetailedView = (props) => {
+  const { act, data } = useBackend();
 
   const {
     access_level,
@@ -118,10 +135,12 @@ const DetailedView = (props, context) => {
         <Button
           icon="ban"
           selected={suspended}
-          content="Suspend"
           onClick={() => act('toggle_suspension')}
-        />
-      }>
+        >
+          Suspend
+        </Button>
+      }
+    >
       <LabeledList>
         <LabeledList.Item label="Account Number">
           #{account_number}
@@ -140,26 +159,23 @@ const DetailedView = (props, context) => {
               fluid
               icon="ban"
               confirmIcon="ban"
-              content="Revoke"
               confirmContent="This cannot be undone."
               disabled={account_number === station_account_number}
               onClick={() => act('revoke_payroll')}
-            />
+            >
+              Revoke
+            </Button.Confirm>
           </LabeledList.Item>
         </LabeledList>
       </Section>
       {access_level >= 2 && (
         <Section title="Silent Funds Transfer" level={2}>
-          <Button
-            icon="plus"
-            onClick={() => act('add_funds')}
-            content="Add Funds"
-          />
-          <Button
-            icon="plus"
-            onClick={() => act('remove_funds')}
-            content="Remove Funds"
-          />
+          <Button icon="plus" onClick={() => act('add_funds')}>
+            Add Funds
+          </Button>
+          <Button icon="plus" onClick={() => act('remove_funds')}>
+            Remove Funds
+          </Button>
         </Section>
       )}
       <Section title="Transactions" level={2} mt={1}>
@@ -188,8 +204,8 @@ const DetailedView = (props, context) => {
   );
 };
 
-const ListView = (props, context) => {
-  const { act, data } = useBackend(context);
+const ListView = (props) => {
+  const { act, data } = useBackend();
 
   const { accounts } = data;
 
@@ -201,16 +217,18 @@ const ListView = (props, context) => {
             <LabeledList.Item
               label={acc.owner_name + acc.suspended}
               color={acc.suspended ? 'bad' : null}
-              key={acc.account_index}>
+              key={acc.account_index}
+            >
               <Button
                 fluid
-                content={'#' + acc.account_number}
                 onClick={() =>
                   act('view_account_detail', {
-                    'account_index': acc.account_index,
+                    account_index: acc.account_index,
                   })
                 }
-              />
+              >
+                {'#' + acc.account_number}
+              </Button>
             </LabeledList.Item>
           ))}
         </LabeledList>

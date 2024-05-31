@@ -24,10 +24,9 @@ import { FullscreenNotice } from './FullscreenNotice';
  * The normal login button is only available when `scan` is not null.
  * The AI and robot login buttons are only visible if the user is one
  * @param {object} _properties
- * @param {object} context
  */
-export const LoginScreen = (_properties, context) => {
-  const { act, data } = useBackend(context);
+export const LoginScreen = (_properties) => {
+  const { act, data } = useBackend();
   const { scan, isAI, isRobot } = data;
   const { machineType } = _properties;
   return (
@@ -38,45 +37,45 @@ export const LoginScreen = (_properties, context) => {
       </Box>
       <Box color="label" my="1rem">
         ID:
-        <Button
-          icon="id-card"
-          content={scan ? scan : '----------'}
-          ml="0.5rem"
-          onClick={() => act('scan')}
-        />
+        <Button icon="id-card" ml="0.5rem" onClick={() => act('scan')}>
+          {scan ? scan : '----------'}
+        </Button>
       </Box>
       <Button
         icon="sign-in-alt"
         disabled={!scan}
-        content="Login"
         onClick={() =>
           act('login', {
             login_type: 1,
           })
         }
-      />
+      >
+        Login
+      </Button>
 
       {!!isAI && (
         <Button
           icon="sign-in-alt"
-          content="Login as AI"
           onClick={() =>
             act('login', {
               login_type: 2,
             })
           }
-        />
+        >
+          Login as AI
+        </Button>
       )}
       {!!isRobot && (
         <Button
           icon="sign-in-alt"
-          content="Login as Cyborg"
           onClick={() =>
             act('login', {
               login_type: 3,
             })
           }
-        />
+        >
+          Login as Cyborg
+        </Button>
       )}
       <Box>
         <SpecialMachineInteraction specialType={machineType} />
@@ -91,8 +90,8 @@ export const LoginScreen = (_properties, context) => {
  * specialType definitions are defined in LoginScreen.js SpecialMachineInteraction
  * currently supported: "Fax"
  */
-export const SpecialMachineInteraction = (_properties, context) => {
-  const { act } = useBackend(context);
+export const SpecialMachineInteraction = (_properties) => {
+  const { act } = useBackend();
   const { specialType } = _properties;
   if (!specialType) {
     return null;
@@ -100,7 +99,6 @@ export const SpecialMachineInteraction = (_properties, context) => {
     return (
       <Button
         position="relative"
-        content="Send Automated Fax Request"
         bottom="152px"
         left="188px"
         icon="share-square"
@@ -108,7 +106,9 @@ export const SpecialMachineInteraction = (_properties, context) => {
         tooltip={
           "Automated Fax Requests do not require staff to post on discord, but won't ping the related roles."
         }
-      />
+      >
+        Send Automated Fax Request
+      </Button>
     );
   }
 };

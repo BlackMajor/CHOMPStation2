@@ -1,17 +1,17 @@
 import { useBackend } from '../backend';
-import { Window } from '../layouts';
 import { Button, Section, Table } from '../components';
+import { Window } from '../layouts';
 
-export const ShutoffMonitor = (props, context) => (
-  <Window width={627} height={700} resizable>
+export const ShutoffMonitor = (props) => (
+  <Window width={627} height={700}>
     <Window.Content>
       <ShutoffMonitorContent />
     </Window.Content>
   </Window>
 );
 
-export const ShutoffMonitorContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const ShutoffMonitorContent = (props) => {
+  const { act, data } = useBackend();
 
   const { valves } = data;
 
@@ -36,7 +36,6 @@ export const ShutoffMonitorContent = (props, context) => {
             <Table.Cell>
               <Button
                 icon="power-off"
-                content={valve.open ? 'Opened' : 'Closed'}
                 selected={valve.open}
                 disabled={!valve.enabled}
                 onClick={() =>
@@ -44,17 +43,20 @@ export const ShutoffMonitorContent = (props, context) => {
                     valve: valve.ref,
                   })
                 }
-              />
+              >
+                {valve.open ? 'Opened' : 'Closed'}
+              </Button>
               <Button
                 icon="power-off"
-                content={valve.enabled ? 'Auto' : 'Manual'}
                 selected={valve.enabled}
                 onClick={() =>
                   act('toggle_enable', {
                     valve: valve.ref,
                   })
                 }
-              />
+              >
+                {valve.enabled ? 'Auto' : 'Manual'}
+              </Button>
             </Table.Cell>
           </Table.Row>
         ))}

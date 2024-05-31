@@ -7,7 +7,7 @@ var/savefile/Banlistjob
 	var/id = clientvar.computer_id
 	var/key = clientvar.ckey
 	if (guest_jobbans(rank))
-		if(config.guest_jobban && IsGuestKey(key))
+		if(CONFIG_GET(flag/guest_jobban) && IsGuestKey(key)) // CHOMPEdit
 			return 1
 	Banlistjob.cd = "/base"
 	if (Banlistjob.dir.Find("[key][id][rank]"))
@@ -141,7 +141,7 @@ var/savefile/Banlistjob
 
 	Banlistjob.cd = "/base"
 	if ( Banlistjob.dir.Find("[ckey][computerid][rank]") )
-		to_chat(usr,"<font color='red'>Banjob already exists.</font>")
+		to_chat(usr, span_red("Banjob already exists."))
 		return 0
 	else
 		Banlistjob.dir.Add("[ckey][computerid][rank]")

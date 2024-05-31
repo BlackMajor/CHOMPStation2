@@ -4,10 +4,10 @@ import { Box, Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
 const State = {
-  'open': 'Open',
-  'resolved': 'Resolved',
-  'closed': 'Closed',
-  'unknown': 'Unknown',
+  open: 'Open',
+  resolved: 'Resolved',
+  closed: 'Closed',
+  unknown: 'Unknown',
 };
 
 type Data = {
@@ -23,8 +23,8 @@ type Data = {
   log: string[];
 };
 
-export const AdminTicketPanel = (props, context) => {
-  const { act, data } = useBackend<Data>(context);
+export const AdminTicketPanel = (props) => {
+  const { act, data } = useBackend<Data>();
   const {
     id,
     title,
@@ -44,14 +44,13 @@ export const AdminTicketPanel = (props, context) => {
           title={'Ticket #' + id}
           buttons={
             <Box nowrap>
-              <Button
-                icon="pen"
-                content="Rename Ticket"
-                onClick={() => act('retitle')}
-              />{' '}
-              <Button content="Legacy UI" onClick={() => act('legacy')} />
+              <Button icon="pen" onClick={() => act('retitle')}>
+                Rename Ticket
+              </Button>
+              <Button onClick={() => act('legacy')}>Legacy UI</Button>
             </Box>
-          }>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Admin Help Ticket">
               #{id}: <div dangerouslySetInnerHTML={{ __html: name }} />
@@ -66,15 +65,15 @@ export const AdminTicketPanel = (props, context) => {
               <LabeledList.Item label="Closed At">
                 {closed_at_date} ({Math.round((closed_at / 600) * 10) / 10}{' '}
                 minutes ago.){' '}
-                <Button content="Reopen" onClick={() => act('reopen')} />
+                <Button onClick={() => act('reopen')}>Reopen</Button>
               </LabeledList.Item>
             )}
             <LabeledList.Item label="Actions">
               <div dangerouslySetInnerHTML={{ __html: actions }} />
             </LabeledList.Item>
             <LabeledList.Item label="Log">
-              {Object.keys(log).map((L) => (
-                <div dangerouslySetInnerHTML={{ __html: log[L] }} />
+              {Object.keys(log).map((L, i) => (
+                <div key={i} dangerouslySetInnerHTML={{ __html: log[L] }} />
               ))}
             </LabeledList.Item>
           </LabeledList>

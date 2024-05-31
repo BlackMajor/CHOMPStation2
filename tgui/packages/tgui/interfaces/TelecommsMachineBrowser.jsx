@@ -1,20 +1,20 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
-import { Box, Button, NoticeBox, LabeledList, Section } from '../components';
+import { Box, Button, LabeledList, NoticeBox, Section } from '../components';
 import { Window } from '../layouts';
 
-export const TelecommsMachineBrowser = (props, context) => {
-  const { act, data } = useBackend(context);
+export const TelecommsMachineBrowser = (props) => {
+  const { act, data } = useBackend();
 
   const { network, temp, machinelist, selectedMachine } = data;
 
   return (
-    <Window width={575} height={450} resizable>
+    <Window width={575} height={450}>
       <Window.Content scrollable>
         {temp ? (
           <NoticeBox
             danger={temp.color === 'bad'}
-            warning={temp.color !== 'bad'}>
+            warning={temp.color !== 'bad'}
+          >
             <Box display="inline-box" verticalAlign="middle">
               {temp.text}
             </Box>
@@ -31,26 +31,24 @@ export const TelecommsMachineBrowser = (props, context) => {
             <LabeledList.Item
               label="Current Network"
               buttons={
-                <Fragment>
-                  <Button
-                    icon="search"
-                    content="Probe Network"
-                    onClick={() => act('scan')}
-                  />
+                <>
+                  <Button icon="search" onClick={() => act('scan')}>
+                    Probe Network
+                  </Button>
                   <Button
                     color="bad"
                     icon="exclamation-triangle"
-                    content="Flush Buffer"
                     disabled={machinelist.length === 0}
                     onClick={() => act('release')}
-                  />
-                </Fragment>
-              }>
-              <Button
-                content={network}
-                icon="pen"
-                onClick={() => act('network')}
-              />
+                  >
+                    Flush Buffer
+                  </Button>
+                </>
+              }
+            >
+              <Button icon="pen" onClick={() => act('network')}>
+                {network}
+              </Button>
             </LabeledList.Item>
           </LabeledList>
         </Section>
@@ -66,11 +64,9 @@ export const TelecommsMachineBrowser = (props, context) => {
           />
         ) : (
           <Section title="No Devices Found">
-            <Button
-              icon="search"
-              content="Probe Network"
-              onClick={() => act('scan')}
-            />
+            <Button icon="search" onClick={() => act('scan')}>
+              Probe Network
+            </Button>
           </Section>
         )}
       </Window.Content>
@@ -78,8 +74,8 @@ export const TelecommsMachineBrowser = (props, context) => {
   );
 };
 
-const TelecommsBrowser = (props, context) => {
-  const { act, data } = useBackend(context);
+const TelecommsBrowser = (props) => {
+  const { act, data } = useBackend();
 
   const { list, title, showBack } = props;
 
@@ -88,13 +84,12 @@ const TelecommsBrowser = (props, context) => {
       title={title}
       buttons={
         showBack && (
-          <Button
-            icon="undo"
-            content="Back to Main Menu"
-            onClick={() => act('mainmenu')}
-          />
+          <Button icon="undo" onClick={() => act('mainmenu')}>
+            Back to Main Menu
+          </Button>
         )
-      }>
+      }
+    >
       <Box color="label">
         <u>Linked entities</u>
       </Box>
@@ -103,12 +98,14 @@ const TelecommsBrowser = (props, context) => {
           list.map((machine) => (
             <LabeledList.Item
               key={machine.id}
-              label={machine.name + ' (' + machine.id + ')'}>
+              label={machine.name + ' (' + machine.id + ')'}
+            >
               <Button
-                content="View"
                 icon="eye"
                 onClick={() => act('view', { id: machine.id })}
-              />
+              >
+                View
+              </Button>
             </LabeledList.Item>
           ))
         ) : (

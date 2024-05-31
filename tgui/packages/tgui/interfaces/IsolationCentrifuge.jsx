@@ -1,10 +1,9 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
 import { Box, Button, Flex, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const IsolationCentrifuge = (props, context) => {
-  const { act, data } = useBackend(context);
+export const IsolationCentrifuge = (props) => {
+  const { act, data } = useBackend();
 
   const { busy, antibodies, pathogens, is_antibody_sample, sample_inserted } =
     data;
@@ -18,7 +17,7 @@ export const IsolationCentrifuge = (props, context) => {
       );
     } else {
       blood_sample = (
-        <Fragment>
+        <>
           {antibodies ? (
             <Section title="Antibodies">{antibodies}</Section>
           ) : null}
@@ -33,7 +32,7 @@ export const IsolationCentrifuge = (props, context) => {
               </LabeledList>
             </Section>
           ) : null}
-        </Fragment>
+        </>
       );
     }
   }
@@ -48,27 +47,30 @@ export const IsolationCentrifuge = (props, context) => {
             </center>
           </Section>
         ) : (
-          <Fragment>
+          <>
             <Section
-              title={is_antibody_sample ? 'Antibody Sample' : 'Blood Sample'}>
+              title={is_antibody_sample ? 'Antibody Sample' : 'Blood Sample'}
+            >
               <Flex spacing={1} mb={1}>
                 <Flex.Item grow={1}>
                   <Button
                     fluid
                     icon="print"
-                    content="Print"
                     disabled={!antibodies && !pathogens.length}
                     onClick={() => act('print')}
-                  />
+                  >
+                    Print
+                  </Button>
                 </Flex.Item>
                 <Flex.Item grow={1}>
                   <Button
                     fluid
                     icon="eject"
-                    content="Eject Vial"
                     disabled={!sample_inserted}
                     onClick={() => act('sample')}
-                  />
+                  >
+                    Eject Vial
+                  </Button>
                 </Flex.Item>
               </Flex>
               {blood_sample}
@@ -78,11 +80,9 @@ export const IsolationCentrifuge = (props, context) => {
                 <LabeledList>
                   {antibodies && !is_antibody_sample ? (
                     <LabeledList.Item label="Isolate Antibodies">
-                      <Button
-                        icon="pen"
-                        content={antibodies}
-                        onClick={() => act('antibody')}
-                      />
+                      <Button icon="pen" onClick={() => act('antibody')}>
+                        {antibodies}
+                      </Button>
                     </LabeledList.Item>
                   ) : null}
                   {pathogens.length ? (
@@ -91,18 +91,19 @@ export const IsolationCentrifuge = (props, context) => {
                         <Button
                           key={virus.name}
                           icon="pen"
-                          content={virus.name}
                           onClick={() =>
                             act('isolate', { isolate: virus.reference })
                           }
-                        />
+                        >
+                          {virus.name}
+                        </Button>
                       ))}
                     </LabeledList.Item>
                   ) : null}
                 </LabeledList>
               </Section>
             ) : null}
-          </Fragment>
+          </>
         )}
       </Window.Content>
     </Window>

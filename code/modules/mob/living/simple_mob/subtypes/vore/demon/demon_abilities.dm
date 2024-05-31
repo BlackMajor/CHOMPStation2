@@ -1,7 +1,7 @@
 /mob/living/simple_mob/vore/demon/verb/blood_crawl()
 	set name = "Bloodcrawl"
 	set desc = "Shift out of reality using blood as your gateway"
-	set category = "Abilities"
+	set category = "Abilities.Demon" //CHOMPEdit
 
 	var/turf/T = get_turf(src)
 	if(!T.CanPass(src,T) || loc != T)
@@ -61,7 +61,7 @@
 				var/mob/living/target = pick(potentials)
 				if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
 					target.forceMove(vore_selected)
-					to_chat(target,"<span class='warning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
+					to_chat(target,"<span class='vwarning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
 
 		// Do this after the potential vore, so we get the belly
 		update_icon()
@@ -112,7 +112,7 @@
 /mob/living/simple_mob/vore/demon/verb/phase_shift()
 	set name = "Phase Shift"
 	set desc = "Shift out of reality temporarily"
-	set category = "Abilities"
+	set category = "Abilities.Demon" //CHOMPEdit
 
 
 	var/turf/T = get_turf(src)
@@ -205,7 +205,7 @@
 				var/mob/living/target = pick(potentials)
 				if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
 					target.forceMove(vore_selected)
-					to_chat(target,"<span class='warning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
+					to_chat(target,"<span class='vwarning'>\The [src] phases in around you, [vore_selected.vore_verb]ing you into their [vore_selected.name]!</span>")
 
 		// Do this after the potential vore, so we get the belly
 		update_icon()

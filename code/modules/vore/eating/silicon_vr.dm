@@ -1,9 +1,3 @@
-//Dat AI vore yo
-#define HOLO_ORIGINAL_COLOR null //Original hologram color: "#7db4e1"
-#define HOLO_HARDLIGHT_COLOR "#d97de0"
-#define HOLO_ORIGINAL_ALPHA 120
-#define HOLO_HARDLIGHT_ALPHA 200
-
 /obj/effect/overlay/aiholo
 	var/mob/living/bellied //Only belly one person at a time. No huge vore-organs setup for AIs.
 	var/mob/living/silicon/ai/master //This will receive the AI controlling the Hologram. For referencing purposes.
@@ -47,7 +41,7 @@
 
 /mob/living/silicon/ai/verb/holo_nom()
 	set name = "Hardlight Nom"
-	set category = "AI Commands"
+	set category = "AI.Vore" //CHOMPEdit
 	set desc = "Wrap up a person in hardlight holograms."
 
 	// Wrong state
@@ -86,7 +80,7 @@
 //I basically have to do this, you know?
 /mob/living/silicon/ai/examinate(atom/A as mob|obj|turf in view(eyeobj))
 	set name = "Examine"
-	set category = "IC"
+	set category = "IC.Game" //CHOMPEdit
 
 	A.examine(src)
 */

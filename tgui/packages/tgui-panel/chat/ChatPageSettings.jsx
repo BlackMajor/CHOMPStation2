@@ -4,15 +4,29 @@
  * @license MIT
  */
 
-import { useDispatch, useSelector } from 'common/redux';
-import { Button, Collapsible, Divider, Input, Section, Stack } from 'tgui_ch/components'; // CHOMPEdit - tgui_ch
-import { moveChatPageLeft, moveChatPageRight, removeChatPage, toggleAcceptedType, updateChatPage } from './actions';
+import { useDispatch, useSelector } from 'tgui/backend';
+import {
+  Button,
+  Collapsible,
+  Divider,
+  Input,
+  Section,
+  Stack,
+} from 'tgui/components';
+
+import {
+  moveChatPageLeft,
+  moveChatPageRight,
+  removeChatPage,
+  toggleAcceptedType,
+  updateChatPage,
+} from './actions';
 import { MESSAGE_TYPES } from './constants';
 import { selectCurrentChatPage } from './selectors';
 
-export const ChatPageSettings = (props, context) => {
-  const page = useSelector(context, selectCurrentChatPage);
-  const dispatch = useDispatch(context);
+export const ChatPageSettings = (props) => {
+  const page = useSelector(selectCurrentChatPage);
+  const dispatch = useDispatch();
   return (
     <Section>
       <Stack align="center">
@@ -25,10 +39,27 @@ export const ChatPageSettings = (props, context) => {
                 updateChatPage({
                   pageId: page.id,
                   name: value,
-                })
+                }),
               )
             }
           />
+        </Stack.Item>
+        <Stack.Item>
+          <Button.Checkbox
+            checked={page.hideUnreadCount}
+            icon={page.hideUnreadCount ? 'bell-slash' : 'bell'}
+            tooltip="Disables unread counter"
+            onClick={() =>
+              dispatch(
+                updateChatPage({
+                  pageId: page.id,
+                  hideUnreadCount: !page.hideUnreadCount,
+                }),
+              )
+            }
+          >
+            Mute
+          </Button.Checkbox>
         </Stack.Item>
         {!page.isMain ? (
           <Stack.Item>
@@ -39,9 +70,10 @@ export const ChatPageSettings = (props, context) => {
                 dispatch(
                   removeChatPage({
                     pageId: page.id,
-                  })
+                  }),
                 )
-              }>
+              }
+            >
               Remove
             </Button>
           </Stack.Item>
@@ -60,9 +92,10 @@ export const ChatPageSettings = (props, context) => {
                 dispatch(
                   moveChatPageLeft({
                     pageId: page.id,
-                  })
+                  }),
                 )
-              }>
+              }
+            >
               &laquo;
             </Button>
             <Button
@@ -71,9 +104,10 @@ export const ChatPageSettings = (props, context) => {
                 dispatch(
                   moveChatPageRight({
                     pageId: page.id,
-                  })
+                  }),
                 )
-              }>
+              }
+            >
               &raquo;
             </Button>
           </Stack.Item>
@@ -84,7 +118,7 @@ export const ChatPageSettings = (props, context) => {
       <Divider />
       <Section title="Messages to display" level={2}>
         {MESSAGE_TYPES.filter(
-          (typeDef) => !typeDef.important && !typeDef.admin
+          (typeDef) => !typeDef.important && !typeDef.admin,
         ).map((typeDef) => (
           <Button.Checkbox
             key={typeDef.type}
@@ -94,15 +128,16 @@ export const ChatPageSettings = (props, context) => {
                 toggleAcceptedType({
                   pageId: page.id,
                   type: typeDef.type,
-                })
+                }),
               )
-            }>
+            }
+          >
             {typeDef.name}
           </Button.Checkbox>
         ))}
         <Collapsible mt={1} color="transparent" title="Admin stuff">
           {MESSAGE_TYPES.filter(
-            (typeDef) => !typeDef.important && typeDef.admin
+            (typeDef) => !typeDef.important && typeDef.admin,
           ).map((typeDef) => (
             <Button.Checkbox
               key={typeDef.type}
@@ -112,9 +147,10 @@ export const ChatPageSettings = (props, context) => {
                   toggleAcceptedType({
                     pageId: page.id,
                     type: typeDef.type,
-                  })
+                  }),
                 )
-              }>
+              }
+            >
               {typeDef.name}
             </Button.Checkbox>
           ))}

@@ -84,7 +84,7 @@
 		return ..()
 
 /obj/structure/trash_pile/attack_ghost(mob/observer/user as mob)
-	if(config.disable_player_mice)
+	if(CONFIG_GET(flag/disable_player_mice)) // CHOMPEdit
 		to_chat(user, "<span class='warning'>Spawning as a mouse is currently disabled.</span>")
 		return
 
@@ -116,7 +116,7 @@
 	host = new /mob/living/simple_mob/animal/passive/mouse(get_turf(src))
 
 	if(host)
-		if(config.uneducated_mice)
+		if(CONFIG_GET(flag/uneducated_mice)) // CHOMPEdit
 			host.universal_understand = 0
 		announce_ghost_joinleave(src, 0, "They are now a mouse.")
 		host.ckey = user.ckey
@@ -203,6 +203,7 @@
 					prob(3);/obj/item/clothing/gloves/botanic_leather,
 					prob(3);/obj/item/clothing/head/hardhat/red,
 					prob(3);/obj/item/clothing/mask/gas,
+					prob(3);/obj/item/clothing/mask/gas/clear, //Chompadd: Proper implementation of clear gas masks
 					prob(3);/obj/item/clothing/suit/storage/apron,
 					prob(3);/obj/item/clothing/suit/storage/toggle/bomber,
 					prob(3);/obj/item/clothing/suit/storage/toggle/brown_jacket,
@@ -310,6 +311,7 @@
 					prob(1);/obj/item/device/radio_jammer,
 					prob(1);/obj/item/device/sleevemate,
 					prob(1);/obj/item/device/bodysnatcher,
+					prob(1);/obj/item/device/mindbinder,	//CHOMPAdd
 					prob(1);/obj/item/weapon/beartrap,
 					prob(1);/obj/item/weapon/cell/hyper/empty,
 					prob(1);/obj/item/weapon/disk/nifsoft/compliance,

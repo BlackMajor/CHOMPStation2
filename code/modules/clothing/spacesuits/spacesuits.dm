@@ -7,7 +7,8 @@
 	icon_state = "space"
 	desc = "A special helmet designed for work in a hazardous, low-pressure environment."
 	randpixel = 0
-	center_of_mass = null
+	center_of_mass_x = 0 //CHOMPEdit
+	center_of_mass_y = 0 //CHOMPEdit
 	flags = PHORONGUARD
 	item_flags = THICKMATERIAL | AIRTIGHT | ALLOW_SURVIVALFOOD
 	permeability_coefficient = 0  //Chompedit was 0.01, zeroed to test protecting those who are vulnerable to water.
@@ -54,11 +55,11 @@
 
 	if(camera.status == TRUE)
 		camera.set_status(FALSE)
-		to_chat(usr, "<font color='blue'>Camera deactivated.</font>")
+		to_chat(usr, span_blue("Camera deactivated."))
 	else
 		camera.set_status(TRUE)
 		camera.c_tag = usr.name
-		to_chat(usr, "<font color='blue'>User scanned as [camera.c_tag]. Camera activated.</font>")
+		to_chat(usr, span_blue("User scanned as [camera.c_tag]. Camera activated."))
 
 /obj/item/clothing/head/helmet/space/examine(mob/user)
 	. = ..()

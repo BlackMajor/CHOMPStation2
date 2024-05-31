@@ -1,24 +1,27 @@
+/obj/item/weapon/melee/dogborg/jaws
+	icon = 'icons/mob/dogborg_vr.dmi'
+	hitsound = 'sound/weapons/bite.ogg'
+	throwforce = 0
+	w_class = ITEMSIZE_NORMAL
+	pry = 1
+	tool_qualities = list(TOOL_CROWBAR)
+
 /obj/item/weapon/melee/dogborg/jaws/big
 	name = "combat jaws"
-	icon = 'icons/mob/dogborg_vr.dmi'
 	icon_state = "jaws"
 	desc = "The jaws of the law."
-	force = 10
-	throwforce = 0
-	hitsound = 'sound/weapons/bite.ogg'
+	force = 25
+	armor_penetration = 25
+	defend_chance = 15
 	attack_verb = list("chomped", "bit", "ripped", "mauled", "enforced")
-	w_class = ITEMSIZE_NORMAL
 
 /obj/item/weapon/melee/dogborg/jaws/small
 	name = "puppy jaws"
-	icon = 'icons/mob/dogborg_vr.dmi'
 	icon_state = "smalljaws"
 	desc = "The jaws of a small dog."
-	force = 5
-	throwforce = 0
-	hitsound = 'sound/weapons/bite.ogg'
+	force = 10
+	defend_chance = 5
 	attack_verb = list("nibbled", "bit", "gnawed", "chomped", "nommed")
-	w_class = ITEMSIZE_NORMAL
 	var/emagged = 0
 
 /obj/item/weapon/melee/dogborg/jaws/small/attack_self(mob/user)
@@ -27,24 +30,20 @@
 		emagged = !emagged
 		if(emagged)
 			name = "combat jaws"
-			icon = 'icons/mob/dogborg_vr.dmi'
 			icon_state = "jaws"
 			desc = "The jaws of the law."
-			force = 10
-			throwforce = 0
-			hitsound = 'sound/weapons/bite.ogg'
+			force = 25
+			armor_penetration = 25
+			defend_chance = 15
 			attack_verb = list("chomped", "bit", "ripped", "mauled", "enforced")
-			w_class = ITEMSIZE_NORMAL
 		else
 			name = "puppy jaws"
-			icon = 'icons/mob/dogborg_vr.dmi'
 			icon_state = "smalljaws"
 			desc = "The jaws of a small dog."
-			force = 5
-			throwforce = 0
-			hitsound = 'sound/weapons/bite.ogg'
+			force = 10
+			armor_penetration = 0
+			defend_chance = 5
 			attack_verb = list("nibbled", "bit", "gnawed", "chomped", "nommed")
-			w_class = ITEMSIZE_NORMAL
 		update_icon()
 
 // Baton chompers
@@ -354,7 +353,8 @@
 		if(src.emagged)
 			var/mob/living/silicon/robot/R = user
 			var/mob/living/L = target
-			if(R.cell.charge <= 666)
+			if(!R.use_direct_power(666, 100))
+				to_chat(user, span_warning("Warning, low power detected. Aborting action."))
 				return
 			L.Stun(1)
 			L.Weaken(1)
@@ -362,7 +362,6 @@
 			L.visible_message("<span class='danger'>[user] has shocked [L] with its tongue!</span>", \
 								"<span class='userdanger'>[user] has shocked you with its tongue! You can feel the betrayal.</span>")
 			playsound(src, 'sound/weapons/Egloves.ogg', 50, 1, -1)
-			R.cell.charge -= 666
 		else
 			user.visible_message("<span class='notice'>\The [user] affectionately licks all over \the [target]'s face!</span>", "<span class='notice'>You affectionately lick all over \the [target]'s face!</span>")
 			playsound(src, 'sound/effects/attackblob.ogg', 50, 1)
@@ -479,6 +478,7 @@
 	desc = "Leap at your target to momentarily stun them."
 	force = 0
 	throwforce = 0
+	var/bluespace = FALSE
 
 /obj/item/weapon/dogborg/pounce/New()
 	..()
@@ -486,14 +486,16 @@
 
 /obj/item/weapon/dogborg/pounce/attack_self(mob/user)
 	var/mob/living/silicon/robot/R = user
-	R.leap()
+	R.leap(bluespace)
 
-/mob/living/silicon/robot/proc/leap()
+/mob/living/silicon/robot/proc/leap(var/bluespace = FALSE)
 	if(last_special > world.time)
 		to_chat(src, "<span class='filter_notice'>Your leap actuators are still recharging.</span>")
 		return
 
-	if(cell.charge < 1000)
+	var/power_cost = bluespace ? 1000 : 750
+	var/minimum_power = bluespace ? 2500 : 1000
+	if(cell.charge < minimum_power)
 		to_chat(src, "<span class='filter_notice'>Cell charge too low to continue.</span>")
 		return
 
@@ -502,7 +504,8 @@
 		return
 
 	var/list/choices = list()
-	for(var/mob/living/M in view(3,src))
+	var/leap_distance = bluespace ? 5 : 3
+	for(var/mob/living/M in view(leap_distance,src))
 		if(!istype(M,/mob/living/silicon))
 			choices += M
 	choices -= src
@@ -511,7 +514,16 @@
 
 	if(!T || !src || src.stat) return
 
-	if(get_dist(get_turf(T), get_turf(src)) > 3) return
+	if(get_dist(get_turf(T), get_turf(src)) > leap_distance) return
+
+	if(ishuman(T))
+		var/mob/living/carbon/human/H = T
+		if(H.get_species() == SPECIES_SHADEKIN && (H.ability_flags & AB_PHASE_SHIFTED))
+			power_cost *= 2
+
+	if(!use_direct_power(power_cost, minimum_power - power_cost))
+		to_chat(src, span_warning("Warning, low power detected. Aborting action."))
+		return
 
 	if(last_special > world.time)
 		return
@@ -525,12 +537,20 @@
 	pixel_y = pixel_y + 10
 
 	src.visible_message("<span class='danger'>\The [src] leaps at [T]!</span>")
-	src.throw_at(get_step(get_turf(T),get_turf(src)), 4, 1, src)
+	/* //ChompEDIT START - disable for now
+	if(bluespace)
+		src.forceMove(get_turf(T))
+		T.hitby(src)
+	else
+		src.throw_at(get_step(get_turf(T),get_turf(src)), 4, 1, src)
+	*/ 
+	src.throw_at(get_step(get_turf(T),get_turf(src)), 4, 1, src) //ChompEDIT - no bluespace pounce
+	//ChompEDIT END
 	playsound(src, 'sound/mecha/mechstep2.ogg', 50, 1)
 	pixel_y = default_pixel_y
-	cell.charge -= 750
 
-	sleep(5)
+	if(!bluespace)
+		sleep(5)
 
 	if(status_flags & LEAPING) status_flags &= ~LEAPING
 
@@ -541,10 +561,13 @@
 	if(ishuman(T))
 		var/mob/living/carbon/human/H = T
 		if(H.species.lightweight == 1)
-			H.Weaken(3)
+			H.Stun(3) // CHOMPEdit - Crawling made this useless. Changing to stun instead.
+			H.drop_both_hands() //Stuns no longer drop items, so were forcing it >:3
 			return
+
 	var/armor_block = run_armor_check(T, "melee")
 	var/armor_soak = get_armor_soak(T, "melee")
 	T.apply_damage(20, HALLOSS,, armor_block, armor_soak)
 	if(prob(75)) //75% chance to stun for 5 seconds, really only going to be 4 bcus click cooldown+animation.
-		T.apply_effect(5, WEAKEN, armor_block)
+		T.apply_effect(5, STUN, armor_block)
+		T.drop_both_hands() //CHOMPEdit Stuns no longer drop items

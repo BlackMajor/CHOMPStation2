@@ -2,20 +2,21 @@ import { useBackend } from '../backend';
 import { Button, LabeledList, NumberInput, Section } from '../components';
 import { Window } from '../layouts';
 
-export const AtmosMixer = (props, context) => {
-  const { act, data } = useBackend(context);
+export const AtmosMixer = (props) => {
+  const { act, data } = useBackend();
   return (
-    <Window width={370} height={195} resizable>
+    <Window width={370} height={195}>
       <Window.Content>
         <Section>
           <LabeledList>
             <LabeledList.Item label="Power">
               <Button
                 icon={data.on ? 'power-off' : 'times'}
-                content={data.on ? 'On' : 'Off'}
                 selected={data.on}
                 onClick={() => act('power')}
-              />
+              >
+                {data.on ? 'On' : 'Off'}
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Output Pressure">
               <NumberInput
@@ -35,14 +36,15 @@ export const AtmosMixer = (props, context) => {
               <Button
                 ml={1}
                 icon="plus"
-                content="Max"
                 disabled={data.set_pressure === data.max_pressure}
                 onClick={() =>
                   act('pressure', {
                     pressure: 'max',
                   })
                 }
-              />
+              >
+                Max
+              </Button>
             </LabeledList.Item>
             <LabeledList.Divider size={1} />
             <LabeledList.Item color="label">

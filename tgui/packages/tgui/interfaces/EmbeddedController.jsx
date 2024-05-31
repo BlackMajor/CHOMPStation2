@@ -1,8 +1,14 @@
-import { Fragment } from 'inferno';
 import { useBackend } from '../backend';
-import { Box, Button, Flex, Icon, LabeledList, ProgressBar, Section } from '../components';
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from '../components';
 import { Window } from '../layouts';
-
 import { createLogger } from '../logging';
 const logger = createLogger('fuck');
 
@@ -69,19 +75,19 @@ let primaryRoutes = {};
 /**
  * Entrypoint of the UI. This handles finding the correct route to use.
  */
-export const EmbeddedController = (props, context) => {
-  const { act, data } = useBackend(context);
+export const EmbeddedController = (props) => {
+  const { act, data } = useBackend();
   const { internalTemplateName } = data;
 
   const Component = primaryRoutes[internalTemplateName];
   if (!Component) {
     throw Error(
-      'Unable to find Component for template name: ' + internalTemplateName
+      'Unable to find Component for template name: ' + internalTemplateName,
     );
   }
 
   return (
-    <Window width={450} height={340} resizable>
+    <Window width={450} height={340}>
       <Window.Content>
         <Component />
       </Window.Content>
@@ -111,7 +117,7 @@ export const EmbeddedController = (props, context) => {
  * Used for the upper status display that is used on 90% of these UIs.
  * @param {StatusDisplayProps} props
  */
-const StatusDisplay = (props, context) => {
+const StatusDisplay = (props) => {
   const { bars } = props;
 
   return (
@@ -123,7 +129,8 @@ const StatusDisplay = (props, context) => {
               color={bar.color(bar.value)}
               minValue={bar.minValue}
               maxValue={bar.maxValue}
-              value={bar.value}>
+              value={bar.value}
+            >
               {bar.textValue}
             </ProgressBar>
           </LabeledList.Item>
@@ -139,8 +146,8 @@ const StatusDisplay = (props, context) => {
  * a single component that adjusts for the mild data structure differences
  * on it's own.
  */
-const StandardControls = (props, context) => {
-  const { data, act } = useBackend(context);
+const StandardControls = (props) => {
+  const { data, act } = useBackend();
 
   let externalForceSafe = true;
   if (data['interior_status'] && data.interior_status.state === 'open') {
@@ -161,20 +168,22 @@ const StandardControls = (props, context) => {
   }
 
   return (
-    <Fragment>
+    <>
       <Box>
         <Button
           disabled={data.airlock_disabled}
           icon="arrow-left"
-          content="Cycle to Exterior"
           onClick={() => act('cycle_ext')}
-        />
+        >
+          Cycle to Exterior
+        </Button>
         <Button
           disabled={data.airlock_disabled}
           icon="arrow-right"
-          content="Cycle to Interior"
           onClick={() => act('cycle_int')}
-        />
+        >
+          Cycle to Interior
+        </Button>
       </Box>
       <Box>
         <Button.Confirm
@@ -182,19 +191,21 @@ const StandardControls = (props, context) => {
           color={externalForceSafe ? '' : 'bad'}
           icon="exclamation-triangle"
           confirmIcon="exclamation-triangle"
-          content="Force Exterior Door"
           onClick={() => act('force_ext')}
-        />
+        >
+          Force Exterior Door
+        </Button.Confirm>
         <Button.Confirm
           disabled={data.airlock_disabled}
           color={internalForceSafe ? '' : 'bad'}
           icon="exclamation-triangle"
           confirmIcon="exclamation-triangle"
-          content="Force Interior Door"
           onClick={() => act('force_int')}
-        />
+        >
+          Force Interior Door
+        </Button.Confirm>
       </Box>
-    </Fragment>
+    </>
   );
 };
 
@@ -203,14 +214,14 @@ const StandardControls = (props, context) => {
  * and the EscapePodBerthConsole. They previously had different data structures
  * but I got rid of that stupid shit.
  */
-const EscapePodStatus = (props, context) => {
-  const { data, act } = useBackend(context);
+const EscapePodStatus = (props) => {
+  const { data, act } = useBackend();
 
   const statusToHtml = {
-    'docked': <Armed />,
-    'undocking': <Box color="average">EJECTING-STAND CLEAR!</Box>,
-    'undocked': <Box color="grey">POD EJECTED</Box>,
-    'docking': <Box color="good">INITIALIZING...</Box>,
+    docked: <Armed />,
+    undocking: <Box color="average">EJECTING-STAND CLEAR!</Box>,
+    undocked: <Box color="grey">POD EJECTED</Box>,
+    docking: <Box color="good">INITIALIZING...</Box>,
   };
 
   let dockHatch = <Box color="bad">ERROR</Box>;
@@ -240,8 +251,8 @@ const EscapePodStatus = (props, context) => {
  * Just shows "ARMED" or "SYSTEMS OK" depending on armed status.
  * Keeps me from having to write like, two lines of code.
  */
-const Armed = (props, context) => {
-  const { data, act } = useBackend(context);
+const Armed = (props) => {
+  const { data, act } = useBackend();
   return data.armed ? (
     <Box color="average">ARMED</Box>
   ) : (
@@ -253,25 +264,27 @@ const Armed = (props, context) => {
  * Shared controls between the berth and the pod itself.
  * Basically just external door control.
  */
-const EscapePodControls = (props, context) => {
-  const { data, act } = useBackend(context);
+const EscapePodControls = (props) => {
+  const { data, act } = useBackend();
 
   return (
     <Box>
       <Button
         disabled={!data.override_enabled}
         icon="exclamation-triangle"
-        content="Force Exterior Door"
         color={data.docking_status !== 'docked' ? 'bad' : ''}
         onClick={() => act('force_door')}
-      />
+      >
+        Force Exterior Door
+      </Button>
       <Button
         selected={data.override_enabled}
         color={data.docking_status !== 'docked' ? 'bad' : 'average'}
         icon="exclamation-triangle"
-        content="Override"
         onClick={() => act('toggle_override')}
-      />
+      >
+        Override
+      </Button>
     </Box>
   );
 };
@@ -279,14 +292,14 @@ const EscapePodControls = (props, context) => {
 /**
  * Just a neat little helper for all the different states of dock.
  */
-const DockStatus = (props, context) => {
-  const { data, act } = useBackend(context);
+const DockStatus = (props) => {
+  const { data, act } = useBackend();
 
   const statusToHtml = {
-    'docked': <Box color="good">DOCKED</Box>,
-    'docking': <Box color="average">DOCKING</Box>,
-    'undocking': <Box color="average">UNDOCKING</Box>,
-    'undocked': <Box color="grey">NOT IN USE</Box>,
+    docked: <Box color="good">DOCKED</Box>,
+    docking: <Box color="average">DOCKING</Box>,
+    undocking: <Box color="average">UNDOCKING</Box>,
+    undocked: <Box color="grey">NOT IN USE</Box>,
   };
 
   let dockStatus = statusToHtml[data.docking_status];
@@ -312,8 +325,8 @@ const DockStatus = (props, context) => {
  * They also have a PURGE and SECURE option for safety.
  * Replaces advanced_airlock_console.tmpl
  */
-const AirlockConsoleAdvanced = (props, context) => {
-  const { act, data } = useBackend(context);
+const AirlockConsoleAdvanced = (props) => {
+  const { act, data } = useBackend();
 
   const color = (value) => {
     return value < 80 || value > 120
@@ -351,29 +364,30 @@ const AirlockConsoleAdvanced = (props, context) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <StatusDisplay bars={bars} />
       <Section title="Controls">
         <StandardControls />
         <Box>
-          <Button icon="sync" content="Purge" onClick={() => act('purge')} />
-          <Button
-            icon="lock-open"
-            content="Secure"
-            onClick={() => act('secure')}
-          />
+          <Button icon="sync" onClick={() => act('purge')}>
+            Purge
+          </Button>
+          <Button icon="lock-open" onClick={() => act('secure')}>
+            Secure
+          </Button>
         </Box>
         <Box>
           <Button
             disabled={!data.processing}
             icon="ban"
             color="bad"
-            content="Abort"
             onClick={() => act('abort')}
-          />
+          >
+            Abort
+          </Button>
         </Box>
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['AirlockConsoleAdvanced'] = AirlockConsoleAdvanced;
@@ -384,8 +398,8 @@ primaryRoutes['AirlockConsoleAdvanced'] = AirlockConsoleAdvanced;
  * force door buttons. That's it.
  * Replaces simple_airlock_console.tmpl
  */
-const AirlockConsoleSimple = (props, context) => {
-  const { act, data } = useBackend(context);
+const AirlockConsoleSimple = (props) => {
+  const { act, data } = useBackend();
 
   const bars = [
     {
@@ -405,7 +419,7 @@ const AirlockConsoleSimple = (props, context) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <StatusDisplay bars={bars} />
       <Section title="Controls">
         <StandardControls />
@@ -414,12 +428,13 @@ const AirlockConsoleSimple = (props, context) => {
             disabled={!data.processing}
             icon="ban"
             color="bad"
-            content="Abort"
             onClick={() => act('abort')}
-          />
+          >
+            Abort
+          </Button>
         </Box>
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['AirlockConsoleSimple'] = AirlockConsoleSimple;
@@ -430,8 +445,8 @@ primaryRoutes['AirlockConsoleSimple'] = AirlockConsoleSimple;
  * atmosphere planet.
  * Replaces phoron_airlock_console.tmpl
  */
-const AirlockConsolePhoron = (props, context) => {
-  const { act, data } = useBackend(context);
+const AirlockConsolePhoron = (props) => {
+  const { act, data } = useBackend();
 
   const bars = [
     {
@@ -461,7 +476,7 @@ const AirlockConsolePhoron = (props, context) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <StatusDisplay bars={bars} />
       <Section title="Controls">
         <StandardControls />
@@ -470,12 +485,13 @@ const AirlockConsolePhoron = (props, context) => {
             disabled={!data.processing}
             icon="ban"
             color="bad"
-            content="Abort"
             onClick={() => act('abort')}
-          />
+          >
+            Abort
+          </Button>
         </Box>
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['AirlockConsolePhoron'] = AirlockConsolePhoron;
@@ -485,8 +501,8 @@ primaryRoutes['AirlockConsolePhoron'] = AirlockConsolePhoron;
  * as well as the attached airlock.
  * Replaces docking_airlock_console.tmpl
  */
-const AirlockConsoleDocking = (props, context) => {
-  const { act, data } = useBackend(context);
+const AirlockConsoleDocking = (props) => {
+  const { act, data } = useBackend();
 
   const bars = [
     {
@@ -506,7 +522,7 @@ const AirlockConsoleDocking = (props, context) => {
   ];
 
   return (
-    <Fragment>
+    <>
       <Section
         title="Dock"
         buttons={
@@ -514,11 +530,13 @@ const AirlockConsoleDocking = (props, context) => {
             <Button
               icon="exclamation-triangle"
               color={data.override_enabled ? 'red' : ''}
-              content="Override"
               onClick={() => act('toggle_override')}
-            />
+            >
+              Override
+            </Button>
           ) : null
-        }>
+        }
+      >
         <DockStatus />
       </Section>
       <StatusDisplay bars={bars} />
@@ -529,12 +547,13 @@ const AirlockConsoleDocking = (props, context) => {
             disabled={!data.processing}
             icon="ban"
             color="bad"
-            content="Abort"
             onClick={() => act('abort')}
-          />
+          >
+            Abort
+          </Button>
         </Box>
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['AirlockConsoleDocking'] = AirlockConsoleDocking;
@@ -545,8 +564,8 @@ primaryRoutes['AirlockConsoleDocking'] = AirlockConsoleDocking;
  * They're primarily just there to display the status of the dock.
  * Replaces simple_docking_console.tmpl
  */
-const DockingConsoleSimple = (props, context) => {
-  const { act, data } = useBackend(context);
+const DockingConsoleSimple = (props) => {
+  const { act, data } = useBackend();
 
   let dockHatch = <Box color="bad">ERROR</Box>;
 
@@ -562,21 +581,24 @@ const DockingConsoleSimple = (props, context) => {
     <Section
       title="Status"
       buttons={
-        <Fragment>
+        <>
           <Button
             icon="exclamation-triangle"
             disabled={!data.override_enabled}
-            content="Force exterior door"
             onClick={() => act('force_door')}
-          />
+          >
+            Force exterior door
+          </Button>
           <Button
             icon="exclamation-triangle"
             color={data.override_enabled ? 'red' : ''}
-            content="Override"
             onClick={() => act('toggle_override')}
-          />
-        </Fragment>
-      }>
+          >
+            Override
+          </Button>
+        </>
+      }
+    >
       <LabeledList>
         <LabeledList.Item label="Dock Status">
           <DockStatus />
@@ -594,10 +616,10 @@ primaryRoutes['DockingConsoleSimple'] = DockingConsoleSimple;
  * for bigger shuttles.
  * Replaces multi_docking_console.tmpl
  */
-const DockingConsoleMulti = (props, context) => {
-  const { data } = useBackend(context);
+const DockingConsoleMulti = (props) => {
+  const { data } = useBackend();
   return (
-    <Fragment>
+    <>
       <Section title="Docking Status">
         <DockStatus />
       </Section>
@@ -608,7 +630,8 @@ const DockingConsoleMulti = (props, context) => {
               <LabeledList.Item
                 color={airlock.override_enabled ? 'bad' : 'good'}
                 key={airlock.name}
-                label={airlock.name}>
+                label={airlock.name}
+              >
                 {airlock.override_enabled ? 'OVERRIDE ENABLED' : 'STATUS OK'}
               </LabeledList.Item>
             ))}
@@ -623,7 +646,7 @@ const DockingConsoleMulti = (props, context) => {
           </Flex>
         )}
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['DockingConsoleMulti'] = DockingConsoleMulti;
@@ -632,8 +655,8 @@ primaryRoutes['DockingConsoleMulti'] = DockingConsoleMulti;
  * Airlock but without anything other than doors. Separates clean rooms.
  * Replaces door_access_console.tmpl
  */
-const DoorAccessConsole = (props, context) => {
-  const { act, data } = useBackend(context);
+const DoorAccessConsole = (props) => {
+  const { act, data } = useBackend();
 
   let interiorOpen =
     data.interior_status.state === 'open' ||
@@ -646,25 +669,28 @@ const DoorAccessConsole = (props, context) => {
     <Section
       title="Status"
       buttons={
-        <Fragment>
+        <>
           {/* Interior Button */}
           <Button
             icon={interiorOpen ? 'arrow-left' : 'exclamation-triangle'}
-            content={interiorOpen ? 'Cycle To Exterior' : 'Lock Exterior Door'}
             onClick={() => {
               act(interiorOpen ? 'cycle_ext_door' : 'force_ext');
             }}
-          />
+          >
+            {interiorOpen ? 'Cycle To Exterior' : 'Lock Exterior Door'}
+          </Button>
           {/* Exterior Button */}
           <Button
             icon={exteriorOpen ? 'arrow-right' : 'exclamation-triangle'}
-            content={exteriorOpen ? 'Cycle To Interior' : 'Lock Interior Door'}
             onClick={() => {
               act(exteriorOpen ? 'cycle_int_door' : 'force_int');
             }}
-          />
-        </Fragment>
-      }>
+          >
+            {exteriorOpen ? 'Cycle To Interior' : 'Lock Interior Door'}
+          </Button>
+        </>
+      }
+    >
       <LabeledList>
         <LabeledList.Item label="Exterior Door Status">
           {data.exterior_status.state === 'closed' ? 'Locked' : 'Open'}
@@ -682,10 +708,10 @@ primaryRoutes['DoorAccessConsole'] = DoorAccessConsole;
  * These are the least airlock-like UIs here, but they're "close enough".
  * Replaces escape_pod_console.tmpl
  */
-const EscapePodConsole = (props, context) => {
-  const { act, data } = useBackend(context);
+const EscapePodConsole = (props) => {
+  const { act, data } = useBackend();
   return (
-    <Fragment>
+    <>
       <EscapePodStatus />
       <Section title="Controls">
         <EscapePodControls />
@@ -694,19 +720,21 @@ const EscapePodConsole = (props, context) => {
             icon="exclamation-triangle"
             disabled={data.armed}
             color={data.armed ? 'bad' : 'average'}
-            content="ARM"
             onClick={() => act('manual_arm')}
-          />
+          >
+            ARM
+          </Button>
           <Button
             icon="exclamation-triangle"
             disabled={!data.can_force}
             color="bad"
-            content="MANUAL EJECT"
             onClick={() => act('force_launch')}
-          />
+          >
+            MANUAL EJECT
+          </Button>
         </Box>
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['EscapePodConsole'] = EscapePodConsole;
@@ -715,15 +743,15 @@ primaryRoutes['EscapePodConsole'] = EscapePodConsole;
  * These are the least airlock-like UIs here, but they're "close enough".
  * Replaces escape_pod_berth_console.tmpl
  */
-const EscapePodBerthConsole = (props, context) => {
-  const { data } = useBackend(context);
+const EscapePodBerthConsole = (props) => {
+  const { data } = useBackend();
   return (
-    <Fragment>
+    <>
       <EscapePodStatus />
       <Section title="Controls">
         <EscapePodControls />
       </Section>
-    </Fragment>
+    </>
   );
 };
 primaryRoutes['EscapePodBerthConsole'] = EscapePodBerthConsole;

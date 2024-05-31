@@ -1,13 +1,13 @@
-import { Fragment } from 'inferno';
+import { filter } from 'common/collections';
+
 import { useBackend, useSharedState } from '../backend';
 import { Box, Button, LabeledList, Section, Tabs } from '../components';
 import { Window } from '../layouts';
-import { filter } from 'common/collections';
 
-export const ResearchServerController = (props, context) => {
-  const { act, data } = useBackend(context);
+export const ResearchServerController = (props) => {
+  const { act, data } = useBackend();
   return (
-    <Window width={575} height={430} resizable>
+    <Window width={575} height={430}>
       <Window.Content scrollable>
         <ResearchControllerContent />
       </Window.Content>
@@ -15,15 +15,14 @@ export const ResearchServerController = (props, context) => {
   );
 };
 
-const ResearchControllerContent = (props, context) => {
-  const { act, data } = useBackend(context);
+const ResearchControllerContent = (props) => {
+  const { act, data } = useBackend();
 
   const { badmin, servers, consoles } = data;
 
   const [selectedServer, setSelectedServer] = useSharedState(
-    context,
     'selectedServer',
-    null
+    null,
   );
 
   let realServer = servers.find((s) => s.id === selectedServer);
@@ -50,12 +49,12 @@ const ResearchControllerContent = (props, context) => {
   );
 };
 
-const ResearchServer = (props, context) => {
-  const { act, data } = useBackend(context);
+const ResearchServer = (props) => {
+  const { act, data } = useBackend();
   const { badmin } = data;
   const { server, setSelectedServer } = props;
 
-  const [tab, setTab] = useSharedState(context, 'tab', 0);
+  const [tab, setTab] = useSharedState('tab', 0);
 
   return (
     <Section
@@ -64,7 +63,8 @@ const ResearchServer = (props, context) => {
         <Button icon="undo" onClick={() => setSelectedServer(null)}>
           Back
         </Button>
-      }>
+      }
+    >
       <Tabs>
         <Tabs.Tab selected={tab === 0} onClick={() => setTab(0)}>
           Access Rights
@@ -87,8 +87,8 @@ const ResearchServer = (props, context) => {
   );
 };
 
-const ResearchServerAccess = (props, context) => {
-  const { act, data } = useBackend(context);
+const ResearchServerAccess = (props) => {
+  const { act, data } = useBackend();
   const { server } = props;
 
   const { consoles } = data;
@@ -114,7 +114,8 @@ const ResearchServerAccess = (props, context) => {
           consoles.map((console) => (
             <LabeledList.Item
               key={console.name}
-              label={console.name + ' (' + console.loc + ')'}>
+              label={console.name + ' (' + console.loc + ')'}
+            >
               <Button
                 icon={hasUploadAccess(server, console) ? 'lock-open' : 'lock'}
                 selected={hasUploadAccess(server, console)}
@@ -123,7 +124,8 @@ const ResearchServerAccess = (props, context) => {
                     server: server.ref,
                     console: console.ref,
                   })
-                }>
+                }
+              >
                 {hasUploadAccess(server, console) ? 'Upload On' : 'Upload Off'}
               </Button>
               <Button
@@ -134,7 +136,8 @@ const ResearchServerAccess = (props, context) => {
                     server: server.ref,
                     console: console.ref,
                   })
-                }>
+                }
+              >
                 {hasDownloadAccess(server, console)
                   ? 'Download On'
                   : 'Download Off'}
@@ -146,12 +149,12 @@ const ResearchServerAccess = (props, context) => {
   );
 };
 
-const ResearchServerData = (props, context) => {
-  const { act, data } = useBackend(context);
+const ResearchServerData = (props) => {
+  const { act, data } = useBackend();
   const { server } = props;
 
   return (
-    <Fragment>
+    <>
       <Section level={2} title="Research Levels">
         {server.tech.map((tech) => (
           <LabeledList.Item
@@ -162,11 +165,12 @@ const ResearchServerData = (props, context) => {
                 icon="trash"
                 confirmIcon="trash"
                 color="red"
-                content="Reset"
                 onClick={() =>
                   act('reset_tech', { server: server.ref, tech: tech.id })
                 }
-              />
+              >
+                Reset
+              </Button.Confirm>
             }
           />
         ))}
@@ -181,21 +185,22 @@ const ResearchServerData = (props, context) => {
                 icon="trash"
                 confirmIcon="trash"
                 color="red"
-                content="Delete"
                 onClick={() =>
                   act('reset_design', { server: server.ref, design: design.id })
                 }
-              />
+              >
+                Delete
+              </Button.Confirm>
             }
           />
         ))}
       </Section>
-    </Fragment>
+    </>
   );
 };
 
-const ResearchServerTransfer = (props, context) => {
-  const { act, data } = useBackend(context);
+const ResearchServerTransfer = (props) => {
+  const { act, data } = useBackend();
 
   const { server } = props;
 
@@ -212,18 +217,17 @@ const ResearchServerTransfer = (props, context) => {
           <Button.Confirm
             fluid
             color="bad"
-            content={
-              <Box>
-                Transfer from {server.name} To {newserver.name}
-              </Box>
-            }
             onClick={() =>
               act('transfer_data', {
                 server: server.ref,
                 target: newserver.ref,
               })
             }
-          />
+          >
+            <Box>
+              Transfer from {server.name} To {newserver.name}
+            </Box>
+          </Button.Confirm>
         </Box>
       ))}
     </Section>

@@ -277,7 +277,7 @@ var/list/sacrificed = list()
 					H.sdisabilities &= ~BLIND
 			for(var/obj/item/organ/E in H.bad_external_organs)
 				var/obj/item/organ/external/affected = E
-				if((affected.damage < affected.min_broken_damage * config.organ_health_multiplier) && (affected.status & ORGAN_BROKEN))
+				if((affected.damage < affected.min_broken_damage * CONFIG_GET(number/organ_health_multiplier)) && (affected.status & ORGAN_BROKEN)) // CHOMPEdit
 					affected.status &= ~ORGAN_BROKEN
 				for(var/datum/wound/W in affected.wounds)
 					if(istype(W, /datum/wound/internal_bleeding))
@@ -357,9 +357,9 @@ var/list/sacrificed = list()
 	else if(!corpse_to_raise.client && corpse_to_raise.mind) //Don't force the dead person to come back if they don't want to.
 		for(var/mob/observer/dead/ghost in player_list)
 			if(ghost.mind == corpse_to_raise.mind)
-				to_chat(ghost, "<b><font color = #330033><font size = 3>The cultist [usr.real_name] is trying to \
+				to_chat(ghost, span_interface("<b><font size = 3>The cultist [usr.real_name] is trying to \
 				revive you. Return to your body if you want to be resurrected into the service of Nar'Sie!</b> \
-				(Verbs -> Ghost -> Re-enter corpse)</font></font>")
+				(Verbs -> Ghost -> Re-enter corpse)</font>"))
 				break
 
 	sleep(10 SECONDS)

@@ -2,15 +2,15 @@ import { map, sortBy } from 'common/collections';
 import { flow } from 'common/fp';
 import { clamp } from 'common/math';
 import { vecLength, vecSubtract } from 'common/vector';
-import { Fragment } from 'inferno';
+
 import { useBackend } from '../backend';
 import { Box, Button, Icon, LabeledList, Section, Table } from '../components';
 import { Window } from '../layouts';
 
 const coordsToVec = (coords) => map(parseFloat)(coords.split(', '));
 
-export const Gps = (props, context) => {
-  const { act, data } = useBackend(context);
+export const Gps = (props) => {
+  const { act, data } = useBackend();
   const {
     currentArea,
     currentCoords,
@@ -33,54 +33,52 @@ export const Gps = (props, context) => {
       // Signals with distance metric go first
       (signal) => signal.dist === undefined,
       // Sort alphabetically
-      (signal) => signal.entrytag
+      (signal) => signal.entrytag,
     ),
   ])(data.signals || []);
   return (
-    <Window
-      title="Global Positioning System"
-      width={470}
-      height={700}
-      resizable>
+    <Window title="Global Positioning System" width={470} height={700}>
       <Window.Content scrollable>
         <Section
           title="Control"
           buttons={
             <Button
               icon="power-off"
-              content={power ? 'On' : 'Off'}
               selected={power}
               onClick={() => act('power')}
-            />
-          }>
+            >
+              {power ? 'On' : 'Off'}
+            </Button>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Tag">
-              <Button
-                icon="pencil-alt"
-                content={tag}
-                onClick={() => act('rename')}
-              />
+              <Button icon="pencil-alt" onClick={() => act('rename')}>
+                {tag}
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Scan Mode">
               <Button
                 icon={updating ? 'unlock' : 'lock'}
-                content={updating ? 'AUTO' : 'MANUAL'}
                 color={!updating && 'bad'}
                 onClick={() => act('updating')}
-              />
+              >
+                {updating ? 'AUTO' : 'MANUAL'}
+              </Button>
             </LabeledList.Item>
             <LabeledList.Item label="Range">
               <Button
                 icon="sync"
-                content={globalmode ? 'MAXIMUM' : 'LOCAL'}
                 selected={!globalmode}
                 onClick={() => act('globalmode')}
-              />
+              >
+                {globalmode ? 'MAXIMUM' : 'LOCAL'}
+              </Button>
             </LabeledList.Item>
           </LabeledList>
         </Section>
         {!!power && (
-          <Fragment>
+          <>
             <Section title="Current Location">
               <Box fontSize="18px">
                 {currentArea} ({currentCoordsText})
@@ -96,7 +94,8 @@ export const Gps = (props, context) => {
                 {signals.map((signal) => (
                   <Table.Row
                     key={signal.entrytag + signal.coords + signal.index}
-                    className="candystripe">
+                    className="candystripe"
+                  >
                     <Table.Cell bold color="label">
                       {signal.entrytag}
                     </Table.Cell>
@@ -105,7 +104,8 @@ export const Gps = (props, context) => {
                       opacity={
                         signal.dist !== undefined &&
                         clamp(1.2 / Math.log(Math.E + signal.dist / 20), 0.4, 1)
-                      }>
+                      }
+                    >
                       {signal.degrees !== undefined && (
                         <Icon
                           mr={1}
@@ -121,7 +121,7 @@ export const Gps = (props, context) => {
                 ))}
               </Table>
             </Section>
-          </Fragment>
+          </>
         )}
       </Window.Content>
     </Window>

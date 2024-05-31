@@ -1,11 +1,22 @@
 import { toFixed } from 'common/math';
+
 import { useBackend } from '../backend';
-import { AnimatedNumber, Box, Button, Icon, Knob, LabeledControls, LabeledList, Section, Tooltip } from '../components';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  Icon,
+  Knob,
+  LabeledControls,
+  LabeledList,
+  Section,
+  Tooltip,
+} from '../components';
 import { formatSiUnit } from '../format';
 import { Window } from '../layouts';
 
-export const Canister = (props, context) => {
-  const { act, data } = useBackend(context);
+export const Canister = (props) => {
+  const { act, data } = useBackend();
   const {
     connected,
     can_relabel,
@@ -18,7 +29,7 @@ export const Canister = (props, context) => {
     holding,
   } = data;
   return (
-    <Window width={360} height={242} resizable>
+    <Window width={360} height={242}>
       <Window.Content>
         <Section
           title="Canister"
@@ -26,10 +37,12 @@ export const Canister = (props, context) => {
             <Button
               icon="pencil-alt"
               disabled={!can_relabel}
-              content="Relabel"
               onClick={() => act('relabel')}
-            />
-          }>
+            >
+              Relabel
+            </Button>
+          }
+        >
           <LabeledControls>
             <LabeledControls.Item minWidth="66px" label="Tank Pressure">
               <AnimatedNumber
@@ -94,9 +107,10 @@ export const Canister = (props, context) => {
                 lineHeight={2}
                 fontSize="11px"
                 color={valveOpen ? (holding ? 'caution' : 'danger') : null}
-                content={valveOpen ? 'Open' : 'Closed'}
                 onClick={() => act('valve')}
-              />
+              >
+                {valveOpen ? 'Open' : 'Closed'}
+              </Button>
             </LabeledControls.Item>
             <LabeledControls.Item mr={1} label="Port">
               <Box position="relative">
@@ -120,11 +134,13 @@ export const Canister = (props, context) => {
               <Button
                 icon="eject"
                 color={valveOpen && 'danger'}
-                content="Eject"
                 onClick={() => act('eject')}
-              />
+              >
+                Eject
+              </Button>
             )
-          }>
+          }
+        >
           {!!holding && (
             <LabeledList>
               <LabeledList.Item label="Label">{holding.name}</LabeledList.Item>

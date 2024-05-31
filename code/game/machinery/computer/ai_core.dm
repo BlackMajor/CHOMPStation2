@@ -256,7 +256,7 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 
 /client/proc/empty_ai_core_toggle_latejoin()
 	set name = "Toggle AI Core Latejoin"
-	set category = "Admin"
+	set category = "Admin.Silicon" //CHOMPEdit
 
 	var/list/cores = list()
 	for(var/obj/structure/AIcore/deactivated/D in GLOB.all_deactivated_AI_cores)
@@ -270,7 +270,7 @@ GLOBAL_LIST_BOILERPLATE(all_deactivated_AI_cores, /obj/structure/AIcore/deactiva
 
 	if(D in empty_playable_ai_cores)
 		empty_playable_ai_cores -= D
-		to_chat(src, "\The [id] is now <font color=\"#ff0000\">not available</font> for latejoining AIs.")
+		to_chat(src, "\The [id] is now [span_red("not available")] for latejoining AIs.")
 	else
 		empty_playable_ai_cores += D
-		to_chat(src, "\The [id] is now <font color=\"#008000\">available</font> for latejoining AIs.")
+		to_chat(src, "\The [id] is now [span_green("available")] for latejoining AIs.")

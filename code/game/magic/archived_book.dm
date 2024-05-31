@@ -35,7 +35,7 @@ var/global/datum/book_manager/book_mgr = new()
 /client/proc/delbook()
 	set name = "Delete Book"
 	set desc = "Permamently deletes a book from the database."
-	set category = "Admin"
+	set category = "Admin.Moderation" //CHOMPEdit
 	if(!src.holder)
 		to_chat(src, "Only administrators may use this command.")
 		return
@@ -57,7 +57,7 @@ var/global/datum/book_manager/book_mgr = new()
 		if(!SSdbcore.IsConnected()) //CHOMP Edit
 			dat += "<font color=red><b>ERROR</b>: Unable to contact External Archive. Please contact your system administrator for assistance.</font>"
 		else
-			var/DBQuery/query = dbcon.NewQuery("DELETE FROM library WHERE id=[isbn]")
+			var/datum/db_query/query = dbcon.NewQuery("DELETE FROM library WHERE id=[isbn]")
 			if(!query.Execute())
 				to_chat(usr,query.ErrorMsg())
 			dbcon.Disconnect()

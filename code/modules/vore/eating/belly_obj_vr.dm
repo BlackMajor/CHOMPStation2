@@ -1,6 +1,3 @@
-#define VORE_SOUND_FALLOFF 0.1
-#define VORE_SOUND_RANGE 3
-
 //
 //  Belly system 2.0, now using objects instead of datums because EH at datums.
 //	How many times have I rewritten bellies and vore now? -Aro
@@ -52,6 +49,7 @@
 	var/egg_type = "Egg"					// Default egg type and path.
 	var/egg_path = /obj/item/weapon/storage/vore_egg
 	var/egg_name = null						// CHOMPAdd. Custom egg name
+	var/egg_size = 0						// CHOMPAdd. Custom egg size
 	var/list/list/emote_lists = list()			// Idle emotes that happen on their own, depending on the bellymode. Contains lists of strings indexed by bellymode
 	var/emote_time = 60						// How long between stomach emotes at prey (in seconds)
 	var/emote_active = TRUE					// Are we even giving emotes out at all or not?
@@ -91,9 +89,11 @@
 	//Actual full digest modes
 	var/tmp/static/list/digest_modes = list(DM_HOLD,DM_DIGEST,DM_ABSORB,DM_DRAIN,DM_SELECT,DM_UNABSORB,DM_HEAL,DM_SHRINK,DM_GROW,DM_SIZE_STEAL,DM_EGG)
 	//Digest mode addon flags
-	var/tmp/static/list/mode_flag_list = list("Numbing" = DM_FLAG_NUMBING, "Stripping" = DM_FLAG_STRIPPING, "Leave Remains" = DM_FLAG_LEAVEREMAINS, "Muffles" = DM_FLAG_THICKBELLY, "Affect Worn Items" = DM_FLAG_AFFECTWORN, "Jams Sensors" = DM_FLAG_JAMSENSORS, "Complete Absorb" = DM_FLAG_FORCEPSAY, "Slow Body Digestion" = DM_FLAG_SLOWBODY, "Muffle Items" = DM_FLAG_MUFFLEITEMS, "TURBO MODE" = DM_FLAG_TURBOMODE) //CHOMPEdit
+	var/tmp/static/list/mode_flag_list = list("Numbing" = DM_FLAG_NUMBING, "Stripping" = DM_FLAG_STRIPPING, "Leave Remains" = DM_FLAG_LEAVEREMAINS, "Muffles" = DM_FLAG_THICKBELLY, "Affect Worn Items" = DM_FLAG_AFFECTWORN, "Jams Sensors" = DM_FLAG_JAMSENSORS, "Complete Absorb" = DM_FLAG_FORCEPSAY, "Spare Prosthetics" = DM_FLAG_SPARELIMB, "Slow Body Digestion" = DM_FLAG_SLOWBODY, "Muffle Items" = DM_FLAG_MUFFLEITEMS, "TURBO MODE" = DM_FLAG_TURBOMODE) //CHOMPEdit
 	//Item related modes
-	var/tmp/static/list/item_digest_modes = list(IM_HOLD,IM_DIGEST_FOOD,IM_DIGEST,IM_DIGEST_PARALLEL)
+	var/tmp/static/list/item_digest_modes = list(IM_HOLD,IM_DIGEST_FOOD,IM_DIGEST,IM_DIGEST_PARALLEL) //CHOMPEdit
+	//drain modes
+	var/tmp/static/list/drainmodes = list(DR_NORMAL,DR_SLEEP,DR_FAKE,DR_WEIGHT)
 
 	//List of slots that stripping handles strips
 	var/tmp/static/list/slots = list(slot_back,slot_handcuffed,slot_l_store,slot_r_store,slot_wear_mask,slot_l_hand,slot_r_hand,slot_wear_id,slot_glasses,slot_gloves,slot_head,slot_shoes,slot_belt,slot_wear_suit,slot_w_uniform,slot_s_store,slot_l_ear,slot_r_ear)
@@ -102,6 +102,7 @@
 	var/tmp/digest_mode = DM_HOLD				// Current mode the belly is set to from digest_modes (+transform_modes if human)
 	var/tmp/list/items_preserved = list()		// Stuff that wont digest so we shouldn't process it again.
 	var/tmp/recent_sound = FALSE				// Prevent audio spam
+	var/tmp/drainmode = DR_NORMAL				// Simply drains the prey then does nothing.
 
 	// Don't forget to watch your commas at the end of each line if you change these.
 	var/list/struggle_messages_outside = list(
@@ -201,13 +202,13 @@
 		"You feel your %belly beginning to become active!")
 
 	var/list/digest_chance_messages_prey = list(
-		"In response to your struggling, %owner's %belly begins to get more active...")
+		"In response to your struggling, %pred's %belly begins to get more active...")
 
 	var/list/absorb_chance_messages_owner = list(
 		"You feel your %belly start to cling onto its contents...")
 
 	var/list/absorb_chance_messages_prey = list(
-		"In response to your struggling, %owner's %belly begins to cling more tightly...")
+		"In response to your struggling, %pred's %belly begins to cling more tightly...")
 
 	var/list/digest_messages_owner = list(
 		"You feel %prey's body succumb to your digestive system, which breaks it apart into soft slurry.",
@@ -442,6 +443,7 @@
 	"sound_volume",
 	"speedy_mob_processing",
 	"egg_name",
+	"egg_size",
 	"recycling",
 	"storing_nutrition",
 	"is_feedable",
@@ -456,6 +458,7 @@
 	"belly_mob_mult",
 	"belly_item_mult",
 	"belly_overall_mult",
+	"drainmode",
 	)
 
 	if (save_digest_mode == 1)
@@ -486,7 +489,7 @@
 	owner?.vore_organs?.Remove(src)
 	owner = null
 	for(var/mob/observer/G in src)
-		G.forceMove(get_turf(src)) //CHOMPEdit End
+		G.forceMove(get_turf(src)) //ported from CHOMPStation PR#7132
 	return ..()
 
 // Called whenever an atom enters this belly
@@ -503,8 +506,8 @@
 			playsound(T, S, sound_volume * (reagents.total_volume / 100), FALSE, frequency = noise_freq, preference = /datum/client_preference/digestion_noises) //CHOMPEdit
 			cycle_sloshed = TRUE
 	thing.belly_cycles = 0 //reset cycle count
-	if(istype(thing, /mob/observer)) //Silence, spook.
-		if(desc)
+	if(istype(thing, /mob/observer)) //Ports CHOMPStation PR#3072
+		if(desc) //Ports CHOMPStation PR#4772
 			//Allow ghosts see where they are if they're still getting squished along inside.
 			var/formatted_desc
 			formatted_desc = replacetext(desc, "%belly", lowertext(name)) //replace with this belly's name
@@ -520,10 +523,11 @@
 
 	//Generic entered message
 	if(!owner.mute_entry && entrance_logs) //CHOMPEdit
-		to_chat(owner,"<span class='vnotice'>[thing] slides into your [lowertext(name)].</span>")
+		if(!istype(thing, /mob/observer))	//Don't have ghosts announce they're reentering the belly on death
+			to_chat(owner,"<span class='vnotice'>[thing] slides into your [lowertext(name)].</span>")
 
 	//Sound w/ antispam flag setting
-	if(vore_sound && !recent_sound)
+	if(vore_sound && !recent_sound && !istype(thing, /mob/observer))
 		var/soundfile
 		if(!fancy_vore)
 			soundfile = classic_vore_sounds[vore_sound]
@@ -575,8 +579,8 @@
 		//Stop AI processing in bellies
 		if(M.ai_holder)
 			M.ai_holder.go_sleep()
-		if(reagents.total_volume >= 5 && M.digestable) //CHOMPEdit Start
-			if(digest_mode == DM_DIGEST)
+		if(reagents.total_volume >= 5) //CHOMPEdit Start
+			if(digest_mode == DM_DIGEST && M.digestable)
 				reagents.trans_to(M, reagents.total_volume * 0.1, 1 / max(LAZYLEN(contents), 1), FALSE)
 			to_chat(M, "<span class='vwarning'><B>You splash into a pool of [reagent_name]!</B></span>")
 	if(!isliving(thing) && count_items_for_sprite) //CHOMPEdit - If this is enabled also update fullness for non-living things
@@ -599,6 +603,8 @@
 // Called whenever an atom leaves this belly
 /obj/belly/Exited(atom/movable/thing, atom/OldLoc)
 	. = ..()
+	if(QDELETED(owner))
+		return
 	thing.exit_belly(src) // CHOMPEdit - atom movable proc, does nothing by default. Overridden in children for special behavior.
 	if(isbelly(thing.loc)) //CHOMPEdit Start
 		var/obj/belly/NB = thing.loc
@@ -727,7 +733,7 @@
 					I.alpha = custom_ingested_alpha
 					I.pixel_y = -450 + ((450 / max(max_ingested, 1)) * min(max_ingested, ingested.total_volume))
 					F.add_overlay(I)
-			if(L.liquidbelly_visuals && mush_overlay && (owner.nutrition > 0 || max_mush == 0 || min_mush > 0 || (LAZYLEN(contents) * item_mush_val) > 0))
+			if(show_liquids && L.liquidbelly_visuals && mush_overlay && (owner.nutrition > 0 || max_mush == 0 || min_mush > 0 || (LAZYLEN(contents) * item_mush_val) > 0))
 				I = image('modular_chomp/icons/mob/vore_fullscreens/bubbles.dmi', "mush")
 				I.color = mush_color
 				I.alpha = mush_alpha
@@ -743,7 +749,7 @@
 					I.alpha = min(mush_alpha, (extra_mush / max(total_mush_content, 1)) * mush_alpha)
 					I.pixel_y = stored_y
 					F.add_overlay(I)
-			if(L.liquidbelly_visuals && liquid_overlay && reagents.total_volume)
+			if(show_liquids && L.liquidbelly_visuals && liquid_overlay && reagents.total_volume)
 				if(digest_mode == DM_HOLD && item_digest_mode == IM_HOLD)
 					I = image('modular_chomp/icons/mob/vore_fullscreens/bubbles.dmi', "calm")
 				else
@@ -785,7 +791,7 @@
 					I.alpha = custom_ingested_alpha
 					I.pixel_y = -450 + (450 / max(max_ingested, 1) * max(min(max_ingested, ingested.total_volume), 1))
 					F.add_overlay(I)
-			if(L.liquidbelly_visuals && mush_overlay && (owner.nutrition > 0 || max_mush == 0 || min_mush > 0 || (LAZYLEN(contents) * item_mush_val) > 0))
+			if(show_liquids && L.liquidbelly_visuals && mush_overlay && (owner.nutrition > 0 || max_mush == 0 || min_mush > 0 || (LAZYLEN(contents) * item_mush_val) > 0))
 				I = image('modular_chomp/icons/mob/vore_fullscreens/bubbles.dmi', "mush")
 				I.color = mush_color
 				I.alpha = mush_alpha
@@ -801,7 +807,7 @@
 					I.alpha = min(mush_alpha, (extra_mush / max(total_mush_content, 1)) * mush_alpha)
 					I.pixel_y = stored_y
 					F.add_overlay(I)
-			if(L.liquidbelly_visuals && liquid_overlay && reagents.total_volume)
+			if(show_liquids && L.liquidbelly_visuals && liquid_overlay && reagents.total_volume)
 				if(digest_mode == DM_HOLD && item_digest_mode == IM_HOLD)
 					I = image('modular_chomp/icons/mob/vore_fullscreens/bubbles.dmi', "calm")
 				else
@@ -1014,6 +1020,8 @@
 	for(var/atom/movable/AM as anything in contents)
 		if(isliving(AM))
 			var/mob/living/L = AM
+			if(L.stat)
+				L.SetSleeping(min(L.sleeping,20))
 			if(L.absorbed && !include_absorbed)
 				continue
 		count += release_specific_contents(AM, silent = TRUE)
@@ -1037,7 +1045,7 @@
 
 	//Print notifications/sound if necessary
 	if(!silent && count)
-		owner.visible_message("<span class='vnotice'><font color='green'><b>[owner] [release_verb] everything from their [lowertext(name)]!</b></font></span>", range = privacy_range)
+		owner.visible_message("<span class='vnotice'>[span_green("<b>[owner] [release_verb] everything from their [lowertext(name)]!</b>")]</span>", range = privacy_range)
 		var/soundfile
 		if(!fancy_vore)
 			soundfile = classic_release_sounds[release_sound]
@@ -1099,6 +1107,12 @@
 						absorbed_count++
 				Pred.bloodstr.trans_to(Prey, Pred.reagents.total_volume / absorbed_count)
 
+	//Makes it so that if prey are heavily asleep, they will wake up shortly after release
+	if(isliving(M))
+		var/mob/living/ML = M
+		if(ML.stat)
+			ML.SetSleeping(min(ML.sleeping,20))
+
 	//Clean up our own business
 	if(!ishuman(owner))
 		owner.update_icons()
@@ -1119,7 +1133,7 @@
 	if(istype(M, /mob/observer)) //CHOMPEdit
 		silent = TRUE
 	if(!silent)
-		owner.visible_message("<span class='vnotice'><font color='green'><b>[owner] [release_verb] [M] from their [lowertext(name)]!</b></font></span>",range = privacy_range)
+		owner.visible_message("<span class='vnotice'>[span_green("<b>[owner] [release_verb] [M] from their [lowertext(name)]!</b>")]</span>",range = privacy_range)
 		var/soundfile
 		if(!fancy_vore)
 			soundfile = classic_release_sounds[release_sound]
@@ -1167,7 +1181,7 @@
 // but can easily make the message vary based on how many people are inside, etc.
 // Returns a string which shoul be appended to the Examine output.
 /obj/belly/proc/get_examine_msg()
-	if(!(contents.len) || !(examine_messages.len))
+	if(!(contents?.len) || !(examine_messages?.len)) //ChompEDIT - runtimes
 		return ""
 
 	var/formatted_message
@@ -1178,6 +1192,15 @@
 	for(var/mob/living/L in contents)
 		living_count++
 
+	var/count_total = contents.len
+	for(var/mob/observer/C in contents)
+		count_total-- //Exclude any ghosts from %count
+
+	var/list/vore_contents = list()
+	for(var/G in contents)
+		if(!isobserver(G))
+			vore_contents += G //Exclude any ghosts from %prey
+
 	for(var/mob/living/P in contents)
 		if(!P.absorbed) //This is required first, in case there's a person absorbed and not absorbed in a stomach.
 			total_bulge += P.size_multiplier
@@ -1187,14 +1210,14 @@
 
 	formatted_message = replacetext(raw_message, "%belly", lowertext(name))
 	formatted_message = replacetext(formatted_message, "%pred", owner)
-	formatted_message = replacetext(formatted_message, "%prey", english_list(contents))
+	formatted_message = replacetext(formatted_message, "%prey", english_list(vore_contents))
 	formatted_message = replacetext(formatted_message, "%countprey", living_count)
-	formatted_message = replacetext(formatted_message, "%count", contents.len)
+	formatted_message = replacetext(formatted_message, "%count", count_total)
 
-	return("<i><font color='red'>[formatted_message]</font></i>")
+	return(span_red("<i>[formatted_message]</i>"))
 
 /obj/belly/proc/get_examine_msg_absorbed()
-	if(!(contents.len) || !(examine_messages_absorbed.len) || !display_absorbed_examine)
+	if(!(contents?.len) || !(examine_messages_absorbed?.len) || !display_absorbed_examine) //ChompEDIT - runtimes
 		return ""
 
 	var/formatted_message
@@ -1215,7 +1238,7 @@
 	formatted_message = replacetext(formatted_message, "%prey", english_list(absorbed_victims))
 	formatted_message = replacetext(formatted_message, "%countprey", absorbed_count)
 
-	return("<i><font color='red'>[formatted_message]</font></i>")
+	return(span_red("<i>[formatted_message]</i>"))
 
 // The next function gets the messages set on the belly, in human-readable format.
 // This is useful in customization boxes and such. The delimiter right now is \n\n so
@@ -1487,7 +1510,7 @@
 	var/obj/item/device/mmi/hasMMI // CHOMPEdit - Adjust how MMI's are handled
 
 	//Drop all items into the belly.
-	if(config.items_survive_digestion)
+	if(CONFIG_GET(flag/items_survive_digestion)) // CHOMPEdit
 		for(var/obj/item/W in M)
 			if(istype(W, /obj/item/organ/internal/mmi_holder/posibrain))
 				var/obj/item/organ/internal/mmi_holder/MMI = W
@@ -2221,7 +2244,7 @@
 		return
 	content.belly_cycles = 0 //CHOMPEdit
 	content.forceMove(target)
-	if(ismob(content))
+	if(ismob(content) && !isobserver(content))
 		var/mob/ourmob = content
 		ourmob.reset_view(owner)
 	if(isitem(content))
@@ -2490,6 +2513,7 @@
 	dupe.slow_brutal = slow_brutal
 	dupe.sound_volume = sound_volume
 	dupe.egg_name = egg_name
+	dupe.egg_size = egg_size
 	dupe.recycling = recycling
 	dupe.storing_nutrition = storing_nutrition
 	dupe.is_feedable = is_feedable

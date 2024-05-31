@@ -1,5 +1,14 @@
 import { useBackend } from '../backend';
-import { Button, Icon, NoticeBox, NumberInput, Section, Table, Tabs, Slider } from '../components';
+import {
+  Button,
+  Icon,
+  NoticeBox,
+  NumberInput,
+  Section,
+  Slider,
+  Table,
+  Tabs,
+} from '../components';
 import { Window } from '../layouts';
 
 export const ColorMate = (props, context) => {
@@ -49,7 +58,8 @@ export const ColorMate = (props, context) => {
                     act('switch_modes', {
                       mode: 1,
                     })
-                  }>
+                  }
+                >
                   Tint coloring (Simple)
                 </Tabs.Tab>
                 <Tabs.Tab
@@ -59,7 +69,8 @@ export const ColorMate = (props, context) => {
                     act('switch_modes', {
                       mode: 2,
                     })
-                  }>
+                  }
+                >
                   HSV coloring (Normal)
                 </Tabs.Tab>
                 <Tabs.Tab
@@ -69,31 +80,23 @@ export const ColorMate = (props, context) => {
                     act('switch_modes', {
                       mode: 3,
                     })
-                  }>
+                  }
+                >
                   Matrix coloring (Advanced)
                 </Tabs.Tab>
               </Tabs>
               <center>Coloring: {item.name}</center>
               <Table mt={1}>
                 <Table.Cell width="33%">
-                  <Button
-                    fluid
-                    content="Paint"
-                    icon="fill"
-                    onClick={() => act('paint')}
-                  />
-                  <Button
-                    fluid
-                    content="Clear"
-                    icon="eraser"
-                    onClick={() => act('clear')}
-                  />
-                  <Button
-                    fluid
-                    content="Eject"
-                    icon="eject"
-                    onClick={() => act('drop')}
-                  />
+                  <Button fluid icon="fill" onClick={() => act('paint')}>
+                    Paint
+                  </Button>
+                  <Button fluid icon="eraser" onClick={() => act('clear')}>
+                    Clear
+                  </Button>
+                  <Button fluid icon="eject" onClick={() => act('drop')}>
+                    Eject
+                  </Button>
                 </Table.Cell>
                 <Table.Cell width="66%">
                   {activemode === 1 ? (
@@ -118,12 +121,9 @@ export const ColorMate = (props, context) => {
 export const ColorMateTint = (props, context) => {
   const { act, data } = useBackend(context);
   return (
-    <Button
-      fluid
-      content="Select new color"
-      icon="paint-brush"
-      onClick={() => act('choose_color')}
-    />
+    <Button fluid icon="paint-brush" onClick={() => act('choose_color')}>
+      Select new color
+    </Button>
   );
 };
 

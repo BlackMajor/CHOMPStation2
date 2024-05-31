@@ -18,7 +18,9 @@
 	max_co2 = 0
 	min_n2 = 0
 	max_n2 = 0
-	unsuitable_atoms_damage = 2
+
+	unsuitable_atoms_damage = 0
+	heat_damage_per_tick = 0
 
 	melee_damage_lower = 12
 	melee_damage_upper = 12
@@ -43,7 +45,7 @@
 		user.drop_from_inventory(O)
 		qdel(O)
 		evolve()
-	if(istype(O, feed))
+	else if(istype(O, feed))
 		user.drop_from_inventory(O)
 		qdel(O)
 		duplicate()
@@ -150,7 +152,6 @@
 	..()
 
 /mob/living/simple_mob/vore/spacecritter/livingice/proc/cold_aura()
-	for(var/mob/living/L in view(2, src))
 	var/turf/T = get_turf(src)
 	var/datum/gas_mixture/env = T.return_air()
 	if(env)

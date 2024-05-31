@@ -1,9 +1,9 @@
 import { useBackend } from '../backend';
-import { Button, Section, LabeledList } from '../components';
+import { Button, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
-export const GravityGenerator = (props, context) => {
-  const { act, data } = useBackend(context);
+export const GravityGenerator = (props) => {
+  const { act, data } = useBackend();
 
   const { breaker, charge_count, charging_state, on, operational } = data;
 
@@ -17,7 +17,7 @@ export const GravityGenerator = (props, context) => {
   }
 
   return (
-    <Window width={500} height={400} resizable>
+    <Window width={500} height={400}>
       <Window.Content>
         <Section
           title="Status"
@@ -26,15 +26,17 @@ export const GravityGenerator = (props, context) => {
               icon="exclamation-triangle"
               confirmIcon="exclamation-triangle"
               color="red"
-              content="Toggle Breaker"
               confirmContent={
                 breaker
                   ? 'This will disable gravity!'
                   : 'This will enable gravity!'
               }
               onClick={() => act('gentoggle')}
-            />
-          }>
+            >
+              Toggle Breaker
+            </Button.Confirm>
+          }
+        >
           <LabeledList>
             <LabeledList.Item label="Breaker Setting">
               {breaker ? 'Generator Enabled' : 'Generator Disabled'}

@@ -4,8 +4,8 @@ import { Window } from '../layouts';
 import { LoginInfo } from './common/LoginInfo';
 import { LoginScreen } from './common/LoginScreen';
 
-export const Fax = (props, context) => {
-  const { data } = useBackend(context);
+export const Fax = (props) => {
+  const { data } = useBackend();
 
   const { authenticated, copyItem } = data;
 
@@ -16,7 +16,7 @@ export const Fax = (props, context) => {
 
   if (!authenticated) {
     return (
-      <Window width={600} height={250} resizable>
+      <Window width={600} height={250}>
         <Window.Content>
           <RemoveItem />
           <LoginScreen machineType="Fax" />
@@ -26,7 +26,7 @@ export const Fax = (props, context) => {
   }
 
   return (
-    <Window width={600} height={variableHeight} resizable>
+    <Window width={600} height={variableHeight}>
       <Window.Content>
         <RemoveItem />
         <LoginInfo />
@@ -36,8 +36,8 @@ export const Fax = (props, context) => {
   );
 };
 
-export const FaxContent = (props, context) => {
-  const { act, data } = useBackend(context);
+export const FaxContent = (props) => {
+  const { act, data } = useBackend();
 
   const { bossName, copyItem, cooldown, destination, adminDepartments } = data;
   const staffRequestDepartment = new Set(adminDepartments);
@@ -70,19 +70,14 @@ export const FaxContent = (props, context) => {
               />
             </LabeledList.Item>
             <LabeledList.Item label="Sending To">
-              <Button
-                icon="map-marker-alt"
-                content={destination}
-                onClick={() => act('dept')}
-              />
+              <Button icon="map-marker-alt" onClick={() => act('dept')}>
+                {destination}
+              </Button>
             </LabeledList.Item>
           </LabeledList>
-          <Button
-            icon="share-square"
-            onClick={() => act('send')}
-            content="Send"
-            fluid
-          />
+          <Button icon="share-square" onClick={() => act('send')} fluid>
+            Send
+          </Button>
         </Box>
       )) || <Box mt={1}>Please insert item to transmit.</Box>}
       <AutomatedStaffRequest />
@@ -90,8 +85,8 @@ export const FaxContent = (props, context) => {
   );
 };
 
-const RemoveItem = (props, context) => {
-  const { act, data } = useBackend(context);
+const RemoveItem = (props) => {
+  const { act, data } = useBackend();
 
   const { copyItem } = data;
 
@@ -101,18 +96,15 @@ const RemoveItem = (props, context) => {
 
   return (
     <Box>
-      <Button
-        fluid
-        icon="eject"
-        onClick={() => act('remove')}
-        content="Remove Item"
-      />
+      <Button fluid icon="eject" onClick={() => act('remove')}>
+        Remove Item
+      </Button>
     </Box>
   );
 };
 
-const AutomatedStaffRequest = (props, context) => {
-  const { act, data } = useBackend(context);
+const AutomatedStaffRequest = (props) => {
+  const { act, data } = useBackend();
 
   const { adminDepartments, destination, copyItem } = data;
   const staffRequestDepartment = new Set(adminDepartments);
@@ -137,9 +129,10 @@ const AutomatedStaffRequest = (props, context) => {
           <Button
             icon="share-square"
             onClick={() => act('send_automated_staff_request')}
-            content="Send Automated Staff Request"
             fluid
-          />
+          >
+            Send Automated Staff Request
+          </Button>
         </Box>
       </Box>
     );
