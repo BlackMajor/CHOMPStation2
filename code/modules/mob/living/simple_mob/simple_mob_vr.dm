@@ -1,8 +1,3 @@
-// Flags for specifying which states we have vore icon_states for.
-#define SA_ICON_LIVING	0x01
-#define SA_ICON_DEAD	0x02
-#define SA_ICON_REST	0x04
-
 /mob/living/simple_mob
 	melee_attack_delay = 1
 	base_attack_cooldown = 10
@@ -234,6 +229,11 @@
 /mob/living/simple_mob/init_vore()
 	if(!vore_active || no_vore || !voremob_loaded) //CHOMPedit: On-demand belly loading.
 		return
+
+	//CHOMPAdd Start
+	if(!soulgem)
+		soulgem = new(src)
+	//CHOMPAdd End
 
 	if(LAZYLEN(vore_organs))
 		return

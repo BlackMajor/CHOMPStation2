@@ -19,6 +19,8 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 														"could_it_be_a_tumby")
 */ //Chomp REMOVE End
 
+#define VORE_RESIZE_COST 125 //CHOMPAdd
+
 /mob
 	var/datum/vore_look/vorePanel
 
@@ -210,6 +212,7 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 		var/obj/belly/selected = host.vore_selected
 		selected_list = list(
 			"belly_name" = selected.name,
+			"message_mode" = selected.message_mode,
 			"is_wet" = selected.is_wet,
 			"wet_loop" = selected.wet_loop,
 			"mode" = selected.digest_mode,
@@ -302,9 +305,9 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			"tail_extra_overlay2" = selected.tail_extra_overlay2,
 			"noise_freq" = selected.noise_freq,
 			"item_digest_logs" = selected.item_digest_logs,
-			"private_struggle" = selected.private_struggle,
 			//"marking_to_add" = selected.marking_to_add
 			//CHOMPEdit end
+			"private_struggle" = selected.private_struggle,
 		)
 
 		var/list/addons = list()
@@ -353,8 +356,10 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			selected_list["autotransfer"]["autotransferchance"] = selected.autotransferchance
 			selected_list["autotransfer"]["autotransferwait"] = selected.autotransferwait
 			selected_list["autotransfer"]["autotransferlocation"] = selected.autotransferlocation
+			selected_list["autotransfer"]["autotransferextralocation"] = selected.autotransferextralocation				//CHOMPAdd
 			selected_list["autotransfer"]["autotransferchance_secondary"] = selected.autotransferchance_secondary		//CHOMPAdd
 			selected_list["autotransfer"]["autotransferlocation_secondary"] = selected.autotransferlocation_secondary	//CHOMPAdd
+			selected_list["autotransfer"]["autotransferextralocation_secondary"] = selected.autotransferextralocation_secondary	//CHOMPAdd
 			selected_list["autotransfer"]["autotransfer_min_amount"] = selected.autotransfer_min_amount
 			selected_list["autotransfer"]["autotransfer_max_amount"] = selected.autotransfer_max_amount
 			//CHOMPAdd auto-transfer flags
@@ -544,10 +549,48 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 		"weight_messages" = host.weight_messages,
 		"eating_privacy_global" = host.eating_privacy_global,
 		//CHOMPEdit start, vore sprites
+		"belly_rub_target" = host.belly_rub_target,
 		"vore_sprite_color" = host.vore_sprite_color,
-		"vore_sprite_multiply" = host.vore_sprite_multiply
+		"vore_sprite_multiply" = host.vore_sprite_multiply,
+		//Soulcatcher
+		"soulcatcher_allow_capture" = host.soulcatcher_pref_flags & SOULCATCHER_ALLOW_CAPTURE,
+		"soulcatcher_allow_transfer" = host.soulcatcher_pref_flags & SOULCATCHER_ALLOW_TRANSFER,
+		"soulcatcher_allow_deletion" = (global_flag_check(host.soulcatcher_pref_flags, SOULCATCHER_ALLOW_DELETION) + global_flag_check(host.soulcatcher_pref_flags, SOULCATCHER_ALLOW_DELETION_INSTANT))
 		//CHOMPEdit end
 	)
+	//CHOMPAdd Start, Soulcatcher
+	var/list/stored_souls = list()
+	data["soulcatcher"] = null
+	if(host.soulgem)
+		data["soulcatcher"] = list()
+		for(var/soul in host.soulgem.brainmobs)
+			var/list/info = list("displayText" = "[soul]", "value" = "\ref[soul]")
+			stored_souls.Add(list(info))
+		data["soulcatcher"]["active"] = host.soulgem.flag_check(SOULGEM_ACTIVE)
+		data["soulcatcher"]["name"] = host.soulgem.name
+		data["soulcatcher"]["caught_souls"] = stored_souls
+		data["soulcatcher"]["selected_soul"] = host.soulgem.selected_soul
+		data["soulcatcher"]["selected_sfx"] = host.soulgem.linked_belly
+		data["soulcatcher"]["interior_design"] =  host.soulgem.inside_flavor
+		data["soulcatcher"]["catch_self"] = host.soulgem.flag_check(NIF_SC_CATCHING_ME)
+		data["soulcatcher"]["catch_prey"] = host.soulgem.flag_check(NIF_SC_CATCHING_OTHERS)
+		data["soulcatcher"]["ext_hearing"] = host.soulgem.flag_check(NIF_SC_ALLOW_EARS)
+		data["soulcatcher"]["ext_vision"] = host.soulgem.flag_check(NIF_SC_ALLOW_EYES)
+		data["soulcatcher"]["mind_backups"] = host.soulgem.flag_check(NIF_SC_BACKUPS)
+		data["soulcatcher"]["ar_projecting"] = host.soulgem.flag_check(NIF_SC_PROJECTING)
+		data["soulcatcher"]["show_vore_sfx"] = host.soulgem.flag_check(SOULGEM_SHOW_VORE_SFX)
+	var/nutri_value = 0
+	if(istype(host, /mob/living))
+		var/mob/living/H = host
+		nutri_value = H.nutrition
+	data["abilities"] = list (
+		"nutrition" = nutri_value,
+		"current_size" = host.size_multiplier,
+		"minimum_size" = host.has_large_resize_bounds() ? RESIZE_MINIMUM_DORMS : RESIZE_MINIMUM,
+		"maximum_size" = host.has_large_resize_bounds() ? RESIZE_MAXIMUM_DORMS : RESIZE_MAXIMUM,
+		"resize_cost" = VORE_RESIZE_COST
+	)
+	//CHOMPAdd End, Soulcatcher
 
 	return data
 
@@ -684,6 +727,13 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 					var/new_item_mode = html_encode(belly_data["item_mode"])
 					if(new_item_mode in new_belly.item_digest_modes)
 						new_belly.item_digest_mode = new_item_mode
+
+				if(isnum(belly_data["message_mode"]))
+					var/new_message_mode = belly_data["message_mode"]
+					if(new_message_mode == 0)
+						new_belly.message_mode = FALSE
+					if(new_message_mode == 1)
+						new_belly.message_mode = TRUE
 
 				if(islist(belly_data["addons"]))
 					new_belly.mode_flags = 0
@@ -886,6 +936,26 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 					if(new_secondary_transfer_messages_owner)
 						new_belly.set_messages(new_secondary_transfer_messages_owner,"trnsso")
 
+				if(islist(belly_data["primary_autotransfer_messages_prey"]))
+					var/new_primary_autotransfer_messages_prey = sanitize(jointext(belly_data["primary_autotransfer_messages_prey"],"\n\n"),MAX_MESSAGE_LEN,0,0,0)
+					if(new_primary_autotransfer_messages_prey)
+						new_belly.set_messages(new_primary_autotransfer_messages_prey,"atrnspp")
+
+				if(islist(belly_data["primary_autotransfer_messages_owner"]))
+					var/new_primary_autotransfer_messages_owner = sanitize(jointext(belly_data["primary_autotransfer_messages_owner"],"\n\n"),MAX_MESSAGE_LEN,0,0,0)
+					if(new_primary_autotransfer_messages_owner)
+						new_belly.set_messages(new_primary_autotransfer_messages_owner,"atrnspo")
+
+				if(islist(belly_data["secondary_autotransfer_messages_prey"]))
+					var/new_secondary_autotransfer_messages_prey = sanitize(jointext(belly_data["secondary_autotransfer_messages_prey"],"\n\n"),MAX_MESSAGE_LEN,0,0,0)
+					if(new_secondary_autotransfer_messages_prey)
+						new_belly.set_messages(new_secondary_autotransfer_messages_prey,"atrnssp")
+
+				if(islist(belly_data["secondary_autotransfer_messages_owner"]))
+					var/new_secondary_autotransfer_messages_owner = sanitize(jointext(belly_data["secondary_autotransfer_messages_owner"],"\n\n"),MAX_MESSAGE_LEN,0,0,0)
+					if(new_secondary_autotransfer_messages_owner)
+						new_belly.set_messages(new_secondary_autotransfer_messages_owner,"atrnsso")
+
 				if(islist(belly_data["digest_chance_messages_prey"]))
 					var/new_digest_chance_messages_prey = sanitize(jointext(belly_data["digest_chance_messages_prey"],"\n\n"),MAX_MESSAGE_LEN,0,0,0)
 					if(new_digest_chance_messages_prey)
@@ -1041,25 +1111,27 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 					var/new_emote_time = belly_data["emote_time"]
 					new_belly.emote_time = CLAMP(new_emote_time, 60, 600)
 
+				new_belly.set_zero_digestion_damage() // CHOMP Edit; needed for importing a belly to overwrite an existing belly; otherwise pre-existing values throw off the unused digestion damage.
+
 				if(isnum(belly_data["digest_brute"]))
 					var/new_digest_brute = belly_data["digest_brute"]
-					new_belly.digest_brute = CLAMP(new_digest_brute, 0, 6)
+					new_belly.digest_brute = CLAMP(new_digest_brute, 0, new_belly.get_unused_digestion_damage()) // CHOMP Edit; clamped to unused damage instead of 6
 
 				if(isnum(belly_data["digest_burn"]))
 					var/new_digest_burn = belly_data["digest_burn"]
-					new_belly.digest_burn = CLAMP(new_digest_burn, 0, 6)
+					new_belly.digest_burn = CLAMP(new_digest_burn, 0, new_belly.get_unused_digestion_damage()) // CHOMP Edit; clamped to unused damage instead of 6
 
 				if(isnum(belly_data["digest_oxy"]))
 					var/new_digest_oxy = belly_data["digest_oxy"]
-					new_belly.digest_oxy = CLAMP(new_digest_oxy, 0, 12)
+					new_belly.digest_oxy = CLAMP(new_digest_oxy, 0, new_belly.get_unused_digestion_damage()) // CHOMP Edit; clamped to unused damage instead of 12
 
 				if(isnum(belly_data["digest_tox"]))
 					var/new_digest_tox = belly_data["digest_tox"]
-					new_belly.digest_tox = CLAMP(new_digest_tox, 0, 6)
+					new_belly.digest_tox = CLAMP(new_digest_tox, 0, new_belly.get_unused_digestion_damage()) // CHOMP Edit; clamped to unused damage instead of 6
 
 				if(isnum(belly_data["digest_clone"]))
 					var/new_digest_clone = belly_data["digest_clone"]
-					new_belly.digest_clone = CLAMP(new_digest_clone, 0, 6)
+					new_belly.digest_clone = CLAMP(new_digest_clone, 0, new_belly.get_unused_digestion_damage()) // CHOMP Edit; clamped to unused damage instead of 6
 
 				if(isnum(belly_data["shrink_grow_size"]))
 					var/new_shrink_grow_size = belly_data["shrink_grow_size"]
@@ -1470,6 +1542,14 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 						if(new_autotransferlocation == new_belly.name)
 							new_belly.autotransferlocation = null
 
+				if(islist(belly_data["autotransferextralocation"]))
+					var/new_autotransferextralocation = belly_data["autotransferextralocation"]
+					if(new_autotransferextralocation)
+						new_belly.autotransferextralocation = list()
+						for(var/extra_belly in new_autotransferextralocation)
+							if(extra_belly in valid_names)
+								new_belly.autotransferextralocation += extra_belly
+
 				if(isnum(belly_data["autotransferchance_secondary"]))
 					var/new_autotransferchance_secondary = belly_data["autotransferchance_secondary"]
 					new_belly.autotransferchance_secondary = sanitize_integer(new_autotransferchance_secondary, 0, 100, initial(new_belly.autotransferchance_secondary))
@@ -1485,6 +1565,15 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 							new_belly.autotransferlocation_secondary = new_autotransferlocation_secondary
 						if(new_autotransferlocation_secondary == new_belly.name)
 							new_belly.autotransferlocation_secondary = null
+
+				if(islist(belly_data["autotransferextralocation_secondary"]))
+					var/new_autotransferextralocation_secondary = belly_data["autotransferextralocation_secondary"]
+					if(new_autotransferextralocation_secondary)
+						new_belly.autotransferextralocation_secondary = list()
+						for(var/extra_belly in new_autotransferextralocation_secondary)
+							if(extra_belly in valid_names)
+								new_belly.autotransferextralocation_secondary += extra_belly
+
 
 				if(isnum(belly_data["autotransfer_min_amount"]))
 					var/new_autotransfer_min_amount = belly_data["autotransfer_min_amount"]
@@ -2018,15 +2107,25 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 		//CHOMPEdit start - vore sprites color
 		if("set_vs_color")
 			var/belly_choice = tgui_input_list(usr, "Which vore sprite are you going to edit the color of?", "Vore Sprite Color", host.vore_icon_bellies)
-			var/newcolor = input(usr, "Choose a color.", "", host.vore_sprite_color[belly_choice]) as color|null
-			if(newcolor)
-				host.vore_sprite_color[belly_choice] = newcolor
-				var/multiply = tgui_input_list(usr, "Set the color to be applied multiplicatively or additively? Currently in [host.vore_sprite_multiply[belly_choice] ? "Multiply" : "Add"]", "Vore Sprite Color", list("Multiply", "Add"))
-				if(multiply == "Multiply")
-					host.vore_sprite_multiply[belly_choice] = TRUE
-				else if(multiply == "Add")
-					host.vore_sprite_multiply[belly_choice] = FALSE
-				host.update_icons_body()
+			if(belly_choice)
+				var/newcolor = input(usr, "Choose a color.", "", host.vore_sprite_color[belly_choice]) as color|null
+				if(newcolor)
+					host.vore_sprite_color[belly_choice] = newcolor
+					var/multiply = tgui_input_list(usr, "Set the color to be applied multiplicatively or additively? Currently in [host.vore_sprite_multiply[belly_choice] ? "Multiply" : "Add"]", "Vore Sprite Color", list("Multiply", "Add"))
+					if(multiply == "Multiply")
+						host.vore_sprite_multiply[belly_choice] = TRUE
+					else if(multiply == "Add")
+						host.vore_sprite_multiply[belly_choice] = FALSE
+					host.update_icons_body()
+					unsaved_changes = TRUE
+			return TRUE
+		if("set_belly_rub")
+			host.belly_rub_target = tgui_input_list(usr, "Which belly would you prefer to be rubbed?","Select Target", host.vore_organs)
+			if(!(host.belly_rub_target))
+				host.belly_rub_target = null
+			if(host.client.prefs_vr)
+				host.client.prefs_vr.belly_rub_target = host.belly_rub_target
+			unsaved_changes = TRUE
 			return TRUE
 		if("toggle_no_latejoin_vore_warning")
 			host.no_latejoin_vore_warning = !host.no_latejoin_vore_warning
@@ -2067,6 +2166,153 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			if(host.client.prefs_vr)
 				host.client.prefs_vr.no_latejoin_prey_warning_persists = host.no_latejoin_prey_warning_persists
 			unsaved_changes = TRUE
+			return TRUE
+		//Soulcatcher prefs
+		if("toggle_soulcatcher_allow_capture")
+			host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_CAPTURE
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_soulcatcher_allow_transfer")
+			host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_TRANSFER
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_soulcatcher_allow_deletion")
+			var/current_number = global_flag_check(host.soulcatcher_pref_flags, SOULCATCHER_ALLOW_DELETION) + global_flag_check(host.soulcatcher_pref_flags, SOULCATCHER_ALLOW_DELETION_INSTANT)
+			switch(current_number)
+				if(0)
+					host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_DELETION
+				if(1)
+					host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_DELETION_INSTANT
+				if(2)
+					if(host.soulcatcher_pref_flags & SOULCATCHER_ALLOW_DELETION)
+						host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_DELETION
+					if(host.soulcatcher_pref_flags & SOULCATCHER_ALLOW_DELETION_INSTANT)
+						host.soulcatcher_pref_flags ^= SOULCATCHER_ALLOW_DELETION_INSTANT
+			unsaved_changes = TRUE
+			return TRUE
+		if("adjust_own_size")
+			var/new_size = text2num(params["new_mob_size"])
+			new_size = clamp(new_size, RESIZE_MINIMUM_DORMS, RESIZE_MAXIMUM_DORMS)
+			if(istype(host, /mob/living))
+				var/mob/living/H = host
+				if(H.nutrition >= VORE_RESIZE_COST)
+					H.adjust_nutrition(-VORE_RESIZE_COST)
+					H.resize(new_size, uncapped = host.has_large_resize_bounds(), ignore_prefs = TRUE)
+			return TRUE
+		//Soulcatcher settings
+		if("soulcatcher_toggle")
+			host.soulgem.toggle_setting(SOULGEM_ACTIVE)
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_select")
+			host.soulgem.selected_soul = locate(params["selected_soul"])
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_sfx")
+			var/obj/belly = locate(params["selected_belly"])
+			if(istype(belly))
+				host.soulgem.update_linked_belly(belly)
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_release")
+			host.soulgem.release_selected()
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_transfer")
+			host.soulgem.transfer_selected()
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_delete")
+			host.soulgem.delete_selected()
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_self_catching")
+			host.soulgem.toggle_setting(NIF_SC_CATCHING_ME)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_prey_catching")
+			host.soulgem.toggle_setting(NIF_SC_CATCHING_OTHERS)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_ext_hearing")
+			host.soulgem.toggle_setting(NIF_SC_ALLOW_EARS)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_ext_vision")
+			host.soulgem.toggle_setting(NIF_SC_ALLOW_EYES)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_mind_backup")
+			host.soulgem.toggle_setting(NIF_SC_BACKUPS)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_ar_projecting")
+			host.soulgem.toggle_setting(NIF_SC_PROJECTING)
+			unsaved_changes = TRUE
+			return TRUE
+		if("toggle_vore_sfx")
+			host.soulgem.toggle_setting(SOULGEM_SHOW_VORE_SFX)
+			unsaved_changes = TRUE
+			return TRUE
+		if("soulcatcher_release_all")
+			unsaved_changes = TRUE
+			host.soulgem.release_mobs()
+			return TRUE
+		if("soulcatcher_erase_all")
+			unsaved_changes = TRUE
+			host.soulgem.erase_mobs()
+			return TRUE
+		if("soulcatcher_rename")
+			var/new_name = tgui_input_text(host, "Adjust the name of your soulcatcher. Limit 60 chars.", \
+				"New Name", html_decode(host.soulgem.name), 60, prevent_enter = TRUE)
+			if(new_name)
+				unsaved_changes = TRUE
+				host.soulgem.rename(new_name)
+			return TRUE
+		if("soulcatcher_interior_design")
+			var/new_flavor = tgui_input_text(host, "Type what the prey sees after being 'caught'. This will be \
+				printed after an intro set in the capture message to the prey. If you already \
+				have prey, this will be printed to them after the transit message. Limit [MAX_MESSAGE_LEN * 2] chars.", \
+				"VR Environment", html_decode(host.soulgem.inside_flavor), MAX_MESSAGE_LEN * 2, TRUE, prevent_enter = TRUE)
+			if(new_flavor)
+				unsaved_changes = TRUE
+				host.soulgem.adjust_interior(new_flavor)
+			return TRUE
+		if("soulcatcher_capture_message")
+			var/message = tgui_input_text(host, "Type what the prey sees while being 'caught'. This will be \
+				printed before the iterior design to the prey. Limit [MAX_MESSAGE_LEN / 4] chars.", \
+				"VR Capture", html_decode(host.soulgem.capture_message), MAX_MESSAGE_LEN / 4, TRUE, prevent_enter = TRUE)
+			if(message)
+				unsaved_changes = TRUE
+				host.soulgem.set_custom_message(message, "capture")
+			return TRUE
+		if("soulcatcher_transit_message")
+			var/message = tgui_input_text(host, "Type what the prey sees when you change the interior with them already captured. \
+				Limit [MAX_MESSAGE_LEN / 4] chars.", "VR Transit", html_decode(host.soulgem.transit_message), MAX_MESSAGE_LEN / 4, TRUE, prevent_enter = TRUE)
+			if(message)
+				unsaved_changes = TRUE
+				host.soulgem.set_custom_message(message, "transit")
+			return TRUE
+		if("soulcatcher_release_message")
+			var/message = tgui_input_text(host, "Type what the prey sees when they are released. \
+				Limit [MAX_MESSAGE_LEN / 4] chars.", "VR Release", html_decode(host.soulgem.release_message), MAX_MESSAGE_LEN / 4, TRUE, prevent_enter = TRUE)
+			if(message)
+				unsaved_changes = TRUE
+				host.soulgem.set_custom_message(message, "release")
+			return TRUE
+		if("soulcatcher_transfer_message")
+			var/message = tgui_input_text(host, "Type what the prey sees when they are transfered. \
+				Limit [MAX_MESSAGE_LEN / 4] chars.", "VR Transfer", html_decode(host.soulgem.transfer_message), MAX_MESSAGE_LEN / 4, TRUE, prevent_enter = TRUE)
+			if(message)
+				unsaved_changes = TRUE
+				host.soulgem.set_custom_message(message, "transfer")
+			return TRUE
+		if("soulcatcher_delete_message")
+			var/message = tgui_input_text(host, "Type what the prey sees when they are deleted. \
+				Limit [MAX_MESSAGE_LEN / 4] chars.", "VR Transfer", html_decode(host.soulgem.delete_message), MAX_MESSAGE_LEN / 4, TRUE, prevent_enter = TRUE)
+			if(message)
+				unsaved_changes = TRUE
+				host.soulgem.set_custom_message(message, "delete")
 			return TRUE
 		//CHOMPEdit end
 
@@ -2578,6 +2824,9 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 
 			host.vore_selected.name = new_name
 			. = TRUE
+		if("b_message_mode")
+			host.vore_selected.message_mode = !host.vore_selected.message_mode
+			. = TRUE
 		if("b_wetness")
 			host.vore_selected.is_wet = !host.vore_selected.is_wet
 			. = TRUE
@@ -2838,25 +3087,45 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 						host.vore_selected.set_messages(new_message,"aescfo")
 
 				if("trnspp")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they are automatically transferred into your primary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Primary Transfer Message (to prey)",host.vore_selected.get_messages("trnspp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they struggle and are transferred into your primary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Primary Transfer Message (to prey)",host.vore_selected.get_messages("trnspp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0) //CHOMPEdit
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"trnspp")
 
 				if("trnspo")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey is automatically transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Primary Transfer Message (to you)",host.vore_selected.get_messages("trnspo"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey struggle and are transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Primary Transfer Message (to you)",host.vore_selected.get_messages("trnspo"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0) //CHOMPEdit
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"trnspo")
 
 				if("trnssp")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they are automatically transferred into your secondary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Secondary Transfer Message (to prey)",host.vore_selected.get_messages("trnssp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they struggle and are transferred into your secondary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Secondary Transfer Message (to prey)",host.vore_selected.get_messages("trnssp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0) //CHOMPEdit
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"trnssp")
 
 				if("trnsso")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey is automatically transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Secondary Transfer Message (to you)",host.vore_selected.get_messages("trnsso"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey struggle and are transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Secondary Transfer Message (to you)",host.vore_selected.get_messages("trnsso"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0) //CHOMPEdit
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"trnsso")
+				//CHOMPAdd Start
+				if("atrnspp")
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they are automatically transferred into your primary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Primary Auto-Transfer Message (to prey)",host.vore_selected.get_messages("atrnspp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					if(new_message)
+						host.vore_selected.set_messages(new_message,"atrnspp")
 
+				if("atrnspo")
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey is automatically transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Primary Auto-Transfer Message (to you)",host.vore_selected.get_messages("atrnspo"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					if(new_message)
+						host.vore_selected.set_messages(new_message,"atrnspo")
+
+				if("atrnssp")
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they are automatically transferred into your secondary destination. Write them in 2nd person ('you slide into Y'). Use %dest to refer to the target location in this type."+help,"Secondary Auto-Transfer Message (to prey)",host.vore_selected.get_messages("atrnssp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					if(new_message)
+						host.vore_selected.set_messages(new_message,"atrnssp")
+
+				if("atrnsso")
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to you when prey is automatically transferred into your primary destination. Write them in 2nd person ('X slid into your Y'). Use %dest to refer to the target location in this type."+help,"Secondary Auto-Transfer Message (to you)",host.vore_selected.get_messages("atrnsso"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					if(new_message)
+						host.vore_selected.set_messages(new_message,"atrnsso")
+				//CHOMPAdd End
 				if("stmodp")
 					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey when they trigger the interaction digest chance. Write them in 2nd person ('you feel X')."+help,"Stomach Mode Digest Message (to prey)",host.vore_selected.get_messages("stmodp"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
@@ -2914,57 +3183,57 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 									host.weight_messages[index] = new_message
 
 				if("im_digest")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Digest mode. Write them in 2nd person ('%pred's %belly squishes down on you.')."+help,"Idle Message (Digest)",host.vore_selected.get_messages("im_digest"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Digest mode. Write them in 2nd person ('%pred's %belly squishes down on you.')."+help,"Idle Message (Digest)",host.vore_selected.get_messages("im_digest"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_digest")
 
 				if("im_hold")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Hold mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Hold)",host.vore_selected.get_messages("im_hold"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Hold mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Hold)",host.vore_selected.get_messages("im_hold"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_hold")
 
 				if("im_holdabsorbed")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are absorbed. Write them in 2nd person ('%pred's %belly squishes down on you.') %count will not work for this type, and %countprey will only count absorbed victims."+help,"Idle Message (Hold Absorbed)",host.vore_selected.get_messages("im_holdabsorbed"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are absorbed. Write them in 2nd person ('%pred's %belly squishes down on you.') %count will not work for this type, and %countprey will only count absorbed victims."+help,"Idle Message (Hold Absorbed)",host.vore_selected.get_messages("im_holdabsorbed"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_holdabsorbed")
 
 				if("im_absorb")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Absorb mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Absorb)",host.vore_selected.get_messages("im_absorb"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Absorb mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Absorb)",host.vore_selected.get_messages("im_absorb"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_absorb")
 
 				if("im_heal")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Heal mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Heal)",host.vore_selected.get_messages("im_heal"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Heal mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Heal)",host.vore_selected.get_messages("im_heal"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_heal")
 
 				if("im_drain")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Drain mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Drain)",host.vore_selected.get_messages("im_drain"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Drain mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Drain)",host.vore_selected.get_messages("im_drain"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_drain")
 
 				if("im_steal")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Size Steal mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Size Steal)",host.vore_selected.get_messages("im_steal"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Size Steal mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Size Steal)",host.vore_selected.get_messages("im_steal"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_steal")
 
 				if("im_egg")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Encase In Egg mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Encase In Egg)",host.vore_selected.get_messages("im_egg"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Encase In Egg mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Encase In Egg)",host.vore_selected.get_messages("im_egg"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_egg")
 
 				if("im_shrink")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Shrink mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Shrink)",host.vore_selected.get_messages("im_shrink"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Shrink mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Shrink)",host.vore_selected.get_messages("im_shrink"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_shrink")
 
 				if("im_grow")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Grow mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Grow)",host.vore_selected.get_messages("im_grow"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Grow mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Grow)",host.vore_selected.get_messages("im_grow"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_grow")
 
 				if("im_unabsorb")
-					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every minute when you are on Unabsorb mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Unabsorb)",host.vore_selected.get_messages("im_unabsorb"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
+					var/new_message = sanitize(tgui_input_text(user,"These are sent to prey every [host.vore_selected.emote_time] seconds when you are on Unabsorb mode. Write them in 2nd person ('%pred's %belly squishes down on you.')"+help,"Idle Message (Unabsorb)",host.vore_selected.get_messages("im_unabsorb"), multiline = TRUE, prevent_enter = TRUE),MAX_MESSAGE_LEN,0,0,0)
 					if(new_message)
 						host.vore_selected.set_messages(new_message,"im_unabsorb")
 
@@ -3002,6 +3271,10 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 						host.vore_selected.primary_transfer_messages_prey = initial(host.vore_selected.primary_transfer_messages_prey)
 						host.vore_selected.secondary_transfer_messages_owner = initial(host.vore_selected.secondary_transfer_messages_owner)
 						host.vore_selected.secondary_transfer_messages_prey = initial(host.vore_selected.secondary_transfer_messages_prey)
+						host.vore_selected.primary_autotransfer_messages_owner = initial(host.vore_selected.primary_autotransfer_messages_owner)		//CHOMPAdd
+						host.vore_selected.primary_autotransfer_messages_prey = initial(host.vore_selected.primary_autotransfer_messages_prey)			//CHOMPAdd
+						host.vore_selected.secondary_autotransfer_messages_owner = initial(host.vore_selected.secondary_autotransfer_messages_owner)	//CHOMPAdd
+						host.vore_selected.secondary_autotransfer_messages_prey = initial(host.vore_selected.secondary_autotransfer_messages_prey)		//CHOMPAdd
 						host.vore_selected.digest_chance_messages_owner = initial(host.vore_selected.digest_chance_messages_owner)
 						host.vore_selected.digest_chance_messages_prey = initial(host.vore_selected.digest_chance_messages_prey)
 						host.vore_selected.absorb_chance_messages_owner = initial(host.vore_selected.absorb_chance_messages_owner)
@@ -3196,43 +3469,45 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			var/new_new_nutrition = CLAMP(new_nutrition, 0.01, 100)
 			host.vore_selected.nutrition_percent = new_new_nutrition
 			. = TRUE
+		// CHOMPEdit Start - modified these to be flexible rather than maxing at 6/6/12/6/6
 		if("b_burn_dmg")
-			var/new_damage = tgui_input_number(user, "Choose the amount of burn damage prey will take per tick. Ranges from 0 to 6.", "Set Belly Burn Damage.", host.vore_selected.digest_burn, 6, 0, round_value=FALSE)
+			var/new_damage = tgui_input_number(user, "Choose the amount of burn damage prey will take per tick. Max of [host.vore_selected.digest_max] across all damage types. [host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_burn] remaining.", "Set Belly Burn Damage.", host.vore_selected.digest_burn, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_burn, 0, round_value=FALSE)
 			if(new_damage == null)
 				return FALSE
-			var/new_new_damage = CLAMP(new_damage, 0, 6)
-			host.vore_selected.digest_burn = new_new_damage
+			new_damage = CLAMP(new_damage, 0, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_burn) // sanity check following tgui input
+			host.vore_selected.digest_burn = new_damage
 			host.vore_selected.items_preserved.Cut() //CHOMPAdd
 			. = TRUE
 		if("b_brute_dmg")
-			var/new_damage = tgui_input_number(user, "Choose the amount of brute damage prey will take per tick. Ranges from 0 to 6", "Set Belly Brute Damage.", host.vore_selected.digest_brute, 6, 0, round_value=FALSE)
+			var/new_damage = tgui_input_number(user, "Choose the amount of brute damage prey will take per tick. Max of [host.vore_selected.digest_max] across all damage types. [host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_brute] remaining.", "Set Belly Brute Damage.", host.vore_selected.digest_brute, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_brute, 0, round_value=FALSE)
 			if(new_damage == null)
 				return FALSE
-			var/new_new_damage = CLAMP(new_damage, 0, 6)
-			host.vore_selected.digest_brute = new_new_damage
+			new_damage = CLAMP(new_damage, 0, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_brute)
+			host.vore_selected.digest_brute = new_damage
 			host.vore_selected.items_preserved.Cut() //CHOMPAdd
 			. = TRUE
 		if("b_oxy_dmg")
-			var/new_damage = tgui_input_number(user, "Choose the amount of suffocation damage prey will take per tick. Ranges from 0 to 12.", "Set Belly Suffocation Damage.", host.vore_selected.digest_oxy, 12, 0, round_value=FALSE)
+			var/new_damage = tgui_input_number(user, "Choose the amount of oxygen damage prey will take per tick. Max of [host.vore_selected.digest_max] across all damage types. [host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_oxy] remaining.", "Set Belly Oxygen Damage.", host.vore_selected.digest_oxy, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_oxy, 0, round_value=FALSE)
 			if(new_damage == null)
 				return FALSE
-			var/new_new_damage = CLAMP(new_damage, 0, 12)
-			host.vore_selected.digest_oxy = new_new_damage
+			new_damage = CLAMP(new_damage, 0, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_oxy)
+			host.vore_selected.digest_oxy = new_damage
 			. = TRUE
 		if("b_tox_dmg")
-			var/new_damage = tgui_input_number(user, "Choose the amount of toxins damage prey will take per tick. Ranges from 0 to 6", "Set Belly Toxins Damage.", host.vore_selected.digest_tox, 6, 0, round_value=FALSE)
+			var/new_damage = tgui_input_number(user, "Choose the amount of toxin damage prey will take per tick. Max of [host.vore_selected.digest_max] across all damage types. [host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_tox] remaining.", "Set Belly Toxin Damage.", host.vore_selected.digest_tox, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_tox, 0, round_value=FALSE)
 			if(new_damage == null)
 				return FALSE
-			var/new_new_damage = CLAMP(new_damage, 0, 6)
-			host.vore_selected.digest_tox = new_new_damage
+			new_damage = CLAMP(new_damage, 0, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_tox)
+			host.vore_selected.digest_tox = new_damage
 			. = TRUE
 		if("b_clone_dmg")
-			var/new_damage = tgui_input_number(user, "Choose the amount of brute DNA damage (clone) prey will take per tick. Ranges from 0 to 6", "Set Belly Clone Damage.", host.vore_selected.digest_clone, 6, 0, round_value=FALSE)
+			var/new_damage = tgui_input_number(user, "Choose the amount of genetic (clone) damage prey will take per tick. Max of [host.vore_selected.digest_max] across all damage types. [host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_clone] remaining.", "Set Belly Genetic Damage.", host.vore_selected.digest_clone, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_clone, 0, round_value=FALSE)
 			if(new_damage == null)
 				return FALSE
-			var/new_new_damage = CLAMP(new_damage, 0, 6)
-			host.vore_selected.digest_clone = new_new_damage
+			new_damage = CLAMP(new_damage, 0, host.vore_selected.get_unused_digestion_damage() + host.vore_selected.digest_clone)
+			host.vore_selected.digest_clone = new_damage
 			. = TRUE
+		// CHOMPEdit End
 		if("b_drainmode")
 			var/list/menu_list = host.vore_selected.drainmodes.Copy()
 			var/new_drainmode = tgui_input_list(user, "Choose Mode (currently [host.vore_selected.digest_mode])", "Mode Choice", menu_list) //ChompEDIT - user, not usr
@@ -3341,6 +3616,15 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			else
 				host.vore_selected.autotransferlocation = choice.name
 			. = TRUE
+		if("b_autotransferextralocation")
+			var/obj/belly/choice = tgui_input_list(usr, "What extra places do you want your [lowertext(host.vore_selected.name)] auto-transfer to?","Select Belly", (host.vore_organs - host.vore_selected - host.vore_selected.autotransferlocation))
+			if(!choice) //They cancelled, no changes
+				return FALSE
+			else if(choice.name in host.vore_selected.autotransferextralocation)
+				host.vore_selected.autotransferextralocation -= choice.name
+			else
+				host.vore_selected.autotransferextralocation += choice.name
+			. = TRUE
 		if("b_autotransferchance_secondary")
 			var/autotransferchance_secondary_input = input(user, "Set secondary belly auto-transfer chance (as %). You must also set the location for this to have any effect.", "Secondary Auto-Transfer Chance") as num|null
 			if(!isnull(autotransferchance_secondary_input))
@@ -3354,6 +3638,15 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 				host.vore_selected.autotransferlocation_secondary = null
 			else
 				host.vore_selected.autotransferlocation_secondary = choice.name
+			. = TRUE
+		if("b_autotransferextralocation_secondary")
+			var/obj/belly/choice = tgui_input_list(usr, "What extra places do you want your [lowertext(host.vore_selected.name)] auto-transfer to?","Select Belly", (host.vore_organs - host.vore_selected - host.vore_selected.autotransferlocation_secondary))
+			if(!choice) //They cancelled, no changes
+				return FALSE
+			else if(choice.name in host.vore_selected.autotransferextralocation_secondary)
+				host.vore_selected.autotransferextralocation_secondary -= choice.name
+			else
+				host.vore_selected.autotransferextralocation_secondary += choice.name
 			. = TRUE
 		if("b_autotransfer_whitelist")
 			var/list/menu_list = host.vore_selected.autotransfer_flags_list.Copy()
@@ -3515,6 +3808,11 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 			if(failure_msg)
 				tgui_alert_async(user,failure_msg,"Error!")
 				return FALSE
+
+			//CHOMPAdd Start, Soulcatcher
+			if(host.soulgem?.linked_belly == host.vore_selected)
+				host.soulgem.linked_belly = null
+			//CHOMPAdd End, Soulcatcher
 
 			qdel(host.vore_selected)
 			host.vore_selected = host.vore_organs[1]
@@ -3936,3 +4234,5 @@ var/global/list/belly_colorable_only_fullscreens = list("a_synth_flesh_mono",
 	if(.)
 		unsaved_changes = TRUE
 //CHOMPedit end
+
+#undef VORE_RESIZE_COST //CHOMPAdd

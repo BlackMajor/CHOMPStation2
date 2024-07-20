@@ -389,10 +389,6 @@
 /turf/simulated/floor/tiled,
 /area/crew_quarters/seconddeck/gym)
 "akk" = (
-/obj/machinery/particle_accelerator/control_box{
-	anchored = 1;
-	construction_state = 1
-	},
 /obj/effect/floor_decal/industrial/outline/blue,
 /turf/simulated/floor/tiled/dark,
 /area/rnd/research/particleaccelerator)
@@ -9732,13 +9728,9 @@
 /area/crew_quarters/cafeteria)
 "hjc" = (
 /obj/machinery/door/airlock/external{
-	frequency = 1380;
-	icon_state = "door_locked";
-	id_tag = "escape_pod_7_hatch";
-	locked = 1;
-	name = "Escape Pod Hatch 7";
-	req_access = list(13)
+	name = "Escape Pod Hatch 7"
 	},
+/obj/effect/map_helper/airlock/door/simple,
 /turf/simulated/shuttle/floor,
 /area/shuttle/escape_pod7/station)
 "hjD" = (
@@ -9761,11 +9753,9 @@
 "hkY" = (
 /obj/machinery/door/airlock/glass_external{
 	frequency = 1380;
-	icon_state = "door_locked";
 	id_tag = "escape_pod_7_berth_hatch";
-	locked = 1;
 	name = "Escape Pod 7";
-	req_access = list(13)
+	req_one_access = null
 	},
 /turf/simulated/floor,
 /area/hallway/primary/thirddeck/port)
@@ -10232,11 +10222,9 @@
 "hDw" = (
 /obj/machinery/door/airlock/glass_external{
 	frequency = 1380;
-	icon_state = "door_locked";
 	id_tag = "escape_pod_8_berth_hatch";
-	locked = 1;
 	name = "Escape Pod 8";
-	req_access = list(13)
+	req_one_access = null
 	},
 /turf/simulated/floor,
 /area/hallway/primary/thirddeck/starboard)
@@ -10245,13 +10233,9 @@
 /area/maintenance/thirddeck/dormsatmos)
 "hFy" = (
 /obj/machinery/door/airlock/external{
-	frequency = 1380;
-	icon_state = "door_locked";
-	id_tag = "escape_pod_8_hatch";
-	locked = 1;
-	name = "Escape Pod Hatch 8";
-	req_access = list(13)
+	name = "Escape Pod Hatch 8"
 	},
+/obj/effect/map_helper/airlock/door/simple,
 /turf/simulated/shuttle/floor,
 /area/shuttle/escape_pod8/station)
 "hGT" = (
@@ -13832,11 +13816,6 @@
 /turf/simulated/floor/wood,
 /area/bridge/meeting_room)
 "kQJ" = (
-/obj/structure/particle_accelerator/particle_emitter/center{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/machinery/atmospherics/pipe/simple/hidden/black{
 	dir = 4
@@ -13933,11 +13912,6 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/bridge)
 "kTO" = (
-/obj/structure/particle_accelerator/fuel_chamber{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/outline/grey,
 /turf/simulated/floor/tiled/dark,
 /area/rnd/research/particleaccelerator)
@@ -14911,11 +14885,6 @@
 /turf/simulated/floor/tiled,
 /area/maintenance/thirddeck/dormsstarboard/maintbar)
 "lPC" = (
-/obj/structure/particle_accelerator/end_cap{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 10
@@ -15428,11 +15397,6 @@
 /turf/simulated/floor/tiled,
 /area/bridge)
 "mhK" = (
-/obj/structure/particle_accelerator/particle_emitter/left{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/structure/cable/green{
 	d1 = 4;
 	d2 = 8;
@@ -16158,11 +16122,6 @@
 /turf/simulated/floor/tiled,
 /area/bridge)
 "mKT" = (
-/obj/structure/particle_accelerator/particle_emitter/right{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/machinery/atmospherics/pipe/simple/hidden/purple{
 	dir = 6
@@ -32126,11 +32085,6 @@
 /turf/simulated/floor/tiled/freezer,
 /area/crew_quarters/sleep/vistor_room_5)
 "ylp" = (
-/obj/structure/particle_accelerator/power_box{
-	anchored = 1;
-	construction_state = 1;
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/machinery/atmospherics/pipe/simple/hidden/black{
 	dir = 6

@@ -214,8 +214,8 @@ var/list/mining_overlay_cache = list()
 	if(random_icon)
 		dir = pick(alldirs)
 		. = INITIALIZE_HINT_LATELOAD
-	var/decl/flooring/F = get_flooring_data(/decl/flooring/sand)
-	footstep_sounds = F?.footstep_sounds
+	// var/decl/flooring/F = get_flooring_data(/decl/flooring/sand) - CHOMPEdit
+	// footstep_sounds = F?.footstep_sounds CHOMPEdit footsteps
 
 /turf/simulated/mineral/LateInitialize()
 	if(density && mineral)
@@ -743,3 +743,26 @@ var/list/mining_overlay_cache = list()
 		mineral = GLOB.ore_data[mineral_name]
 		UpdateMineral()
 	update_icon()
+
+// V5 turfs
+
+/turf/simulated/mineral/icey/v5
+	temperature = 202
+	oxygen = 8
+	nitrogen = 17
+	carbon_dioxide = 75
+	ignore_cavegen = TRUE
+
+/turf/simulated/mineral/crystal/v5
+	temperature = 202
+	oxygen = 8
+	nitrogen = 17
+	carbon_dioxide = 75
+	ignore_cavegen = TRUE
+
+/turf/simulated/mineral/crystal_shiny/v5
+	temperature = 202
+	oxygen = 8
+	nitrogen = 17
+	carbon_dioxide = 75
+	ignore_cavegen = TRUE

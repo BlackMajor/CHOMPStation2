@@ -68,7 +68,8 @@
 
 /datum/sprite_accessory/tail/taur/ch/zorgoia/fat
 	name = "Zorgoia (Fat Taur)"
-	extra_overlay = "zorgoia_fat"
+	icon_state = "zorgoia_fat"
+	extra_overlay = "zorgoia_fat_overlay"
 
 /datum/sprite_accessory/tail/taur/ch/redpanda
 	name = "Red Panda (Taur)"
@@ -265,6 +266,11 @@
 	extra_overlay2 = "bigleggy_bird"
 	extra_overlay_w = "bigleggy_m_bird_stanced"
 	extra_overlay2_w = "bigleggy_bird"
+
+/datum/sprite_accessory/tail/taur/ch/bigleggy/plug
+	name = "Big Leggies (Plug Tail)"
+	extra_overlay2 = "bigleggy_plug"
+	extra_overlay2_w = "bigleggy_plug"
 
 /datum/sprite_accessory/tail/taur/drake/extended //Sub-pathing drake taur so we can steal their cloaks
 	name = "Fat Drake Extended (Taur)"

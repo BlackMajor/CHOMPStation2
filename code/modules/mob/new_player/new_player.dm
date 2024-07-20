@@ -70,9 +70,8 @@
 	output += "<p><a href='byond://?src=\ref[src];observe=1'>Observe</A></p>"
 
 	output += "<hr>" //ChompADD - a line divider between functional and info buttons
-
-	/*
-	//nobody uses this feature
+	
+	//nobody uses this feature //WELL WE'RE GONNA
 	if(!IsGuestKey(src.key))
 		establish_db_connection()
 
@@ -91,7 +90,6 @@
 				output += "<p><b><a href='byond://?src=\ref[src];showpoll=1'>Show Player Polls</A><br>(NEW!)</b></p>" //ChompEDIT - fixed height
 			else
 				output += "<p><a href='byond://?src=\ref[src];showpoll=1'>Show Player Polls</A><br><i>No Changes</i></p>" //ChompEDIT - fixed height
-	*/
 
 	if(client?.check_for_new_server_news())
 		output += "<p><b><a href='byond://?src=\ref[src];shownews=1'>Show Server News</A><br>(NEW!)</b></p>" //ChompEDIT 'Game updates' --> 'Server news'
@@ -124,7 +122,7 @@
 		client.prefs.lastlorenews = GLOB.news_data.newsindex
 		SScharacter_setup.queue_preferences_save(client.prefs)
 
-	panel = new(src, "Welcome","Welcome", 210, 400, src) // VOREStation Edit //ChompEDIT, height 300 -> 400
+	panel = new(src, "Welcome","Welcome", 210, 500, src) // VOREStation Edit //ChompEDIT, height 300 -> 500
 	panel.set_window_options("can_close=0")
 	panel.set_content(output)
 	panel.open()
@@ -762,6 +760,9 @@
 	new_character.force_update_limbs()
 	new_character.update_icons_body()
 	new_character.update_transform() //VOREStation Edit
+
+	new_character.set_footsteps(chosen_species.footstep) // CHOMPEdit
+	new_character.set_slosh() //CHOMPEdit
 
 	new_character.key = key		//Manually transfer the key to log them in
 
