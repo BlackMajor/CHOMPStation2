@@ -11,7 +11,7 @@ export const AssemblyTimer = (props) => {
   const { act, data } = useBackend<Data>();
   const { timing, time } = data;
   return (
-    <Window>
+    <Window width={400} height={110}>
       <Window.Content>
         <Section title="Timing Unit">
           <LabeledList>
@@ -30,11 +30,12 @@ export const AssemblyTimer = (props) => {
               <NumberInput
                 animated
                 fluid
+                step={1}
                 value={time}
                 minValue={0}
                 maxValue={600}
                 format={(val: number) => formatTime(round(val * 10, 0))}
-                onDrag={(e, val: string) => act('set_time', { time: val })}
+                onDrag={(val: number) => act('set_time', { time: val })}
               />
             </LabeledList.Item>
           </LabeledList>

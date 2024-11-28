@@ -1,6 +1,6 @@
 import { BooleanLike } from 'common/react';
+import { Box, Flex, Section } from 'tgui/components';
 
-import { Box, Flex, Section } from '../../../../components';
 import { localPrefs } from '../types';
 import { VoreUserPreferenceItem } from '../VoreUserPreferenceItem';
 
@@ -32,8 +32,14 @@ export const VoreUserPreferencesSoulcatcher = (props: {
           </Flex.Item>
           <Flex.Item basis="33%">
             <VoreUserPreferenceItem
-              spec={preferences.soulcatcher_delete}
+              spec={preferences.soulcatcher_takeover}
               tooltipPosition="top"
+            />
+          </Flex.Item>
+          <Flex.Item basis="33%">
+            <VoreUserPreferenceItem
+              spec={preferences.soulcatcher_delete}
+              tooltipPosition="left"
             />
           </Flex.Item>
         </Flex>

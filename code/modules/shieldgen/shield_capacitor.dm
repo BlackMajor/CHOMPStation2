@@ -38,9 +38,9 @@
 
 /obj/machinery/shield_capacitor/attackby(obj/item/W, mob/user)
 
-	if(istype(W, /obj/item/weapon/card/id))
-		var/obj/item/weapon/card/id/C = W
-		if((access_captain in C.access) || (access_security in C.access) || (access_engine in C.access))
+	if(istype(W, /obj/item/card/id))
+		var/obj/item/card/id/C = W
+		if((access_captain in C.GetAccess()) || (access_security in C.GetAccess()) || (access_engine in C.GetAccess()))
 			src.locked = !src.locked
 			to_chat(user, "Controls are now [src.locked ? "locked." : "unlocked."]")
 			updateDialog()
@@ -145,4 +145,17 @@
 		return
 
 	src.set_dir(turn(src.dir, 270))
+	return
+
+//VOREstation edit: counter-clockwise rotation
+/obj/machinery/shield_capacitor/verb/rotate_counterclockwise()
+	set name = "Rotate Capacitor Counter-Clockwise"
+	set category = "Object"
+	set src in oview(1)
+
+	if (src.anchored)
+		to_chat(usr, "It is fastened to the floor!")
+		return
+
+	src.set_dir(turn(src.dir, 90))
 	return

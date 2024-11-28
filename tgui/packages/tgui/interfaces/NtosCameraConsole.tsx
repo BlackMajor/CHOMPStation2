@@ -1,7 +1,10 @@
-import { useBackend } from '../backend';
-import { Button, ByondUi } from '../components';
-import { NtosWindow } from '../layouts';
+import { useBackend } from 'tgui/backend';
+import { Button } from 'tgui/components';
+import { NtosWindow } from 'tgui/layouts';
+import { ByondUi } from 'tgui-core/components';
+
 import {
+  camera,
   CameraConsoleContent,
   Data,
   prevNextCamera,
@@ -11,7 +14,7 @@ import {
 export const NtosCameraConsole = (props) => {
   const { act, data } = useBackend<Data>();
   const { mapRef, activeCamera, cameras } = data;
-  const selected_cameras = selectCameras(cameras);
+  const selected_cameras: camera[] = selectCameras(cameras);
   const [prevCameraName, nextCameraName] = prevNextCamera(
     selected_cameras,
     activeCamera,

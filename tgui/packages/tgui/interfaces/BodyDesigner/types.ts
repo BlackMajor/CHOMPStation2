@@ -10,9 +10,9 @@ export type Data = {
     styleHref: string;
     style: string;
     color: string | undefined;
-    colorHref: string | undefined;
+    colorHref: string | undefined | { act: string; params: Object };
     color2?: string | undefined;
-    colorHref2?: string | undefined;
+    colorHref2?: string | undefined | { act: string; params: Object };
   };
   disk: BooleanLike;
   diskStored: BooleanLike;
@@ -28,8 +28,10 @@ export type activeBodyRecord = {
   locked: string;
   scale: string;
   booc: string;
+  digitigrade: BooleanLike;
   styles: {
     Ears: colourableStyle;
+    Horns: colourableStyle;
     Tail: colourableStyle;
     Wing: colourableStyle;
     Hair: simpleStyle;

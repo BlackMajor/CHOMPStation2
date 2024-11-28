@@ -61,9 +61,9 @@
 	s.start()
 
 /obj/machinery/shield_gen/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/weapon/card/id))
-		var/obj/item/weapon/card/id/C = W
-		if((access_captain in C.access) || (access_security in C.access) || (access_engine in C.access))
+	if(istype(W, /obj/item/card/id))
+		var/obj/item/card/id/C = W
+		if((access_captain in C.GetAccess()) || (access_security in C.GetAccess()) || (access_engine in C.GetAccess()))
 			src.locked = !src.locked
 			to_chat(user, "Controls are now [src.locked ? "locked." : "unlocked."]")
 			updateDialog()
@@ -258,6 +258,20 @@
 		for(var/mob/M in view(5,src))
 			to_chat(M, "[icon2html(src, M.client)] You hear heavy droning fade out.")
 		shield_hum.stop()
+// CHOMPAdd Start - Fills gaps when meteors happen
+/obj/machinery/shield_gen/proc/fill_diffused()
+	if(active)
+		var/list/covered_turfs = get_shielded_turfs()
+		var/turf/T = get_turf(src)
+		var/obj/effect/energy_field/E
+		if(T in covered_turfs)
+			covered_turfs.Remove(T)
+		for(var/turf/O in covered_turfs)
+			if(locate(/obj/effect/energy_field, O) || locate(/obj/machinery/pointdefense, orange(2, O)))
+				continue
+			E = new(O, src)
+			field.Add(E)
+// CHOMPAdd End
 
 /obj/machinery/shield_gen/update_icon()
 	if(stat & BROKEN)

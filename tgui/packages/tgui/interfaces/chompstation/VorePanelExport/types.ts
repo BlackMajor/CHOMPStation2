@@ -4,7 +4,7 @@ export type Data = {
   db_version: string;
   db_repo: string;
   mob_name: string;
-  bellies: Belly[];
+  bellies?: Belly[];
 };
 
 export type Belly = {
@@ -39,6 +39,8 @@ export type Belly = {
   emote_time: number;
   shrink_grow_size: number;
   vorespawn_blacklist: BooleanLike;
+  vorespawn_whitelist: string[];
+  vorespawn_absorbed: number;
   egg_type: string;
   egg_name: string;
   selective_preference: string;
@@ -152,6 +154,7 @@ export type Belly = {
 
   absorbchance: number;
   digestchance: number;
+  belchchance: number;
 
   // Interactions (Auto-Transfer)
   autotransferwait: number;

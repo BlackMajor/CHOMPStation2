@@ -1,6 +1,6 @@
 /datum/category_item/autolathe/arms/syringegun_ammo
 	name = "syringe gun cartridge"
-	path =/obj/item/weapon/syringe_cartridge
+	path =/obj/item/syringe_cartridge
 
 ////////////////
 /*Ammo casings*/
@@ -59,15 +59,34 @@
 
 /datum/category_item/autolathe/arms/knuckledusters
 	name = "knuckle dusters"
-	path =/obj/item/clothing/gloves/knuckledusters
+	path =/obj/item/clothing/accessory/knuckledusters
 	hidden = 1
 
 /datum/category_item/autolathe/arms/tacknife
 	name = "tactical knife"
-	path =/obj/item/weapon/material/knife/tacknife
+	path =/obj/item/material/knife/tacknife
 	hidden = 1
 
 /datum/category_item/autolathe/arms/flamethrower
 	name = "flamethrower"
-	path =/obj/item/weapon/flamethrower/full
+	path =/obj/item/flamethrower/full
+	hidden = 1
+
+/datum/category_item/autolathe/arms/rifle_145
+	name = "14.5mm round"
+	path = /obj/item/ammo_casing/a145
+	hidden = 1
+
+/datum/category_item/autolathe/arms/rifle_145ap
+	name = "14.5mm round (sabot)"
+	path = /obj/item/ammo_casing/a145/highvel
+	hidden = 1
+/datum/category_item/autolathe/arms/foamdart
+	name = "foam dart"
+	path = /obj/item/ammo_casing/afoam_dart
+	hidden = 0
+
+/datum/category_item/autolathe/arms/foamdartriot
+	name = "riot foam dart"
+	path = /obj/item/ammo_casing/afoam_dart/riot
 	hidden = 1

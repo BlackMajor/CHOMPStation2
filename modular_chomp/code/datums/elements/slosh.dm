@@ -10,7 +10,7 @@
 	if(!isliving(target))
 		return ELEMENT_INCOMPATIBLE
 
-	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(handle_footstep))
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(handle_sloshstep), override = TRUE)
 	step_count = 0
 	vore_organs_reagents = list()
 	vore_footstep_volume = 0
@@ -21,7 +21,7 @@
 	UnregisterSignal(source, COMSIG_MOVABLE_MOVED)
 	return ..()
 
-/datum/element/slosh/proc/handle_footstep(mob/living/source)
+/datum/element/slosh/proc/handle_sloshstep(mob/living/source)
 	SIGNAL_HANDLER
 
 	if(ishuman(source))
@@ -86,8 +86,8 @@
 
 	if(source.buckled || source.lying || source.throwing || source.is_incorporeal())
 		return
-	if(!has_gravity(source) && prob(75))
+	if(!get_gravity(source) && prob(75))
 		return
 
-	playsound(source.loc, S, volume, FALSE, preference = /datum/client_preference/digestion_noises)
+	playsound(source.loc, S, volume, FALSE, preference = /datum/preference/toggle/digestion_noises)
 	return

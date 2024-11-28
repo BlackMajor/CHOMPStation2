@@ -20,7 +20,7 @@
 		horns,
 		overlay_colors["Eyes"],
 		eyes), ";")
-	to_chat(src, "<span class='notice'>Exported style string is \" [output_style] \". Use this to get the same style in the future with import style</span>")
+	to_chat(src, span_notice("Exported style string is \" [output_style] \". Use this to get the same style in the future with import style"))
 
 /mob/living/simple_mob/vore/bigdragon/proc/import_style()
 	set name = "Import style string"
@@ -64,7 +64,9 @@
 			build_icons()
 
 //Most intresting set of OG melee damages
+/* Combat refactor walkback
 /mob/living/simple_mob/vore/bigdragon
 	melee_damage_lower = 12
 	melee_damage_upper = 17
 	maxHealth = 400
+*/

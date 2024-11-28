@@ -7,16 +7,19 @@ export type Data = {
   inside: insideData;
   host_mobtype: hostMob;
   our_bellies: bellyData[];
-  selected: selectedData;
+  selected: selectedData | null;
   prefs: prefData;
   soulcatcher: soulcatcherData | null;
-  abilities: {
-    nutrition: number;
-    current_size: number;
-    minimum_size: number;
-    maximum_size: number;
-    resize_cost: number;
-  };
+  abilities: abilities;
+  vore_words: Record<string, string[]>;
+};
+
+export type abilities = {
+  nutrition: number;
+  current_size: number;
+  minimum_size: number;
+  maximum_size: number;
+  resize_cost: number;
 };
 
 export type hostMob = {
@@ -26,15 +29,15 @@ export type hostMob = {
 
 export type insideData = {
   absorbed: BooleanLike;
-  belly_name: string;
-  belly_mode: string;
-  desc: string;
-  pred: string;
-  ref: string;
-  liq_lvl: number;
-  liq_reagent_type: string;
-  liuq_name: string;
-  contents: contentData[];
+  belly_name?: string;
+  belly_mode?: string;
+  desc?: string;
+  pred?: string;
+  ref?: string;
+  liq_lvl?: number;
+  liq_reagent_type?: string;
+  liuq_name?: string;
+  contents?: contentData[];
 };
 
 export type contentData = {
@@ -121,6 +124,8 @@ export type selectedData = {
   custom_ingested_color: string;
   custom_ingested_alpha: number;
   vorespawn_blacklist: BooleanLike;
+  vorespawn_whitelist: string[];
+  vorespawn_absorbed: number;
   sound_volume: number;
   affects_voresprite: BooleanLike;
   absorbed_voresprite: BooleanLike;
@@ -173,6 +178,7 @@ export type interactData = {
   transferlocation_secondary: string;
   absorbchance: number;
   digestchance: number;
+  belchchance: number;
 };
 
 export type autotransferData = {
@@ -279,12 +285,14 @@ export type prefData = {
   weight_message_visible: BooleanLike;
   weight_messages: string[];
   eating_privacy_global: BooleanLike;
+  allow_mimicry: BooleanLike;
   belly_rub_target: string | null;
   vore_sprite_color: { stomach: string; 'taur belly': string };
   vore_sprite_multiply: { stomach: BooleanLike; 'taur belly': BooleanLike };
   soulcatcher_allow_capture: BooleanLike;
   soulcatcher_allow_transfer: BooleanLike;
   soulcatcher_allow_deletion: BooleanLike;
+  soulcatcher_allow_takeover: BooleanLike;
 };
 
 export type soulcatcherData = {
@@ -295,12 +303,16 @@ export type soulcatcherData = {
   selected_soul: string;
   interior_design: string;
   catch_self: BooleanLike;
+  taken_over: BooleanLike;
   catch_prey: BooleanLike;
+  catch_drain: BooleanLike;
+  catch_ghost: BooleanLike;
   ext_hearing: BooleanLike;
   ext_vision: BooleanLike;
   mind_backups: BooleanLike;
-  ar_projecting: BooleanLike;
+  sr_projecting: BooleanLike;
   show_vore_sfx: BooleanLike;
+  see_sr_projecting: BooleanLike;
 };
 
 export type DropdownEntry = {
@@ -339,6 +351,7 @@ export type localPrefs = {
   examine_weight: preferenceData;
   strippref: preferenceData;
   eating_privacy_global: preferenceData;
+  allow_mimicry: preferenceData;
   autotransferable: preferenceData;
   liquid_receive: preferenceData;
   liquid_give: preferenceData;
@@ -347,6 +360,7 @@ export type localPrefs = {
   no_spawnprey_warning: preferenceData;
   soulcatcher: preferenceData;
   soulcatcher_transfer: preferenceData;
+  soulcatcher_takeover: preferenceData;
   soulcatcher_delete: preferenceData;
 };
 

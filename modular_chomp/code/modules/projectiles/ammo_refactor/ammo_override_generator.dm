@@ -33,11 +33,11 @@ Leave this unticked by default. This was used to generate ammo_overrides.dm
 	for(var/caliber in listof)
 		output += caliber + "\n"
 	rustg_file_write(output, "data/calibers.txt")
-	types = typesof(/obj/item/weapon/gun/projectile)
+	types = typesof(/obj/item/gun/projectile)
 	var/list/magtypes = list()
 	var/list/startmags = list()
 	for(var/type in types)
-		var/obj/item/weapon/gun/projectile/wep = new type(null)
+		var/obj/item/gun/projectile/wep = new type(null)
 		magtypes |= wep.allowed_magazines
 		startmags |= wep.magazine_type
 		qdel(wep)
@@ -73,7 +73,7 @@ Leave this unticked by default. This was used to generate ammo_overrides.dm
 	rustg_file_write(output, "data/magazines.txt")
 
 /proc/override_gen()
-	var/list/types = typesof(/obj/item/weapon/gun/projectile)
+	var/list/types = typesof(/obj/item/gun/projectile)
 	var/list/casing_overrides = list(
 		"small" = /obj/item/ammo_casing/simple/small,
 		"medium" = /obj/item/ammo_casing/simple/medium,
@@ -82,14 +82,14 @@ Leave this unticked by default. This was used to generate ammo_overrides.dm
 
 	var/list/small_calibers = list(".380", "7.62x25mm", "9x18mm", ".45 LC", "9mm", ".45", "10mm", ".357", ".38", ".44")
 	var/list/medium_calibers = list("5mm caseless", "7.62x54mmR", "7.92x33mm", "9.5x40mm", "7.62x39mm", "5.56x45mm", "7.62mm", "5.45mm", "9x39mm", "mauser", ".48")
-	var/list/large_calibers = list(".338", ".50 BMG", "12.7x108mm", "14.5mm")
+	var/list/large_calibers = list(".338", ".50 BMG", "12.7x108mm") //14.5 doesnt get overridden, its their own superheavy ammo
 	var/list/override_calibers = small_calibers + medium_calibers + large_calibers
 	var/output_small = ""
 	var/output_medium = ""
 	var/output_large = ""
 	for(var/type in types)
 		var/output = ""
-		var/obj/item/weapon/gun/projectile/wep = new type(null)
+		var/obj/item/gun/projectile/wep = new type(null)
 		if(!(wep.caliber in override_calibers))
 			qdel(wep)
 			continue

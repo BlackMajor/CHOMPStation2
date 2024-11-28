@@ -342,6 +342,7 @@
 #define SPECIES_REPLICANT		"Replicant"
 #define SPECIES_REPLICANT_ALPHA	"Alpha Replicant"
 #define SPECIES_REPLICANT_BETA	"Beta Replicant"
+#define SPECIES_REPLICANT_CREW	"Gamma Replicant"
 
 // Used to seperate simple animals by ""intelligence"".
 #define SA_PLANT	1
@@ -447,7 +448,7 @@
 
 #define MAX_NUTRITION	6000 //VOREStation Edit
 
-#define FAKE_INVIS_ALPHA_THRESHOLD 127 // If something's alpha var is at or below this number, certain things will pretend it is invisible.
+#define FAKE_INVIS_ALPHA_THRESHOLD 64 //CHOMPEdit. 25% down from 50% // If something's alpha var is at or below this number, certain things will pretend it is invisible.
 
 #define DEATHGASP_NO_MESSAGE "no message"
 

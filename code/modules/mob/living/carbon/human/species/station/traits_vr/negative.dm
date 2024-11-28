@@ -137,6 +137,7 @@
 	desc = "Your light weight and poor balance make you very susceptible to unhelpful bumping. Think of it like a bowling ball versus a pin. (STOP TAKING THIS AS SECURITY! We're MRP, so expect to lose your junk immediately, especially in events. - Love, Admins)" //CHOMP Edit btw
 	cost = -2
 	var_changes = list("lightweight" = 1)
+	excludes = list(/datum/trait/negative/lightweight_light) //CHOMPedit Added a lesser version of this trait
 	custom_only = FALSE
 
 /datum/trait/negative/neural_hypersensitivity
@@ -190,7 +191,9 @@
 
 /datum/trait/negative/bad_swimmer
 	name = "Bad Swimmer"
-	desc = "You can't swim very well, all water slows you down a lot and you drown in deep water."
+	desc = "You can't swim very well, all water slows you down a lot and you drown in deep water. You also swim up and down 25% slower."
 	cost = -1
 	custom_only = FALSE
-	var_changes = list("bad_swimmer" = 1, "water_movement" = 4)
+	var_changes = list("bad_swimmer" = 1, "water_movement" = 4, "swim_mult" = 1.25)
+	varchange_type = TRAIT_VARCHANGE_LESS_BETTER
+	excludes = list(/datum/trait/positive/good_swimmer)

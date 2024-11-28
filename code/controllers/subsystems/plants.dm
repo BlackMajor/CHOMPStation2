@@ -22,11 +22,11 @@ SUBSYSTEM_DEF(plants)
 	var/list/processing = list()
 	var/list/currentrun = list()
 
-//CHOMPEdit Begin
 /datum/controller/subsystem/plants/stat_entry(msg)
 	msg = "P:[processing.len]|S:[seeds.len]"
 	return ..()
 
+//CHOMPEdit Begin
 /datum/controller/subsystem/plants/Initialize()
 	setup()
 	return SS_INIT_SUCCESS
@@ -150,7 +150,7 @@ SUBSYSTEM_DEF(plants)
 
 // Debug for testing seed genes.
 /client/proc/show_plant_genes()
-	set category = "Debug.Investigate" //CHOMPEdit
+	set category = "Debug.Investigate"
 	set name = "Show Plant Genes"
 	set desc = "Prints the round's plant gene masks."
 

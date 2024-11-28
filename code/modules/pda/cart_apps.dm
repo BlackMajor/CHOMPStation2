@@ -138,7 +138,7 @@
 	else
 		for(var/datum/data/record/R as anything in sortRecord(data_core.general))
 			if(R)
-				records += list(list(Name = R.fields["name"], "ref" = "\ref[R]"))
+				records += list(list(name = R.fields["name"], "ref" = "\ref[R]"))
 		data["recordsList"] = records
 		data["records"] = null
 		return null
@@ -264,7 +264,7 @@
 		JaniData["user_loc"] = list("x" = 0, "y" = 0)
 
 	var/MopData[0]
-	for(var/obj/item/weapon/mop/M in GLOB.all_mops)//GLOB.janitorial_equipment)
+	for(var/obj/item/mop/M in GLOB.all_mops)//GLOB.janitorial_equipment)
 		var/turf/ml = get_turf(M)
 		if(ml)
 			if(ml.z != cl.z)
