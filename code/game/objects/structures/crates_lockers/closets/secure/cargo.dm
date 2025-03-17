@@ -18,7 +18,7 @@
 		/obj/item/clothing/gloves/fingerless,
 		/obj/item/clothing/head/soft)
 
-/obj/structure/closet/secure_closet/cargotech/Initialize()
+/obj/structure/closet/secure_closet/cargotech/Initialize(mapload)
 	if(prob(75))
 		starts_with += /obj/item/storage/backpack
 	else
@@ -48,7 +48,7 @@
 		/obj/item/clothing/under/rank/neo_qm_white_skirt,
 		/obj/item/clothing/under/rank/neo_qm_turtle,
 		/obj/item/clothing/under/rank/neo_qm_turtle_skirt,
-		/obj/item/clothing/under/rank/neo_qm_gorka,
+		/obj/item/clothing/under/rank/neo_gorka/qm,
 		/obj/item/clothing/gloves/black,
 		/obj/item/clothing/gloves/fingerless,
 		/obj/item/tank/emergency/oxygen,
@@ -60,7 +60,7 @@
 		/obj/item/clothing/head/beret/qm,
 		/obj/item/clothing/shoes/boots/winter/supply)
 
-/obj/structure/closet/secure_closet/quartermaster/Initialize()
+/obj/structure/closet/secure_closet/quartermaster/Initialize(mapload)
 	if(prob(75))
 		starts_with += /obj/item/storage/backpack
 	else
@@ -91,7 +91,7 @@
 		/obj/item/emergency_beacon,
 		/obj/item/stack/marker_beacon/thirty)
 
-/obj/structure/closet/secure_closet/miner/Initialize()
+/obj/structure/closet/secure_closet/miner/Initialize(mapload)
 	if(prob(50))
 		starts_with += /obj/item/storage/backpack/industrial
 	else
@@ -120,7 +120,7 @@
 		/obj/item/clothing/shoes/boots/winter/mining,
 		/obj/item/stack/marker_beacon/thirty)
 
-/obj/structure/closet/lumber/Initialize()
+/obj/structure/closet/lumber/Initialize(mapload)
 	if(prob(50))
 		starts_with += /obj/item/storage/backpack/industrial
 	else

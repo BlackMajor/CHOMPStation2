@@ -65,7 +65,7 @@
 	AddElement(/datum/element/conflict_checking, CONFLICT_ELEMENT_CRUSHER)
 
 /*
-/obj/item/kinetic_crusher/Initialize()
+/obj/item/kinetic_crusher/Initialize(mapload)
 	. = ..()
 	if(requires_Wield)
 		RegisterSignal(src, COMSIG_TWOHANDED_WIELD, PROC_REF(on_wield))
@@ -230,8 +230,8 @@
 	and kit-bashed into a high-tech cleaver on a stick - with a handguard and a goliath hide grip. While it is still of little use to any \
 	but the most skilled and/or suicidal miners against local fauna, it's an elegant weapon for a more civilized hunter."
 
-    look gary there i am
-    - hatterhat
+	look gary there i am
+	- hatterhat
 */
 
 
@@ -340,7 +340,8 @@
 /obj/item/offhand/crushergauntlets
 	var/obj/item/kinetic_crusher/machete/gauntlets/linked
 
-/obj/item/offhand/crushergauntlets/dropped(mob/user as mob)
+/obj/item/offhand/crushergauntlets/dropped(mob/user)
+	SHOULD_CALL_PARENT(FALSE)
 	if(linked.wielded)
 		linked.ready_toggle(TRUE)
 

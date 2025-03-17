@@ -83,11 +83,11 @@
 	movement_cooldown = -1
 
 /mob/living/simple_mob/vore/raptor/init_vore()
- 	//CHOMPEdit Start
 	if(!voremob_loaded)
 		return
-	.=..()
-	//CHOMPEdit End
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The raptor pounces atop you, pinning you under sharp taloned feet, a heavy weight on your chest. Unable to do much more than look up at the reptilian face, looking back down at you with a curious bird-like expression, you're helpless in the moment. With little more warning, the jaws lunge open and dive down towards your head. Engulfing you in the wet maw, tongue pushing against your face, a cage of jagged teeth hold you in place. Pulling you upwards roughly, the creature begins to chomp it's way down your body, and you're steadily transferred down the rippling, tight tunnel of its gullet. The beast throws its head backwards, sending you spiralling down toward's its stomach, where you land with a wet splash. The walls of the gut immediately clamp down on you, wrinkled flesh grinding the gastric slurry of acids and enzymes into your trapped form. A cacophony of bodily functions, groans, gurgles and heart beats overwhelm your hearing. This creature's body has clearly decided you're little more than meat to it now."
@@ -119,13 +119,13 @@
 	consider_wg()
 
 /mob/living/simple_mob/vore/raptor/proc/consider_wg()
-  var/past_state = wg_state
-  if(nutrition >= 900)
-    wg_state = 1
-  else
-    wg_state = 0
-  if(past_state != wg_state)
-    update_icon()
+	var/past_state = wg_state
+	if(nutrition >= 900)
+		wg_state = 1
+	else
+		wg_state = 0
+	if(past_state != wg_state)
+		update_icon()
 
 /mob/living/simple_mob/vore/raptor/update_icon()
 	if(wg_state == 1)

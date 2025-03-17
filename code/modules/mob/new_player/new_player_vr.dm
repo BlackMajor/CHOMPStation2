@@ -12,7 +12,7 @@
 		pass = FALSE
 
 	//No OOC notes
-	if (CONFIG_GET(flag/allow_metadata) && (!client?.prefs?.metadata || length(client.prefs.metadata) < 15))
+	if (CONFIG_GET(flag/allow_metadata) && (!client?.prefs?.read_preference(/datum/preference/text/living/ooc_notes) || length(client.prefs.read_preference(/datum/preference/text/living/ooc_notes)) < 15))
 		to_chat(src,span_warning("Please set informative OOC notes related to RP/ERP preferences. Set them using the 'OOC Notes' button on the 'General' tab in character setup."))
 		pass = FALSE
 
@@ -27,7 +27,7 @@
 		to_chat(src,span_warning("You have not set your scale yet. Do this on the VORE tab in character setup."))
 
 	//Can they play?
-	if(!is_alien_whitelisted(src,GLOB.all_species[client?.prefs?.species]) && !check_rights(R_ADMIN, 0))
+	if(!is_alien_whitelisted(src.client,GLOB.all_species[client?.prefs?.species]) && !check_rights(R_ADMIN, 0))
 		pass = FALSE
 		to_chat(src,span_warning("You are not allowed to spawn in as this species."))
 

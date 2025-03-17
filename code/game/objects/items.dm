@@ -76,7 +76,7 @@
 	/* Species-specific sprites, concept stolen from Paradise//vg/.
 	ex:
 	sprite_sheets = list(
-		SPECIES_TAJ = 'icons/cat/are/bad'
+		SPECIES_TAJARAN = 'icons/cat/are/bad'
 		)
 	If index term exists and icon_override is not set, this sprite sheet will be used.
 	*/
@@ -110,13 +110,19 @@
 
 	var/rock_climbing = FALSE //If true, allows climbing cliffs using click drag for single Z, walls if multiZ
 	var/climbing_delay = 1 //If rock_climbing, lower better.
+	var/digestable = TRUE
+	var/item_tf_spawn_allowed = FALSE
+	var/list/ckeys_allowed_itemspawn = list()
 
-/obj/item/Initialize(mapload) //CHOMPedit I stg I'm going to overwrite these many uncommented edits.
+/obj/item/Initialize(mapload)
 	. = ..()
+
 	for(var/path in actions_types)
 		add_item_action(path)
+
 	if(islist(origin_tech))
 		origin_tech = typelist(NAMEOF(src, origin_tech), origin_tech)
+
 	if(embed_chance < 0)
 		if(sharp)
 			embed_chance = max(5, round(force/w_class))
@@ -131,6 +137,8 @@
 	M.update_held_icons()
 
 /obj/item/Destroy()
+	if(item_tf_spawn_allowed)
+		item_tf_spawnpoints -= src
 	if(ismob(loc))
 		var/mob/m = loc
 		m.drop_from_inventory(src)
@@ -364,7 +372,7 @@
 
 /obj/item/throw_impact(atom/hit_atom)
 	..()
-	if(isliving(hit_atom)) //Living mobs handle hit sounds differently.
+	if(isliving(hit_atom) && !hit_atom.is_incorporeal()) //Living mobs handle hit sounds differently.
 		var/volume = get_volume_by_throwforce_and_or_w_class()
 		if (throwforce > 0)
 			if (mob_throw_hit_sound)
@@ -379,7 +387,8 @@
 		playsound(src, drop_sound, 30, preference = /datum/preference/toggle/drop_sounds)
 
 // apparently called whenever an item is removed from a slot, container, or anything else.
-/obj/item/proc/dropped(mob/user as mob)
+/obj/item/proc/dropped(mob/user)
+	SHOULD_CALL_PARENT(TRUE)
 	if(zoom)
 		zoom() //binoculars, scope, etc
 	appearance_flags &= ~NO_CLIENT_COLOR
@@ -762,7 +771,7 @@ GLOBAL_LIST_EMPTY(blood_overlays_by_type)
 
 /obj/item/proc/showoff(mob/user)
 	for (var/mob/M in view(user))
-		M.show_message(span_filter_notice("[user] holds up [src]. <a HREF=?src=\ref[M];lookitem=\ref[src]>Take a closer look.</a>"),1)
+		M.show_message(span_filter_notice("[user] holds up [src]. <a HREF='byond://?src=\ref[M];lookitem=\ref[src]'>Take a closer look.</a>"),1)
 
 /mob/living/carbon/verb/showoff()
 	set name = "Show Held Item"
@@ -798,7 +807,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 
 	var/cannotzoom
 
-	if((M.stat && !zoom) || !(istype(M,/mob/living/carbon/human)))
+	if((M.stat && !zoom) || !(ishuman(M)))
 		to_chat(M, span_filter_notice("You are unable to focus through the [devicename]."))
 		cannotzoom = 1
 	else if(!zoom && (global_hud.darkMask[1] in M.client.screen))
@@ -903,6 +912,12 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 				state2use += "_l"
 
 	// testing("[src] (\ref[src]) - Slot: [slot_name], Inhands: [inhands], Worn Icon:[icon2use], Worn State:[state2use], Worn Layer:[layer2use]")
+	// Send icon data to unit test when it is running, hello old testing(). I'm like, your great great grandkid! THE FUTURE IS NOW OLD MAN!
+	#ifdef UNIT_TEST
+	var/mob/living/carbon/human/H = loc
+	if(ishuman(H))
+		SEND_SIGNAL(H, COMSIG_UNITTEST_DATA, list("set_slot",slot_name,icon2use,state2use,inhands,type,H.species?.name))
+	#endif
 
 	//Generate the base onmob icon
 	var/icon/standing_icon = icon(icon = icon2use, icon_state = state2use)
@@ -1058,12 +1073,12 @@ closest to where the cursor has clicked on.
 Note: This proc can be overwritten to allow for different types of auto-alignment.
 */
 
-///obj/item/var/list/center_of_mass = list("x" = 16,"y" = 16) CHOMPEdit NO STOP PLEASE -- center_of_mass - 52.0879 mb total
-/obj/item/var/center_of_mass_x = 16 //CHOMPEdit
-/obj/item/var/center_of_mass_y = 16 //CHOMPEdit
+
+/obj/item/var/center_of_mass_x = 16
+/obj/item/var/center_of_mass_y = 16
 
 /proc/auto_align(obj/item/W, click_parameters, var/animate = FALSE)
-	if(!W.center_of_mass_x && !W.center_of_mass_y) //CHOMPEdit
+	if(!W.center_of_mass_x && !W.center_of_mass_y)
 		W.randpixel_xy()
 		return
 
@@ -1079,8 +1094,8 @@ Note: This proc can be overwritten to allow for different types of auto-alignmen
 		var/cell_x = max(0, min(CELLS-1, round(mouse_x/CELLSIZE)))
 		var/cell_y = max(0, min(CELLS-1, round(mouse_y/CELLSIZE)))
 
-		var/target_x = (CELLSIZE * (0.5 + cell_x)) - W.center_of_mass_x //CHOMPEdit
-		var/target_y = (CELLSIZE * (0.5 + cell_y)) - W.center_of_mass_y //CHOMPEdit
+		var/target_x = (CELLSIZE * (0.5 + cell_x)) - W.center_of_mass_x
+		var/target_y = (CELLSIZE * (0.5 + cell_y)) - W.center_of_mass_y
 		if(animate)
 			var/dist_x = abs(W.pixel_x - target_x)
 			var/dist_y = abs(W.pixel_y - target_y)
@@ -1102,3 +1117,21 @@ Note: This proc can be overwritten to allow for different types of auto-alignmen
 
 /obj/item/proc/get_welder()
 	return
+
+/obj/item/verb/toggle_digestable()
+	set category = "Object"
+	set name = "Toggle Digestable"
+	set desc = "Toggle item's digestability."
+	digestable = !digestable
+	if(!digestable)
+		to_chat(usr, span_notice("[src] is now protected from digestion."))
+
+/obj/item/proc/item_tf_spawnpoint_set()
+	if(!item_tf_spawn_allowed)
+		item_tf_spawn_allowed = TRUE
+		item_tf_spawnpoints += src
+
+/obj/item/proc/item_tf_spawnpoint_used()
+	if(item_tf_spawn_allowed)
+		item_tf_spawn_allowed = FALSE
+		item_tf_spawnpoints -= src

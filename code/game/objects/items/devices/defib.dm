@@ -25,8 +25,8 @@
 /obj/item/defib_kit/get_cell()
 	return bcell
 
-/obj/item/defib_kit/Initialize() //starts without a cell for rnd //ChompEDIT New --> Initialize
-	..()
+/obj/item/defib_kit/Initialize(mapload) //starts without a cell for rnd
+	. = ..()
 	if(ispath(paddles))
 		paddles = new paddles(src, src)
 	else
@@ -132,7 +132,7 @@
 	if(!slot_check())
 		to_chat(user, span_warning("You need to equip [src] before taking out [paddles]."))
 	else
-		if(!usr.put_in_hands(paddles)) //Detach the paddles into the user's hands
+		if(!user.put_in_hands(paddles)) //Detach the paddles into the user's hands
 			to_chat(user, span_warning("You need a free hand to hold the paddles!"))
 		update_icon() //success
 
@@ -272,11 +272,7 @@
 
 //Checks for various conditions to see if the mob is revivable
 /obj/item/shockpaddles/proc/can_defib(mob/living/carbon/human/H) //This is checked before doing the defib operation
-	//CHOMPEdit Begin - Vox can be revived with jumper cables
-	if(H.get_species() == SPECIES_VOX && use_on_synthetic)
-		// Will silently continue to the other two checks.
-	//CHOMPEdit End - Edit included the else on the next line.
-	else if((H.species.flags & NO_DEFIB))
+	if((H.species.flags & NO_DEFIB))
 		return "buzzes, \"Incompatible physiology. Operation aborted.\""
 	else if(H.isSynthetic() && !use_on_synthetic)
 		return "buzzes, \"Synthetic Body. Operation aborted.\""
@@ -343,7 +339,7 @@
 	if(!heart)
 		return TRUE
 
-	var/blood_volume = H.vessel.get_reagent_amount("blood")
+	var/blood_volume = H.vessel.get_reagent_amount(REAGENT_ID_BLOOD)
 	if(!heart || heart.is_broken())
 		blood_volume *= 0.3
 	else if(heart.is_bruised())

@@ -115,10 +115,9 @@
 	var/stunned = 0.0
 	var/weakened = 0.0
 	var/losebreath = 0.0//Carbon
-	var/shakecamera = 0
 	var/a_intent = I_HELP//Living
 	var/m_int = null//Living
-	var/m_intent = "run"//Living
+	var/m_intent = I_RUN//Living
 	var/lastKnownIP = null
 	var/obj/buckled = null//Living
 
@@ -241,6 +240,9 @@
 
 	var/list/datum/action/actions
 
-	var/custom_footstep = FOOTSTEP_MOB_SHOE // CHOMPEdit
 	var/list/viruses
 	var/list/resistances
+
+	var/custom_footstep = FOOTSTEP_MOB_SHOE
+	VAR_PRIVATE/is_motion_tracking = FALSE // Prevent multiple unsubs and resubs, also used to check if the vis layer is enabled, use has_motiontracking() to get externally.
+	VAR_PRIVATE/wants_to_see_motion_echos = TRUE

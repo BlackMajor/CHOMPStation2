@@ -73,26 +73,26 @@
 		if(C.holder.fakekey && !check_rights_for(src, R_ADMIN|R_MOD))	// Only admins and mods can see stealthmins
 			continue
 		// VOREStation Edit End
-		if(check_rights(R_BAN, FALSE, C)) // admins //VOREStation Edit
+		if(check_rights_for(C, R_BAN)) // admins //VOREStation Edit
 			num_admins_online++
-		else if(check_rights(R_ADMIN, FALSE, C) && !check_rights(R_SERVER, FALSE, C)) // mods //VOREStation Edit: Game masters
+		else if(check_rights_for(C, R_ADMIN) && !check_rights_for(C, R_SERVER)) // mods //VOREStation Edit: Game masters
 			category = R_MOD
 			num_mods_online++
-		else if(check_rights(R_SERVER, FALSE, C)) // developers
+		else if(check_rights_for(C, R_SERVER)) // developers
 			category = R_SERVER
 			num_devs_online++
-		else if(check_rights(R_STEALTH, FALSE, C)) // event managers //VOREStation Edit: Retired Staff
+		else if(check_rights_for(C, R_STEALTH)) // event managers //VOREStation Edit: Retired Staff
 			category = R_EVENT
 			num_event_managers_online++
 
-		temp += "\t[C] is a [C.holder.rank]"
+		temp += "\t[C] is a [C.holder.rank_names()]"
 		if(holder)
 			if(C.holder.fakekey)
 				temp += " " + span_italics("(as [C.holder.fakekey])")
 
 			if(isobserver(C.mob))
 				temp += " - Observing"
-			else if(istype(C.mob,/mob/new_player))
+			else if(isnewplayer(C.mob))
 				temp += " - Lobby"
 			else
 				temp += " - Playing"
@@ -131,7 +131,7 @@
 		if(holder)
 			if(isobserver(C.mob))
 				mmsg += " - Observing"
-			else if(istype(C.mob,/mob/new_player))
+			else if(isnewplayer(C.mob))
 				mmsg += " - Lobby"
 			else
 				mmsg += " - Playing"

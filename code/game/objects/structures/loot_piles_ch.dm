@@ -88,7 +88,6 @@
 		/obj/random/tank,
 		/obj/random/tech_supply/component,
 		/obj/random/tech_supply/component,
-		/obj/item/clothing/head/helmet/eraticator,
 		/obj/effect/decal/remains/mouse,
 		/obj/item/stack/material/steel{amount = 20}
 		)
@@ -116,8 +115,9 @@
 
 //Eclipse mecha
 /obj/structure/loot_pile/mecha/odd_gygax
-	name = "\improper Whisker wreckage"
-	icon_state = "gygax-broken"
+	name = "\improper mecha wreckage"
+	icon = 'modular_chomp/icons/mob/eclipse.dmi'
+	icon_state = "orb-broken"
 	density = TRUE
 	anchored = FALSE
 
@@ -147,8 +147,9 @@
 		)
 
 /obj/structure/loot_pile/mecha/odd_ripley
-	name = "\improper ripley wreckage"
-	icon_state = "titan-broken"
+	name = "\improper mecha wreckage"
+	icon = 'modular_chomp/icons/mob/eclipse.dmi'
+	icon_state = "mine-broken"
 	density = TRUE
 	anchored = FALSE
 

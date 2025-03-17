@@ -264,13 +264,13 @@
 
 /turf/simulated/floor/outdoors/snow/thor/planetuse/attackby(var/obj/item/W, var/mob/user)
 	if(istype(W, /obj/item/shovel))
-		to_chat(user, "<span class='notice'>You begin to remove \the [src] with your [W].</span>")
+		to_chat(user, span_notice("You begin to remove \the [src] with your [W]."))
 		if(do_after(user, 4 SECONDS * W.toolspeed))
-			to_chat(user, "<span class='notice'>\The [src] has been dug up, and now lies in a pile nearby.</span>")
+			to_chat(user, span_notice("\The [src] has been dug up, and now lies in a pile nearby."))
 			new /obj/item/stack/material/snow(src)
 			demote()
 		else
-			to_chat(user, "<span class='notice'>You decide to not finish removing \the [src].</span>")
+			to_chat(user, span_notice("You decide to not finish removing \the [src]."))
 	else
 		..()
 
@@ -332,7 +332,7 @@
 
 #if defined(Z_LEVEL_SURFACE_MINES) || defined(Z_LEVEL_UNDERMINES)
 //Dealing with having mining POIs spawn on different Z levels
-/turf/simulated/mineral/Initialize()
+/turf/simulated/mineral/Initialize(mapload)
 	. = ..()
 	if(istype(src, /turf/simulated/mineral/thor) || istype(src, /turf/simulated/mineral/sif) || istype(src, /turf/simulated/mineral/floor/sif) || istype(src, /turf/simulated/mineral/ignore_mapgen/sif) || istype(src, /turf/simulated/mineral/floor/ignore_mapgen/sif))
 		return

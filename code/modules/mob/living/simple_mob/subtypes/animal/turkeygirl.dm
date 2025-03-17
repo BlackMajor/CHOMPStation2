@@ -44,16 +44,16 @@
 	vore_standing_too = TRUE
 
 /mob/living/simple_mob/vore/turkeygirl/init_vore()
- 	//CHOMPEdit Start
 	if(!voremob_loaded)
 		return
-	.=..()
-	//CHOMPEdit End
+	if(LAZYLEN(vore_organs))
+		return
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The hot churning stomach of a turkey girl! The doughy flesh presses inward to form to your figure, thick slime coating everything, and very shortly that includes you as well! There isn't any escaping that constant full body motion, as her body works to ball yours up into a tight little package. Gurgling and glubbing with every shifting movement, while her pulse throbs through the flesh all around you with every beat of her heart. All in all, one thing is for certain! You've become turkey stuffing! Oh no..."
 	B.mode_flags = DM_FLAG_THICKBELLY | DM_FLAG_NUMBING
-	B.belly_fullscreen = "anibelly"
+	B.belly_fullscreen = "anim_belly"
 	B.digest_brute = 1
 	B.digest_burn = 6
 	B.digestchance = 0
@@ -86,9 +86,9 @@
 
 	if(nutrition >= max_nutrition)
 		if(user == src)
-			to_chat(src, "<span class='notice'>You're too full to eat another bite.</span>")
+			to_chat(src, span_notice("You're too full to eat another bite."))
 			return
-		to_chat(user, "<span class='notice'>\The [src] seems too full to eat.</span>")
+		to_chat(user, span_notice("\The [src] seems too full to eat."))
 		return
 
 	user.setClickCooldown(user.get_attack_speed(O))
@@ -98,8 +98,8 @@
 	O.bitecount ++
 	O.On_Consume(src)
 	if(O)
-		to_chat(user, "<span class='notice'>\The [src] takes a bite of \the [O].</span>")
+		to_chat(user, span_notice("\The [src] takes a bite of \the [O]."))
 		if(user != src)
-			to_chat(src, "<span class='notice'>\The [user] feeds \the [O] to you.</span>")
+			to_chat(src, span_notice("\The [user] feeds \the [O] to you."))
 	playsound(src, 'sound/items/eatfood.ogg', 75, 1)
 	update_icon()

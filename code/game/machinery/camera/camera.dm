@@ -7,7 +7,7 @@
 	idle_power_usage = 5
 	active_power_usage = 10
 	plane = MOB_PLANE
-	layer = ABOVE_MOB_LAYER
+	layer = BELOW_MOB_LAYER
 
 	var/list/network = list(NETWORK_DEFAULT)
 	var/c_tag = null
@@ -42,7 +42,7 @@
 
 	var/list/camera_computers_using_this = list()
 
-/obj/machinery/camera/New()
+/obj/machinery/camera/Initialize(mapload)
 	wires = new(src)
 	assembly = new(src)
 	assembly.state = 4
@@ -65,12 +65,16 @@
 	if(!c_tag)
 		var/area/A = get_area(src)
 		c_tag = "[A ? A.name : "Unknown"] #[rand(111,999)]"
-	..()
+
+	. = ..()
+
+	if (dir == NORTH)
+		layer = ABOVE_MOB_LAYER
 	// VOREStation Edit End
 
 /obj/machinery/camera/Destroy()
 	if(isMotion())
-		unsense_proximity(callback = TYPE_PROC_REF(/atom,HasProximity)) // CHOMPEdit
+		unsense_proximity(callback = TYPE_PROC_REF(/atom,HasProximity))
 	deactivate(null, 0) //kick anyone viewing out
 	if(assembly)
 		qdel(assembly)
@@ -185,7 +189,7 @@
 				else
 					assembly.state = 1
 					to_chat(user, span_notice("You cut \the [src] free from the wall."))
-					new /obj/item/stack/cable_coil(src.loc, length=2)
+					new /obj/item/stack/cable_coil(src.loc, 2)
 				assembly = null //so qdel doesn't eat it.
 			qdel(src)
 
@@ -244,7 +248,7 @@
 
 /obj/machinery/camera/proc/deactivate(user as mob, var/choice = 1)
 	// The only way for AI to reactivate cameras are malf abilities, this gives them different messages.
-	if(istype(user, /mob/living/silicon/ai))
+	if(isAI(user))
 		user = null
 
 	if(choice != 1)
@@ -393,7 +397,7 @@
 	return 0
 
 /obj/machinery/camera/interact(mob/living/user as mob)
-	if(!panel_open || istype(user, /mob/living/silicon/ai))
+	if(!panel_open || isAI(user))
 		return
 
 	if(stat & BROKEN)

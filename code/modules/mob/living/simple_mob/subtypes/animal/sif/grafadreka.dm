@@ -135,7 +135,7 @@ Field studies suggest analytical abilities on par with some species of cepholapo
 	bitesize = 10
 	gender = NEUTER
 
-	has_langs = list("Drake")
+	has_langs = list(LANNGUAGE_DRAKE)
 
 	see_in_dark = 8 // on par with Taj
 
@@ -239,7 +239,7 @@ var/global/list/wounds_being_tended_by_drakes = list()
 	// Other animals just need to be injured.
 	return (friend.health < friend.maxHealth)
 
-/mob/living/simple_mob/animal/sif/grafadreka/Initialize()
+/mob/living/simple_mob/animal/sif/grafadreka/Initialize(mapload)
 
 	charisma = rand(5, 15)
 	stored_sap = rand(20, 30)
@@ -493,7 +493,7 @@ var/global/list/wounds_being_tended_by_drakes = list()
 			for(var/obj/item/organ/external/E in H.organs)
 				if(E.status & ORGAN_BLEEDING)
 					E.organ_clamp()
-					H.bloodstr.add_reagent("sifsap", rand(1,2))
+					H.bloodstr.add_reagent(REAGENT_ID_SIFSAP, rand(1,2))
 				for(var/datum/wound/W in E.wounds)
 					W.salve()
 					W.disinfect()

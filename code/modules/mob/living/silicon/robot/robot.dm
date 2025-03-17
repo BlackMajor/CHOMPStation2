@@ -8,7 +8,7 @@
 	icon_state = "robot"
 	maxHealth = 200
 	health = 200
-	nutrition = 0 //CHOMPEdit
+	nutrition = 0
 
 	mob_bump_flag = ROBOT
 	mob_swap_flags = ~HEAVY
@@ -26,6 +26,8 @@
 	var/crisis //Admin-settable for combat module use.
 	var/crisis_override = 0
 	var/integrated_light_power = 6
+	var/list/robotdecal_on = list()
+	var/glowy_enabled = FALSE
 	var/datum/wires/robot/wires
 
 	can_be_antagged = TRUE
@@ -134,6 +136,11 @@
 	buckle_movable = TRUE
 	buckle_lying = FALSE
 
+	var/list/vore_light_states = list() //Robot exclusive
+	vore_capacity_ex = list()
+	vore_fullness_ex = list()
+	vore_icon_bellies = list()
+
 /mob/living/silicon/robot/New(loc, var/unfinished = 0)
 	spark_system = new /datum/effect/effect/system/spark_spread()
 	spark_system.set_up(5, 0, src)
@@ -240,10 +247,11 @@
 			C.install()
 	cell.charge = cell.maxcharge
 	..()
+	update_icon()
 
 /mob/living/silicon/robot/proc/init()
 	aiCamera = new/obj/item/camera/siliconcam/robot_camera(src)
-	laws = new global.using_map.default_law_type // VOREstation edit: use map's default
+	laws = new global.using_map.default_law_type //use map's default
 	additional_law_channels["Binary"] = "#b"
 	var/new_ai = select_active_ai_with_fewest_borgs()
 	if(new_ai)
@@ -346,9 +354,13 @@
 	if(module)
 		var/list/module_sprites = SSrobot_sprites.get_module_sprites(module, src)
 		if(module_sprites.len == 1 || !client)
+			if(!module_sprites.len)
+				return
 			sprite_datum = module_sprites[1]
 			sprite_datum.do_equipment_glamour(module)
 			return
+	if(mind)
+		sprite_name = mind.name
 	if(!selecting_module)
 		var/datum/tgui_module/robot_ui_module/ui = new(src)
 		ui.tgui_interact(src)
@@ -396,17 +408,16 @@
 			flavor_text = module_flavour
 		else
 			flavor_text = client.prefs.flavour_texts_robot["Default"]
-		// Vorestation Edit: and meta info
-		var/meta_info = client.prefs.metadata
-		if (meta_info)
-			ooc_notes = meta_info
-			ooc_notes_likes = client.prefs.metadata_likes
-			ooc_notes_dislikes = client.prefs.metadata_dislikes
-			//CHOMPEdit Start
-			ooc_notes_favs = client.prefs.metadata_favs
-			ooc_notes_maybes = client.prefs.metadata_maybes
-			ooc_notes_style = client.prefs.matadata_ooc_style
-			//CHOMPEdit End
+		//and meta info
+		ooc_notes = client.prefs.read_preference(/datum/preference/text/living/ooc_notes)
+		ooc_notes_likes = client.prefs.read_preference(/datum/preference/text/living/ooc_notes_likes)
+		ooc_notes_dislikes = client.prefs.read_preference(/datum/preference/text/living/ooc_notes_dislikes)
+		//CHOMPAdd Start
+		ooc_notes_favs = read_preference(/datum/preference/text/living/ooc_notes_favs)
+		ooc_notes_maybes = read_preference(/datum/preference/text/living/ooc_notes_maybes)
+		ooc_notes_style = read_preference(/datum/preference/toggle/living/ooc_notes_style)
+		//CHOMPAdd End
+		private_notes = client.prefs.read_preference(/datum/preference/text/living/private_notes)
 		custom_link = client.prefs.custom_link
 
 /mob/living/silicon/robot/verb/namepick()
@@ -414,7 +425,7 @@
 	set category = "Abilities.Settings"
 
 	if(custom_name)
-		to_chat(usr, "You can't pick another custom name. [isshell(src) ? "" : "Go ask for a name change."]")
+		to_chat(src, "You can't pick another custom name. [isshell(src) ? "" : "Go ask for a name change."]")
 		return 0
 
 	var/newname = sanitizeSafe(tgui_input_text(src,"You are a robot. Enter a name, or leave blank for the default name.", "Name change","", MAX_NAME_LEN), MAX_NAME_LEN)
@@ -440,8 +451,47 @@
 	set name = "Toggle Lights"
 
 	lights_on = !lights_on
-	to_chat(usr, span_filter_notice("You [lights_on ? "enable" : "disable"] your integrated light."))
+	to_chat(src, span_filter_notice("You [lights_on ? "enable" : "disable"] your integrated light."))
 	handle_light()
+	update_icon()
+
+/mob/living/silicon/robot/verb/toggle_robot_decals() // loads overlay UNDER lights.
+	set category = "Abilities.Settings"
+	set name = "Toggle Extra Decals"
+
+	if(!sprite_datum)
+		return
+	if(!LAZYLEN(sprite_datum.sprite_decals))
+		to_chat(src, span_warning("This module does not support decals."))
+		return
+
+	var/extra_message = "Enabled decals:\n"
+	for(var/decal in robotdecal_on)
+		extra_message += decal + "\n"
+
+	var/decal_to_toggle = tgui_input_list(src, "Please select which decal you want to toggle\n[extra_message]", "Decal Toggle", sprite_datum.sprite_decals)
+	if(!decal_to_toggle)
+		return
+
+	decal_to_toggle = lowertext(decal_to_toggle)
+
+	if(robotdecal_on.Find(decal_to_toggle))
+		robotdecal_on -= decal_to_toggle
+		to_chat(src, span_filter_notice("You disable your \"[decal_to_toggle]\" extra apperances."))
+	else
+		robotdecal_on += decal_to_toggle
+		to_chat(src, span_filter_notice("You enable your \"[decal_to_toggle]\" extra apperances."))
+	update_icon()
+
+/mob/living/silicon/robot/verb/toggle_glowy_stomach()
+	set category = "Abilities.Settings"
+	set name = "Toggle Glowing Stomach & Accents"
+
+	glowy_enabled = !glowy_enabled
+	if(glowy_enabled)
+		to_chat(src, span_filter_notice("Your stomach will now glow and any naturally glowing accents you have will now appear!"))
+	else
+		to_chat(src, span_filter_notice("Your stomach will no longer glow, and any naturally glowing accents you have will be hidden!"))
 	update_icon()
 
 /mob/living/silicon/robot/verb/spark_plug() //So you can still sparkle on demand without violence.
@@ -505,7 +555,7 @@
 	if(prob(75) && Proj.damage > 0) spark_system.start()
 	return 2
 
-/mob/living/silicon/robot/attackby(obj/item/W as obj, mob/user as mob)
+/mob/living/silicon/robot/attackby(obj/item/W, mob/user)
 	if (istype(W, /obj/item/handcuffs)) // fuck i don't even know why isrobot() in handcuff code isn't working so this will have to do
 		return
 
@@ -524,7 +574,7 @@
 					C.brute_damage = WC.brute
 					C.electronics_damage = WC.burn
 
-				to_chat(usr, span_notice("You install the [W.name]."))
+				to_chat(user, span_notice("You install the [W.name]."))
 
 				return
 
@@ -710,7 +760,7 @@
 		if(opened)
 			to_chat(user, span_filter_notice("You must close the cover to swipe an ID card."))
 		else
-			if(allowed(usr))
+			if(allowed(user))
 				locked = !locked
 				to_chat(user, span_filter_notice("You [ locked ? "lock" : "unlock"] [src]'s interface."))
 				update_icon()
@@ -720,21 +770,21 @@
 	else if(istype(W, /obj/item/borg/upgrade/))
 		var/obj/item/borg/upgrade/U = W
 		if(!opened)
-			to_chat(usr, span_filter_notice("You must access the borgs internals!"))
-		else if(!src.module && U.require_module)
-			to_chat(usr, span_filter_notice("The borg must choose a module before it can be upgraded!"))
+			to_chat(user, span_filter_notice("You must access the borgs internals!"))
+		else if(!module && U.require_module)
+			to_chat(user, span_filter_notice("The borg must choose a module before it can be upgraded!"))
 		else if(user == src && istype(W,/obj/item/borg/upgrade/utility/reset))
-			to_chat(usr, span_warning("You are restricted from reseting your own module."))
+			to_chat(user, span_warning("You are restricted from reseting your own module."))
 		else if(U.locked)
-			to_chat(usr, span_filter_notice("The upgrade is locked and cannot be used yet!"))
+			to_chat(user, span_filter_notice("The upgrade is locked and cannot be used yet!"))
 		else
 			if(U.action(src))
-				to_chat(usr, span_filter_notice("You apply the upgrade to [src]!"))
-				usr.drop_item()
+				to_chat(user, span_filter_notice("You apply the upgrade to [src]!"))
+				user.drop_item()
 				U.loc = src
 				hud_used.update_robot_modules_display()
 			else
-				to_chat(usr, span_filter_notice("Upgrade error!"))
+				to_chat(user, span_filter_notice("Upgrade error!"))
 
 
 	else
@@ -768,7 +818,7 @@
 	return
 
 /mob/living/silicon/robot/proc/module_reset(var/notify = TRUE)
-	transform_with_anim() //VOREStation edit: sprite animation
+	transform_with_anim() //sprite animation
 	uneq_all()
 	hud_used.update_robot_modules_display(TRUE)
 	modtype = initial(modtype)
@@ -783,6 +833,9 @@
 	updatename("Default")
 	has_recoloured = FALSE
 	robotact?.update_static_data_for_all_viewers()
+	vore_capacity_ex = list()
+	vore_fullness_ex = list()
+	vore_light_states = list()
 
 /mob/living/silicon/robot/proc/ColorMate()
 	set name = "Recolour Module"
@@ -790,10 +843,10 @@
 	set desc = "Allows to recolour once."
 
 	if(!has_recoloured)
-		var/datum/ColorMate/recolour = new /datum/ColorMate(usr)
-		recolour.tgui_interact(usr)
+		var/datum/ColorMate/recolour = new /datum/ColorMate(src)
+		recolour.tgui_interact(src)
 		return
-	to_chat(usr, "You've already recoloured yourself once. Ask for a module reset for another.")
+	to_chat(src, "You've already recoloured yourself once. Ask for a module reset for another.")
 
 /mob/living/silicon/robot/attack_hand(mob/user)
 	if(LAZYLEN(buckled_mobs))
@@ -824,7 +877,7 @@
 				to_chat(user, span_filter_notice("You remove \the [broken_device]."))
 				user.put_in_active_hand(broken_device)
 
-		if(istype(user,/mob/living/carbon/human) && !opened)
+		if(ishuman(user) && !opened)
 			var/mob/living/carbon/human/H = user
 			//Adding borg petting. Help intent pets if preferences allow, Disarm intent taps and Harm is punching(no damage)
 			switch(H.a_intent)
@@ -878,12 +931,12 @@
 	//check if it doesn't require any access at all
 	if(check_access(null))
 		return 1
-	if(istype(M, /mob/living/carbon/human))
+	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		//if they are holding or wearing a card that has access, that works
 		if(check_access(H.get_active_hand()) || check_access(H.wear_id))
 			return 1
-	else if(istype(M, /mob/living/silicon/robot))
+	else if(isrobot(M))
 		var/mob/living/silicon/robot/R = M
 		if(check_access(R.get_active_hand()) || istype(R.get_active_hand(), /obj/item/card/robot))
 			return TRUE
@@ -926,87 +979,64 @@
 		pixel_x = sprite_datum.pixel_x
 		old_x = sprite_datum.pixel_x
 
+	//Want to know how to make an overlay appear in darkness? Look at the below. Add a mutable and then emissive overlay.
+	//These get applied first and foremost, as things will get applied overtop of them.
+	//Only borgs that have specialty glow sprites get this.
+	if(sprite_datum.has_glow_sprites && glowy_enabled)
+		add_overlay(mutable_appearance(sprite_datum.sprite_icon, sprite_datum.get_glow_overlay(src)))
+		add_overlay(emissive_appearance(sprite_datum.sprite_icon, sprite_datum.get_glow_overlay(src)))
+
 	if(stat == CONSCIOUS)
-		//CHOMPAdd Start
-		// Let us handle the bellies with our own system
 		update_fullness()
 		for(var/belly_class in vore_fullness_ex)
 			reset_belly_lights(belly_class)
 			var/vs_fullness = vore_fullness_ex[belly_class]
-			if(belly_class == "sleeper" && sleeper_state == 0 && vore_selected.silicon_belly_overlay_preference == "Sleeper") continue
-			if(belly_class == "sleeper" && sleeper_state != 0 && !(vs_fullness + 1 > vore_capacity_ex[belly_class]))
-				if(vore_selected.silicon_belly_overlay_preference == "Sleeper")
-					vs_fullness = vore_capacity_ex[belly_class]
-				else if(vore_selected.silicon_belly_overlay_preference == "Both")
-					vs_fullness += 1
+			if(belly_class == "sleeper")
+				if(sleeper_state == 0 && vore_selected.silicon_belly_overlay_preference == "Sleeper") continue
+				if(sleeper_state != 0 && !(vs_fullness + 1 > vore_capacity_ex[belly_class]))
+					if(vore_selected.silicon_belly_overlay_preference == "Sleeper")
+						vs_fullness = vore_capacity_ex[belly_class]
+					else if(vore_selected.silicon_belly_overlay_preference == "Both")
+						vs_fullness += 1
 			if(!vs_fullness > 0) continue
 			if(resting)
 				if(!sprite_datum.has_vore_belly_resting_sprites)
 					continue
-				add_overlay(sprite_datum.get_belly_resting_overlay(src, vs_fullness, belly_class))
+				//If we have glowy stomach sprites.
+				if(glowy_enabled)
+					var/mutable_appearance/MA = mutable_appearance(sprite_datum.sprite_icon, sprite_datum.get_belly_resting_overlay(src, vs_fullness, belly_class))
+					MA.appearance_flags = KEEP_APART
+					add_overlay(MA)
+					add_overlay(emissive_appearance(sprite_datum.sprite_icon, sprite_datum.get_belly_resting_overlay(src, vs_fullness, belly_class)))
+				else
+					add_overlay(sprite_datum.get_belly_resting_overlay(src, vs_fullness, belly_class))
 			else
 				update_belly_lights(belly_class)
-				add_overlay(sprite_datum.get_belly_overlay(src, vs_fullness, belly_class))
-		//CHOMPAdd End
-		/*CHOMPRemove Start
-		var/belly_size = 0
-		if(sprite_datum.has_vore_belly_sprites && vore_selected.belly_overall_mult != 0)
-			if(vore_selected.silicon_belly_overlay_preference == "Sleeper")
-				if(sleeper_state)
-					belly_size = sprite_datum.max_belly_size
-			else if(vore_selected.silicon_belly_overlay_preference == "Vorebelly" || vore_selected.silicon_belly_overlay_preference == "Both")
-				if(sleeper_state && vore_selected.silicon_belly_overlay_preference == "Both")
-					belly_size += 1
-				if(LAZYLEN(vore_selected.contents) > 0)
-					for(var/borgfood in vore_selected.contents) //"inspired" (kinda copied) from Chompstation's belly fullness system's procs
-						if(istype(borgfood, /mob/living))
-							if(vore_selected.belly_mob_mult <= 0) //If mobs dont contribute, dont calculate further
-								continue
-							var/mob/living/prey = borgfood //typecast to living
-							belly_size += (prey.size_multiplier / size_multiplier) / vore_selected.belly_mob_mult //Smaller prey are less filling to larger bellies
-						else if(istype(borgfood, /obj/item))
-							if(vore_selected.belly_item_mult <= 0) //If items dont contribute, dont calculate further
-								continue
-							var/obj/item/junkfood = borgfood //typecast to item
-							var/fullness_to_add = 0
-							switch(junkfood.w_class)
-								if(ITEMSIZE_TINY)
-									fullness_to_add = ITEMSIZE_COST_TINY
-								if(ITEMSIZE_SMALL)
-									fullness_to_add = ITEMSIZE_COST_SMALL
-								if(ITEMSIZE_NORMAL)
-									fullness_to_add = ITEMSIZE_COST_NORMAL
-								if(ITEMSIZE_LARGE)
-									fullness_to_add = ITEMSIZE_COST_LARGE
-								if(ITEMSIZE_HUGE)
-									fullness_to_add = ITEMSIZE_COST_HUGE
-								else
-									fullness_to_add = ITEMSIZE_COST_NO_CONTAINER
-							belly_size += (fullness_to_add / 32) // vore_selected.overlay_item_multiplier //Enable this later when vorepanel is reworked.
-						else
-							belly_size += 1 //if it's not a person, nor an item... lets just go with 1
-
-					belly_size *= vore_selected.belly_overall_mult //Enable this after vore panel rework
-					belly_size = round(belly_size, 1)
-					belly_size = clamp(belly_size, 0, sprite_datum.max_belly_size) //Value from 0 to however many bellysizes the borg has
-
-		if(belly_size > 0) //Borgs probably only have 1 belly size. but here's support for larger ones if that changes.
-			if(resting && sprite_datum.has_vore_belly_resting_sprites)
-				add_overlay(sprite_datum.get_belly_resting_overlay(src, belly_size))
-			else if(!resting)
-				add_overlay(sprite_datum.get_belly_overlay(src, belly_size))
-		*///CHOMPRemove End
+				//If we have glowy stomach sprites.
+				if(glowy_enabled)
+					var/mutable_appearance/MA = mutable_appearance(sprite_datum.sprite_icon, sprite_datum.get_belly_overlay(src, vs_fullness, belly_class))
+					MA.appearance_flags = KEEP_APART
+					add_overlay(MA)
+					add_overlay(emissive_appearance(sprite_datum.sprite_icon, sprite_datum.get_belly_overlay(src, vs_fullness, belly_class)))
+				else
+					add_overlay(sprite_datum.get_belly_overlay(src, vs_fullness, belly_class))
 
 		sprite_datum.handle_extra_icon_updates(src)			// Various equipment-based sprites go here.
 
 		if(resting && sprite_datum.has_rest_sprites)
 			icon_state = sprite_datum.get_rest_sprite(src)
-
 		if(sprite_datum.has_eye_sprites)
 			if(!shell || deployed) // Shell borgs that are not deployed will have no eyes.
 				var/eyes_overlay = sprite_datum.get_eyes_overlay(src)
 				if(eyes_overlay)
 					add_overlay(eyes_overlay)
+
+		if(robotdecal_on.len && LAZYLEN(sprite_datum.sprite_decals))
+			if(!shell || deployed) // Shell borgs that are not deployed will have no eyes.
+				for(var/enabled_decal in robotdecal_on)
+					var/robotdecal_overlay = sprite_datum.get_robotdecal_overlay(src, enabled_decal)
+					if(robotdecal_overlay)
+						add_overlay(robotdecal_overlay)
 
 		if(lights_on && sprite_datum.has_eye_light_sprites)
 			if(!shell || deployed) // Shell borgs that are not deployed will have no eyes.
@@ -1103,11 +1133,11 @@
 	update_icon()
 
 /mob/living/silicon/robot/proc/sensor_mode() //Medical/Security HUD controller for borgs
-	set name = "Toggle Sensor Augmentation" //VOREStation Add
+	set name = "Toggle Sensor Augmentation"
 	set category = "Abilities.Silicon"
 	set desc = "Augment visual feed with internal sensor overlays."
-	sensor_type = !sensor_type //VOREStation Add
-	to_chat(usr, "You [sensor_type ? "enable" : "disable"] your sensors.") //VOREStation Add
+	sensor_type = !sensor_type
+	to_chat(src, "You [sensor_type ? "enable" : "disable"] your sensors.")
 	toggle_sensor_mode()
 
 /mob/living/silicon/robot/proc/repick_laws()
@@ -1182,7 +1212,7 @@
 			if(first_arg != second_arg)
 				to_chat(connected_ai, span_filter_notice("<br><br>" + span_notice("NOTICE - [braintype] reclassification detected: [first_arg] is now designated as [second_arg].") + "<br>"))
 		if(ROBOT_NOTIFICATION_AI_SHELL) //New Shell
-			to_chat(connected_ai, span_filter_notice("<br><br>" + span_notice("NOTICE - New AI shell detected: <a href='?src=[REF(connected_ai)];track2=[html_encode(name)]'>[name]</a>") + "<br>"))
+			to_chat(connected_ai, span_filter_notice("<br><br>" + span_notice("NOTICE - New AI shell detected: <a href='byond://?src=[REF(connected_ai)];track2=[html_encode(name)]'>[name]</a>") + "<br>"))
 
 /mob/living/silicon/robot/proc/disconnect_from_ai()
 	if(connected_ai)
@@ -1338,7 +1368,9 @@
 	if(!rest_style)
 		rest_style = "Default"
 
-/mob/living/silicon/robot/verb/robot_nom(var/mob/living/T in living_mobs_in_view(1)) //CHOMPEdit
+	update_icon()
+
+/mob/living/silicon/robot/verb/robot_nom(var/mob/living/T in living_mobs_in_view(1))
 	set name = "Robot Nom"
 	set category = "Abilities.Vore"
 	set desc = "Allows you to eat someone."
@@ -1435,14 +1467,12 @@
 			undeploy()
 	..()
 
-//CHOMPAdd Start
 /mob/living/silicon/robot/use_power()
 	if(cell && cell.charge < cell.maxcharge)
 		if(nutrition >= 1 * CYBORG_POWER_USAGE_MULTIPLIER)
-			nutrition -= 1 * CYBORG_POWER_USAGE_MULTIPLIER
+			adjust_nutrition(-(1 * CYBORG_POWER_USAGE_MULTIPLIER))
 			cell.charge += 10 * CYBORG_POWER_USAGE_MULTIPLIER
 	..()
-//CHOMPAdd End
 
 // Those basic ones require quite detailled checks on the robot's vars to see if they are installed!
 /mob/living/silicon/robot/proc/has_basic_upgrade(var/given_type)
@@ -1498,7 +1528,7 @@
 		else
 			return FALSE
 	if(given_type == /obj/item/borg/upgrade/restricted/tasercooler)
-		var/obj/item/gun/energy/taser/mounted/cyborg/T = has_upgrade_module(/obj/item/gun/energy/taser/mounted/cyborg)
+		var/obj/item/gun/energy/robotic/taser/T = has_upgrade_module(/obj/item/gun/energy/robotic/taser)
 		if(T && T.recharge_time <= 2)
 			return T
 		else if(!T)
@@ -1544,3 +1574,23 @@
 			robotact?.update_static_data_for_all_viewers()
 
 	. = ..()
+
+/// This proc checks to see if a borg has access to whatever they're interacting with
+/obj/proc/siliconaccess(mob/user)
+	var/mob/living/silicon/robot/R = user
+	if(istype(R))
+		return check_access(R.idcard)
+	if(issilicon(user))
+		return TRUE
+	return FALSE
+
+/mob/living/silicon/robot/verb/purge_nutrition()
+	set name = "Purge Nutrition"
+	set category = "Abilities.Vore"
+	set desc = "Allows you to clear out most of your nutrition if needed."
+
+	if (stat != CONSCIOUS || nutrition <= 1000)
+		return
+	nutrition = 1000
+	to_chat(src, span_warning("You have purged most of the nutrition lingering in your systems."))
+	return TRUE

@@ -15,7 +15,7 @@
 	else
 		rating_modifier = FALSE
 
-/obj/item/gun/magnetic/matfed/Initialize()
+/obj/item/gun/magnetic/matfed/Initialize(mapload)
 	. = ..()
 	if(ispath(manipulator))
 		manipulator = new manipulator(src)
@@ -165,7 +165,6 @@
 	item_state = "bore"
 	wielded_item_state = "bore-wielded"
 	one_handed_penalty = 5
-	fire_delay = 20
 
 	projectile_type = /obj/item/projectile/bullet/magnetic/bore
 
@@ -196,7 +195,7 @@
 	else // rating_mod 0 = something's not right
 		. += span_warning("A display on the side slowly scrolls the text \"ERR: MISSING COMPONENT - EFFICIENCY MODIFICATION INCOMPLETE\".")
 
-/obj/item/gun/magnetic/matfed/phoronbore/Initialize()
+/obj/item/gun/magnetic/matfed/phoronbore/Initialize(mapload)
 	. = ..()
 	soundloop = new(list(src), 0)
 
@@ -240,7 +239,7 @@
 	mat_storage = max(mat_storage - fuel_used, 0)
 	var/turf/T = get_turf(src)
 	if(T)
-		T.assume_gas("carbon_dioxide", fuel_used * 0.01, T0C+200)
+		T.assume_gas(GAS_CO2, fuel_used * 0.01, T0C+200)
 
 /obj/item/gun/magnetic/matfed/phoronbore/proc/toggle_generator(mob/living/user)
 	if(!generator_state && !mat_storage)

@@ -57,7 +57,7 @@
 		/obj/item/clothing/under/rank/neo_hop_parade_fem,
 		/obj/item/clothing/under/rank/neo_hop_turtle,
 		/obj/item/clothing/under/rank/neo_hop_turtle_skirt,
-		/obj/item/clothing/under/rank/neo_cmd_gorka,
+		/obj/item/clothing/under/rank/neo_gorka/command,
 		/obj/item/clothing/suit/storage/toggle/labcoat/neo_hopformal,
 		/obj/item/clothing/suit/storage/toggle/labcoat/neo_civ_dep,
 		/obj/item/clothing/shoes/brown,
@@ -121,7 +121,7 @@
 		/obj/item/clothing/accessory/bodycam) // CHOMPEdit
 
 
-/obj/structure/closet/secure_closet/hos/Initialize()
+/obj/structure/closet/secure_closet/hos/Initialize(mapload)
 	if(prob(50))
 		starts_with += /obj/item/storage/backpack/security
 	else
@@ -138,6 +138,8 @@
 	closet_appearance = /decl/closet_appearance/secure_closet/security/warden
 
 	starts_with = list(
+		/obj/item/clothing/under/rank/security/aces,
+		/obj/item/clothing/suit/storage/vest/aces,
 		/obj/item/clothing/suit/storage/vest/warden,
 		/obj/item/clothing/under/rank/warden,
 		/obj/item/clothing/under/rank/warden/corp,
@@ -153,7 +155,7 @@
 		/obj/item/clothing/suit/storage/vest/wardencoat/neo_armsco_trench,
 		/obj/item/clothing/suit/storage/vest/wardencoat/neo_bluewarden,
 		/obj/item/clothing/suit/storage/vest/wardencoat/neo_warden_heavy,
-		/obj/item/clothing/under/rank/neo_sec_gorka,
+		/obj/item/clothing/under/rank/neo_gorka/sec,
 		/obj/item/cartridge/security,
 		/obj/item/radio/headset/headset_sec,
 		/obj/item/radio/headset/alt/headset_sec,
@@ -183,7 +185,7 @@
 
 		)
 
-/obj/structure/closet/secure_closet/warden/Initialize()
+/obj/structure/closet/secure_closet/warden/Initialize(mapload)
 	if(prob(50))
 		starts_with += /obj/item/storage/backpack/security
 	else
@@ -198,6 +200,8 @@
 	closet_appearance = /decl/closet_appearance/secure_closet/security
 
 	starts_with = list(
+		/obj/item/clothing/under/rank/security/aces,
+		/obj/item/clothing/suit/storage/vest/aces,
 		/obj/item/clothing/suit/storage/vest/officer,
 		/obj/item/clothing/head/helmet,
 		/obj/item/clothing/mask/gas/sechailer/swat/officer, //CHOMP ADD
@@ -229,7 +233,7 @@
 		/obj/item/ticket_printer,			//CHOMPStation addition
 		)
 
-/obj/structure/closet/secure_closet/security/Initialize()
+/obj/structure/closet/secure_closet/security/Initialize(mapload)
 	if(prob(50))
 		starts_with += /obj/item/storage/backpack/security
 	else
@@ -240,22 +244,22 @@
 		starts_with += /obj/item/poster/nanotrasen
 	return ..()
 
-/obj/structure/closet/secure_closet/security/cargo/Initialize()
+/obj/structure/closet/secure_closet/security/cargo/Initialize(mapload)
 	starts_with += /obj/item/clothing/accessory/armband/cargo
 	starts_with += /obj/item/encryptionkey/headset_cargo
 	return ..()
 
-/obj/structure/closet/secure_closet/security/engine/Initialize()
+/obj/structure/closet/secure_closet/security/engine/Initialize(mapload)
 	starts_with += /obj/item/clothing/accessory/armband/engine
 	starts_with += /obj/item/encryptionkey/headset_eng
 	return ..()
 
-/obj/structure/closet/secure_closet/security/science/Initialize()
+/obj/structure/closet/secure_closet/security/science/Initialize(mapload)
 	starts_with += /obj/item/clothing/accessory/armband/science
 	starts_with += /obj/item/encryptionkey/headset_sci
 	return ..()
 
-/obj/structure/closet/secure_closet/security/med/Initialize()
+/obj/structure/closet/secure_closet/security/med/Initialize(mapload)
 	starts_with += /obj/item/clothing/accessory/armband/medblue
 	starts_with += /obj/item/encryptionkey/headset_med
 	return ..()

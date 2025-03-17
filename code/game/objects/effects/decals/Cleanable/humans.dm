@@ -23,6 +23,7 @@ var/global/list/image/splatter_cache=list()
 	var/amount = 5
 	generic_filth = TRUE
 	persistent = FALSE
+	var/delete_me = FALSE
 
 /obj/effect/decal/cleanable/blood/reveal_blood()
 	if(!fluorescent)
@@ -37,8 +38,10 @@ var/global/list/image/splatter_cache=list()
 		amount = 0
 	..(ignore=1)
 
-/obj/effect/decal/cleanable/blood/New()
-	..()
+/obj/effect/decal/cleanable/blood/Initialize(mapload)
+	. = ..()
+	if(delete_me)
+		return INITIALIZE_HINT_QDEL
 	update_icon()
 	if(istype(src, /obj/effect/decal/cleanable/blood/gibs))
 		return
@@ -48,10 +51,13 @@ var/global/list/image/splatter_cache=list()
 				if(B != src)
 					if (B.blood_DNA)
 						blood_DNA |= B.blood_DNA.Copy()
-					qdel(B)
+					if(!(B.flags & ATOM_INITIALIZED))
+						B.delete_me = TRUE
+					else
+						qdel(B)
 
 //VOREstation edit - Moved timer call to Init, and made it not call on mapload
-/obj/effect/decal/cleanable/blood/Initialize(var/mapload, var/_age)
+/obj/effect/decal/cleanable/blood/Initialize(mapload, var/_age)
 	. = ..()
 	if(!mapload)
 		addtimer(CALLBACK(src, PROC_REF(dry)), DRYING_TIME * (amount+1))
@@ -70,11 +76,13 @@ var/global/list/image/splatter_cache=list()
 	else
 		name = initial(name)
 		desc = initial(desc)
+	cut_overlays()
+	add_janitor_hud_overlay()
 
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if(perp.is_incorporeal())
 		return
-	if (!istype(perp))
+	if(!istype(perp))
 		return
 	if(amount < 1)
 		return
@@ -114,7 +122,8 @@ var/global/list/image/splatter_cache=list()
 
 	if(viruses)
 		for(var/datum/disease/D in viruses)
-			perp.ContractDisease(D)
+			if(D.IsSpreadByTouch())
+				perp.ContractDisease(D)
 
 	amount--
 
@@ -129,10 +138,6 @@ var/global/list/image/splatter_cache=list()
 	if (amount && istype(user))
 		add_fingerprint(user)
 
-		if(viruses)
-			for(var/datum/disease/D in viruses)
-				user.ContractDisease(D)
-
 		if (user.gloves)
 			return
 		var/taken = rand(1,amount)
@@ -146,9 +151,14 @@ var/global/list/image/splatter_cache=list()
 		user.update_inv_gloves(1)
 		add_verb(user, /mob/living/carbon/human/proc/bloody_doodle)
 
+	if(viruses)
+		for(var/datum/disease/D in viruses)
+			if(D.IsSpreadByTouch())
+				user.ContractDisease(D)
+
 /obj/effect/decal/cleanable/blood/splatter
-        random_icon_states = list("mgibbl1", "mgibbl2", "mgibbl3", "mgibbl4", "mgibbl5")
-        amount = 2
+		random_icon_states = list("mgibbl1", "mgibbl2", "mgibbl3", "mgibbl4", "mgibbl5")
+		amount = 2
 
 /obj/effect/decal/cleanable/blood/drip
 	name = "drips of blood"
@@ -160,8 +170,8 @@ var/global/list/image/splatter_cache=list()
 	amount = 0
 	var/list/drips = list()
 
-/obj/effect/decal/cleanable/blood/drip/New()
-	..()
+/obj/effect/decal/cleanable/blood/drip/Initialize(mapload)
+	. = ..()
 	drips |= icon_state
 
 /obj/effect/decal/cleanable/blood/writing
@@ -172,8 +182,8 @@ var/global/list/image/splatter_cache=list()
 	amount = 0
 	var/message
 
-/obj/effect/decal/cleanable/blood/writing/New()
-	..()
+/obj/effect/decal/cleanable/blood/writing/Initialize(mapload)
+	. = ..()
 	if(random_icon_states.len)
 		for(var/obj/effect/decal/cleanable/blood/writing/W in loc)
 			random_icon_states.Remove(W.icon_state)
@@ -192,7 +202,7 @@ var/global/list/image/splatter_cache=list()
 	density = FALSE
 	anchored = TRUE
 	icon = 'icons/effects/blood.dmi'
-	icon_state = "gibbl5"
+	icon_state = "gib1"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib5", "gib6")
 	var/fleshcolor = "#FFFFFF"
 
@@ -210,6 +220,7 @@ var/global/list/image/splatter_cache=list()
 	icon = blood
 	cut_overlays()
 	add_overlay(giblets)
+	add_janitor_hud_overlay()
 
 /obj/effect/decal/cleanable/blood/gibs/up
 	random_icon_states = list("gib1", "gib2", "gib3", "gib5", "gib6","gibup1","gibup1","gibup1")
@@ -255,12 +266,12 @@ var/global/list/image/splatter_cache=list()
 	var/dry = 0 // Keeps the lag down
 	var/sampled = FALSE
 
-/obj/effect/decal/cleanable/mucus/Initialize()
+/obj/effect/decal/cleanable/mucus/mapped/Initialize(mapload)
 	. = ..()
 	VARSET_IN(src, dry, TRUE, DRYING_TIME * 2)
 
 //This version should be used for admin spawns and pre-mapped virus vectors (e.g. in PoIs), this version does not dry
-/obj/effect/decal/cleanable/mucus/mapped/Initialize()
+/obj/effect/decal/cleanable/mucus/mapped/Initialize(mapload)
 	. = ..()
 	viruses |= new /datum/disease/advance
 
@@ -269,11 +280,37 @@ var/global/list/image/splatter_cache=list()
 	return ..()
 
 /obj/effect/decal/cleanable/mucus/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
+	if(viruses)
+		for(var/datum/disease/D in viruses)
+			perp.ContractDisease(D)
+
+/obj/effect/decal/cleanable/mucus/attack_hand(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
 			perp.ContractDisease(D)
 
 /obj/effect/decal/cleanable/vomit/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
+	if(viruses)
+		for(var/datum/disease/D in viruses)
+			perp.ContractDisease(D)
+
+/obj/effect/decal/cleanable/vomit/Crossed(mob/living/carbon/human/perp)
+	if(perp.is_incorporeal())
+		return
+	if(!istype(perp))
+		return
 	if(viruses)
 		for(var/datum/disease/D in viruses)
 			perp.ContractDisease(D)

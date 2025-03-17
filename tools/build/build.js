@@ -152,6 +152,7 @@ export const IconCutterTarget = new Juke.Target({
     'icons/**/*.png',
     `icons/**/*${CUTTER_SUFFIX}`,
     `cutter_templates/**/*${CUTTER_SUFFIX}`,
+    `tgui/public/tgui.html`,
     cutter_path,
   ],
   outputs: ({ get }) => {
@@ -208,6 +209,7 @@ export const DmTarget = new Juke.Target({
     'icons/**',
     'interface/**',
     'sound/**',
+    'tgui/public/tgui.html',
     'modular_chomp/code/**',
     'modular_chomp/icons/**',
     'modular_chomp/sound/**',

@@ -7,8 +7,15 @@
 	cost = 4 //CHOMPEdit
 	var_changes = list("slowdown" = -0.5)
 	excludes = list(/datum/trait/positive/hardy,/datum/trait/positive/hardy_extreme,/datum/trait/positive/hardy_plus)
-//	banned_species = list(SPECIES_ALRAUNE, SPECIES_SHADEKIN_CREW, SPECIES_TESHARI, SPECIES_TAJ, SPECIES_DIONA, SPECIES_UNATHI) //Either not applicable or buffs ruin species flavour/balance
+//	banned_species = list(SPECIES_ALRAUNE, SPECIES_SHADEKIN_CREW, SPECIES_TESHARI, SPECIES_TAJARAN, SPECIES_DIONA, SPECIES_UNATHI) //Either not applicable or buffs ruin species flavour/balance
 //	custom_only = FALSE //Keeping these in comments in case we decide to open them up in future, so the species are already organised.
+
+	// Traitgenes Replaces /datum/trait/positive/superpower_increaserun, made into a genetrait
+	is_genetrait = TRUE
+	hidden = FALSE
+
+	activation_message="Your leg muscles pulsate."
+	primitive_expression_messages=list("dances around.")
 
 /datum/trait/positive/hardy
 	name = "Hardy"
@@ -30,8 +37,8 @@
 
 /datum/trait/positive/endurance_high
 	name = "High Endurance"
-	desc = "Increases your maximum total hitpoints to 125. You require 250 damage in total to die, compared to 200 normally. You will still go into crit after losing 125 HP, compared to crit at 100 HP." // CHOMPEdit: Clarity for players' sake.
-	cost = 3 // CHOMPEdit
+	desc = "Increases your maximum total hitpoints to 125. You require 250 damage in total to die, compared to 200 normally. You will still go into crit after losing 125 HP, compared to crit at 100 HP."
+	cost = 3
 	var_changes = list("total_health" = 125)
 	custom_only = FALSE
 	banned_species = list(SPECIES_TESHARI, SPECIES_UNATHI, SPECIES_SHADEKIN_CREW) //Either not applicable or buffs are too strong
@@ -42,20 +49,24 @@
 
 /datum/trait/positive/nonconductive
 	name = "Non-Conductive"
-	desc = "Decreases your susceptibility to electric shocks by 25%." //CHOMP Edit - GRAMMAR PLS.
-	cost = 2 //This effects tasers!
-	var_changes = list("siemens_coefficient" = 0.75) //CHOMP Edit
+	desc = "Decreases your susceptibility to electric shocks by 25%."
+	cost = 2
+	var_changes = list("siemens_coefficient" = 0.75)
 
 /datum/trait/positive/nonconductive_plus
 	name = "Non-Conductive, Major"
-	desc = "Decreases your susceptibility to electric shocks by 50%." //CHOMP Edit - GRAMMAR PLS.
-	cost = 3 //Let us not forget this effects tasers!
-	var_changes = list("siemens_coefficient" = 0.5) //CHOMP Edit
+	desc = "Decreases your susceptibility to electric shocks by 50%."
+	cost = 3
+	var_changes = list("siemens_coefficient" = 0.5)
+
+	is_genetrait = TRUE
+
+	activation_message="Your skin feels strange."
 
 /*   //Chompedit, moving to Positive_ch.dm so it wont be messed with from upstream
 /datum/trait/positive/darksight
 	name = "Darksight"
-	desc = "Allows you to see a short distance in the dark and 10% more susceptible to flashes." //CHOMP Edit
+	desc = "Allows you to see a short distance in the dark and 10% more susceptible to flashes."
 	cost = 1
 	var_changes = list("darksight" = 3)  //CHOMP Edit
 	custom_only = FALSE
@@ -63,7 +74,7 @@
 
 /datum/trait/positive/darksight_plus
 	name = "Darksight, Major"
-	desc = "Allows you to see in the dark for almost the whole screen and 20% more susceptible to flashes." //CHOMP Edit
+	desc = "Allows you to see in the dark for almost the whole screen and 20% more susceptible to flashes."
 	cost = 2
 	var_changes = list("darksight" = 6)  //CHOMP Edit
 	custom_only = FALSE
@@ -201,7 +212,7 @@
 	name = "Aquatic"
 	desc = "You can breathe under water and can traverse water more efficiently. Additionally, you can eat others in the water."
 	cost = 1
-	custom_only = FALSE //CHOMPEdit: honestly within the bounds of genemods, just hopefully people actually design characters around it
+	custom_only = FALSE
 	var_changes = list("water_breather" = 1, "water_movement" = -4) //Negate shallow water. Half the speed in deep water.
 	allowed_species = list(SPECIES_HANNER, SPECIES_CUSTOM) //So it only shows up for custom species and hanner
 	custom_only = FALSE
@@ -268,7 +279,7 @@
 	a climbable wall. To climbe like so, use the verb 'Climb Down Wall' in IC tab!"
 	cost = 1
 	custom_only = FALSE
-	banned_species = list(SPECIES_TAJ, SPECIES_VASILISSAN)	// They got unique climbing delay.
+	banned_species = list(SPECIES_TAJARAN, SPECIES_VASILISSAN)	// They got unique climbing delay.
 	var_changes = list("can_climb" = TRUE, "climb_mult" = 0.75)
 	excludes = list(/datum/trait/positive/wall_climber_pro, /datum/trait/positive/wall_climber_natural)
 
@@ -301,7 +312,7 @@
 	excludes = list(/datum/trait/positive/wall_climber,/datum/trait/positive/wall_climber_natural)
 
 // This feels jank, but it's the cleanest way I could do TRAIT_VARCHANGE_LESS_BETTER while having a boolean var change
-// Alternate would've been banned_species = list(SPECIES_TAJ, SPECIES_VASSILISIAN)
+// Alternate would've been banned_species = list(SPECIES_TAJARAN, SPECIES_VASSILISIAN)
 // Opted for this as it's "future proof"
 /datum/trait/positive/wall_climber_pro/apply(var/datum/species/S,var/mob/living/carbon/human/H)
 	..()
@@ -317,3 +328,87 @@
 	varchange_type = TRAIT_VARCHANGE_LESS_BETTER
 	excludes = list(/datum/trait/negative/bad_swimmer)
 	banned_species = list(SPECIES_AKULA)	// They already swim better than this
+
+/datum/trait/positive/table_passer
+	name = "Table Passer"
+	desc = "You move over or under tables with ease of a Teshari."
+	cost = 2
+
+	// Traitgenes Replacement for /datum/trait/positive/superpower_midget, made into a genetrait
+	is_genetrait = TRUE
+	hidden = FALSE
+	activation_message="Your skin feels rubbery."
+
+	has_preferences = list("pass_table" = list(TRAIT_PREF_TYPE_BOOLEAN, "On spawn", TRAIT_NO_VAREDIT_TARGET, TRUE))
+
+/datum/trait/positive/table_passer/apply(var/datum/species/S,var/mob/living/carbon/human/H, var/list/trait_prefs)
+	..()
+	if (trait_prefs?["pass_table"] || !trait_prefs)
+		H.pass_flags |= PASSTABLE
+	add_verb(H,/mob/living/proc/toggle_pass_table)
+
+// Traitgenes All genetraits need an unapply proc if they do anything special
+/datum/trait/positive/table_passer/unapply(datum/species/S, mob/living/carbon/human/H)
+	. = ..()
+	if (H.pass_flags & PASSTABLE)
+		H.pass_flags ^= PASSTABLE
+	if(!(/mob/living/proc/toggle_pass_table in S.inherent_verbs)) // Teshari shouldn't lose agility
+		remove_verb(H,/mob/living/proc/toggle_pass_table)
+
+/datum/trait/positive/photosynth
+	name = "Photosynthesis"
+	desc = "Your body is able to produce nutrition from being in light."
+	cost = 3
+	var_changes = list("photosynthesizing" = TRUE)
+	can_take = ORGANICS|SYNTHETICS //Synths actually use nutrition, just with a fancy covering.
+
+/datum/trait/positive/rad_resistance
+	name = "Radiation Resistance"
+	desc = "You are generally more resistant to radiation, and it dissipates faster from your body."
+	cost = 1
+	var_changes = list("radiation_mod" = 0.65, "rad_removal_mod" = 3.5, "rad_levels" = RESISTANT_RADIATION_RESISTANCE)
+
+/datum/trait/positive/rad_resistance_extreme
+	name = "Radiation Resistance, Major"
+	desc = "You are much more resistant to radiation, and it dissipates much faster from your body."
+	cost = 2
+	var_changes = list("radiation_mod" = 0.5, "rad_removal_mod" = 5, "rad_levels" = MAJOR_RESISTANT_RADIATION_RESISTANCE)
+
+/datum/trait/positive/rad_immune
+	name = "Radiation Immunity"
+	desc = "For whatever reason, be it a more dense build or some quirk of your genetic code, your body is completely immune to radiation."
+	cost = 3
+	var_changes = list("radiation_mod" = 0.0, "rad_removal_mod" = 10, "rad_levels" = IMMUNITY_RADIATION_RESISTANCE)
+
+	// Traitgenes
+	is_genetrait = TRUE
+	hidden = FALSE
+	activation_message="Your body feels mundane."
+
+/datum/trait/positive/vibration_sense
+	name = "Vibration Sense"
+	desc = "Allows you to sense subtle vibrations nearby, even if the source cannot be seen."
+	cost = 2
+	var_changes = list("has_vibration_sense" = TRUE)
+
+	// Traitgenes edit begin - Made into a gene trait
+	is_genetrait = TRUE
+	hidden = FALSE
+
+	activation_message="Your ears ring, and hear everything..."
+	// Traitgenes edit end
+
+/datum/trait/positive/vibration_sense/apply(datum/species/S, mob/living/carbon/human/H, trait_prefs)
+	. = ..()
+	H.motiontracker_subscribe()
+
+/datum/trait/positive/vibration_sense/unapply(datum/species/S, mob/living/carbon/human/H, trait_prefs)
+	. = ..()
+	H.motiontracker_unsubscribe()
+
+/datum/trait/positive/stable_genetics
+	name = "Stable Genetics"
+	desc = "Your genetics are extraordinarily stable, with your DNA being immune to any changes, including slimes!"
+	cost = 2
+	custom_only = TRUE
+	var_changes = list("flags" = NO_DNA)

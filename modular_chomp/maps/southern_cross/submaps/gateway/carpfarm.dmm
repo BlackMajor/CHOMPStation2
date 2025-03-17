@@ -53,7 +53,6 @@
 /area/awaymission/carpfarm/base)
 "an" = (
 /obj/structure/cable{
-	d2 = 2;
 	icon_state = "0-2";
 	pixel_y = 0
 	},
@@ -73,7 +72,6 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/plating,
@@ -82,7 +80,6 @@
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/power/port_gen/pacman,
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/plating,
@@ -381,8 +378,6 @@
 	dir = 1
 	},
 /obj/structure/table/rack,
-/obj/item/clothing/suit/space/void/merc/axis/sovrig,
-/obj/item/clothing/head/helmet/space/void/axis/merc/sovrigh,
 /turf/simulated/floor/tiled,
 /area/awaymission/carpfarm/base)
 "bu" = (
@@ -784,13 +779,10 @@
 "ex" = (
 /obj/machinery/power/rtg/fake_gen,
 /obj/structure/cable{
-	d2 = 2;
 	icon_state = "0-2";
 	pixel_y = 0
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
@@ -856,7 +848,6 @@
 "mZ" = (
 /obj/machinery/power/rtg/fake_gen,
 /obj/structure/cable{
-	d2 = 2;
 	icon_state = "0-2";
 	pixel_y = 0
 	},

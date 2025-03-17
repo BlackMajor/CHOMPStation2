@@ -20,8 +20,6 @@
 /area/sc_away/aerostat/inside)
 "ae" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -32,7 +30,6 @@
 /area/sc_away/aerostat/solars)
 "af" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -44,8 +41,6 @@
 /area/sc_away/aerostat/solars)
 "ag" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -120,7 +115,6 @@
 /area/sc_away/aerostat/inside)
 "aq" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/solar,
@@ -171,7 +165,6 @@
 	dir = 1
 	},
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -182,8 +175,6 @@
 	dir = 1
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -210,38 +201,20 @@
 	dir = 5
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
 /turf/simulated/floor/plating/kara,
 /area/sc_away/aerostat/solars)
-"aC" = (
-/obj/machinery/atmospherics/binary/algae_farm,
-/obj/machinery/atmospherics/pipe/simple/hidden/black{
-	dir = 5;
-	icon_state = "intact"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/black{
-	dir = 5;
-	icon_state = "intact"
-	},
-/turf/simulated/floor/tiled/techfloor/kara,
-/area/sc_away/aerostat/inside)
 "aD" = (
 /obj/effect/floor_decal/rust,
 /turf/simulated/floor/plating/kara,
 /area/sc_away/aerostat/solars)
 "aE" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -260,7 +233,6 @@
 /area/sc_away/aerostat/inside)
 "aG" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/solar,
@@ -269,13 +241,9 @@
 /area/sc_away/aerostat/solars)
 "aH" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -304,8 +272,6 @@
 /area/sc_away/aerostat/inside)
 "aM" = (
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/bluegrid/kara,
@@ -340,12 +306,6 @@
 	},
 /turf/simulated/floor/bluegrid/kara,
 /area/sc_away/aerostat/inside)
-"aQ" = (
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/bluegrid/kara,
-/area/sc_away/aerostat/inside)
 "aR" = (
 /obj/machinery/light/small,
 /turf/simulated/floor/bluegrid/kara,
@@ -367,7 +327,6 @@
 "aU" = (
 /obj/machinery/power/solar,
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -375,13 +334,9 @@
 /area/sc_away/aerostat/solars)
 "aV" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -407,13 +362,9 @@
 	dir = 4
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -421,8 +372,6 @@
 /area/sc_away/aerostat/solars)
 "aZ" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -430,13 +379,9 @@
 /area/sc_away/aerostat/solars)
 "ba" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -444,8 +389,6 @@
 /area/sc_away/aerostat/solars)
 "bb" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -453,13 +396,9 @@
 /area/sc_away/aerostat/solars)
 "bc" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -519,12 +458,6 @@
 	},
 /turf/simulated/floor/plating/kara,
 /area/sc_away/aerostat/inside)
-"bo" = (
-/obj/structure/grille,
-/obj/structure/grille,
-/obj/structure/window/reinforced/full,
-/turf/simulated/floor/plating/kara,
-/area/sc_away/aerostat/inside)
 "bp" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	dir = 4
@@ -545,13 +478,9 @@
 /area/sc_away/aerostat/inside)
 "bt" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -559,8 +488,6 @@
 /area/sc_away/aerostat/solars)
 "bu" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -851,8 +778,6 @@
 /area/sc_away/aerostat/inside)
 "cx" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -967,8 +892,6 @@
 "cP" = (
 /obj/sc_away_spawner/aerostat_inside,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
@@ -1048,8 +971,6 @@
 	dir = 8
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1057,13 +978,9 @@
 /area/sc_away/aerostat/solars)
 "dc" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1074,13 +991,9 @@
 	dir = 4
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1088,13 +1001,9 @@
 /area/sc_away/aerostat/solars)
 "de" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1120,12 +1029,10 @@
 /area/sc_away/aerostat/inside)
 "di" = (
 /obj/structure/cable/heavyduty{
-	dir = 2;
 	icon_state = "0-4"
 	},
 /obj/structure/cable/yellow,
 /obj/structure/cable/yellow{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/floor_decal/rust,
@@ -1164,7 +1071,6 @@
 	},
 /obj/structure/cable/yellow,
 /obj/structure/cable/yellow{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/floor_decal/rust,
@@ -1178,16 +1084,12 @@
 	icon_state = "0-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/bluegrid/kara,
 /area/sc_away/aerostat/inside)
 "do" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -1201,8 +1103,6 @@
 	dir = 4
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1210,8 +1110,6 @@
 /area/sc_away/aerostat/solars)
 "dq" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1235,8 +1133,6 @@
 /area/sc_away/aerostat/inside)
 "dt" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -1244,13 +1140,9 @@
 /area/sc_away/aerostat/solars)
 "du" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1261,8 +1153,6 @@
 	dir = 4
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1274,13 +1164,9 @@
 /area/sc_away/aerostat/solars)
 "dx" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -1298,13 +1184,9 @@
 /area/sc_away/aerostat/inside)
 "dz" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -1317,13 +1199,9 @@
 /area/sc_away/aerostat/solars)
 "dB" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1334,13 +1212,9 @@
 	dir = 4
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1363,8 +1237,6 @@
 /area/sc_away/aerostat/solars)
 "dF" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -1375,7 +1247,6 @@
 /area/sc_away/aerostat/solars)
 "dG" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/effect/floor_decal/industrial/warning/dust,
@@ -1385,8 +1256,6 @@
 /area/sc_away/aerostat/solars)
 "dH" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/floor_decal/industrial/warning/dust,
@@ -1395,7 +1264,6 @@
 /area/sc_away/aerostat/solars)
 "dI" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/solar,
@@ -1420,12 +1288,9 @@
 	dir = 8
 	},
 /obj/structure/cable/heavyduty{
-	dir = 2;
 	icon_state = "0-4"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/bluegrid/kara,
@@ -1433,7 +1298,6 @@
 "dM" = (
 /obj/machinery/power/smes/buildable,
 /obj/structure/cable{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/bluegrid/kara,
@@ -1471,7 +1335,6 @@
 /obj/machinery/power/solar,
 /obj/effect/floor_decal/industrial/warning/dust,
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/effect/floor_decal/rust,
@@ -1480,8 +1343,6 @@
 "dS" = (
 /obj/effect/floor_decal/industrial/warning/dust,
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -1492,8 +1353,6 @@
 	dir = 6
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/floor_decal/rust,
@@ -9326,7 +9185,7 @@ bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 bv
@@ -9519,7 +9378,7 @@ bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 bv
@@ -11439,11 +11298,11 @@ aw
 aw
 aw
 bv
-bo
+bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 be
@@ -11477,7 +11336,7 @@ cI
 be
 bv
 aK
-aQ
+aM
 dn
 dn
 dN
@@ -11511,11 +11370,11 @@ aw
 bq
 bv
 bv
-bo
+bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 aw
@@ -11865,11 +11724,11 @@ aw
 aw
 aw
 bv
-bo
+bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 be
@@ -11937,11 +11796,11 @@ aw
 bq
 bv
 bv
-bo
+bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 aw
@@ -13043,7 +12902,7 @@ bv
 ci
 ci
 bv
-aC
+az
 bR
 az
 bR
@@ -14205,7 +14064,7 @@ bf
 bf
 bv
 bv
-bo
+bf
 bf
 bv
 bv
@@ -14296,7 +14155,7 @@ bf
 bd
 bv
 bv
-bo
+bf
 bf
 bv
 bv

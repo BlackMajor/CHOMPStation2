@@ -59,7 +59,8 @@
 			list(/obj/item/storage/belt/utility/chief/full, 8) = 2,
 			list(/obj/item/personal_shield_generator/belt/mining/loaded, 6) = 2,
 			list(pick(subtypesof(/obj/item/melee/energy/sword) - /obj/item/melee/energy/sword/charge), 6) = 2,
-			list(pick(/obj/item/dnainjector/xraymut, /obj/item/dnainjector/nobreath, /obj/item/dnainjector/insulation), 6) = 2,
+			// Traitgenes New injector loot
+			list(pick(/obj/item/dnainjector/random_good,/obj/item/dnainjector/random_good_labeled,/obj/item/dnainjector/random_labeled,/obj/item/dnainjector/random), 6) = 2,
 			list(/obj/item/gun/energy/netgun, 7) = 2,
 			list(pick(prob(300);/obj/item/gun/energy/mouseray,
 				prob(50);/obj/item/gun/energy/mouseray/corgi,
@@ -103,7 +104,8 @@
 			list(/obj/item/card/emag, 11) = 1,
 			list(/obj/item/melee/shock_maul, 11) = 3,
 			list(/obj/item/clothing/suit/storage/vest/martian_miner/reinforced, 4) = 6,
-			list(/obj/item/storage/backpack/sport/hyd/catchemall, 11) = 1
+			list(/obj/item/storage/backpack/sport/hyd/catchemall, 11) = 1,
+			list(/obj/item/prop/alien/junk, 12) = 1,
 			))
 		var/path = choice[1]
 		var/value = choice[2]
@@ -170,7 +172,7 @@
 		/obj/item/capture_crystal
 	)
 
-/obj/item/storage/backpack/sport/hyd/catchemall/Initialize() //gotta have your starter 'mon too (or an improved way to catch one)
-	..()
+/obj/item/storage/backpack/sport/hyd/catchemall/Initialize(mapload) //gotta have your starter 'mon too (or an improved way to catch one)
+	. = ..()
 	var/path = pick(subtypesof(/obj/item/capture_crystal))
 	contents += new path()

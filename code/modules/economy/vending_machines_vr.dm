@@ -509,6 +509,7 @@
 					/obj/item/clothing/accessory/collar/pink = 5,
 					/obj/item/clothing/accessory/collar/holo = 5,
 					/obj/item/clothing/accessory/collar/shock = 5,
+					/obj/item/leash = 5,
 					/obj/item/storage/belt/fannypack = 1,
 					/obj/item/storage/belt/fannypack/white = 5,
 					/obj/item/clothing/accessory/fullcape = 5,
@@ -654,6 +655,7 @@
 					/obj/item/clothing/accessory/collar/pink = 50,
 					/obj/item/clothing/accessory/collar/holo = 50,
 					/obj/item/clothing/accessory/collar/shock = 50,
+					/obj/item/leash = 50,
 					/obj/item/storage/belt/fannypack = 50,
 					/obj/item/storage/belt/fannypack/white = 50,
 					/obj/item/clothing/accessory/fullcape = 50,
@@ -780,7 +782,7 @@
 					)
 	premium = list(/obj/item/bedsheet/rainbow = 1)
 	contraband = list(/obj/item/clothing/mask/gas/clown_hat = 1,
-	                   /obj/item/clothing/accessory/collar/collarplanet_earth = 5)
+						/obj/item/clothing/accessory/collar/collarplanet_earth = 5)
 
 /obj/machinery/vending/loadout/clothing
 	name = "General Jump"
@@ -936,7 +938,7 @@
 					/obj/item/clothing/under/suit_jacket/checkered/skirt = 5,
 					/obj/item/clothing/under/suit_jacket/tan = 5,
 					/obj/item/clothing/under/suit_jacket/tan/skirt = 5,
-					/obj/item/clothing/under/rank/neo_civvie_gorka = 5,
+					/obj/item/clothing/under/rank/neo_gorka = 5,
 					/obj/item/clothing/suit/storage/toggle/labcoat/neo_leather = 5,
 					/obj/item/clothing/suit/neo_gorka = 5,
 					/obj/item/clothing/suit/storage/toggle/labcoat/neo_civ_dep = 5,
@@ -1308,7 +1310,7 @@
 	products = list(/obj/item/clothing/suit/storage/apron = 5,
 					/obj/item/clothing/suit/storage/flannel/aqua = 5,
 					/obj/item/clothing/suit/storage/toggle/bomber = 5,
-					/obj/item/clothing/suit/storage/bomber/alt = 5,
+					/obj/item/clothing/suit/storage/bomber = 5,
 					/obj/item/clothing/suit/storage/flannel/brown = 5,
 					/obj/item/clothing/suit/storage/toggle/cardigan = 5,
 					/obj/item/clothing/accessory/poncho/roles/cloak/custom = 5,
@@ -1411,7 +1413,7 @@
 	prices = list(/obj/item/clothing/suit/storage/apron = 100,
 					/obj/item/clothing/suit/storage/flannel/aqua = 100,
 					/obj/item/clothing/suit/storage/toggle/bomber = 100,
-					/obj/item/clothing/suit/storage/bomber/alt = 100,
+					/obj/item/clothing/suit/storage/bomber = 100,
 					/obj/item/clothing/suit/storage/flannel/brown = 100,
 					/obj/item/clothing/suit/storage/toggle/cardigan = 100,
 					/obj/item/clothing/accessory/poncho/roles/cloak/custom = 100,
@@ -2423,7 +2425,7 @@
 	products = list(/obj/item/clothing/suit/storage/apron = 5,
 					/obj/item/clothing/suit/storage/flannel/aqua = 5,
 					/obj/item/clothing/suit/storage/toggle/bomber = 5,
-					/obj/item/clothing/suit/storage/bomber/alt = 5,
+					/obj/item/clothing/suit/storage/bomber = 5,
 					/obj/item/clothing/suit/storage/flannel/brown = 5,
 					/obj/item/clothing/suit/storage/toggle/cardigan = 5,
 					/obj/item/clothing/accessory/poncho/roles/cloak/custom = 5,

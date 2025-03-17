@@ -35,13 +35,6 @@
 	stop_aiming(no_message=1)
 	..()
 
-/mob/living/Destroy()
-	if(aiming)
-		qdel(aiming)
-		aiming = null
-	aimed.Cut()
-	return ..()
-
 /turf/Enter(var/mob/living/mover)
 	. = ..()
 	if(istype(mover))
@@ -58,9 +51,9 @@
 		trigger_aiming(TARGET_CAN_MOVE)
 
 /mob/living/proc/set_m_intent(var/intent)
-	if (intent != "walk" && intent != "run")
+	if (intent != I_WALK && intent != I_RUN)
 		return 0
 	m_intent = intent
 	if(hud_used)
 		if (hud_used.move_intent)
-			hud_used.move_intent.icon_state = intent == "walk" ? "walking" : "running"
+			hud_used.move_intent.icon_state = intent == I_WALK ? "walking" : "running"

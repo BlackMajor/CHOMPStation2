@@ -43,7 +43,7 @@
 
 	poison_chance = 30
 	poison_per_bite = 0.5
-	poison_type = "phoron"
+	poison_type = REAGENT_ID_PHORON
 
 	tame_items = list(
 	/obj/item/tank/phoron = 20,
@@ -59,7 +59,7 @@
 	var/explosion_delay_lower	= 1 SECOND	// Lower bound for explosion delay.
 	var/explosion_delay_upper	= 2 SECONDS	// Upper bound.
 
-/mob/living/simple_mob/animal/giant_spider/phorogenic/Initialize()
+/mob/living/simple_mob/animal/giant_spider/phorogenic/Initialize(mapload)
 	adjust_scale(1.25)
 	return ..()
 

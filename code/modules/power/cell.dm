@@ -36,7 +36,7 @@
 	var/standard_overlays = TRUE
 	var/last_overlay_state = null // Used to optimize update_icon() calls.
 
-/obj/item/cell/Initialize()
+/obj/item/cell/Initialize(mapload)
 	. = ..()
 	c_uid = cell_uid++
 	update_icon()
@@ -160,7 +160,7 @@
 
 		to_chat(user, "You inject the solution into the power cell.")
 
-		if(S.reagents.has_reagent("phoron", 5))
+		if(S.reagents.has_reagent(REAGENT_ID_PHORON, 5))
 
 			rigged = 1
 

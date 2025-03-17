@@ -16,8 +16,8 @@
 	var/ar_toggled = TRUE //Used for toggle_ar_planes() verb
 
 
-/obj/item/clothing/glasses/omnihud/New()
-	..()
+/obj/item/clothing/glasses/omnihud/Initialize(mapload)
+	. = ..()
 	if(tgarscreen_path)
 		tgarscreen = new tgarscreen_path(src)
 
@@ -25,7 +25,7 @@
 	QDEL_NULL(tgarscreen)
 	. = ..()
 
-/obj/item/clothing/glasses/omnihud/dropped()
+/obj/item/clothing/glasses/omnihud/dropped(mob/user)
 	if(tgarscreen)
 		SStgui.close_uis(src)
 	..()
@@ -234,7 +234,7 @@
 	set name = "Toggle projector"
 	set category = "Object"
 	set src in usr
-	if(!istype(usr, /mob/living)) return
+	if(!isliving(usr)) return
 	if(usr.stat) return
 	if(toggleable)
 		if(active)
@@ -268,19 +268,19 @@
 	return 1
 
 /obj/item/clothing/glasses/hud/security/eyepatch
-    name = "Security Hudpatch"
-    desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their ID status and security records."
-    icon_state = "eyepatch"
-    item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
-    body_parts_covered = 0
-    enables_planes = list(VIS_CH_ID,VIS_CH_WANTED,VIS_CH_IMPTRACK,VIS_CH_IMPLOYAL,VIS_CH_IMPCHEM)
-    var/eye = null
+	name = "Security Hudpatch"
+	desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their ID status and security records."
+	icon_state = "eyepatch"
+	item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
+	body_parts_covered = 0
+	enables_planes = list(VIS_CH_ID,VIS_CH_WANTED,VIS_CH_IMPTRACK,VIS_CH_IMPLOYAL,VIS_CH_IMPCHEM)
+	var/eye = null
 
 /obj/item/clothing/glasses/hud/security/eyepatch/verb/switcheye()
 	set name = "Switch Eyepatch"
 	set category = "Object"
 	set src in usr
-	if(!istype(usr, /mob/living)) return
+	if(!isliving(usr)) return
 	if(usr.stat) return
 
 	eye = !eye
@@ -291,21 +291,21 @@
 	update_clothing_icon()
 
 /obj/item/clothing/glasses/hud/security/eyepatch2
-    name = "Security Hudpatch MKII"
-    desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their ID status and security records. This updated model offers better ergonomics and updated sensors."
-    icon = 'icons/inventory/eyes/item_vr.dmi'
-    icon_override = 'icons/inventory/eyes/mob_vr.dmi'
-    icon_state = "sec_eyepatch"
-    item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
-    body_parts_covered = 0
-    enables_planes = list(VIS_CH_ID,VIS_CH_WANTED,VIS_CH_IMPTRACK,VIS_CH_IMPLOYAL,VIS_CH_IMPCHEM)
-    var/eye = null
+	name = "Security Hudpatch MKII"
+	desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their ID status and security records. This updated model offers better ergonomics and updated sensors."
+	icon = 'icons/inventory/eyes/item_vr.dmi'
+	icon_override = 'icons/inventory/eyes/mob_vr.dmi'
+	icon_state = "sec_eyepatch"
+	item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
+	body_parts_covered = 0
+	enables_planes = list(VIS_CH_ID,VIS_CH_WANTED,VIS_CH_IMPTRACK,VIS_CH_IMPLOYAL,VIS_CH_IMPCHEM)
+	var/eye = null
 
 /obj/item/clothing/glasses/hud/security/eyepatch2/verb/switcheye()
 	set name = "Switch Eyepatch"
 	set category = "Object"
 	set src in usr
-	if(!istype(usr, /mob/living)) return
+	if(!isliving(usr)) return
 	if(usr.stat) return
 
 	eye = !eye
@@ -317,19 +317,19 @@
 
 
 /obj/item/clothing/glasses/hud/health/eyepatch
-    name = "Medical Hudpatch"
-    desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their health status."
-    icon_state = "eyepatch"
-    item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
-    body_parts_covered = 0
-    enables_planes =  list(VIS_CH_STATUS,VIS_CH_HEALTH)
-    var/eye = null
+	name = "Medical Hudpatch"
+	desc = "An eyepatch with built in scanners, that analyzes those in view and provides accurate data about their health status."
+	icon_state = "eyepatch"
+	item_state_slots = list(slot_r_hand_str = "blindfold", slot_l_hand_str = "blindfold")
+	body_parts_covered = 0
+	enables_planes =  list(VIS_CH_STATUS,VIS_CH_HEALTH)
+	var/eye = null
 
 /obj/item/clothing/glasses/hud/health/eyepatch/verb/switcheye()
 	set name = "Switch Eyepatch"
 	set category = "Object"
 	set src in usr
-	if(!istype(usr, /mob/living)) return
+	if(!isliving(usr)) return
 	if(usr.stat) return
 
 	eye = !eye

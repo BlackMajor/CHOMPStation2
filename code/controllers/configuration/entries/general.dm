@@ -166,6 +166,22 @@
 	if(.)
 		Holiday = config_entry_value
 
+/datum/config_entry/number/minute_topic_limit
+	config_entry_value = 250
+	min_val = 0
+
+/datum/config_entry/number/second_topic_limit
+	config_entry_value = 15
+	min_val = 0
+
+/datum/config_entry/number/minute_click_limit
+	config_entry_value = 400
+	min_val = 0
+
+/datum/config_entry/number/second_click_limit
+	config_entry_value = 15
+	min_val = 0
+
 /datum/config_entry/number/fps
 	default = 20
 	integer = FALSE
@@ -179,7 +195,7 @@
 		sync_validate = TRUE
 		var/datum/config_entry/number/ticklag/TL = config.entries_by_type[/datum/config_entry/number/ticklag]
 		if(!TL.sync_validate)
-			TL.ValidateAndSet(10 / config_entry_value)
+			TL.ValidateAndSet("[10 / config_entry_value]")
 		sync_validate = FALSE
 
 /datum/config_entry/number/ticklag
@@ -197,7 +213,7 @@
 		sync_validate = TRUE
 		var/datum/config_entry/number/fps/FPS = config.entries_by_type[/datum/config_entry/number/fps]
 		if(!FPS.sync_validate)
-			FPS.ValidateAndSet(10 / config_entry_value)
+			FPS.ValidateAndSet("[10 / config_entry_value]")
 		sync_validate = FALSE
 
 /// SSinitialization throttling
@@ -259,10 +275,10 @@
 	return num_val MINUTES
 
 /datum/config_entry/string/respawn_message
-	default = "<span class='notice'><B>Make sure to play a different character, and please roleplay correctly!</B></span>"
+	default = span_boldnotice("Make sure to play a different character, and please roleplay correctly!")
 
 /datum/config_entry/string/respawn_message/ValidateAndSet(str_val)
-	return "<span class='notice'><B>[str_val]</B></span>"
+	return span_boldnotice("[str_val]")
 
 /datum/config_entry/flag/guest_jobban
 	default = TRUE
@@ -422,8 +438,17 @@
 
 /datum/config_entry/flag/no_click_cooldown
 
-/// Defines whether the server uses the legacy admin system with admins.txt or the SQL system. Config option in config.txt
-/datum/config_entry/flag/admin_legacy_system
+/datum/config_entry/flag/admin_legacy_system //Defines whether the server uses the legacy admin system with admins.txt or the SQL system
+	protection = CONFIG_ENTRY_LOCKED
+
+/datum/config_entry/flag/protect_legacy_admins //Stops any admins loaded by the legacy system from having their rank edited by the permissions panel
+	protection = CONFIG_ENTRY_LOCKED
+
+/datum/config_entry/flag/protect_legacy_ranks //Stops any ranks loaded by the legacy system from having their flags edited by the permissions panel
+	protection = CONFIG_ENTRY_LOCKED
+
+/datum/config_entry/flag/load_legacy_ranks_only //Loads admin ranks only from legacy admin_ranks.txt, while enabled ranks are mirrored to the database
+	protection = CONFIG_ENTRY_LOCKED
 
 /// Defines whether the server uses the legacy banning system with the files in /data or the SQL system. Config option in config.txt
 /datum/config_entry/flag/ban_legacy_system
@@ -696,3 +721,14 @@
 /// Controls whether simple mobs may recolour themselves once/spawn by giving them the recolour verb
 /// Admins may manually give them the verb even if disabled
 /datum/config_entry/flag/allow_simple_mob_recolor
+
+/// Chatlogs are now saved by calling the chatlogging library instead of letting the clients handle it
+/// REQUIRES an database
+/datum/config_entry/flag/chatlog_database_backend
+	default = FALSE
+
+/// The endpoint for the chat to fetch the chatlogs from (for example, the last 2500 messages on init for the history)
+/// REQUIRES chatlog_database_backend to be enabled
+/datum/config_entry/string/chatlog_database_api_endpoint
+
+/datum/config_entry/flag/forbid_admin_profiling

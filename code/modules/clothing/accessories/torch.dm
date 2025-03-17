@@ -142,12 +142,13 @@ ribbons
 /*************
 specialty pins
 *************/
+/* //Lost to time.
 /obj/item/clothing/accessory/solgov/specialty
 	name = "speciality blaze"
 	desc = "A color blaze denoting fleet personnel in some special role. This one is silver."
 	icon_state = "marinerank_command"
 	slot = ACCESSORY_SLOT_INSIGNIA
-
+*/
 /obj/item/clothing/accessory/solgov/specialty/janitor
 	name = "custodial blazes"
 	desc = "Purple blazes denoting a custodial technician."
@@ -211,7 +212,7 @@ badges
 	badge_string = "Sol Central Government"
 	slot_flags = SLOT_MASK | SLOT_TIE
 
-/obj/item/clothing/accessory/badge/solgov/tags/Initialize()
+/obj/item/clothing/accessory/badge/solgov/tags/Initialize(mapload)
 	. = ..()
 	var/mob/living/carbon/human/H
 	H = get_holder_of_type(src, /mob/living/carbon/human)
@@ -248,17 +249,20 @@ armbands
 /*****************
 armour attachments
 *****************/
+/obj/item/clothing/accessory/armor/tag
+	name = DEVELOPER_WARNING_NAME
+/*
 /obj/item/clothing/accessory/armor/tag/solgov
-	name = "\improper SCG Flag"
-	desc = "An emblem depicting the Sol Central Government's flag."
+	name = "\improper TCG Flag"
+	desc = "An emblem depicting the Terran Commonwealth's flag."
 	icon_state = "solflag"
 	slot = ACCESSORY_SLOT_ARMOR_M
 
 /obj/item/clothing/accessory/armor/tag/solgov/ec
 	name = "\improper Expeditionary Corps crest"
-	desc = "An emblem depicting the crest of the SCG Expeditionary Corps."
+	desc = "An emblem depicting the crest of the TCG Expeditionary Corps."
 	icon_state = "ecflag"
-
+*/
 /obj/item/clothing/accessory/armor/tag/solgov/sec
 	name = "\improper POLICE tag"
 	desc = "An armor tag with the word POLICE printed in silver lettering on it."
@@ -275,8 +279,8 @@ armour attachments
 	icon_state = "agenttag"
 
 /obj/item/clothing/accessory/armor/tag/solgov/com
-	name = "\improper SCG tag"
-	desc = "An armor tag with the words SOL CENTRAL GOVERNMENT printed in gold lettering on it."
+	name = "\improper TCG tag"
+	desc = "An armor tag with the words COMMONWEALTH OF SOL-PROCYON printed in gold lettering on it."
 	icon_state = "comtag"
 
 /obj/item/clothing/accessory/armor/tag/solgov/com/sec
@@ -285,7 +289,7 @@ armour attachments
 
 /obj/item/clothing/accessory/armor/helmcover/blue/sol
 	name = "peacekeeper helmet cover"
-	desc = "A fabric cover for armored helmets. This one is in SCG peacekeeper colors."
+	desc = "A fabric cover for armored helmets. This one is in TCG peacekeeper colors."
 
 /**************
 department tags
@@ -456,6 +460,65 @@ department tags
 /obj/item/clothing/accessory/solgov/department/research/army
 	icon_state = "dept_army"
 	on_rolled = list("down" = "none")
+
+/obj/item/clothing/accessory/gorka/department
+	name = "gorka insignia"
+	desc = "Coloured panelling denoting assignment to a specific department."
+	icon_state = "gorka_dept"
+	on_rolled = list("down" = "none")
+	can_remove = FALSE
+
+/obj/item/clothing/accessory/gorka/department/civilian
+	name = "civilian insignia"
+	desc = "Coloured panelling denoting assignment to no department in particular."
+	color = "#bbbbbb"
+
+/obj/item/clothing/accessory/gorka/department/command
+	name = "command insignia"
+	desc = "Coloured panelling denoting assignment to the command department."
+	color = "#3066bf"
+
+/obj/item/clothing/accessory/gorka/department/sec
+	name = "security insignia"
+	desc = "Coloured panelling denoting assignment to the security department."
+	color = "#bf3032"
+
+/obj/item/clothing/accessory/gorka/department/cargo
+	name = "cargo insignia"
+	desc = "Coloured panelling denoting assignment to the cargo department."
+	color = "#815b20"
+
+/obj/item/clothing/accessory/gorka/department/engi
+	name = "engineering insignia"
+	desc = "Coloured panelling denoting assignment to the engineering department."
+	color = "#bf8d30"
+
+/obj/item/clothing/accessory/gorka/department/sci
+	name = "research insignia"
+	desc = "Coloured panelling denoting assignment to the research department."
+	color = "#9b1688"
+
+/obj/item/clothing/accessory/gorka/department/med
+	name = "medical insignia"
+	desc = "Coloured panelling denoting assignment to the medical department."
+	color = "#609ebf"
+
+/obj/item/clothing/accessory/gorka/department/service
+	name = "service insignia"
+	desc = "Coloured panelling denoting assignment to the service department."
+	color = "#90bf60"
+
+/obj/item/clothing/accessory/gorka/department/janitor
+	name = "janitorial insignia"
+	desc = "Coloured panelling denoting assignment to the janitorial department."
+	color = "#bf60b3"
+
+/obj/item/clothing/accessory/gorka/rank
+	name = "gorka command trim"
+	desc = "Silver trim denoting a higher rank within one's department."
+	icon_state = "gorka_rank"
+	on_rolled = list("down" = "none")
+	can_remove = FALSE
 
 /*********
 ranks - ec

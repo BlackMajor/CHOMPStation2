@@ -62,8 +62,6 @@
 /area/awaymission/darkrp/sewers)
 "ahv" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -118,13 +116,9 @@
 /area/awaymission/darkrp/outside/plaza)
 "alT" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -169,8 +163,6 @@
 /area/awaymission/darkrp/sewers)
 "aqI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -182,8 +174,7 @@
 /area/awaymission/darkrp/sewers)
 "aqS" = (
 /obj/structure/bed/chair/wood{
-	dir = 8;
-	pixel_y = 0
+	dir = 8
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkcondo)
@@ -236,8 +227,6 @@
 /area/awaymission/darkrp/downtowngunshop)
 "atF" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -265,7 +254,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/structure/table/standard,
@@ -304,8 +292,6 @@
 /area/awaymission/darkrp/tunnels/suburbs)
 "awj" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/bed/chair/bay/chair/padded/blue{
@@ -345,8 +331,6 @@
 /area/awaymission/darkrp/ghettohouse1)
 "azS" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/simple_door/wood,
@@ -410,8 +394,6 @@
 /area/awaymission/darkrp/outside)
 "aKH" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/barricade/sandbag{
@@ -429,7 +411,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "aLd" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 8
 	},
 /obj/structure/prop/statue/pillar,
@@ -462,7 +443,6 @@
 /area/awaymission/darkrp/ghettowarehouse)
 "aMR" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 1
 	},
 /turf/simulated/floor/concrete{
@@ -471,13 +451,10 @@
 /area/awaymission/darkrp/outside)
 "aPs" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/subhouse2)
@@ -546,8 +523,6 @@
 "aSE" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -633,15 +608,12 @@
 "aXL" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/sewers)
 "aXN" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -658,8 +630,6 @@
 /area/awaymission/darkrp/centermaint)
 "aXT" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -699,8 +669,7 @@
 	},
 /obj/structure/window/reinforced{
 	dir = 8;
-	health = 1e+006;
-	pixel_y = 0
+	health = 1e+006
 	},
 /obj/structure/table/rack/shelf/steel,
 /obj/random/medical/pillbottle,
@@ -759,8 +728,6 @@
 /area/awaymission/darkrp/outside)
 "bbN" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -769,8 +736,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "bcn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -782,8 +747,6 @@
 "bcy" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/lino,
@@ -818,7 +781,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/wood,
@@ -830,8 +792,6 @@
 /area/awaymission/darkrp/reference)
 "bfZ" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/small{
@@ -852,8 +812,6 @@
 /area/awaymission/darkrp/plazahotel)
 "bgI" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -866,8 +824,6 @@
 /area/awaymission/darkrp/parkcondo)
 "bhW" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/wood,
@@ -879,8 +835,6 @@
 /area/awaymission/darkrp/subhouse1)
 "bjJ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -912,8 +866,6 @@
 /area/awaymission/darkrp/warehouse2)
 "blf" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -923,8 +875,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "bmi" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/oldsofa/right{
@@ -960,8 +910,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "bni" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -1019,7 +967,6 @@
 /area/awaymission/darkrp/plazacoffee)
 "bpX" = (
 /obj/structure/bed/chair/comfy/black{
-	pixel_y = 0;
 	dir = 4
 	},
 /mob/living/simple_mob/humanoid/merc/melee/poi,
@@ -1045,8 +992,6 @@
 /area/awaymission/darkrp/plazashop)
 "brY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/clothing/gloves/fyellow,
@@ -1054,8 +999,6 @@
 /area/awaymission/darkrp/plazawarehouse)
 "bse" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -1089,8 +1032,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "btw" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -1121,8 +1062,6 @@
 /area/awaymission/darkrp/subhouse1)
 "bvI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -1154,8 +1093,6 @@
 /area/awaymission/darkrp/sewers)
 "byn" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -1217,8 +1154,6 @@
 "bCA" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -1244,12 +1179,9 @@
 /area/awaymission/darkrp/subcondo)
 "bDA" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/sign/redcross{
-	pixel_y = 0;
 	pixel_x = -32;
 	icon_state = "lifestar"
 	},
@@ -1275,8 +1207,6 @@
 /area/awaymission/darkrp/outside)
 "bDX" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -1319,8 +1249,6 @@
 /area/awaymission/darkrp/sewers)
 "bGu" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1389,8 +1317,6 @@
 /area/awaymission/darkrp/plazabunker)
 "bNl" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/table/woodentable,
@@ -1417,11 +1343,9 @@
 /area/awaymission/darkrp/warehouse3)
 "bSX" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 4
 	},
 /obj/structure/bed/chair/sofa/bench/marble{
-	pixel_y = 0;
 	dir = 8
 	},
 /turf/simulated/floor/concrete{
@@ -1443,8 +1367,6 @@
 /area/awaymission/darkrp/outside)
 "bTN" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1463,8 +1385,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -1473,8 +1394,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/awaymission/darkrp/reference)
@@ -1515,8 +1435,6 @@
 /area/awaymission/darkrp/ghettohouse2)
 "bWA" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -1539,8 +1457,6 @@
 "bXx" = (
 /obj/structure/table/woodentable,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light{
@@ -1560,16 +1476,13 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/food/snacks/popcorn{
-	pixel_y = 0;
 	pixel_x = -4
 	},
 /obj/item/reagent_containers/food/snacks/popcorn{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /turf/simulated/floor/tiled,
@@ -1632,8 +1545,6 @@
 /area/awaymission/darkrp/downtownshop)
 "cdK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/wood,
@@ -1681,8 +1592,6 @@
 /area/awaymission/darkrp/ghettoeats)
 "cjK" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/easel,
@@ -1703,8 +1612,6 @@
 /area/awaymission/darkrp/downtowngunshop)
 "ckO" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/trash,
@@ -1715,8 +1622,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "clC" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -1727,7 +1632,6 @@
 	},
 /obj/effect/floor_decal/borderfloorwhite,
 /obj/effect/floor_decal/corner/blue/border,
-/obj/structure/table/reinforced,
 /obj/item/reagent_containers/hypospray/autoinjector/biginjector/glucose{
 	pixel_y = 2
 	},
@@ -1769,8 +1673,7 @@
 /obj/item/material/shard,
 /obj/structure/window/reinforced{
 	dir = 8;
-	health = 1e+006;
-	pixel_y = 0
+	health = 1e+006
 	},
 /obj/item/material/shard{
 	icon_state = "medium"
@@ -1786,8 +1689,6 @@
 /area/awaymission/darkrp/parkghetto2)
 "cpP" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -1798,8 +1699,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "cqg" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/porta_turret/stationary/syndie/CIWS,
@@ -1810,8 +1709,6 @@
 /area/awaymission/darkrp/outside/center)
 "cqn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/floor_decal/industrial/hatch/yellow,
@@ -1854,8 +1751,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "cud" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1863,8 +1758,6 @@
 /area/awaymission/darkrp/ghettohouse2)
 "cvG" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -1889,7 +1782,6 @@
 /area/awaymission/darkrp/brokehouse)
 "cwH" = (
 /obj/structure/sign/graffiti/pisoff{
-	pixel_y = 0;
 	pixel_x = 30
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1946,8 +1838,6 @@
 /area/awaymission/darkrp/sewers)
 "cyG" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1969,8 +1859,6 @@
 /area/awaymission/darkrp/plazabunker)
 "cAV" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -2017,8 +1905,6 @@
 /area/awaymission/darkrp/subgas)
 "cEz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -2057,7 +1943,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/lino,
@@ -2115,9 +2000,7 @@
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/subgarage)
 "cHm" = (
-/obj/effect/floor_decal/milspec/color/orange/half{
-	dir = 2
-	},
+/obj/effect/floor_decal/milspec/color/orange/half,
 /turf/simulated/floor/concrete{
 	outdoors = 1
 	},
@@ -2130,8 +2013,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "cHR" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -2139,8 +2020,6 @@
 /area/awaymission/darkrp/warehouseshack)
 "cJa" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -2164,8 +2043,7 @@
 /area/awaymission/darkrp/centersidehouse)
 "cKH" = (
 /obj/structure/bed/chair/comfy/brown{
-	dir = 1;
-	pixel_y = 0
+	dir = 1
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/downtowngunshop)
@@ -2179,8 +2057,6 @@
 /area/awaymission/darkrp/outside)
 "cKQ" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -2201,8 +2077,6 @@
 /area/awaymission/darkrp/parkwallbunker)
 "cNt" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -2264,8 +2138,6 @@
 /area/awaymission/darkrp/outside)
 "cTI" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -2309,8 +2181,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -2319,8 +2190,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /obj/machinery/light/small{
 	dir = 8
@@ -2334,16 +2204,12 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "cWu" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/lino,
 /area/awaymission/darkrp/ghettoapartments)
 "cWZ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/barricade/sandbag{
@@ -2370,8 +2236,6 @@
 /area/awaymission/darkrp/ghettowarehouse)
 "das" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -2408,8 +2272,6 @@
 "dcp" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2424,7 +2286,6 @@
 /area/awaymission/darkrp/centerwarehouse)
 "ddM" = (
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/machinery/power/apc{
@@ -2467,8 +2328,6 @@
 /area/awaymission/darkrp/ghettobank)
 "dgz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -2477,13 +2336,9 @@
 /area/awaymission/darkrp/outside/park)
 "dha" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -2503,8 +2358,6 @@
 /area/awaymission/darkrp/subpowermaint)
 "dhM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/sniper{
@@ -2610,8 +2463,6 @@
 /area/awaymission/darkrp/ghettooffice)
 "dof" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2641,8 +2492,6 @@
 /area/awaymission/darkrp/parkcondo)
 "dsj" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -2657,7 +2506,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -2673,8 +2521,6 @@
 /area/awaymission/darkrp/warehouse3)
 "dtD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -2703,8 +2549,6 @@
 /area/awaymission/darkrp/outside)
 "duf" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/vehicle/train/engine/quadbike,
@@ -2716,13 +2560,9 @@
 /area/awaymission/darkrp/sewers)
 "duD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/technician,
@@ -2790,8 +2630,6 @@
 /area/awaymission/darkrp/subcondo)
 "dxM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -2828,8 +2666,6 @@
 /area/awaymission/darkrp/subcondo)
 "dzm" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -2847,23 +2683,18 @@
 /area/awaymission/darkrp/downtowngunshop)
 "dzV" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/wmarble,
 /area/awaymission/darkrp/subhouse2)
 "dAp" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettohouse2)
 "dAR" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -2890,7 +2721,6 @@
 /obj/structure/bed/double/padded,
 /obj/item/bedsheet/browndouble,
 /obj/item/radio/subspace{
-	pixel_y = 0;
 	pixel_x = 6
 	},
 /turf/simulated/floor/lino,
@@ -2922,8 +2752,6 @@
 /area/awaymission/darkrp/outside/park)
 "dHH" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -2946,8 +2774,6 @@
 /area/awaymission/darkrp/sewers)
 "dJj" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2967,8 +2793,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "dKR" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -3004,11 +2828,9 @@
 /area/awaymission/darkrp/sewers)
 "dMa" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 8
 	},
 /obj/structure/bed/chair/sofa/bench/marble{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/outdoors/lavaland/basalt,
@@ -3055,8 +2877,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "dRn" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -3136,9 +2956,7 @@
 /turf/simulated/floor/carpet/oracarpet,
 /area/awaymission/darkrp/plazahotel)
 "dXz" = (
-/obj/machinery/door/window/eastright{
-	dir = 4
-	},
+/obj/machinery/door/window/eastright,
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/subgas)
 "dXW" = (
@@ -3191,8 +3009,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "ecc" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -3215,8 +3031,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "edO" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -3255,8 +3069,6 @@
 /area/awaymission/darkrp/warehouse1)
 "egB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -3302,8 +3114,6 @@
 /area/awaymission/darkrp/ghettobank)
 "eij" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -3332,13 +3142,9 @@
 /area/awaymission/darkrp/subapartments)
 "ejF" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -3438,7 +3244,6 @@
 	pixel_x = -4
 	},
 /obj/item/reagent_containers/food/condiment/cornoil{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /turf/simulated/floor/wood,
@@ -3452,8 +3257,6 @@
 "etv" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
@@ -3499,8 +3302,6 @@
 /area/awaymission/darkrp/downtownpharmacy)
 "ewc" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/mechanical/hivebot/precusor/machinegun,
@@ -3545,7 +3346,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
@@ -3634,8 +3434,6 @@
 /area/awaymission/darkrp/downtowncenter)
 "eEV" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -3668,11 +3466,9 @@
 /area/awaymission/darkrp/plazarecroom)
 "eIb" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 8
 	},
 /obj/structure/bed/chair/sofa/bench/marble{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/concrete{
@@ -3687,7 +3483,6 @@
 /area/awaymission/darkrp/downtownempty)
 "eIZ" = (
 /obj/item/modular_computer/console/preset/civilian{
-	pixel_y = 0;
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -3735,8 +3530,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "eLL" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -3838,8 +3631,6 @@
 /area/awaymission/darkrp/plazacoffee)
 "eRt" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -3938,13 +3729,9 @@
 /area/awaymission/darkrp/sewers)
 "eVY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -3961,13 +3748,6 @@
 /obj/effect/floor_decal/corner/grey/diagonal{
 	dir = 4
 	},
-/obj/effect/decal/cleanable/blood{
-	pixel_y = 2;
-	pixel_x = -33
-	},
-/obj/effect/decal/cleanable/blood{
-	pixel_y = 32
-	},
 /obj/effect/decal/cleanable/blood,
 /obj/random/meat,
 /turf/simulated/floor/tiled/white,
@@ -3979,7 +3759,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled,
@@ -4029,8 +3808,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -4039,12 +3817,10 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/bmarble,
 /area/awaymission/darkrp/reference)
@@ -4078,9 +3854,7 @@
 /turf/simulated/floor/carpet/purcarpet,
 /area/awaymission/darkrp/plazarecroom)
 "fcX" = (
-/obj/machinery/light{
-	dir = 2
-	},
+/obj/machinery/light,
 /obj/effect/floor_decal/industrial/warning/dust,
 /turf/simulated/floor/outdoors/lavaland/basalt,
 /area/awaymission/darkrp/reference)
@@ -4119,8 +3893,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -4129,8 +3902,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /turf/simulated/floor/bmarble,
 /area/awaymission/darkrp/reference)
@@ -4143,8 +3915,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/marble,
@@ -4176,8 +3946,6 @@
 /area/awaymission/darkrp/ghettooffice)
 "ffB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/tiled,
@@ -4189,8 +3957,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "fgO" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/bed/chair/office/dark{
@@ -4224,8 +3990,6 @@
 "fhV" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -4241,13 +4005,9 @@
 /area/awaymission/darkrp/plazahotel)
 "fkq" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -4263,8 +4023,6 @@
 /area/awaymission/darkrp/outside)
 "flh" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/table/reinforced,
@@ -4311,8 +4069,6 @@
 /area/awaymission/darkrp/sewers)
 "fnK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -4341,8 +4097,6 @@
 /area/awaymission/darkrp/subhouse2)
 "fsR" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -4397,8 +4151,6 @@
 /area/awaymission/darkrp/parkwallbunker)
 "fxL" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/landmark/corpse/scientist,
@@ -4416,8 +4168,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "fyu" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -4431,13 +4181,9 @@
 	dir = 1
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -4478,8 +4224,6 @@
 /area/awaymission/darkrp/subcondo)
 "fAK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -4491,8 +4235,6 @@
 /area/awaymission/darkrp/warehouse2)
 "fDb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -4536,8 +4278,6 @@
 /area/awaymission/darkrp/sewers)
 "fHH" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -4554,8 +4294,6 @@
 /area/awaymission/darkrp/sewers)
 "fHX" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -4564,8 +4302,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "fIz" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/cash,
@@ -4573,8 +4309,6 @@
 /area/awaymission/darkrp/plazabunker)
 "fIM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -4609,8 +4343,6 @@
 /area/awaymission/darkrp/centerwarehouse)
 "fLS" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/wall/solidrock,
@@ -4663,8 +4395,6 @@
 "fPS" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -4693,8 +4423,6 @@
 /area/awaymission/darkrp/sewers)
 "fTb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -4730,8 +4458,6 @@
 "fVa" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -4741,8 +4467,6 @@
 /area/awaymission/darkrp/ghettobank)
 "fVV" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -4764,8 +4488,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "fYO" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -4866,9 +4588,7 @@
 /area/awaymission/darkrp/outside)
 "gdG" = (
 /obj/effect/decal/cleanable/greenglow,
-/obj/effect/floor_decal/milspec/color/orange/half{
-	dir = 2
-	},
+/obj/effect/floor_decal/milspec/color/orange/half,
 /turf/simulated/floor/concrete{
 	outdoors = 1
 	},
@@ -4889,7 +4609,6 @@
 	},
 /area/awaymission/darkrp/outside)
 "gfX" = (
-/obj/structure/table/reinforced,
 /obj/structure/table/reinforced,
 /obj/machinery/cash_register/civilian{
 	dir = 4
@@ -4929,8 +4648,6 @@
 	dir = 2
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -4955,8 +4672,6 @@
 /area/awaymission/darkrp/warehouse2)
 "gki" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
@@ -4996,8 +4711,6 @@
 	dir = 8
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -5011,8 +4724,6 @@
 	pixel_y = -25
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -5044,14 +4755,12 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/downtowncenter)
 "gou" = (
 /obj/item/storage/secure/safe{
-	pixel_y = 0;
 	pixel_x = 34
 	},
 /turf/simulated/floor/tiled,
@@ -5067,8 +4776,6 @@
 /area/awaymission/darkrp/brokehouse)
 "gpP" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/button/remote/blast_door{
@@ -5102,8 +4809,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "grz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/random/plushielarge,
@@ -5175,8 +4880,6 @@
 /area/awaymission/darkrp/downtownbar)
 "gxH" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/barricade/sandbag{
@@ -5219,8 +4922,6 @@
 	light_range = 10
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5238,7 +4939,6 @@
 "gAq" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -5260,8 +4960,6 @@
 /area/awaymission/darkrp/subcondo)
 "gAS" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5288,8 +4986,6 @@
 	dir = 8
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -5322,8 +5018,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "gGz" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/tiled,
@@ -5353,8 +5047,6 @@
 /area/awaymission/darkrp/centersidehouse)
 "gIl" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -5372,16 +5064,12 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "gJj" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/centersidehouse)
 "gKn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/oldsofa/left{
@@ -5396,7 +5084,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/wmarble,
@@ -5481,8 +5168,6 @@
 /area/awaymission/darkrp/subhouse1)
 "gTD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/rack/shelf,
@@ -5549,21 +5234,15 @@
 /area/awaymission/darkrp/downtownempty)
 "gVZ" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wmarble,
 /area/awaymission/darkrp/plazahotel)
 "gWn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5573,8 +5252,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "gWE" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -5637,15 +5314,11 @@
 	},
 /area/awaymission/darkrp/outside/downtown)
 "haW" = (
-/obj/structure/closet/secure_closet/freezer/fridge{
-	anchored = 1
-	},
+/obj/structure/closet/secure_closet/freezer/fridge,
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/ghettohouse1)
 "hbo" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5671,7 +5344,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
@@ -5697,8 +5369,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/table/marble,
@@ -5780,13 +5450,9 @@
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "hly" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5796,14 +5462,10 @@
 /area/awaymission/darkrp/outside/downtown)
 "hlz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -5817,8 +5479,7 @@
 	dir = 8
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/remains,
 /obj/effect/decal/cleanable/filth,
@@ -5845,8 +5506,6 @@
 /area/awaymission/darkrp/ghettooffice)
 "hmM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -5874,12 +5533,9 @@
 "hpY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/machinery/power/rtg/advanced,
@@ -5944,8 +5600,6 @@
 /area/awaymission/darkrp/plazahotel)
 "hve" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
@@ -5999,8 +5653,6 @@
 /area/awaymission/darkrp/centerwarehouse)
 "hyk" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light{
@@ -6025,8 +5677,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "hAO" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -6045,8 +5695,6 @@
 /area/awaymission/darkrp/centersidehouse)
 "hCh" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -6089,7 +5737,6 @@
 /area/awaymission/darkrp/plazahotel)
 "hEE" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 4
 	},
 /obj/structure/prop/statue/pillar,
@@ -6127,8 +5774,6 @@
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "hGz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -6146,8 +5791,6 @@
 	},
 /obj/effect/wingrille_spawn/reinforced,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/white,
@@ -6253,8 +5896,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "hPI" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/tiled,
@@ -6269,8 +5910,6 @@
 /area/awaymission/darkrp/sewers)
 "hQS" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -6279,8 +5918,6 @@
 /area/awaymission/darkrp/outside/center)
 "hRB" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -6371,8 +6008,6 @@
 /area/awaymission/darkrp/ghettobank)
 "hWL" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -6392,8 +6027,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "hXn" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
@@ -6433,8 +6066,6 @@
 /area/awaymission/darkrp/outside)
 "hZt" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/newdirt{
@@ -6464,8 +6095,6 @@
 /area/awaymission/darkrp/sewers)
 "iaN" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -6530,16 +6159,12 @@
 /area/awaymission/darkrp/ghettohouse2)
 "igh" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled/neutral,
 /area/awaymission/darkrp/downtownwarehouse)
 "igC" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -6590,8 +6215,6 @@
 /area/awaymission/darkrp/plazahotel)
 "ihz" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/pirate/machete/armored,
@@ -6599,13 +6222,9 @@
 /area/awaymission/darkrp/subhouse1)
 "iiB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -6653,17 +6272,10 @@
 	name = "Warehouse Garage Door";
 	dir = 2
 	},
-/obj/machinery/door/blast/shutters{
-	id = "warehouse3";
-	name = "Warehouse Garage Door";
-	dir = 2
-	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/warehouse3)
 "ilv" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -6699,8 +6311,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/bed/chair/wood{
@@ -6730,8 +6340,6 @@
 /area/awaymission/darkrp/outside/park)
 "isp" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -6746,16 +6354,12 @@
 "ist" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/centersidehouse)
 "itm" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -6778,8 +6382,6 @@
 /area/awaymission/darkrp/ghettobank)
 "iuA" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/button/remote/blast_door{
@@ -6796,15 +6398,12 @@
 /area/awaymission/darkrp/outside/plaza)
 "iuG" = (
 /obj/structure/bed/chair/wood{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/outside)
 "iuW" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -6813,8 +6412,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "ivt" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/table/steel_reinforced,
@@ -6850,8 +6447,6 @@
 /area/awaymission/darkrp/warehouse1)
 "iyR" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/rifle/poi,
@@ -6862,8 +6457,6 @@
 /area/awaymission/darkrp/outside/center)
 "iyY" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/table/woodentable,
@@ -6879,8 +6472,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "izs" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -6920,8 +6511,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "iDv" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -6931,8 +6520,6 @@
 /area/awaymission/darkrp/tunnel/ghettos)
 "iDI" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -6946,7 +6533,6 @@
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "iFH" = (
 /obj/structure/bed/chair/sofa/bench/marble{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/concrete{
@@ -6975,8 +6561,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "iHn" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -7026,8 +6610,6 @@
 /area/awaymission/darkrp/downtownpharmacy)
 "iKX" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -7053,7 +6635,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/structure/table/rack/shelf/steel,
@@ -7123,9 +6704,7 @@
 /turf/simulated/wall/r_wall,
 /area/awaymission/darkrp/lockdown1)
 "iSy" = (
-/obj/machinery/light{
-	dir = 2
-	},
+/obj/machinery/light,
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownbar)
 "iSD" = (
@@ -7208,18 +6787,12 @@
 /area/awaymission/darkrp/ghettohouse1)
 "iYf" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -7250,13 +6823,9 @@
 /area/awaymission/darkrp/outside/center)
 "jaI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -7280,8 +6849,6 @@
 /area/awaymission/darkrp/sewers)
 "jcn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -7323,7 +6890,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/wood,
@@ -7388,16 +6954,12 @@
 /area/awaymission/darkrp/downtownbar)
 "jlx" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkghetto1)
 "jlW" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/stool/padded{
@@ -7432,12 +6994,9 @@
 /area/awaymission/darkrp/ghettohouse1)
 "joU" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/random/vendorfood{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -7480,7 +7039,6 @@
 "jrL" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -7512,8 +7070,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "jvY" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -7625,8 +7181,6 @@
 /area/awaymission/darkrp/parkwallbunker)
 "jFg" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -7664,8 +7218,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "jFX" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/lino,
@@ -7685,8 +7237,6 @@
 /area/awaymission/darkrp/centersidehouse)
 "jIC" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/beach_ball/dodgeball,
@@ -7707,8 +7257,6 @@
 /area/awaymission/darkrp/sewers)
 "jJF" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -7718,8 +7266,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "jKj" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/trash,
@@ -7745,13 +7291,10 @@
 /area/awaymission/darkrp/outside)
 "jLb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/awaymission/darkrp/plazabunker)
@@ -7799,8 +7342,6 @@
 /area/awaymission/darkrp/sewers)
 "jPr" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/standard,
@@ -7850,9 +7391,7 @@
 	},
 /area/awaymission/darkrp/outside/ghetto)
 "jSw" = (
-/obj/structure/bed/chair/office/dark{
-	dir = 2
-	},
+/obj/structure/bed/chair/office/dark,
 /turf/simulated/floor/carpet/turcarpet,
 /area/awaymission/darkrp/warehouseshack)
 "jSx" = (
@@ -7903,8 +7442,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "jXd" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -7921,8 +7458,6 @@
 /area/awaymission/darkrp/plazahotel)
 "jXF" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -7939,14 +7474,12 @@
 "jZc" = (
 /obj/structure/table/rack/shelf/steel,
 /obj/item/reagent_containers/food/drinks/bottle/space_up{
-	pixel_y = 0;
 	pixel_x = -9
 	},
 /obj/item/reagent_containers/food/drinks/bottle/space_mountain_wind{
 	pixel_x = -2
 	},
 /obj/item/reagent_containers/food/drinks/bottle/dr_gibb{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /turf/simulated/floor/tiled,
@@ -7978,8 +7511,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "kaF" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/mechanical/hivebot/ranged_damage/declone,
@@ -7997,8 +7528,6 @@
 /area/awaymission/darkrp/sewers)
 "kbc" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -8012,8 +7541,6 @@
 	dir = 2
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/steel,
@@ -8056,8 +7583,6 @@
 /area/awaymission/darkrp/outside)
 "kdE" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -8078,8 +7603,6 @@
 /area/awaymission/darkrp/plazahotel)
 "kfD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -8092,16 +7615,12 @@
 /area/awaymission/darkrp/plazawarehouse)
 "kgd" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownpharmacy)
 "kgw" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -8121,13 +7640,9 @@
 /area/awaymission/darkrp/plazarecroom)
 "kij" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/plating,
@@ -8224,8 +7739,6 @@
 /area/awaymission/darkrp/warehouse3)
 "kqq" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/reagent_dispensers/fueltank/barrel/two,
@@ -8256,8 +7769,6 @@
 "ksj" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -8276,13 +7787,9 @@
 	dir = 8
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -8324,8 +7831,6 @@
 /area/awaymission/darkrp/sewers)
 "kxw" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/cash,
@@ -8404,8 +7909,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "kGd" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -8467,8 +7970,6 @@
 /area/awaymission/darkrp/subapartments)
 "kKY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -8489,8 +7990,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/toy/minigibber{
@@ -8504,8 +8003,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/stool/baystool/padded,
@@ -8557,8 +8054,6 @@
 /area/awaymission/darkrp/sewers)
 "kQc" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -8574,8 +8069,6 @@
 "kRn" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -8602,13 +8095,9 @@
 /area/awaymission/darkrp/outside/warehouses)
 "kSF" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -8661,8 +8150,6 @@
 /area/awaymission/darkrp/downtownpharmacy)
 "kUe" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -8716,8 +8203,6 @@
 /area/awaymission/darkrp/pd)
 "kXK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -8745,7 +8230,6 @@
 "lad" = (
 /obj/structure/table/marble,
 /obj/item/material/kitchen/rollingpin,
-/obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettohouse2)
@@ -8791,7 +8275,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -8799,8 +8282,6 @@
 /area/awaymission/darkrp/centermaint)
 "lbY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -8836,8 +8317,6 @@
 /area/awaymission/darkrp/sewers)
 "ldi" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/wood,
@@ -8921,13 +8400,9 @@
 /area/awaymission/darkrp/sewers)
 "ljz" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -9040,12 +8515,9 @@
 /obj/machinery/door/airlock/glass_medical{
 	id_tag = "MedbayFoyer";
 	name = "EMT Bay";
-	req_access = null;
 	req_one_access = list(696)
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/door/firedoor/border_only,
@@ -9167,8 +8639,6 @@
 "lyA" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -9181,8 +8651,6 @@
 /area/awaymission/darkrp/parkcondo)
 "lzq" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -9225,8 +8693,6 @@
 /area/awaymission/darkrp/outside/center)
 "lBQ" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/filth,
@@ -9257,7 +8723,6 @@
 /area/awaymission/darkrp/outside)
 "lCS" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 1
 	},
 /turf/simulated/floor/concrete{
@@ -9287,8 +8752,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "lEq" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -9344,8 +8807,6 @@
 /area/awaymission/darkrp/plazarecroom)
 "lJU" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/tiled,
@@ -9363,8 +8824,6 @@
 /area/awaymission/darkrp/plazahotel)
 "lKR" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/extinguisher_cabinet{
@@ -9409,8 +8868,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "lMe" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/sniper,
@@ -9469,14 +8926,11 @@
 /area/awaymission/darkrp/pd)
 "lPU" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/glass_medical{
 	id_tag = "MedbayFoyer";
 	name = "EMT Bay";
-	req_access = null;
 	req_one_access = null
 	},
 /turf/simulated/floor/tiled/neutral,
@@ -9490,8 +8944,6 @@
 "lQs" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -9558,8 +9010,7 @@
 /area/awaymission/darkrp/outside)
 "lTV" = (
 /obj/structure/bed/chair/wood{
-	dir = 8;
-	pixel_y = 0
+	dir = 8
 	},
 /mob/living/simple_mob/humanoid/pirate/machete,
 /turf/simulated/floor/wood,
@@ -9616,8 +9067,6 @@
 /area/awaymission/darkrp/tunnels/suburbs)
 "lZs" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -9630,8 +9079,6 @@
 /area/awaymission/darkrp/parkcondo)
 "mbF" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -9723,8 +9170,6 @@
 /area/awaymission/darkrp/centersidehouse)
 "mjz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/neutral,
@@ -9788,8 +9233,6 @@
 /area/awaymission/darkrp/outside/park)
 "mlo" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/wood,
@@ -9805,13 +9248,6 @@
 	icon_state = "dmg1"
 	},
 /area/awaymission/darkrp/outside/plaza)
-"mmp" = (
-/obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
-	},
-/turf/simulated/floor/plating,
-/area/awaymission/darkrp/sewers)
 "mmI" = (
 /obj/structure/table/wooden_reinforced,
 /obj/item/reagent_containers/food/snacks/suppermattershard,
@@ -9820,8 +9256,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "mmM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -9831,8 +9265,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "mmQ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -9848,7 +9280,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/structure/table/rack/shelf,
@@ -9930,8 +9361,6 @@
 /area/awaymission/darkrp/ghettoeats)
 "mtM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -9969,8 +9398,6 @@
 "mxX" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -9999,8 +9426,6 @@
 /area/awaymission/darkrp/subapartments)
 "mAj" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -10010,7 +9435,6 @@
 "mAm" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -10036,8 +9460,6 @@
 /area/awaymission/darkrp/outside)
 "mBR" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/humanoid/cultist/human/bloodjaunt,
@@ -10091,8 +9513,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "mDW" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -10108,8 +9528,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "mEW" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -10119,8 +9537,6 @@
 /area/awaymission/darkrp/outside/center)
 "mFX" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -10134,8 +9550,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "mHC" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/pirate/mate/ranged/rifle,
@@ -10231,8 +9645,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/appliance/cooker/oven,
@@ -10256,8 +9668,6 @@
 "mPt" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -10266,7 +9676,6 @@
 /obj/machinery/door/airlock/glass_medical{
 	id_tag = "MedbayFoyer";
 	name = "Chemistry";
-	req_access = null;
 	req_one_access = list(696)
 	},
 /turf/simulated/floor/tiled/neutral,
@@ -10285,13 +9694,9 @@
 /area/awaymission/darkrp/outside)
 "mQj" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -10332,7 +9737,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /mob/living/simple_mob/humanoid/russian/ranged,
@@ -10358,7 +9762,6 @@
 "mVe" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/rtg/advanced,
@@ -10461,8 +9864,6 @@
 /area/awaymission/darkrp/ghettohouse2)
 "nbm" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -10477,7 +9878,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/wood,
@@ -10496,8 +9896,6 @@
 /area/awaymission/darkrp/outside)
 "ncv" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/concrete{
@@ -10540,8 +9938,6 @@
 /area/awaymission/darkrp/sewers)
 "nii" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -10570,8 +9966,6 @@
 "nkx" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -10640,16 +10034,12 @@
 /area/awaymission/darkrp/outside/suburbs)
 "noC" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/downtowncenter)
 "noW" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -10705,13 +10095,9 @@
 /area/awaymission/darkrp/ghettoapartments)
 "nsm" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/grenadier,
@@ -10721,8 +10107,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "nst" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -10739,8 +10123,6 @@
 /area/awaymission/darkrp/sewers)
 "nsY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -10762,7 +10144,6 @@
 	pixel_y = 5
 	},
 /obj/item/reagent_containers/glass/bottle/biomass{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /turf/simulated/floor/tiled/neutral,
@@ -10803,16 +10184,12 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "nxs" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettohouse2)
 "nxv" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -10822,8 +10199,6 @@
 /area/awaymission/darkrp/outside/park)
 "nxx" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -10831,8 +10206,6 @@
 /area/awaymission/darkrp/centermaint)
 "nxC" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -10852,7 +10225,7 @@
 /turf/simulated/floor/tiled/white,
 /area/awaymission/darkrp/ghettoeats)
 "nxS" = (
-/obj/item/toy/plushie/susred,
+/obj/item/toy/plushie/sus,
 /obj/machinery/atmospherics/unary/vent_pump{
 	dir = 4;
 	external_pressure_bound = 140;
@@ -10864,8 +10237,6 @@
 /area/awaymission/darkrp/ghettowarehouse)
 "nyd" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /mob/living/simple_mob/humanoid/pirate/machete,
@@ -10915,8 +10286,6 @@
 /area/awaymission/darkrp/downtowncenter)
 "nBF" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/sign/chemdiamond{
@@ -10961,8 +10330,6 @@
 /area/awaymission/darkrp/parkcondo)
 "nCL" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -11004,7 +10371,6 @@
 	pixel_x = -24
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/structure/closet/secure_closet/freezer/kitchen{
@@ -11054,8 +10420,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "nIP" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -11099,8 +10463,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "nLW" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -11123,8 +10485,6 @@
 /area/awaymission/darkrp/sewers)
 "nMz" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -11160,8 +10520,6 @@
 /area/awaymission/darkrp/sewers)
 "nPX" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -11195,13 +10553,9 @@
 /area/awaymission/darkrp/warehouse3)
 "nQI" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -11234,8 +10588,6 @@
 "nTb" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -11366,8 +10718,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "nZD" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/lino,
@@ -11391,28 +10741,21 @@
 "obu" = (
 /obj/structure/table/rack/shelf/steel,
 /obj/item/reagent_containers/food/drinks/bottle/cola{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /obj/item/reagent_containers/food/drinks/bottle/cola{
-	pixel_y = 0;
 	pixel_x = -9
 	},
 /obj/item/reagent_containers/food/drinks/bottle/cola{
-	pixel_y = 0;
 	pixel_x = -2
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/subgas)
 "obP" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -11508,9 +10851,7 @@
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkcondo)
 "oig" = (
-/obj/machinery/light{
-	dir = 2
-	},
+/obj/machinery/light,
 /obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/outdoors/sidewalk/slab{
 	movement_cost = 0;
@@ -11588,7 +10929,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/wood,
@@ -11623,7 +10963,6 @@
 "oqO" = (
 /obj/structure/table/rack/shelf,
 /obj/item/reagent_containers/food/condiment/ketchup{
-	pixel_y = 0;
 	pixel_x = -7
 	},
 /obj/item/reagent_containers/food/condiment/mustard{
@@ -11670,8 +11009,6 @@
 /area/awaymission/darkrp/outside)
 "ovb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/door/blast/shutters{
@@ -11764,8 +11101,6 @@
 /area/awaymission/darkrp/outside/park)
 "oDF" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -11822,8 +11157,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/closet/secure_closet/freezer/meat,
@@ -11847,8 +11180,6 @@
 /area/awaymission/darkrp/subcondo)
 "oHY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -11861,8 +11192,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "oIb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/simple_door/wood,
@@ -11887,8 +11216,6 @@
 /area/awaymission/darkrp/centerwarehouse)
 "oJI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -11897,8 +11224,6 @@
 /area/awaymission/darkrp/tunnels/park)
 "oJZ" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -11942,7 +11267,6 @@
 "oML" = (
 /obj/machinery/door/airlock/glass_medical{
 	name = "Medbay";
-	req_access = null;
 	req_one_access = list(696)
 	},
 /obj/machinery/door/firedoor/glass,
@@ -11962,8 +11286,6 @@
 /area/awaymission/darkrp/outside)
 "oOE" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -11977,13 +11299,9 @@
 /area/awaymission/darkrp/downtownbar)
 "oPC" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -11996,8 +11314,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -12007,8 +11323,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "oQB" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -12036,8 +11350,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "oRr" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/easel,
@@ -12048,7 +11360,6 @@
 "oRE" = (
 /obj/machinery/door/airlock/glass_medical{
 	name = "Medbay";
-	req_access = null;
 	req_one_access = null
 	},
 /obj/machinery/door/firedoor/glass,
@@ -12093,15 +11404,12 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/warehouse1)
 "oTI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -12127,13 +11435,9 @@
 /area/awaymission/darkrp/outside)
 "oUN" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -12163,8 +11467,7 @@
 "oWX" = (
 /obj/random/cash,
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/awaymission/darkrp/plazabunker)
@@ -12196,13 +11499,9 @@
 /area/awaymission/darkrp/plazawarehouse)
 "oZv" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -12230,8 +11529,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/table/marble,
@@ -12277,8 +11574,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/oldsofa{
@@ -12308,8 +11603,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "pdX" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -12344,8 +11637,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "peL" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -12389,8 +11680,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -12399,8 +11689,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /obj/machinery/light/small{
 	dir = 8
@@ -12473,8 +11762,6 @@
 /area/awaymission/darkrp/ghettooffice)
 "pjh" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/barricade/planks,
@@ -12559,8 +11846,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "poQ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -12577,13 +11862,9 @@
 /area/awaymission/darkrp/sewers)
 "ppV" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -12639,8 +11920,7 @@
 /obj/item/reagent_containers/food/drinks/smallmilk,
 /obj/item/reagent_containers/food/drinks/smallmilk,
 /obj/structure/closet/secure_closet/freezer/fridge{
-	pixel_x = -6;
-	pixel_y = 0
+	pixel_x = -6
 	},
 /turf/simulated/floor/plating,
 /area/awaymission/darkrp/plazacoffee)
@@ -12718,8 +11998,6 @@
 /area/awaymission/darkrp/parkcondo)
 "pun" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -12729,8 +12007,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "put" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -12804,8 +12080,6 @@
 /area/awaymission/darkrp/outside)
 "pxb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -12821,8 +12095,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "pyk" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/wall/r_concrete,
@@ -12872,14 +12144,12 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkcondo)
 "pAR" = (
 /obj/item/modular_computer/console/preset/civilian{
-	pixel_y = 0;
 	dir = 8
 	},
 /turf/simulated/floor/wood,
@@ -12920,8 +12190,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/table/marble,
@@ -12930,8 +12198,6 @@
 /area/awaymission/darkrp/ghettoeats)
 "pEs" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -12940,8 +12206,6 @@
 /area/awaymission/darkrp/subcondo)
 "pEG" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/power/apc{
@@ -13006,28 +12270,18 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "pIY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -13050,8 +12304,6 @@
 "pLJ" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -13059,8 +12311,6 @@
 "pLW" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -13076,8 +12326,6 @@
 "pMs" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light{
@@ -13188,8 +12436,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "pUj" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/table/rack/shelf/steel,
@@ -13226,8 +12472,6 @@
 	pixel_y = -25
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -13275,7 +12519,6 @@
 "pYt" = (
 /obj/structure/railing/grey,
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 4
 	},
 /obj/structure/prop/statue/pillar,
@@ -13285,8 +12528,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "pYC" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/simple_door/wood,
@@ -13298,8 +12539,6 @@
 /area/awaymission/darkrp/ghettooffice)
 "pYY" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/wood,
@@ -13341,8 +12580,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "qbv" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -13390,8 +12627,6 @@
 /area/awaymission/darkrp/sewers)
 "qeU" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -13404,8 +12639,6 @@
 /area/awaymission/darkrp/outside)
 "qfX" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -13475,8 +12708,6 @@
 /area/awaymission/darkrp/parkwallbunker)
 "qkL" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/simple_door/wood,
@@ -13552,8 +12783,7 @@
 	pixel_y = -6
 	},
 /obj/item/paint_palette{
-	pixel_x = 6;
-	pixel_y = 0
+	pixel_x = 6
 	},
 /obj/item/paint_palette{
 	pixel_x = 6;
@@ -13581,7 +12811,6 @@
 	pixel_x = -24
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/structure/table/steel_reinforced,
@@ -13595,15 +12824,12 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/plazawarehouse)
 "qos" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -13638,8 +12864,6 @@
 /area/awaymission/darkrp/centermaint)
 "qrc" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/mecha_part_fabricator{
@@ -13661,8 +12885,7 @@
 /area/awaymission/darkrp/outside/warehouses)
 "qsh" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/concrete{
 	outdoors = 1
@@ -13676,8 +12899,6 @@
 /area/awaymission/darkrp/outside)
 "qtc" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/borderfloorwhite{
@@ -13696,8 +12917,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "qtw" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/wood,
@@ -13727,8 +12946,6 @@
 /area/awaymission/darkrp/subhouse2)
 "qvb" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -13744,8 +12961,6 @@
 	layer = 3
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/white,
@@ -13787,8 +13002,6 @@
 /area/awaymission/darkrp/subhouse2)
 "qyO" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/trash,
@@ -13807,16 +13020,12 @@
 	dir = 1
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/centersidehouse)
 "qCI" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -13845,8 +13054,7 @@
 /obj/item/reagent_containers/food/drinks/smallmilk,
 /obj/item/reagent_containers/food/drinks/smallmilk,
 /obj/structure/closet/secure_closet/freezer/fridge{
-	pixel_x = 6;
-	pixel_y = 0
+	pixel_x = 6
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/plazacoffee)
@@ -13879,8 +13087,6 @@
 /area/awaymission/darkrp/ghettoeats)
 "qIz" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/simple_door/wood,
@@ -13970,7 +13176,6 @@
 /area/awaymission/darkrp/centerwarehouse)
 "qMR" = (
 /obj/item/modular_computer/console/preset/civilian{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/wood,
@@ -13991,7 +13196,6 @@
 /area/awaymission/darkrp/sewers)
 "qOG" = (
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/machinery/power/smes/buildable{
@@ -14006,8 +13210,6 @@
 /area/awaymission/darkrp/subpower)
 "qPn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/mechanical/hivebot/precusor/machinegun,
@@ -14035,8 +13237,6 @@
 	dir = 8
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -14052,8 +13252,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "qQY" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -14073,8 +13271,6 @@
 /area/awaymission/darkrp/outside/center)
 "qRo" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -14086,8 +13282,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "qSQ" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -14097,8 +13291,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "qTI" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -14118,8 +13310,6 @@
 /area/awaymission/darkrp/outside)
 "qVb" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -14130,8 +13320,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "qVe" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/wood,
@@ -14150,13 +13338,9 @@
 /area/awaymission/darkrp/outside)
 "qWg" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -14232,8 +13416,6 @@
 /area/awaymission/darkrp/plazawarehouse)
 "rco" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/table/hardwoodtable,
@@ -14250,16 +13432,12 @@
 /area/awaymission/darkrp/ghettooffice)
 "rez" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkghetto1)
 "reB" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -14338,12 +13516,9 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/concrete{
@@ -14352,8 +13527,6 @@
 /area/awaymission/darkrp/subcondo)
 "rlw" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -14386,8 +13559,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "rnB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/button/holosign{
@@ -14411,8 +13582,6 @@
 /area/awaymission/darkrp/plazacoffee)
 "roU" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /mob/living/simple_mob/humanoid/merc/ranged/deagle,
@@ -14458,8 +13627,6 @@
 /area/awaymission/darkrp/sewers)
 "rtk" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/standard,
@@ -14497,8 +13664,6 @@
 /area/awaymission/darkrp/warehouse2)
 "ruJ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /mob/living/simple_mob/humanoid/russian,
@@ -14519,8 +13684,6 @@
 /area/awaymission/darkrp/tunnels/suburbs)
 "rvB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -14546,13 +13709,9 @@
 /area/awaymission/darkrp/ghettoapartments)
 "rxh" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -14562,13 +13721,9 @@
 /area/awaymission/darkrp/subpower)
 "rxQ" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -14669,8 +13824,6 @@
 "rEg" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -14709,13 +13862,9 @@
 /area/awaymission/darkrp/outside/plaza)
 "rHS" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -14767,8 +13916,6 @@
 /area/awaymission/darkrp/outside)
 "rMA" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -14782,8 +13929,6 @@
 /area/awaymission/darkrp/ghettowarehouse)
 "rNu" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -14803,8 +13948,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -14859,8 +14002,6 @@
 /area/awaymission/darkrp/subcondo)
 "rTi" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -14876,8 +14017,7 @@
 /area/awaymission/darkrp/ghettobank)
 "rVs" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/shuttle/floor/voidcraft,
@@ -14940,7 +14080,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "rZv" = (
 /obj/structure/bed/chair/sofa/bench/marble{
-	pixel_y = 0;
 	dir = 8
 	},
 /turf/simulated/floor/concrete{
@@ -14949,13 +14088,10 @@
 /area/awaymission/darkrp/outside/park)
 "rZH" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/wood,
@@ -14968,12 +14104,9 @@
 /area/awaymission/darkrp/outside)
 "saB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/comfy/black{
-	pixel_y = 0;
 	dir = 8
 	},
 /turf/simulated/floor/lino,
@@ -14983,8 +14116,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/vending/wallmed1{
@@ -15017,8 +14148,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "sfr" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -15044,13 +14173,9 @@
 /area/awaymission/darkrp/sewers)
 "sgb" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -15059,15 +14184,12 @@
 /area/awaymission/darkrp/subpower)
 "sgC" = (
 /obj/structure/bed/chair/comfy/black{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/subhouse2)
 "sgS" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -15092,8 +14214,6 @@
 /area/awaymission/darkrp/outside/park)
 "siK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -15104,8 +14224,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "siR" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -15140,8 +14258,6 @@
 "skV" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -15167,8 +14283,6 @@
 "snZ" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/dark,
@@ -15186,8 +14300,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -15199,7 +14311,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
@@ -15295,16 +14406,12 @@
 "svx" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownresturaunt)
 "svT" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -15327,8 +14434,6 @@
 "sxt" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -15342,8 +14447,6 @@
 /area/awaymission/darkrp/downtowncenter)
 "sxK" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -15364,8 +14467,6 @@
 /area/awaymission/darkrp/sewers)
 "szS" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -15375,8 +14476,7 @@
 	dir = 1
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/concrete,
@@ -15384,7 +14484,6 @@
 "sAW" = (
 /obj/structure/table/marble,
 /obj/structure/sink/countertop{
-	dir = 2;
 	pixel_y = 7
 	},
 /obj/item/trash/plate{
@@ -15425,8 +14524,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "sFM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -15488,8 +14585,6 @@
 /area/awaymission/darkrp/plazarecroom)
 "sIA" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/wmarble,
@@ -15531,8 +14626,6 @@
 /area/awaymission/darkrp/subcondo)
 "sMF" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -15558,8 +14651,6 @@
 "sNd" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -15589,13 +14680,9 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "sOC" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/concrete{
@@ -15630,8 +14717,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "sPV" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -15649,7 +14734,6 @@
 /area/awaymission/darkrp/reference)
 "sRl" = (
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc{
@@ -15664,8 +14748,6 @@
 /area/awaymission/darkrp/subpower)
 "sRD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -15694,7 +14776,6 @@
 "sTm" = (
 /obj/structure/table/standard,
 /obj/item/tool/screwdriver{
-	pixel_y = 0;
 	pixel_x = -7
 	},
 /obj/item/slime_irradiator{
@@ -15728,8 +14809,7 @@
 /area/awaymission/darkrp/outside/center)
 "sUo" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/structure/bed/chair/bay/comfy/black{
 	dir = 1
@@ -15764,24 +14844,17 @@
 /area/awaymission/darkrp/outside/suburbs)
 "sWZ" = (
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -15802,8 +14875,6 @@
 /area/awaymission/darkrp/ghettoeats)
 "sYO" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -15821,16 +14892,12 @@
 /area/awaymission/darkrp/plazahotel)
 "tai" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "taD" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -15840,8 +14907,6 @@
 /area/awaymission/darkrp/sewers)
 "taU" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -15881,21 +14946,16 @@
 /area/awaymission/darkrp/subgas)
 "tcK" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/concrete,
 /area/awaymission/darkrp/sewers)
 "tdv" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -15917,8 +14977,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/marble,
@@ -15956,16 +15014,13 @@
 /area/awaymission/darkrp/sewers)
 "tjm" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/warehouse2)
 "tkm" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled/freezer,
 /area/awaymission/darkrp/ghettobank)
@@ -15974,8 +15029,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "tkH" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -16040,7 +15093,6 @@
 /area/awaymission/darkrp/outside)
 "tmU" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 8
 	},
 /obj/structure/railing/grey,
@@ -16051,8 +15103,6 @@
 	light_range = 10
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16091,18 +15141,12 @@
 /area/awaymission/darkrp/outside)
 "tqw" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -16134,8 +15178,6 @@
 /area/awaymission/darkrp/warehouse3)
 "ttC" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/item/trash/material/device,
@@ -16163,8 +15205,6 @@
 /area/awaymission/darkrp/downtownbar)
 "twG" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/random/vendordrink{
@@ -16204,13 +15244,9 @@
 /area/awaymission/darkrp/outside)
 "tzd" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16221,16 +15257,12 @@
 /area/awaymission/darkrp/outside/park)
 "tzO" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/neutral,
 /area/awaymission/darkrp/downtownwarehouse)
 "tzT" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16241,8 +15273,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "tAo" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/fence/door,
@@ -16280,7 +15310,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
@@ -16313,8 +15342,6 @@
 /area/awaymission/darkrp/reference)
 "tFS" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -16347,8 +15374,6 @@
 	layer = 3
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wmarble,
@@ -16367,8 +15392,6 @@
 /area/awaymission/darkrp/downtownempty)
 "tIh" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -16386,8 +15409,6 @@
 /area/awaymission/darkrp/parkmaint)
 "tIK" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/glass,
@@ -16395,16 +15416,12 @@
 /area/awaymission/darkrp/subpowermaint)
 "tIQ" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownshop)
 "tJD" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -16427,12 +15444,9 @@
 /area/awaymission/darkrp/plazacoffee)
 "tKv" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/sink/countertop{
-	dir = 2;
 	pixel_y = 7
 	},
 /obj/structure/table/marble,
@@ -16443,8 +15457,7 @@
 	dir = 8
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /mob/living/simple_mob/vore/alienanimals/skeleton/alt,
 /turf/simulated/floor/tiled/freezer,
@@ -16470,13 +15483,9 @@
 /area/awaymission/darkrp/outside)
 "tMw" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16490,7 +15499,6 @@
 "tMF" = (
 /obj/structure/table/marble,
 /obj/structure/sink/countertop{
-	dir = 2;
 	pixel_y = 7
 	},
 /obj/item/trash/plate{
@@ -16522,8 +15530,6 @@
 /area/awaymission/darkrp/outside)
 "tOd" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/random/trash,
@@ -16537,7 +15543,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/plating,
@@ -16559,8 +15564,7 @@
 /area/awaymission/darkrp/sewers)
 "tQg" = (
 /obj/structure/bed/chair/wood{
-	dir = 1;
-	pixel_y = 0
+	dir = 1
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/plazacoffee)
@@ -16595,8 +15599,6 @@
 "tRJ" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -16616,7 +15618,6 @@
 "tRW" = (
 /obj/machinery/power/rtg/advanced,
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -16631,8 +15632,6 @@
 /area/awaymission/darkrp/ghettohouse1)
 "tTP" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -16666,8 +15665,6 @@
 /area/awaymission/darkrp/downtowngunshop)
 "tVZ" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -16697,8 +15694,6 @@
 /area/awaymission/darkrp/sewers)
 "tZo" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/concrete{
@@ -16729,8 +15724,6 @@
 /area/awaymission/darkrp/outside)
 "uaB" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16776,7 +15769,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled,
@@ -16791,8 +15783,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "udm" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/oldsofa{
@@ -16811,7 +15801,6 @@
 /obj/machinery/power/terminal,
 /obj/structure/cable/green,
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -16849,8 +15838,6 @@
 "uhn" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/lino,
@@ -16903,8 +15890,6 @@
 /area/awaymission/darkrp/downtownbar)
 "ulY" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -16915,7 +15900,6 @@
 "umY" = (
 /obj/machinery/door/airlock/glass_medical{
 	name = "Medbay";
-	req_access = null;
 	req_one_access = list(696)
 	},
 /turf/simulated/floor/tiled/neutral,
@@ -16941,8 +15925,6 @@
 	id = "spawnwarehouse"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -16993,8 +15975,6 @@
 /area/awaymission/darkrp/outside/center)
 "urX" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -17010,8 +15990,6 @@
 /area/awaymission/darkrp/sewers)
 "usR" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17026,7 +16004,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -17073,13 +16050,9 @@
 /area/awaymission/darkrp/toll)
 "uyw" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17095,7 +16068,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/structure/table/rack/shelf/steel,
@@ -17142,8 +16114,6 @@
 	req_one_access = list(860)
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -17167,8 +16137,6 @@
 /area/awaymission/darkrp/brokehouse)
 "uEM" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -17176,7 +16144,6 @@
 /area/awaymission/darkrp/parkmaint)
 "uFg" = (
 /obj/structure/railing/grey{
-	pixel_y = 0;
 	dir = 8
 	},
 /obj/item/material/barbedwire{
@@ -17189,8 +16156,7 @@
 /area/awaymission/darkrp/outside)
 "uFq" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/subapartments)
@@ -17244,20 +16210,15 @@
 	pixel_x = -6
 	},
 /obj/random/cigarettes{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownbar)
 "uJa" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -17293,8 +16254,6 @@
 /area/awaymission/darkrp/outside)
 "uMl" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/lino,
@@ -17328,7 +16287,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -17378,8 +16336,6 @@
 /area/awaymission/darkrp/sewers)
 "uRM" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17396,8 +16352,6 @@
 /area/awaymission/darkrp/subpowermaint)
 "uTf" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/simple_door/wood,
@@ -17423,13 +16377,9 @@
 /area/awaymission/darkrp/plazawarehouse)
 "uWF" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17459,10 +16409,7 @@
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/downtowngunshop)
 "uWQ" = (
-/obj/structure/bed/chair/wood{
-	dir = 2;
-	pixel_y = 0
-	},
+/obj/structure/bed/chair/wood,
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/plazacoffee)
 "uXi" = (
@@ -17487,8 +16434,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -17516,8 +16461,6 @@
 /area/awaymission/darkrp/warehouse1)
 "uZp" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -17536,8 +16479,6 @@
 	name = "Guns R Us"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -17550,8 +16491,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "vaU" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -17581,13 +16520,9 @@
 /area/awaymission/darkrp/sewers)
 "vdH" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17611,8 +16546,6 @@
 /area/awaymission/darkrp/ghettobank)
 "vfQ" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/flora/pottedplant/fern,
@@ -17672,8 +16605,6 @@
 /area/awaymission/darkrp/ghettobank)
 "vmS" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -17734,8 +16665,6 @@
 "vpi" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -17765,13 +16694,9 @@
 	dir = 8
 	},
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -17812,8 +16737,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "vtf" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -17831,7 +16754,6 @@
 /area/awaymission/darkrp/sewers)
 "vty" = (
 /obj/structure/bed/chair/office/dark{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/wood,
@@ -17882,8 +16804,6 @@
 /area/awaymission/darkrp/pd)
 "vxl" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -17907,8 +16827,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "vyU" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/simple_door/wood,
@@ -17925,7 +16843,6 @@
 	pixel_x = 24
 	},
 /obj/structure/cable/green{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
@@ -17977,8 +16894,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "vDp" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -17989,8 +16904,6 @@
 /area/awaymission/darkrp/outside/park)
 "vDN" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -18023,8 +16936,6 @@
 /area/awaymission/darkrp/warehouse2)
 "vGC" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -18039,8 +16950,6 @@
 /area/awaymission/darkrp/outside/downtown)
 "vIz" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/carpet/purcarpet,
@@ -18056,8 +16965,6 @@
 /area/awaymission/darkrp/outside/plaza)
 "vKn" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/bed/chair/wood,
@@ -18078,8 +16985,6 @@
 /area/awaymission/darkrp/plazawarehouse)
 "vMa" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -18207,8 +17112,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "vUj" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/table/rack/shelf/steel,
@@ -18254,8 +17157,6 @@
 /area/awaymission/darkrp/plazarecroom)
 "vWa" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -18263,8 +17164,6 @@
 /area/awaymission/darkrp/downtownresturaunt)
 "vWY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -18308,8 +17207,6 @@
 /area/awaymission/darkrp/sewers)
 "vYQ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/concrete{
@@ -18339,19 +17236,15 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/structure/easel,
-/obj/item/canvas/nineteen_nineteen{
-	pixel_y = 10
-	},
+/obj/item/canvas/nineteen_nineteen,
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/plazashop)
 "wan" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/concrete,
 /area/awaymission/darkrp/sewers)
@@ -18424,8 +17317,6 @@
 /area/awaymission/darkrp/sewers)
 "wcN" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -18475,13 +17366,9 @@
 /area/awaymission/darkrp/outside/ghetto)
 "wdu" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -18498,8 +17385,6 @@
 /area/awaymission/darkrp/outside/ghetto)
 "wdS" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/wood,
@@ -18548,8 +17433,6 @@
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "wib" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -18560,8 +17443,6 @@
 "wiP" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -18585,13 +17466,9 @@
 /area/awaymission/darkrp/outside)
 "wlD" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/liquid_fuel,
@@ -18613,8 +17490,6 @@
 "wot" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -18640,13 +17515,9 @@
 /area/awaymission/darkrp/downtownbar)
 "wqu" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -18698,7 +17569,6 @@
 /obj/structure/table/woodentable,
 /obj/item/paperplane{
 	dir = 4;
-	pixel_y = 0;
 	pixel_x = -6
 	},
 /obj/item/reagent_containers/food/snacks/pancakes{
@@ -18774,8 +17644,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "wwL" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/table/standard,
@@ -18795,8 +17663,6 @@
 /area/awaymission/darkrp/outside/park)
 "wyO" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -18827,8 +17693,6 @@
 /area/awaymission/darkrp/downtownbar)
 "wAY" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -18868,16 +17732,13 @@
 /area/awaymission/darkrp/outside/warehouses)
 "wGW" = (
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/downtownshop)
 "wHk" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -18887,8 +17748,6 @@
 /area/awaymission/darkrp/outside/warehouses)
 "wHr" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -18928,7 +17787,6 @@
 	pixel_y = 24
 	},
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/plating,
@@ -18945,26 +17803,19 @@
 	dir = 2
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/warehouse1)
 "wLk" = (
 /obj/structure/cable/green{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/machinery/power/rtg/advanced,
@@ -19028,8 +17879,6 @@
 /area/awaymission/darkrp/ghettoapartments)
 "wQN" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -19042,13 +17891,9 @@
 /area/awaymission/darkrp/subgas)
 "wRx" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19083,8 +17928,6 @@
 /area/awaymission/darkrp/sewers)
 "wTa" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/concrete{
@@ -19103,7 +17946,6 @@
 /area/awaymission/darkrp/sewers)
 "wWu" = (
 /obj/structure/bed/chair/comfy/black{
-	pixel_y = 0;
 	dir = 4
 	},
 /turf/simulated/floor/wood,
@@ -19123,8 +17965,6 @@
 /area/awaymission/darkrp/plazabunker)
 "wZt" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/carpet/turcarpet,
@@ -19165,8 +18005,6 @@
 "xgw" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/item/tape/police,
@@ -19187,8 +18025,7 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 4;
-	pixel_x = -4;
-	dir = 2
+	pixel_x = -4
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = 3;
@@ -19197,12 +18034,10 @@
 	},
 /obj/item/ammo_casing/a145{
 	pixel_y = -1;
-	pixel_x = 5;
-	dir = 2
+	pixel_x = 5
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/awaymission/darkrp/reference)
@@ -19212,8 +18047,6 @@
 "xiI" = (
 /obj/effect/wingrille_spawn/reinforced,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -19238,8 +18071,6 @@
 /area/awaymission/darkrp/outside/park)
 "xlq" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19254,8 +18085,6 @@
 /area/awaymission/darkrp/downtownwarehouse)
 "xmg" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/light/small{
@@ -19282,8 +18111,6 @@
 	dir = 4
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/bed/chair/bay/chair/padded/blue{
@@ -19305,8 +18132,6 @@
 /area/awaymission/darkrp/downtownshop)
 "xmY" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -19335,15 +18160,12 @@
 /area/awaymission/darkrp/tunnels/suburbs)
 "xpO" = (
 /obj/structure/salvageable/console_broken_os{
-	pixel_y = 0;
 	dir = 8
 	},
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettosouthwarehouse)
 "xpT" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19353,8 +18175,6 @@
 /area/awaymission/darkrp/outside/center)
 "xqL" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19374,8 +18194,6 @@
 /area/awaymission/darkrp/plazarecroom)
 "xtq" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -19390,8 +18208,6 @@
 /area/awaymission/darkrp/sewers)
 "xuA" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/concrete{
@@ -19400,8 +18216,6 @@
 /area/awaymission/darkrp/outside/suburbs)
 "xuN" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/concrete{
@@ -19410,13 +18224,9 @@
 /area/awaymission/darkrp/outside/suburbs)
 "xvg" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/concrete{
@@ -19428,8 +18238,6 @@
 /area/awaymission/darkrp/outside)
 "xvD" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19515,8 +18323,6 @@
 /area/awaymission/darkrp/subway)
 "xBg" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/concrete{
@@ -19532,8 +18338,6 @@
 	dir = 1
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -19548,7 +18352,6 @@
 	pixel_x = -24
 	},
 /obj/structure/cable/green{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/wood,
@@ -19564,8 +18367,6 @@
 "xEy" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -19578,17 +18379,13 @@
 	name = "slab ID II"
 	},
 /obj/effect/floor_decal/milspec/box,
-/obj/effect/floor_decal/milspec/color/orange/half{
-	dir = 2
-	},
+/obj/effect/floor_decal/milspec/color/orange/half,
 /turf/simulated/floor/concrete{
 	outdoors = 1
 	},
 /area/awaymission/darkrp/outside)
 "xFw" = (
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/outdoors/sidewalk/slab{
@@ -19623,13 +18420,9 @@
 /area/awaymission/darkrp/parkwallbunker)
 "xHn" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -19746,8 +18539,6 @@
 /area/awaymission/darkrp/downtownbar)
 "xNu" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -19786,8 +18577,6 @@
 "xPS" = (
 /obj/structure/simple_door/wood,
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled/steel,
@@ -19814,8 +18603,6 @@
 /area/awaymission/darkrp/plazashop)
 "xRE" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -19863,8 +18650,6 @@
 /area/awaymission/darkrp/parkcondo)
 "xTr" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/plating,
@@ -19877,8 +18662,6 @@
 /area/awaymission/darkrp/sewers)
 "xTI" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wmarble,
@@ -19951,8 +18734,7 @@
 /area/awaymission/darkrp/ghettohouse1)
 "xXM" = (
 /obj/structure/bed/chair/wood{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/plazacoffee)
@@ -19971,9 +18753,7 @@
 /turf/simulated/floor/wood,
 /area/awaymission/darkrp/parkcondo)
 "xYX" = (
-/obj/structure/cliff/automatic/corner{
-	dir = 5
-	},
+/obj/structure/cliff/automatic/corner,
 /turf/simulated/floor/outdoors/rocks{
 	temperature = 293.15
 	},
@@ -19989,13 +18769,9 @@
 /area/awaymission/darkrp/ghettohouse2)
 "yaQ" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/green{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/machinery/light/bigfloorlamp{
@@ -20015,8 +18791,6 @@
 /area/awaymission/darkrp/outside)
 "yca" = (
 /obj/structure/cable/green{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/outdoors/sidewalk/side{
@@ -20039,7 +18813,6 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/box/wormcan,
 /obj/item/storage/box/wormcan{
-	pixel_y = 0;
 	pixel_x = 5
 	},
 /obj/item/storage/box/wormcan/deluxe{
@@ -20064,13 +18837,6 @@
 /obj/item/reagent_containers/food/drinks/cans/waterbottle,
 /turf/simulated/floor/tiled,
 /area/awaymission/darkrp/ghettosouthwarehouse)
-"yen" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/outdoors/newdirt{
-	temperature = 293.15
-	},
-/area/awaymission/darkrp/outside)
 "yev" = (
 /obj/effect/floor_decal/rust,
 /turf/simulated/floor/tiled/techfloor/grid,
@@ -20083,8 +18849,6 @@
 /area/awaymission/darkrp/outside)
 "yhx" = (
 /obj/structure/cable/green{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
@@ -20125,8 +18889,7 @@
 "yjO" = (
 /obj/effect/floor_decal/rust,
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/machinery/button/remote/blast_door{
 	id = "sewers1";
@@ -46052,9 +44815,9 @@ fOb
 fOb
 dwh
 dwh
-yen
 oVr
-yen
+oVr
+oVr
 dwh
 oVr
 dwh
@@ -46378,9 +45141,9 @@ dwh
 dwh
 oVr
 dwh
-yen
 oVr
-yen
+oVr
+oVr
 dwh
 dwh
 dwh
@@ -49834,7 +48597,7 @@ bGs
 bGs
 bGs
 bGs
-mmp
+aBN
 adL
 adL
 uym
@@ -50149,7 +48912,7 @@ taF
 taF
 uym
 bGs
-mmp
+aBN
 uym
 taF
 taF

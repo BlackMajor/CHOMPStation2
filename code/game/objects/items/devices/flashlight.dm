@@ -36,7 +36,7 @@
 	pickup_sound = 'sound/items/pickup/device.ogg'
 	drop_sound = 'sound/items/drop/device.ogg'
 
-/obj/item/flashlight/Initialize()
+/obj/item/flashlight/Initialize(mapload)
 	. = ..()
 
 	if(power_use && cell_type)
@@ -149,8 +149,8 @@
 				if(M.getBrainLoss() > 15)
 					to_chat(user, span_notice("There's visible lag between left and right pupils' reactions."))
 
-				var/list/pinpoint = list("oxycodone"=1,"tramadol"=5)
-				var/list/dilating = list("bliss"=5,"ambrosia_extract"=5,"mindbreaker"=1)
+				var/list/pinpoint = list(REAGENT_ID_OXYCODONE=1,REAGENT_ID_TRAMADOL=5)
+				var/list/dilating = list(REAGENT_ID_BLISS=5,REAGENT_ID_AMBROSIAEXTRACT=5,REAGENT_ID_MINDBREAKER=1)
 				if(M.reagents.has_any_reagent(pinpoint) || H.ingested.has_any_reagent(pinpoint))
 					to_chat(user, span_notice("\The [M]'s pupils are already pinpoint and cannot narrow any more."))
 				else if(M.reagents.has_any_reagent(dilating) || H.ingested.has_any_reagent(dilating))
@@ -313,8 +313,8 @@
 	desc = "A desk lamp with an adjustable mount."
 	icon_state = "lamp"
 	force = 10
-	center_of_mass_x = 13 //CHOMPEdit
-	center_of_mass_y= 11 //CHOMPEdit
+	center_of_mass_x = 13
+	center_of_mass_y = 11
 	light_range = 5
 	w_class = ITEMSIZE_LARGE
 	power_use = 0
@@ -333,16 +333,16 @@
 /obj/item/flashlight/lamp/green
 	desc = "A classic green-shaded desk lamp."
 	icon_state = "lampgreen"
-	center_of_mass_x = 15 //CHOMPEdit
-	center_of_mass_y= 11 //CHOMPEdit
+	center_of_mass_x = 15
+	center_of_mass_y = 11
 	light_color = "#FFC58F"
 
 // clown lamp
 /obj/item/flashlight/lamp/clown
 	desc = "A whacky banana peel shaped lamp."
 	icon_state = "bananalamp"
-	center_of_mass_x = 15 //CHOMPEdit
-	center_of_mass_y= 11 //CHOMPEdit
+	center_of_mass_x = 15
+	center_of_mass_y = 11
 
 
 /*
@@ -367,9 +367,9 @@
 	pickup_sound = 'sound/items/pickup/gloves.ogg'
 	light_system = MOVABLE_LIGHT
 
-/obj/item/flashlight/flare/New()
+/obj/item/flashlight/flare/Initialize(mapload)
 	fuel = rand(800, 1000) // Sorry for changing this so much but I keep under-estimating how long X number of ticks last in seconds.
-	..()
+	. = ..()
 
 /obj/item/flashlight/flare/process()
 	var/turf/pos = get_turf(src)
@@ -430,9 +430,9 @@
 	var/fuel = 0
 	power_use = 0
 
-/obj/item/flashlight/glowstick/New()
+/obj/item/flashlight/glowstick/Initialize(mapload)
 	fuel = rand(1600, 2000)
-	..()
+	. = ..()
 
 /obj/item/flashlight/glowstick/process()
 	fuel = max(fuel - 1, 0)

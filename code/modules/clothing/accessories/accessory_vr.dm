@@ -18,8 +18,8 @@
 		)
 
 //Forces different sprite sheet on equip
-/obj/item/clothing/accessory/choker/New()
-	..()
+/obj/item/clothing/accessory/choker/Initialize(mapload)
+	. = ..()
 	icon_previous_override = icon_override
 
 /obj/item/clothing/accessory/choker/equipped() //Solution for race-specific sprites for an accessory which is also a suit. Suit icons break if you don't use icon override which then also overrides race-specific sprites.
@@ -41,7 +41,8 @@
 	setUniqueSpeciesSprite()
 	..(S, user)
 
-/obj/item/clothing/accessory/choker/dropped()
+/obj/item/clothing/accessory/choker/dropped(mob/user)
+	..()
 	icon_override = icon_previous_override
 
 /obj/item/clothing/accessory/collar
@@ -56,8 +57,8 @@
 	)
 
 //Forces different sprite sheet on equip
-/obj/item/clothing/accessory/collar/New()
-	..()
+/obj/item/clothing/accessory/collar/Initialize(mapload)
+	. = ..()
 	icon_previous_override = icon_override
 
 /obj/item/clothing/accessory/collar/equipped() //Solution for race-specific sprites for an accessory which is also a suit. Suit icons break if you don't use icon override which then also overrides race-specific sprites.
@@ -79,7 +80,8 @@
 	setUniqueSpeciesSprite()
 	..(S, user)
 
-/obj/item/clothing/accessory/collar/dropped()
+/obj/item/clothing/accessory/collar/dropped(mob/user)
+	..()
 	icon_override = icon_previous_override
 
 //ywedit start. forces different sprite sheet on equip
@@ -98,7 +100,8 @@
 	setUniqueSpeciesSprite()
 	..(S, user)
 
-/obj/item/clothing/accessory/collar/dropped()
+/obj/item/clothing/accessory/collar/dropped(mob/user)
+	..()
 	icon_override = icon_previous_override
 //ywedit end
 
@@ -128,7 +131,7 @@
 	set name = "Jingle Bell"
 	set category = "Object"
 	set src in usr
-	if(!istype(usr, /mob/living)) return
+	if(!isliving(usr)) return
 	if(usr.stat) return
 
 	if(!jingled)
@@ -152,7 +155,7 @@
 	var/code = 2
 	var/datum/radio_frequency/radio_connection
 
-/obj/item/clothing/accessory/collar/shock/Initialize()
+/obj/item/clothing/accessory/collar/shock/Initialize(mapload)
 	. = ..()
 	radio_connection = radio_controller.add_object(src, frequency, RADIO_CHAT) // Makes it so you don't need to change the frequency off of default for it to work.
 
@@ -215,16 +218,16 @@
 			icon_state = "collar_shk[on]"
 			. = TRUE
 		if("tag")
-			var/sanitized = tgui_input_text(usr, "Tag text?", "Set Tag", "", MAX_NAME_LEN, encode = TRUE)
+			var/sanitized = tgui_input_text(ui.user, "Tag text?", "Set Tag", "", MAX_NAME_LEN, encode = TRUE)
 			if(isnull(sanitized))
 				return
 
 			if(!length(sanitized))
-				to_chat(usr, span_notice("[src]'s tag set to blank."))
+				to_chat(ui.user, span_notice("[src]'s tag set to blank."))
 				name = initial(name)
 				desc = initial(desc)
 			else
-				to_chat(usr, span_notice("[src]'s tag set to '[sanitized]'."))
+				to_chat(ui.user, span_notice("[src]'s tag set to '[sanitized]'."))
 				name = initial(name) + " ([sanitized])"
 				desc = initial(desc) + " The tag says \"[sanitized]\"."
 			. = TRUE
@@ -385,9 +388,9 @@
 	switch(action)
 		if("size")
 			target_size = clamp((params["size"]/100), RESIZE_MINIMUM_DORMS, RESIZE_MAXIMUM_DORMS)
-			to_chat(usr, span_notice("You set the size to [target_size * 100]%"))
+			to_chat(ui.user, span_notice("You set the size to [target_size * 100]%"))
 			if(target_size < RESIZE_MINIMUM || target_size > RESIZE_MAXIMUM)
-				to_chat(usr, span_notice("Note: Resizing limited to 25-200% automatically while outside dormatory areas.")) //hint that we clamp it in resize
+				to_chat(ui.user, span_notice("Note: Resizing limited to 25-200% automatically while outside dormatory areas.")) //hint that we clamp it in resize
 			. = TRUE
 
 /obj/item/clothing/accessory/collar/shock/bluespace/receive_signal(datum/signal/signal)

@@ -28,7 +28,7 @@
 	var/corpseidicon = null //For setting it to be a gold, silver, CentCom etc ID
 	var/species = SPECIES_HUMAN	//defaults to generic-ass humans
 	var/random_species = FALSE	//flip to TRUE to randomize species from the list below
-	var/list/random_species_list = list(SPECIES_HUMAN,SPECIES_TAJ,SPECIES_UNATHI,SPECIES_SKRELL)
+	var/list/random_species_list = list(SPECIES_HUMAN,SPECIES_TAJARAN,SPECIES_UNATHI,SPECIES_SKRELL)
 	var/list/tail_type = null
 	var/list/ear_type = null
 	/// list(name of ear, color of ear, color of ear, ...).
@@ -39,9 +39,11 @@
 	var/corpsesynthtype = 0			// 0 for organic, 1 for drone, 2 for posibrain
 	var/corpsesynthbrand = "Unbranded"
 	var/corpsesensormode = 0	//CHOMPAdd - For setting the suit sensors of a corpse. Default to 0 so we don't annoy medbay.
+	delete_me = TRUE
 
-/obj/effect/landmark/mobcorpse/Initialize() //CHOMPEdit
+/obj/effect/landmark/mobcorpse/Initialize(mapload)
 	createCorpse()
+	. = ..()
 
 /obj/effect/landmark/mobcorpse/proc/createCorpse() //Creates a mob and checks for gear in each slot before attempting to equip it.
 	var/mob/living/carbon/human/M = new /mob/living/carbon/human (src.loc)
@@ -183,8 +185,6 @@
 		M.equip_voidhelm_to_slot_or_del_with_refit(new src.corpsehelmet(M), slot_head, src.species)
 	if(src.corpsesuit)
 		M.equip_voidsuit_to_slot_or_del_with_refit(new src.corpsesuit(M), slot_wear_suit, src.species)
-	delete_me = 1
-	qdel(src)
 
 /obj/effect/landmark/mobcorpse/proc/generateCorpseName()
 	return name

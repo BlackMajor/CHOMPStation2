@@ -219,7 +219,7 @@ GLOBAL_LIST_EMPTY(solars_list)
 			playsound(src, W.usesound, 75, 1)
 			return 1
 
-		if(istype(W, /obj/item/stack/material) && (W.get_material_name() == "glass" || W.get_material_name() == "rglass"))
+		if(istype(W, /obj/item/stack/material) && (W.get_material_name() == MAT_GLASS || W.get_material_name() == MAT_RGLASS))
 			var/obj/item/stack/material/S = W
 			if(S.use(2))
 				playsound(src, 'sound/machines/click.ogg', 50, 1)
@@ -285,7 +285,7 @@ GLOBAL_LIST_EMPTY(solars_list)
 /obj/machinery/power/solar_control/config_start
 	auto_start = SOLAR_AUTO_START_CONFIG
 
-/obj/machinery/power/solar_control/Initialize()
+/obj/machinery/power/solar_control/Initialize(mapload)
 	. = ..()
 	connect_to_network()
 	set_panels(cdir)

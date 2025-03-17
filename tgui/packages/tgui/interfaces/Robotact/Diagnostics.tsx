@@ -1,4 +1,3 @@
-import { toTitleCase } from 'common/string';
 import { useBackend } from 'tgui/backend';
 import {
   Box,
@@ -10,8 +9,9 @@ import {
   Section,
   Stack,
 } from 'tgui-core/components';
+import { toTitleCase } from 'tgui-core/string';
 
-import { Data } from './types';
+import type { Data } from './types';
 
 export const ComponentView = (props) => {
   const { act, data } = useBackend<Data>();
