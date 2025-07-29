@@ -303,7 +303,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 	if(oldname)
 		//update the datacore records! This is goig to be a bit costly.
-		for(var/list/L in list(data_core.general,data_core.medical,data_core.security,data_core.locked))
+		for(var/list/L in list(GLOB.data_core.general, GLOB.data_core.medical, GLOB.data_core.security, GLOB.data_core.locked))
 			for(var/datum/data/record/R in L)
 				if(R.fields["name"] == oldname)
 					R.fields["name"] = newname
@@ -350,7 +350,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 				return	//took too long
 			newname = sanitizeName(newname, ,allow_numbers)	//returns null if the name doesn't meet some basic requirements. Tidies up a few other things like bad-characters.
 
-			for(var/mob/living/M in player_list)
+			for(var/mob/living/M in GLOB.player_list)
 				if(M == src)
 					continue
 				if(!newname || M.real_name == newname)
@@ -368,7 +368,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 				var/mob/living/silicon/ai/A = src
 				oldname = null//don't bother with the records update crap
 				//to_world(span_world("[newname] is the AI!"))
-				//world << sound('sound/AI/newAI.ogg')
+				//world << sound('sound/AI/newai.ogg')
 				// Set eyeobj name
 				A.SetName(newname)
 
@@ -385,7 +385,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 /proc/freeborg()
 	var/select = null
 	var/list/borgs = list()
-	for (var/mob/living/silicon/robot/A in player_list)
+	for (var/mob/living/silicon/robot/A in GLOB.player_list)
 		if (A.stat == 2 || A.connected_ai || A.scrambledcodes || istype(A,/mob/living/silicon/robot/drone))
 			continue
 		var/name = "[A.real_name] ([A.modtype] [A.braintype])"
@@ -399,7 +399,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 //When a borg is activated, it can choose which AI it wants to be slaved to
 /proc/active_ais()
 	. = list()
-	for(var/mob/living/silicon/ai/A in living_mob_list)
+	for(var/mob/living/silicon/ai/A in GLOB.living_mob_list)
 		if(A.stat == DEAD)
 			continue
 		if(A.control_disabled == 1)
@@ -426,12 +426,12 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 //Returns a list of all mobs with their name
 /proc/getmobs()
-	return observe_list_format(sortmobs())
+	return observe_list_format(sort_mobs())
 
 //Orders mobs by type then by name
-/proc/sortmobs()
+/proc/sort_mobs()
 	var/list/moblist = list()
-	var/list/sortmob = sortAtom(mob_list)
+	var/list/sortmob = sort_names(GLOB.mob_list)
 	var/list/after_simplemob_minded = list() //CHOMPEdit
 	for(var/mob/observer/eye/M in sortmob)
 		if (!M.client && !M.disconnect_time) //CHOMPEdit Addition
@@ -479,9 +479,9 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			continue
 		moblist.Add(M)
 	for(var/mob/observer/dead/M in sortmob)
-		moblist.Add(M)
+		moblist += M
 	for(var/mob/new_player/M in sortmob)
-		moblist.Add(M)
+		moblist += M
 	for(var/mob/living/simple_mob/M in sortmob)
 		if (!M.client && !M.disconnect_time) //CHOMPEdit Addition
 			after_simplemob_minded.Add(M)
@@ -491,13 +491,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	after_simplemob_minded.Cut()
 	//VOREStation Addition Start
 	for(var/mob/living/dominated_brain/M in sortmob)
-		moblist.Add(M)
-	//VOREStation Addition End
-
-//	for(var/mob/living/silicon/hivebot/M in sortmob)
-//		mob_list.Add(M)
-//	for(var/mob/living/silicon/hive_mainframe/M in sortmob)
-//		mob_list.Add(M)
+		moblist += M
 	return moblist
 
 /proc/observe_list_format(input_list)
@@ -787,7 +781,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 					if(istype(T,/turf/simulated/shuttle))
 						shuttlework = 1
 						var/turf/simulated/shuttle/SS = T
-						if(!SS.landed_holder) SS.landed_holder = new(turf = SS)
+						if(!SS.landed_holder) SS.landed_holder = new(SS)
 						X = SS.landed_holder.land_on(B)
 
 					//Generic non-shuttle turf move.
@@ -861,22 +855,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	else
 		O=new original.type(locate(0,0,0))
 
-	var/static/list/blacklisted_var_names = list(
-		"ATOM_TOPIC_EXAMINE",
-		"type",
-		"loc",
-		"locs",
-		"vars",
-		"parent",
-		"parent_type",
-		"verbs",
-		"ckey",
-		"key",
-		"_active_timers", // ChompEDIT - blacklist timers
-		"_datum_components", // ChompEDIT - blacklist DCS
-		"_listen_lookup",  // ChompEDIT - blacklist signal listeners
-		"_signal_procs" // ChompEDIT - blacklist signal procs
-	)
+	var/static/list/blacklisted_var_names = list(BLACKLISTED_COPY_VARS)
 	if(perfectcopy)
 		if((O) && (original))
 			for(var/V in original.vars)
@@ -1029,25 +1008,25 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 /proc/get_mob_with_client_list()
 	var/list/mobs = list()
-	for(var/mob/M in mob_list)
+	for(var/mob/M in GLOB.mob_list)
 		if (M.client)
 			mobs += M
 	return mobs
 
 
 /proc/parse_zone(zone)
-	if(zone == "r_hand") return "right hand"
-	else if (zone == "l_hand") return "left hand"
-	else if (zone == "l_arm") return "left arm"
-	else if (zone == "r_arm") return "right arm"
-	else if (zone == "l_leg") return "left leg"
-	else if (zone == "r_leg") return "right leg"
-	else if (zone == "l_foot") return "left foot"
-	else if (zone == "r_foot") return "right foot"
-	else if (zone == "l_hand") return "left hand"
-	else if (zone == "r_hand") return "right hand"
-	else if (zone == "l_foot") return "left foot"
-	else if (zone == "r_foot") return "right foot"
+	if(zone == BP_R_HAND) return "right hand"
+	else if (zone == BP_L_HAND) return "left hand"
+	else if (zone == BP_L_ARM) return "left arm"
+	else if (zone == BP_R_ARM) return "right arm"
+	else if (zone == BP_L_LEG) return "left leg"
+	else if (zone == BP_R_LEG) return "right leg"
+	else if (zone == BP_L_FOOT) return "left foot"
+	else if (zone == BP_R_FOOT) return "right foot"
+	else if (zone == BP_L_HAND) return "left hand"
+	else if (zone == BP_R_HAND) return "right hand"
+	else if (zone == BP_L_FOOT) return "left foot"
+	else if (zone == BP_R_FOOT) return "right foot"
 	else return zone
 
 /proc/get(atom/loc, type)
@@ -1062,7 +1041,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 
 //Quick type checks for some tools
-var/global/list/common_tools = list(
+GLOBAL_LIST_INIT(common_tools, list(
 /obj/item/stack/cable_coil,
 /obj/item/tool/wrench,
 /obj/item/weldingtool,
@@ -1070,10 +1049,10 @@ var/global/list/common_tools = list(
 /obj/item/tool/wirecutters,
 /obj/item/multitool,
 /obj/item/tool/crowbar,
-/obj/item/tool/transforming)
+/obj/item/tool/transforming))
 
 /proc/istool(O)
-	if(O && is_type_in_list(O, common_tools))
+	if(O && is_type_in_list(O, GLOB.common_tools))
 		return 1
 	return 0
 
@@ -1158,13 +1137,10 @@ var/global/list/common_tools = list(
 // check if mob is lying down on something we can operate him on.
 // The RNG with table/rollerbeds comes into play in do_surgery() so that fail_step() can be used instead.
 /proc/can_operate(mob/living/carbon/M, mob/living/user)
-	. = M.lying
-
-	if(user && M == user && user.allow_self_surgery && user.a_intent == I_HELP)	// You can, technically, always operate on yourself after standing still. Inadvised, but you can.
-
-		if(!M.isSynthetic())
-			. = TRUE
-
+	if(M != user)
+		. = M.lying
+	else if(user && user.allow_self_surgery && user.a_intent == I_HELP)    // You can, technically, always operate on yourself after standing still. Inadvised, but you can.
+		. = TRUE
 	return .
 
 // Returns an instance of a valid surgery surface.
@@ -1179,8 +1155,8 @@ var/global/list/common_tools = list(
 	if(surface)
 		return surface
 
-/proc/reverse_direction(var/dir)
-	return global.reverse_dir[dir]
+/proc/reverse_direction(dir)
+	return GLOB.reverse_dir[dir]
 
 /*
 Checks if that loc and dir has a item on the wall
@@ -1254,7 +1230,7 @@ var/list/WALLITEMS = list(
 	var/color = hex ? hex : "#[num2hex(red, 2)][num2hex(green, 2)][num2hex(blue, 2)]"
 	return "<span style='font-face: fixedsys; font-size: 14px; background-color: [color]; color: [color]'>___</span>"
 
-var/mob/dview/dview_mob = new
+var/mob/dview/dview_mob
 
 //Version of view() which ignores darkness, because BYOND doesn't have it.
 /proc/dview(var/range = world.view, var/center, var/invis_flags = 0)
@@ -1262,7 +1238,6 @@ var/mob/dview/dview_mob = new
 		return
 	if(!dview_mob) //VOREStation Add: Debugging
 		dview_mob = new
-		log_error("Had to recreate the dview mob!")
 
 	dview_mob.loc = center
 
@@ -1272,7 +1247,7 @@ var/mob/dview/dview_mob = new
 	dview_mob.loc = null
 
 /mob/dview
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	density = FALSE
 
 	anchored = TRUE
@@ -1288,16 +1263,16 @@ var/mob/dview/dview_mob = new
 /mob/dview/Initialize(mapload)
 	. = ..()
 	// We don't want to be in any mob lists; we're a dummy not a mob.
-	mob_list -= src
+	GLOB.mob_list -= src
 	if(stat == DEAD)
-		dead_mob_list -= src
+		GLOB.dead_mob_list -= src
 	else
-		living_mob_list -= src
+		GLOB.living_mob_list -= src
 
 /mob/dview/Life()
-	mob_list -= src
-	dead_mob_list -= src
-	living_mob_list -= src
+	GLOB.mob_list -= src
+	GLOB.dead_mob_list -= src
+	GLOB.living_mob_list -= src
 
 /mob/dview/Destroy(var/force)
 	stack_trace("Attempt to delete the dview_mob: [log_info_line(src)]")
@@ -1482,7 +1457,7 @@ var/mob/dview/dview_mob = new
 	return pre_generated_list
 
 /proc/filter_fancy_list(list/L, filter as text)
-	var/list/matches = new
+	var/list/matches = list()
 	for(var/key in L)
 		var/value = L[key]
 		if(findtext("[key]", filter) || findtext("[value]", filter))

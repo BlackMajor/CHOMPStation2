@@ -31,6 +31,8 @@
 	var/image/cloaked_selfimage //The image we use for our client to let them see where we are
 	var/belly_cycles = 0 // Counting current belly process cycles for autotransfer.
 	var/autotransferable = TRUE // Toggle for autotransfer mechanics.
+	var/recursive_listeners
+	var/listening_recursive = NON_LISTENING_ATOM
 
 /atom/movable/Initialize(mapload)
 	. = ..()
@@ -57,6 +59,9 @@
 			AddComponent(/datum/component/overlay_lighting, starts_on = light_on)
 		if(MOVABLE_LIGHT_DIRECTIONAL)
 			AddComponent(/datum/component/overlay_lighting, is_directional = TRUE, starts_on = light_on)
+	if (listening_recursive)
+		set_listening(listening_recursive)
+
 
 /atom/movable/Destroy()
 	if(em_block)
@@ -84,12 +89,8 @@
 
 	if(orbiting)
 		stop_orbit()
-	QDEL_NULL(riding_datum) //VOREStation Add
-
-/atom/movable/vv_edit_var(var_name, var_value)
-	if(var_name in GLOB.VVpixelmovement)			//Pixel movement is not yet implemented, changing this will break everything irreversibly.
-		return FALSE
-	return ..()
+	QDEL_NULL(riding_datum)
+	set_listening(NON_LISTENING_ATOM)
 
 ////////////////////////////////////////
 /atom/movable/Move(atom/newloc, direct = 0, movetime)
@@ -107,7 +108,7 @@
 	if(loc != newloc)
 		if(!direct)
 			direct = get_dir(oldloc, newloc)
-		if (IS_CARDINAL(direct)) //Cardinal move
+		if (IS_CARDINAL(direct)) //GLOB.cardinal move
 			// Track our failure if any in this value
 			. = TRUE
 
@@ -167,7 +168,7 @@
 			else if(. && newloc)
 				. = doMove(newloc)
 
-		//Diagonal move, split it into cardinal moves
+		//Diagonal move, split it into GLOB.cardinal moves
 		else
 			moving_diagonally = FIRST_DIAG_STEP
 			var/first_step_dir
@@ -175,7 +176,7 @@
 			// place due to a Crossed, Bumped, etc. call will interrupt
 			// the second half of the diagonal movement, or the second attempt
 			// at a first half if step() fails because we hit something.
-			glide_for(movetime * SQRT_2) //CHOMPEDIT - proper diagonal movement
+			glide_for(movetime * SQRT_2)
 			if (direct & NORTH)
 				if (direct & EAST)
 					if (step(src, NORTH) && moving_diagonally)
@@ -247,8 +248,6 @@
 		riding_datum.handle_vehicle_offsets()
 	for (var/datum/light_source/light as anything in light_sources) // Cycle through the light sources on this atom and tell them to update.
 		light.source_atom.update_light()
-
-	//SEND_SIGNAL(src, COMSIG_MOVABLE_MOVED, old_loc, direction) CHOMPEdit - Why was this comsig here twice?
 
 	return TRUE
 
@@ -657,6 +656,7 @@
 	return
 
 /atom/movable/proc/emblocker_gc(var/datum/source)
+	SIGNAL_HANDLER
 	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
 	cut_overlay(source)
 	if(em_block == source)
@@ -674,3 +674,93 @@
 
 /atom/movable/proc/exit_belly(obj/belly/B)
 	return
+
+/atom/movable/proc/set_listening(var/set_to)
+	if (listening_recursive && !set_to)
+		LAZYREMOVE(recursive_listeners, src)
+		if (!LAZYLEN(recursive_listeners))
+			for (var/atom/movable/location as anything in get_nested_locs(src))
+				LAZYREMOVE(location.recursive_listeners, src)
+	if (!listening_recursive && set_to)
+		LAZYOR(recursive_listeners, src)
+		for (var/atom/movable/location as anything in get_nested_locs(src))
+			LAZYOR(location.recursive_listeners, src)
+	listening_recursive = set_to
+
+///Returns a list of all locations (except the area) the movable is within.
+/proc/get_nested_locs(atom/movable/atom_on_location, include_turf = FALSE)
+	. = list()
+	var/atom/location = atom_on_location.loc
+	var/turf/our_turf = get_turf(atom_on_location)
+	while(location && location != our_turf)
+		. += location
+		location = location.loc
+	if(our_turf && include_turf) //At this point, only the turf is left, provided it exists.
+		. += our_turf
+
+/atom/movable/Exited(atom/movable/gone, atom/new_loc)
+	. = ..()
+
+	if (!LAZYLEN(gone.recursive_listeners))
+		return
+	for (var/atom/movable/location as anything in get_nested_locs(src)|src)
+		LAZYREMOVE(location.recursive_listeners, gone.recursive_listeners)
+
+/atom/movable/Entered(atom/movable/arrived, atom/old_loc)
+	. = ..()
+
+	if (!LAZYLEN(arrived.recursive_listeners))
+		return
+	for (var/atom/movable/location as anything in get_nested_locs(src)|src)
+		LAZYOR(location.recursive_listeners, arrived.recursive_listeners)
+
+/atom/movable/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
+	return
+
+/atom/movable/proc/Bump_vr(var/atom/A, yes)
+	return
+
+/atom/movable/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION("", "---------")
+	//VV_DROPDOWN_OPTION(VV_HK_OBSERVE_FOLLOW, "Observe Follow")
+	VV_DROPDOWN_OPTION(VV_HK_GET_MOVABLE, "Get Movable")
+	VV_DROPDOWN_OPTION(VV_HK_EDIT_PARTICLES, "Edit Particles")
+	//VV_DROPDOWN_OPTION(VV_HK_DEADCHAT_PLAYS, "Start/Stop Deadchat Plays")
+	//VV_DROPDOWN_OPTION(VV_HK_ADD_FANTASY_AFFIX, "Add Fantasy Affix")
+
+/atom/movable/vv_do_topic(list/href_list)
+	. = ..()
+
+	if(!.)
+		return
+
+	//if(href_list[VV_HK_OBSERVE_FOLLOW])
+	//	if(!check_rights(R_ADMIN))
+	//		return
+	//	usr.client?.admin_follow(src)
+
+	if(href_list[VV_HK_GET_MOVABLE])
+		if(!check_rights(R_ADMIN))
+			return
+		if(QDELETED(src))
+			return
+		forceMove(get_turf(usr))
+
+	if(href_list[VV_HK_EDIT_PARTICLES] && check_rights(R_VAREDIT))
+		var/client/C = usr.client
+		C?.open_particle_editor(src)
+
+	//if(href_list[VV_HK_DEADCHAT_PLAYS] && check_rights(R_FUN))
+	//	if(tgui_alert(usr, "Allow deadchat to control [src] via chat commands?", "Deadchat Plays [src]", list("Allow", "Cancel")) != "Allow")
+	//		return
+	//	// Alert is async, so quick sanity check to make sure we should still be doing this.
+	//	if(QDELETED(src))
+	//		return
+	//	// This should never happen, but if it does it should not be silent.
+	//	if(deadchat_plays() == COMPONENT_INCOMPATIBLE)
+	//		to_chat(usr, span_warning("Deadchat control not compatible with [src]."))
+	//		CRASH("deadchat_control component incompatible with object of type: [type]")
+	//	to_chat(usr, span_notice("Deadchat now control [src]."))
+	//	log_admin("[key_name(usr)] has added deadchat control to [src]")
+	//	message_admins(span_notice("[key_name(usr)] has added deadchat control to [src]"))

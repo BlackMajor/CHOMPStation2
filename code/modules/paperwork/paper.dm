@@ -186,7 +186,7 @@
 		icon_state = "scrap"
 		return
 	user.examinate(src)
-	if(rigged && (Holiday == "April Fool's Day"))
+	if(rigged && (GLOB.Holiday == "April Fool's Day"))
 		if(spam_flag == 0)
 			spam_flag = 1
 			playsound(src, 'sound/items/bikehorn.ogg', 50, 1)
@@ -219,32 +219,32 @@
 			var/mob/living/carbon/human/H = M
 			if(H == user)
 				if(icon_state == "scrap" && H.check_has_mouth()) //YW Edit Start
-					user << span_warning("You begin to stuff \the [src] into your mouth!")
+					to_chat(user, span_warning("You begin to stuff \the [src] into your mouth!"))
 					if(do_after(user, 30))
-						user << span_warning("You stuff \the [src] into your mouth!")
+						to_chat(user, span_warning("You stuff \the [src] into your mouth!"))
 						H.ingested.add_reagent("paper", 10)
 						H.adjustOxyLoss(10)
 						qdel(src)
 				else
-					user << span_notice("You wipe off the lipstick with [src].")
+					to_chat(user, span_notice("You wipe off the lipstick with [src]."))
 					H.lip_style = null
 					H.update_icons_body()
 			else
 				if(icon_state == "scrap" && H.check_has_mouth())
 					user.visible_message(span_warning("[user] begins to stuff \the [src] into [H]'s mouth!"), \
-										 span_warning("You begin to stuff \the [src] into [H]'s mouth!"),)
+											span_warning("You begin to stuff \the [src] into [H]'s mouth!"),)
 					if(do_after(user, 30, H))
 						user.visible_message(span_warning("[user] stuffs \the [src] into [H]'s mouth!"),\
-											 span_warning("You stuff \the [src] into [H]'s mouth!"))
+												span_warning("You stuff \the [src] into [H]'s mouth!"))
 						H.ingested.add_reagent("paper", 10)
 						H.adjustOxyLoss(10)
 						qdel(src)
 				else
 					user.visible_message(span_warning("[user] begins to wipe [H]'s lipstick off with \the [src]."), \
-								 	 span_notice("You begin to wipe off [H]'s lipstick."))
+											span_notice("You begin to wipe off [H]'s lipstick."))
 					if(do_after(user, 10, H))
 						user.visible_message(span_notice("[user] wipes [H]'s lipstick off with \the [src]."), \
-										 span_notice("You wipe off [H]'s lipstick."))
+												span_notice("You wipe off [H]'s lipstick."))
 						H.lip_style = null
 						H.update_icons_body() //YW Edit End
 
@@ -357,15 +357,13 @@
 		t = replacetext(t, "\[grid\]", "<table>")
 		t = replacetext(t, "\[/grid\]", "</td></tr></table>")
 		t = replacetext(t, "\[row\]", "</td><tr>")
-		t = replacetext(t, "\[/row\]", "") //CHOMPEDIT: nuking closing statements for rows.
+		t = replacetext(t, "\[/row\]", "")
 		t = replacetext(t, "\[cell\]", "<td>")
-		t = replacetext(t, "\[/cell\]", "") //CHOMPEDIT: nuking closing statements for cells.
-		 //CHOMPEdit Start
-		t = replacetext(t, "\[logo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/ntlogo.png>")
-		t = replacetext(t, "\[sglogo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/sglogo.png>")
-		t = replacetext(t, "\[trlogo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/trader.png>")
-		t = replacetext(t, "\[pclogo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/pclogo.png>")
-		//CHOMPEdit End
+		t = replacetext(t, "\[/cell\]", "")
+		t = replacetext(t, "\[logo\]", "<img src=\ref['html/images/ntlogo.png']>")
+		t = replacetext(t, "\[sglogo\]", "<img src=\ref['html/images/sglogo.png']>")
+		t = replacetext(t, "\[trlogo\]", "<img src=\ref['html/images/trader.png']>")
+		t = replacetext(t, "\[pclogo\]", "<img src=\ref['html/images/pclogo.png']>") // Not available on virgo // CHOMPEnable
 
 		t = "<font face=\"[deffont]\" color=[P ? P.colour : "black"]>[t]</font>"
 	else // If it is a crayon, and he still tries to use these, make them empty!
@@ -379,8 +377,8 @@
 		t = replacetext(t, "\[/table\]", "")
 		t = replacetext(t, "\[row\]", "")
 		t = replacetext(t, "\[cell\]", "")
-		t = replacetext(t, "\[/cell\]", "") //CHOMPEDIT: nuking closing statements for cells.
-		t = replacetext(t, "\[/row\]", "") //CHOMPEDIT: nuking closing statements for rows.
+		t = replacetext(t, "\[/cell\]", "")
+		t = replacetext(t, "\[/row\]", "")
 		t = replacetext(t, "\[logo\]", "")
 		t = replacetext(t, "\[sglogo\]", "")
 
@@ -402,7 +400,7 @@
 
 /obj/item/paper/proc/burnpaper(obj/item/flame/P, mob/user)
 	var/class = "warning"
-	var/datum/gender/TU = gender_datums[user.get_visible_gender()]
+	var/datum/gender/TU = GLOB.gender_datums[user.get_visible_gender()]
 
 	if(P.lit && !user.restrained())
 		if(istype(P, /obj/item/flame/lighter/zippo))
@@ -722,3 +720,7 @@
 /obj/item/paper/manifest
 	name = "supply manifest"
 	var/is_copy = 1
+
+/obj/item/paper/manifest/Initialize(mapload, text, title)
+	. = ..()
+	AddElement(/datum/element/sellable/manifest)

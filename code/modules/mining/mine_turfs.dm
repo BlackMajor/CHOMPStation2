@@ -178,7 +178,6 @@ var/list/mining_overlay_cache = list()
 	update_general()
 
 /turf/simulated/mineral/proc/update_general()
-	update_icon(1)
 	recalculate_directional_opacity()
 	if(ticker && ticker.current_state == GAME_STATE_PLAYING)
 		reconsider_lights()
@@ -212,19 +211,18 @@ var/list/mining_overlay_cache = list()
 		make_ore()
 	if(prob(20))
 		overlay_detail = "asteroid[rand(0,9)]"
-	update_icon(1)
+	update_icon(!mapload)
 	if(density && mineral)
 		. = INITIALIZE_HINT_LATELOAD
 	if(random_icon)
-		dir = pick(alldirs)
+		dir = pick(GLOB.alldirs)
 		. = INITIALIZE_HINT_LATELOAD
 
 /turf/simulated/mineral/LateInitialize()
 	if(density && mineral)
 		MineralSpread()
 
-/turf/simulated/mineral/update_icon(var/update_neighbors)
-
+/turf/simulated/mineral/update_icon(var/update_neighbors, ignore_list)
 	cut_overlays()
 
 	//We are a wall (why does this system work like this??)
@@ -238,9 +236,9 @@ var/list/mining_overlay_cache = list()
 		icon_state = rock_icon_state
 
 		//Apply overlays if we should have borders
-		for(var/direction in cardinal)
+		for(var/direction in GLOB.cardinal)
 			var/turf/T = get_step(src,direction)
-			if(istype(T) && !T.density)
+			if(T && !T.density)
 				add_overlay(get_cached_border(rock_side_icon_state,direction,icon,rock_side_icon_state))
 
 			if(archaeo_overlay)
@@ -259,27 +257,30 @@ var/list/mining_overlay_cache = list()
 			add_overlay("dug_overlay")
 
 		//Apply overlays if there's space
-		for(var/direction in cardinal)
-			if(istype(get_step(src, direction), /turf/space) && !istype(get_step(src, direction), /turf/space/cracked_asteroid))
+		for(var/direction in GLOB.cardinal)
+			var/turf/T = get_step(src, direction)
+			if(istype(T, /turf/space) && !istype(T, /turf/space/cracked_asteroid))
 				add_overlay(get_cached_border("asteroid_edge",direction,icon,"asteroid_edges", 0))
-
 			//Or any time
 			else
-				var/turf/T = get_step(src, direction)
-				if(istype(T) && T.density)
+				if(T?.density)
 					add_overlay(get_cached_border(rock_side_icon_state,direction,rock_icon_path,rock_side_icon_state))
 
 		if(overlay_detail)
 			add_overlay(overlay_detail_icon_path,overlay_detail)
 
 		if(update_neighbors)
-			for(var/direction in alldirs)
-				if(istype(get_step(src, direction), /turf/simulated/mineral))
-					var/turf/simulated/mineral/M = get_step(src, direction)
-					M.update_icon()
-				if(istype(get_step(src, direction), /turf/simulated/wall/solidrock))
-					var/turf/simulated/wall/solidrock/M = get_step(src, direction)
-					M.update_icon()
+			for(var/direction in GLOB.alldirs)
+				var/turf/T = get_step(src, direction)
+				// don't double update during cave generation
+				if(LAZYACCESS(ignore_list, T))
+					continue
+
+				if(ismineralturf(T))
+					T.update_icon()
+
+				if(istype(T, /turf/simulated/wall/solidrock))
+					T.update_icon()
 
 /turf/simulated/mineral/ex_act(severity)
 
@@ -345,7 +346,7 @@ var/list/mining_overlay_cache = list()
 
 /turf/simulated/mineral/proc/MineralSpread()
 	if(mineral && mineral.spread)
-		for(var/trydir in cardinal)
+		for(var/trydir in GLOB.cardinal)
 			if(prob(mineral.spread_chance))
 				var/turf/simulated/mineral/target_turf = get_step(src, trydir)
 				if(istype(target_turf) && target_turf.density && !target_turf.mineral)
@@ -417,7 +418,7 @@ var/list/mining_overlay_cache = list()
 			var/obj/item/stack/tile/floor/S = W
 			if (S.get_amount() < 1)
 				return
-			playsound(src, 'sound/weapons/Genhit.ogg', 50, 1)
+			playsound(src, 'sound/weapons/genhit.ogg', 50, 1)
 			ChangeTurf(/turf/simulated/floor)
 			S.use(1)
 			return
@@ -653,14 +654,14 @@ var/list/mining_overlay_cache = list()
 		var/pain = 0
 		if(prob(50))
 			pain = 1
-		for(var/mob/living/M in range(src, 200))
+		for(var/mob/living/M in range(src, 5)) //Let's only hit people nearby us.
 			to_chat(M, span_danger("[pick("A high-pitched [pick("keening","wailing","whistle")]","A rumbling noise like [pick("thunder","heavy machinery")]")] somehow penetrates your mind before fading away!"))
 			if(pain)
 				flick("pain",M.pain)
 			M.flash_eyes()
 			if(prob(50))
 				M.Stun(5)
-			M.make_jittery(1000) //SHAKY
+			M.make_jittery(50) //SHAKY this used to be 1000(seizure) but I toned it to 50 to be less aggressive.
 		if(prob(25))
 			excavate_find(prob(25), finds[1])
 	else if(rand(1,500) == 1)
@@ -678,7 +679,7 @@ var/list/mining_overlay_cache = list()
 	if(is_clean)
 		X = new /obj/item/archaeological_find(src, F.find_type)
 	else
-		X = new /obj/item/strangerock(src, inside_item_type = F.find_type)
+		X = new /obj/item/strangerock(src, F.find_type)
 		geologic_data.UpdateNearbyArtifactInfo(src)
 		var/obj/item/strangerock/SR = X
 		SR.geologic_data = geologic_data

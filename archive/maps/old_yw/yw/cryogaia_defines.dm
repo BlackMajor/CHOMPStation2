@@ -44,8 +44,8 @@
 	overmap_event_areas = 10
 
 	usable_email_tlds = list("cryogaia.nt")
-	lobby_icon = 'icons/misc/title_yw.dmi'
-	lobby_screens = list("cryogaia")
+
+	lobby_screens = list('modular_chomp/html/lobby/cryogaia.webp')
 	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'
 
 	holomap_smoosh = list(list(
@@ -205,9 +205,9 @@
 	belter_docked_z = 		list(Z_LEVEL_CRYOGAIA_UPPER)
 	belter_transit_z =	 	list(Z_LEVEL_CRYOGAIA_MISC)
 	belter_belt_z = 		list(Z_LEVEL_ROGUEMINE_1,
-						 		 Z_LEVEL_ROGUEMINE_2,
-						 	 	 Z_LEVEL_ROGUEMINE_3,
-								 Z_LEVEL_ROGUEMINE_4)
+									Z_LEVEL_ROGUEMINE_2,
+									Z_LEVEL_ROGUEMINE_3,
+									Z_LEVEL_ROGUEMINE_4)
 
 	lateload_single_pick = list( //Gateway missions
 		list("Snow Outpost"),

@@ -1515,8 +1515,8 @@
 /obj/structure/sign/calendar/examine(mob/user)
 	. = ..()
 	. += "The calendar shows that the date is [stationdate2text()]."
-	if (Holiday.len)
-		. += "Today is " + span_bold(span_green("[english_list(Holiday)]")) + "."
+	if (GLOB.Holiday.len)
+		. += "Today is " + span_bold(span_green("[english_list(GLOB.Holiday)]")) + "."
 
 /obj/structure/sign/explosive
 	name = "\improper HIGH EXPLOSIVES sign"
@@ -1565,7 +1565,7 @@
 		return
 
 	var/placement_dir = get_dir(user, A)
-	if (!(placement_dir in cardinal))
+	if (!(placement_dir in GLOB.cardinal))
 		to_chat(user, span_warning("You must stand directly in front of the location you wish to place that on."))
 		return
 

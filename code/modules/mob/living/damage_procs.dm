@@ -9,7 +9,8 @@
 	standard 0 if fail
 */
 /mob/living/proc/apply_damage(var/damage = 0, var/damagetype = BRUTE, var/def_zone = null, var/blocked = 0, var/soaked = 0, var/sharp = FALSE, var/edge = FALSE, var/obj/used_weapon = null, var/projectile = 0)
-	if(Debug2)
+	SEND_SIGNAL(src, COMSIG_MOB_APPLY_DAMAGE, damage, damagetype, def_zone, blocked, soaked, sharp, edge, used_weapon, projectile)
+	if(GLOB.Debug2)
 		to_world_log("## DEBUG: apply_damage() was called on [src], with [damage] damage, and an armor value of [blocked].")
 	if(!damage || (blocked >= 100))
 		return 0
@@ -76,6 +77,7 @@
 			if(COLD_RESISTANCE in mutations)
 				damage = 0
 			adjustFireLoss(damage * blocked)
+			attempt_multishock(SHOCKFLAG_BURNDAMAGE)
 		if(SEARING)
 			apply_damage(round(damage / 3), BURN, def_zone, initial_blocked, soaked, sharp, edge, used_weapon)
 			apply_damage(round(damage / 3 * 2), BRUTE, def_zone, initial_blocked, soaked, sharp, edge, used_weapon)
@@ -122,6 +124,7 @@
 					emp_act(4)
 	flash_weak_pain()
 	updatehealth()
+	SEND_SIGNAL(src, COMSIG_MOB_AFTER_APPLY_DAMAGE, damage, damagetype, def_zone, blocked, soaked, sharp, edge, used_weapon, projectile)
 	return 1
 
 
@@ -140,7 +143,7 @@
 
 
 /mob/living/proc/apply_effect(var/effect = 0,var/effecttype = STUN, var/blocked = 0, var/check_protection = 1)
-	if(Debug2)
+	if(GLOB.Debug2)
 		to_world_log("## DEBUG: apply_effect() was called.  The type of effect is [effecttype].  Blocked by [blocked].")
 	if(!effect || (blocked >= 100))
 		return 0
@@ -175,6 +178,8 @@
 
 
 /mob/living/proc/apply_effects(var/stun = 0, var/weaken = 0, var/paralyze = 0, var/irradiate = 0, var/stutter = 0, var/eyeblur = 0, var/drowsy = 0, var/agony = 0, var/blocked = 0, var/ignite = 0, var/flammable = 0)
+	if(SEND_SIGNAL(src, COMSIG_TAKING_APPLY_EFFECT) & COMSIG_CANCEL_EFFECT)
+		return 0	// Cancelled by a component
 	if(blocked >= 100)
 		return 0
 	if(stun)		apply_effect(stun, STUN, blocked)

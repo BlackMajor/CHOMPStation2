@@ -54,8 +54,8 @@
 	say_list_type = /datum/say_list/softdog
 	swallowTime = 0.1 SECONDS
 
-/mob/living/simple_mob/vore/woof/New()
-	..()
+/mob/living/simple_mob/vore/woof/Initialize(mapload)
+	. = ..()
 
 	add_verb(src, /mob/living/proc/ventcrawl)
 	add_verb(src, /mob/living/proc/hide)
@@ -94,11 +94,7 @@
 	vore_default_item_mode = IM_DIGEST
 
 
-/mob/living/simple_mob/vore/woof/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
+/mob/living/simple_mob/vore/woof/load_default_bellies()
 	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"

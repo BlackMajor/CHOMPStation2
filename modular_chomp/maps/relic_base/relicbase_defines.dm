@@ -28,9 +28,8 @@
 	full_name = "NLS Relic Base"
 	path = "relicbase"
 
-	lobby_icon = 'icons/misc/splash_screen.dmi'
-	lobby_screens = list("thor") //CHOMPStation Edit TFF 24/12/19 - CHOMPStation image
-	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'	//CHOMPStation Edit 25/1/20 TFF - Job icons for off-duty/exploration
+	lobby_screens = list('modular_chomp/html/lobby/chompstation.webp')
+	id_hud_icons = 'icons/mob/hud_jobs_vr.dmi'
 
 	holomap_smoosh = list(list(
 		Z_LEVEL_UNDERGROUND,
@@ -307,28 +306,28 @@
 /* KSC 9/29/20 = No longer relevant code as we have nonencludian portals to jump between outpost,caves and wilderness
 //Teleport to Mine
 
-/obj/effect/step_trigger/teleporter/mine/to_mining/New()
-	..()
+/obj/effect/step_trigger/teleporter/mine/to_mining/Initialize(mapload)
+	. = ..()
 	teleport_x = src.x
 	teleport_y = 2
 	teleport_z = Z_LEVEL_SURFACE_MINE
 
-/obj/effect/step_trigger/teleporter/mine/from_mining/New()
-	..()
+/obj/effect/step_trigger/teleporter/mine/from_mining/Initialize(mapload)
+	. = ..()
 	teleport_x = src.x
 	teleport_y = world.maxy - 1
 	teleport_z = Z_LEVEL_SURFACE
 
 //Teleport to Wild
 
-/obj/effect/step_trigger/teleporter/wild/to_wild/New()
-	..()
+/obj/effect/step_trigger/teleporter/wild/to_wild/Initialize(mapload)
+	. = ..()
 	teleport_x = src.x
 	teleport_y = 2
 	teleport_z = Z_LEVEL_SURFACE_WILD
 
-/obj/effect/step_trigger/teleporter/wild/from_wild/New()
-	..()
+/obj/effect/step_trigger/teleporter/wild/from_wild/Initialize(mapload)
+	. = ..()
 	teleport_x = src.x
 	teleport_y = world.maxy - 1
 	teleport_z = Z_LEVEL_SURFACE_MINE

@@ -38,7 +38,6 @@
 	drop_sound = 'sound/items/drop/glass.ogg'
 	pickup_sound = 'sound/items/pickup/glass.ogg'
 
-
 /obj/item/reagent_containers/syringe/Initialize(mapload)
 	. = ..()
 	update_icon()
@@ -69,8 +68,7 @@
 	switch(mode)
 		if(SYRINGE_CAPPED)
 			mode = SYRINGE_DRAW
-			// to_chat(user,span_notice("You uncap the syringe."))
-			balloon_alert(user, "[src] uncapped") // CHOMPEdit - Changed to balloon_alert
+			balloon_alert(user, "[src] uncapped")
 		if(SYRINGE_DRAW)
 			mode = SYRINGE_INJECT
 		if(SYRINGE_INJECT)
@@ -85,6 +83,10 @@
 
 /obj/item/reagent_containers/syringe/attackby(obj/item/I as obj, mob/user as mob)
 	return
+
+/obj/item/reagent_containers/syringe/extrapolator_act(mob/living/user, obj/item/extrapolator/extrapolator, dry_run)
+	. = ..()
+	EXTRAPOLATOR_ACT_ADD_DISEASES(., viruses)
 
 /obj/item/reagent_containers/syringe/afterattack(obj/target, mob/user, proximity)
 	if(!proximity || !target.reagents)
@@ -165,7 +167,7 @@
 					to_chat(user, span_notice("[target] is empty."))
 					return
 
-				if(!target.is_open_container() && !istype(target, /obj/structure/reagent_dispensers) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/reagent_containers/food))
+				if(!target.is_open_container() && !istype(target, /obj/structure/reagent_dispensers) && !istype(target, /obj/item/slime_extract) && !istype(target, /obj/item/reagent_containers/food) && !istype(target, /obj/item/reagent_containers/blood))
 					to_chat(user, span_notice("You cannot directly remove reagents from this object."))
 					return
 
@@ -304,15 +306,13 @@
 
 			return
 
-		// user.visible_message(span_danger("[user] stabs [target] in \the [hit_area] with [src.name]!"))
-		balloon_alert_visible("stabs [target] in \the [hit_area] with [src.name]!") // CHOMPEdit - Changed to balloon alert
+		balloon_alert_visible("stabs [target] in \the [hit_area] with [src.name]!")
 
 		if(affecting.take_damage(3))
 			H.UpdateDamageIcon()
 
 	else
-		// user.visible_message(span_danger("[user] stabs [target] with [src.name]!"))
-		balloon_alert_visible("stabs [user] in \the [target] with [src.name]!") // CHOMPEdit - Changed to balloon alert
+		balloon_alert_visible("stabs [user] in \the [target] with [src.name]!")
 		target.take_organ_damage(3)// 7 is the same as crowbar punch
 
 
@@ -424,9 +424,9 @@
 	targets |= hash
 
 	//Grab any viruses they have
-	if(iscarbon(target) && LAZYLEN(target.viruses.len))
+	if(iscarbon(target) && LAZYLEN(target.IsInfected()))
 		LAZYINITLIST(viruses)
-		var/datum/disease/virus = pick(target.viruses.len)
+		var/datum/disease/virus = pick(target.IsInfected())
 		viruses[hash] = virus.Copy()
 
 	//Dirtiness should be very low if you're the first injectee. If you're spam-injecting 4 people in a row around you though,
@@ -494,6 +494,17 @@
 
 	icon_state = "[rounded_vol]"
 	item_state = "syringe_[rounded_vol]"
+
+/obj/item/reagent_containers/syringe/old
+	name = "old syringe"
+	desc = "An old, broken syringe. Are you sure it's a good idea to pick it up without gloves?"
+	mode = SYRINGE_BROKEN
+
+/obj/item/reagent_containers/syringe/old/Initialize(mapload)
+	. = ..()
+	if(prob(75))
+		var/datum/disease/advance/new_disease = new /datum/disease/advance/random(rand(1, 3), rand(7, 9), 2, infected = src)
+		src.viruses += new_disease
 
 #undef SYRINGE_DRAW
 #undef SYRINGE_INJECT

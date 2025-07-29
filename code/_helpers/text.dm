@@ -8,6 +8,7 @@
  *			Misc
  */
 
+GLOBAL_LIST_INIT(alphabet_upper, list("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"))
 
 /*
  * SQL sanitization
@@ -422,9 +423,9 @@ GLOBAL_LIST_EMPTY(text_tag_cache)
 	t = replacetext(t, "\[/grid\]", "</td></tr></table>")
 	t = replacetext(t, "\[row\]", "</td><tr>")
 	t = replacetext(t, "\[cell\]", "<td>")
-	t = replacetext(t, "\[logo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/ntlogo.png>") //CHOMPEdit
-	t = replacetext(t, "\[redlogo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/redntlogo.png>") //CHOMPEdit
-	t = replacetext(t, "\[sglogo\]", "<img src = https://raw.githubusercontent.com/CHOMPStation2/CHOMPStation2/master/html/images/sglogo.png>") //CHOMPEdit
+	t = replacetext(t, "\[logo\]", "<img src=\ref['html/images/ntlogo.png']")
+	t = replacetext(t, "\[redlogo\]", "<img src=\ref['html/images/redntlogo.png']>")
+	t = replacetext(t, "\[sglogo\]", "<img src=\ref['html/images/sglogo.png']")
 	t = replacetext(t, "\[editorbr\]", "")
 	return t
 
@@ -472,9 +473,9 @@ GLOBAL_LIST_EMPTY(text_tag_cache)
 	t = replacetext(t, "</table>", "\[/grid\]")
 	t = replacetext(t, "<tr>", "\[row\]")
 	t = replacetext(t, "<td>", "\[cell\]")
-	t = replacetext(t, "<img src = ntlogo.png>", "\[logo\]")
-	t = replacetext(t, "<img src = redntlogo.png>", "\[redlogo\]")
-	t = replacetext(t, "<img src = sglogo.png>", "\[sglogo\]")
+	t = replacetext(t, "<img src=\ref['html/images/ntlogo.png']>", "\[logo\]")
+	t = replacetext(t, "<img src=\ref['html/images/redntlogo.png']>", "\[redlogo\]")
+	t = replacetext(t, "<img src=\ref['html/images/sglogo.png']>", "\[sglogo\]")
 	t = replacetext(t, "<span class=\"paper_field\"></span>", "\[field\]")
 	t = replacetext(t, "<span class=\"redacted\">R E D A C T E D</span>", "\[redacted\]")
 	t = strip_html_properly(t)
@@ -631,6 +632,18 @@ GLOBAL_LIST_EMPTY(text_tag_cache)
 /proc/sanitize_css_class_name(name)
 	var/static/regex/regex = new(@"[^a-zA-Z0-9]","g")
 	return replacetext(name, regex, "")
+
+/// Returns TRUE if the input_text ends with the ending
+/proc/endswith(input_text, ending)
+	var/input_length = LAZYLEN(ending)
+	return !!findtext(input_text, ending, -input_length)
+
+/// Returns TRUE if the input_text starts with any of the beginnings
+/proc/starts_with_any(input_text, list/beginnings)
+	for(var/beginning in beginnings)
+		if(!!findtext(input_text, beginning, 1, LAZYLEN(beginning)+1))
+			return TRUE
+	return FALSE
 
 //finds the first occurrence of one of the characters from needles argument inside haystack
 //it may appear this can be optimised, but it really can't. findtext() is so much faster than anything you can do in byondcode.

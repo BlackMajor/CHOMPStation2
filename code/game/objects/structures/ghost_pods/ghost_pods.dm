@@ -30,6 +30,7 @@
 	Q.query()
 
 /obj/structure/ghost_pod/proc/get_winner()
+	SIGNAL_HANDLER
 	busy = FALSE
 	var/deletion_candidate = FALSE
 	if(Q && Q.candidates.len) //Q should NEVER get deleted but...whatever, sanity.
@@ -50,10 +51,7 @@
 // Override this to create whatever mob you need. Be sure to call ..() if you don't want it to make infinite mobs.
 /obj/structure/ghost_pod/proc/create_occupant(var/mob/M)
 	used = TRUE
-	//VOREStation Addition Start
-	if(src in active_ghost_pods)
-		active_ghost_pods -= src
-	//VOREStation Addition End
+	GLOB.active_ghost_pods -= src
 	return TRUE
 
 

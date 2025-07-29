@@ -11,10 +11,7 @@
 	origin_tech = list(TECH_MAGNET = 2, TECH_BIO = 2, TECH_ILLEGAL = 1)
 	possessed_voice = list()
 	var/self_bind = FALSE
-
-/obj/item/mindbinder/New()
-	..()
-	flags |= NOBLUDGEON //So borgs don't spark.
+	flags = NOBLUDGEON
 
 /obj/item/mindbinder/attack(mob/living/M, mob/living/user)
 	usr.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
@@ -37,7 +34,7 @@
 /obj/item/mindbinder/pre_attack(atom/A)
 	if(istype(A, /obj/structure/gargoyle))
 		var/obj/structure/gargoyle/G = A
-		A = G.gargoyle
+		A = G.WR_gargoyle?.resolve()
 	if(istype(A, /obj/item/holder))
 		var/obj/item/holder/H = A
 		A = H.held_mob
@@ -119,7 +116,7 @@
 		to_chat(usr,span_warning("The device beeps a warning that the target is already sentient!"))
 		return
 
-	if(is_type_in_list(item, item_vore_blacklist))
+	if(is_type_in_list(item, GLOB.item_vore_blacklist))
 		to_chat(usr,span_danger("The item resists your transfer attempt!"))
 		return
 
@@ -153,7 +150,7 @@
 		to_chat(usr,span_warning("The device beeps a warning that there is already a mind loaded!"))
 		return
 
-	if(!target.mind || (target.mind.name in prevent_respawns))
+	if(!target.mind || (target.mind.name in GLOB.prevent_respawns))
 		to_chat(usr,span_warning("The device beeps a warning that the target isn't sentient."))
 		return
 

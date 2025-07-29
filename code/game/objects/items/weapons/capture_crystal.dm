@@ -44,7 +44,7 @@
 	if(user == owner && bound_mob)
 		. += span_notice("[bound_mob]'s crystal")
 		if(isanimal(bound_mob))
-			. += span_notice("[bound_mob.health / bound_mob.maxHealth * 100]%")
+			. += span_notice("[bound_mob.health / bound_mob.getMaxHealth() * 100]%")
 		if(bound_mob.ooc_notes)
 			. += span_deptradio("OOC Notes:") + " <a href='byond://?src=\ref[bound_mob];ooc_notes=1'>\[View\]</a> - <a href='byond://?src=\ref[src];print_ooc_notes_chat=1'>\[Print\]</a>"
 		. += span_deptradio("<a href='byond://?src=\ref[bound_mob];vore_prefs=1'>\[Mechanical Vore Preferences\]</a>")
@@ -275,10 +275,10 @@
 /obj/item/capture_crystal/proc/capture_chance(mob/living/M, user)
 	if(capture_chance_modifier >= 100)		//Master crystal always work
 		return 100
-	var/capture_chance = ((1 - (M.health / M.maxHealth)) * 100)	//Inverted health percent! 100% = 0%
+	var/capture_chance = ((1 - (M.health / M.getMaxHealth())) * 100)	//Inverted health percent! 100% = 0%
 	//So I don't know how this works but here's a kind of explanation
 	//Basic chance + ((Mob's max health - minimum calculated health) / (Max allowed health - Min allowed health)*(Chance at Max allowed health - Chance at minimum allowed health)
-	capture_chance += 35 + ((M.maxHealth - 5)/ (1000-5)*(-100 - 35))
+	capture_chance += 35 + ((M.getMaxHealth() - 5)/ (1000-5)*(-100 - 35))
 	//Basically! Mobs over 1000 max health will be unable to be caught without using status effects.
 	//Thanks Aronai!
 	var/effect_count = 0	//This will give you a smol chance to capture if you have applied status effects, even if the chance would ordinarily be <0
@@ -336,6 +336,7 @@
 
 //The clean up procs!
 /obj/item/capture_crystal/proc/mob_was_deleted()
+	SIGNAL_HANDLER
 	UnregisterSignal(bound_mob, COMSIG_PARENT_QDELETING)
 	UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
 	bound_mob.capture_caught = FALSE
@@ -346,6 +347,7 @@
 	update_icon()
 
 /obj/item/capture_crystal/proc/owner_was_deleted()
+	SIGNAL_HANDLER
 	UnregisterSignal(owner, COMSIG_PARENT_QDELETING)
 	owner = null
 	active = FALSE
@@ -474,8 +476,13 @@
 	var/image/coolanimation = image('icons/obj/capture_crystal_vr.dmi', null, "animation")
 	coolanimation.plane = PLANE_LIGHTING_ABOVE
 	thing.overlays += coolanimation
-	sleep(11)
+	addtimer(CALLBACK(src, PROC_REF(animate_action_finished),thing,coolanimation), 1.1 SECOND, TIMER_DELETE_ME)
+
+/obj/item/capture_crystal/proc/animate_action_finished(atom/thing,var/image/coolanimation)
+	SHOULD_NOT_OVERRIDE(TRUE)
+	PROTECTED_PROC(TRUE)
 	thing.overlays -= coolanimation
+	qdel(coolanimation)
 
 //IF the crystal somehow ends up in a tummy and digesting with a bound mob who doesn't want to be eaten, let's move them to the ground
 /obj/item/capture_crystal/digest_act(var/atom/movable/item_storage = null)

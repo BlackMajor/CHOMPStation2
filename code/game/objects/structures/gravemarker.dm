@@ -6,7 +6,6 @@
 	density = TRUE
 	anchored = TRUE
 	throwpass = 1
-	climbable = TRUE
 
 	layer = ABOVE_JUNK_LAYER
 
@@ -19,15 +18,15 @@
 
 	var/datum/material/material
 
-/obj/structure/gravemarker/New(var/newloc, var/material_name)
-	..(newloc)
+/obj/structure/gravemarker/Initialize(mapload, var/material_name)
+	. = ..()
 	if(!material_name)
 		material_name = MAT_WOOD
 	material = get_material_by_name("[material_name]")
 	if(!material)
-		qdel(src)
-		return
+		return INITIALIZE_HINT_QDEL
 	color = material.icon_colour
+	AddElement(/datum/element/climbable)
 
 /obj/structure/gravemarker/examine(mob/user)
 	. = ..()
@@ -39,7 +38,7 @@
 /obj/structure/gravemarker/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && mover.checkpass(PASSTABLE))
 		return TRUE
-	if(get_dir(mover, target) == reverse_dir[dir]) // From elsewhere to here, can't move against our dir
+	if(get_dir(mover, target) == GLOB.reverse_dir[dir]) // From elsewhere to here, can't move against our dir
 		return !density
 	return TRUE
 

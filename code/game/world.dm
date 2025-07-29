@@ -1,18 +1,20 @@
+#define RESTART_COUNTER_PATH "data/round_counter.txt"
+
+GLOBAL_VAR(restart_counter)
+
 #define RECOMMENDED_VERSION 513
 /world/New()
 	world_startup_time = world.timeofday
 	rollover_safety_date = world.realtime - world.timeofday // 00:00 today (ish, since floating point error with world.realtime) of today
 	to_world_log("Map Loading Complete")
 	//logs
-	//VOREStation Edit Start
-	log_path += time2text(world.realtime, "YYYY/MM-Month/DD-Day/round-hh-mm-ss")
-	diary = start_log("[log_path].log")
-	href_logfile = start_log("[log_path]-hrefs.htm")
-	error_log = start_log("[log_path]-error.log")
-	sql_error_log = start_log("[log_path]-sql-error.log")
-	query_debug_log = start_log("[log_path]-query-debug.log")
-	debug_log = start_log("[log_path]-debug.log")
-	//VOREStation Edit End
+	GLOB.log_directory += time2text(world.realtime, "YYYY/MM-Month/DD-Day/round-hh-mm-ss")
+	GLOB.diary = start_log("[GLOB.log_directory].log")
+	GLOB.href_logfile = start_log("[GLOB.log_directory]-hrefs.htm")
+	GLOB.error_log = start_log("[GLOB.log_directory]-error.log")
+	GLOB.sql_error_log = start_log("[GLOB.log_directory]-sql-error.log")
+	GLOB.query_debug_log = start_log("[GLOB.log_directory]-query-debug.log")
+	GLOB.debug_log = start_log("[GLOB.log_directory]-debug.log")
 
 	var/latest_changelog = file("[global.config.directory]/../html/changelogs_ch/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml") // CHOMPEdit - changelogs_ch
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : "" //for telling if the changelog has changed recently
@@ -26,13 +28,13 @@
 		F["title"] >> title //This is done twice on purpose. For some reason BYOND misses the first read, if performed before the world starts
 		var/body
 		F["body"] >> body
-		servernews_hash = md5("[title]" + "[body]")
+		GLOB.servernews_hash = md5("[title]" + "[body]")
 	//ChompADD End
 
 	if(byond_version < RECOMMENDED_VERSION)
 		to_world_log("Your server's byond version does not meet the recommended requirements for this server. Please update BYOND")
 
-	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_TRUSTED) // CHOMPEdit - tgs event handler
+	InitTgs()
 
 	config.Load(params[OVERRIDE_CONFIG_DIRECTORY_PARAMETER])
 
@@ -40,7 +42,6 @@
 
 	ConfigLoaded()
 	makeDatumRefLists()
-	VgsNew()
 
 	var servername = CONFIG_GET(string/servername)
 	if(config && servername != null && CONFIG_GET(flag/server_suffix) && world.port > 0)
@@ -103,6 +104,11 @@
 
 	return
 
+/// Initializes TGS and loads the returned revising info into GLOB.revdata
+/world/proc/InitTgs()
+	TgsNew(new /datum/tgs_event_handler/impl, TGS_SECURITY_TRUSTED)
+	GLOB.revdata.load_tgs_info()
+
 /// Runs after config is loaded but before Master is initialized
 /world/proc/ConfigLoaded()
 	// Everything in here is prioritized in a very specific way.
@@ -119,12 +125,15 @@
 		else //probably windows, if not this should work anyway
 			CONFIG_SET(string/python_path, "python")
 
+	if(fexists(RESTART_COUNTER_PATH))
+		GLOB.restart_counter = text2num(trim(file2text(RESTART_COUNTER_PATH)))
+		fdel(RESTART_COUNTER_PATH)
+
 var/world_topic_spam_protect_ip = "0.0.0.0"
 var/world_topic_spam_protect_time = world.timeofday
 
 /world/Topic(T, addr, master, key)
-	VGS_TOPIC // VOREStation Edit - VGS //CHOMP Edit swapped lines around
-	TGS_TOPIC //CHOMP Edit swapped lines around
+	TGS_TOPIC
 	log_topic("\"[T]\", from:[addr], master:[master], key:[key]")
 
 	if (T == "ping")
@@ -135,7 +144,7 @@ var/world_topic_spam_protect_time = world.timeofday
 
 	else if(T == "players")
 		var/n = 0
-		for(var/mob/M in player_list)
+		for(var/mob/M in GLOB.player_list)
 			if(M.client)
 				n++
 		return n
@@ -144,7 +153,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		var/input[] = params2list(T)
 		var/list/s = list()
 		s["version"] = GLOB.game_version
-		s["mode"] = master_mode
+		s["mode"] = GLOB.master_mode
 		s["respawn"] = CONFIG_GET(flag/abandon_allowed)
 		s["persistance"] = CONFIG_GET(flag/persistence_disabled)
 		s["enter"] = CONFIG_GET(flag/enter_allowed)
@@ -173,13 +182,13 @@ var/world_topic_spam_protect_time = world.timeofday
 					active++
 
 			s["players"] = players.len
-			s["playerlist"] = list2params(players)
+			//s["playerlist"] = list2params(players)
 			s["active_players"] = active
 			var/list/adm = get_admin_counts()
 			var/list/presentmins = adm["present"]
 			var/list/afkmins = adm["afk"]
 			s["admins"] = presentmins.len + afkmins.len //equivalent to the info gotten from adminwho
-			s["adminlist"] = list2params(admins)
+			//s["adminlist"] = list2params(admins)
 		else // Legacy.
 			var/n = 0
 			var/admins = 0
@@ -211,14 +220,14 @@ var/world_topic_spam_protect_time = world.timeofday
 				"bot" = SSjob.get_job_titles_in_department(DEPARTMENT_SYNTHETIC)
 			)
 
-		for(var/datum/data/record/t in data_core.general)
+		for(var/datum/data/record/t in GLOB.data_core.general)
 			var/name = t.fields["name"]
 			var/rank = t.fields["rank"]
 			var/real_rank = make_list_rank(t.fields["real_rank"])
 
 			var/department = 0
 			var/active = 0	//CHOMPStation Edit Begin
-			for(var/mob/M in player_list)
+			for(var/mob/M in GLOB.player_list)
 				if(M.real_name == name && M.client && M.client.inactivity <= 10 MINUTES)
 					active = 1
 					break
@@ -234,13 +243,13 @@ var/world_topic_spam_protect_time = world.timeofday
 					positions["misc"] = list()
 				positions["misc"][name] = list(rank,isactive)
 
-		for(var/datum/data/record/t in data_core.hidden_general)
+		for(var/datum/data/record/t in GLOB.data_core.hidden_general)
 			var/name = t.fields["name"]
 			var/rank = t.fields["rank"]
 			var/real_rank = make_list_rank(t.fields["real_rank"])
 
 			var/active = 0	//CHOMPStation Edit Begin
-			for(var/mob/M in player_list)
+			for(var/mob/M in GLOB.player_list)
 				if(M.real_name == name && M.client && M.client.inactivity <= 10 MINUTES)
 					active = 1
 					break
@@ -253,12 +262,12 @@ var/world_topic_spam_protect_time = world.timeofday
 				positions["off"][name] = list(rank,isactive)
 
 		// Synthetics don't have actual records, so we will pull them from here.
-		for(var/mob/living/silicon/ai/ai in mob_list)
+		for(var/mob/living/silicon/ai/ai in GLOB.mob_list)
 			var/isactive = (ai.client && ai.client.inactivity <= 10 MINUTES) ? "Active" : "Inactive"
 			if(!positions["bot"])
 				positions["bot"] = list()
 			positions["bot"][ai.name] = list("Artificial Intelligence",isactive)
-		for(var/mob/living/silicon/robot/robot in mob_list)
+		for(var/mob/living/silicon/robot/robot in GLOB.mob_list)
 			// No combat/syndicate cyborgs, no drones, and no AI shells.
 			var/isactive = (robot.client && robot.client.inactivity <= 10 MINUTES) ? "Active" : "Inactive"
 			if(robot.shell)
@@ -275,88 +284,10 @@ var/world_topic_spam_protect_time = world.timeofday
 		return list2params(positions)
 
 	else if(T == "revision")
-		if(GLOB.revdata.revision)
-			return list2params(list(branch = GLOB.revdata.branch, date = GLOB.revdata.date, revision = GLOB.revdata.revision))
+		if(GLOB.revdata.commit)
+			return list2params(list(testmerge = GLOB.revdata.testmerge, date = GLOB.revdata.date, commit = GLOB.revdata.commit, originmastercommit = GLOB.revdata.originmastercommit))
 		else
 			return "unknown"
-
-	else if(copytext(T,1,5) == "info")
-		var/input[] = params2list(T)
-		var/password = CONFIG_GET(string/comms_password)
-		if(!password || input["key"] != password)
-			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
-
-				spawn(50)
-					world_topic_spam_protect_time = world.time
-					return
-
-			world_topic_spam_protect_time = world.time
-			world_topic_spam_protect_ip = addr
-
-			return "Bad Key"
-
-		var/list/search = params2list(input["info"])
-		var/list/ckeysearch = list()
-		for(var/text in search)
-			ckeysearch += ckey(text)
-
-		var/list/match = list()
-
-		for(var/mob/M in mob_list)
-			var/strings = list(M.name, M.ckey)
-			if(M.mind)
-				strings += M.mind.assigned_role
-				strings += M.mind.special_role
-			for(var/text in strings)
-				if(ckey(text) in ckeysearch)
-					match[M] += 10 // an exact match is far better than a partial one
-				else
-					for(var/searchstr in search)
-						if(findtext(text, searchstr))
-							match[M] += 1
-
-		var/maxstrength = 0
-		for(var/mob/M in match)
-			maxstrength = max(match[M], maxstrength)
-		for(var/mob/M in match)
-			if(match[M] < maxstrength)
-				match -= M
-
-		if(!match.len)
-			return "No matches"
-		else if(match.len == 1)
-			var/mob/M = match[1]
-			var/info = list()
-			info["key"] = M.key
-			info["name"] = M.name == M.real_name ? M.name : "[M.name] ([M.real_name])"
-			info["role"] = M.mind ? (M.mind.assigned_role ? M.mind.assigned_role : "No role") : "No mind"
-			var/turf/MT = get_turf(M)
-			info["loc"] = M.loc ? "[M.loc]" : "null"
-			info["turf"] = MT ? "[MT] @ [MT.x], [MT.y], [MT.z]" : "null"
-			info["area"] = MT ? "[MT.loc]" : "null"
-			info["antag"] = M.mind ? (M.mind.special_role ? M.mind.special_role : "Not antag") : "No mind"
-			info["hasbeenrev"] = M.mind ? M.mind.has_been_rev : "No mind"
-			info["stat"] = M.stat
-			info["type"] = M.type
-			if(isliving(M))
-				var/mob/living/L = M
-				info["damage"] = list2params(list(
-							oxy = L.getOxyLoss(),
-							tox = L.getToxLoss(),
-							fire = L.getFireLoss(),
-							brute = L.getBruteLoss(),
-							clone = L.getCloneLoss(),
-							brain = L.getBrainLoss()
-						))
-			else
-				info["damage"] = "non-living"
-			info["gender"] = M.gender
-			return list2params(info)
-		else
-			var/list/ret = list()
-			for(var/mob/M in match)
-				ret[M.key] = M.name
-			return list2params(ret)
 
 	else if(copytext(T,1,9) == "adminmsg")
 		/*
@@ -413,50 +344,25 @@ var/world_topic_spam_protect_time = world.timeofday
 
 		return "Message Successful"
 
-	else if(copytext(T,1,6) == "notes")
-		/*
-			We got a request for notes from the IRC Bot
-			expected output:
-				1. notes = ckey of person the notes lookup is for
-				2. validationkey = the key the bot has, it should match the gameservers commspassword in it's configuration.
-		*/
-		var/input[] = params2list(T)
-		var/password = CONFIG_GET(string/comms_password)
-		if(!password || input["key"] != password)
-			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
-
-				spawn(50)
-					world_topic_spam_protect_time = world.time
-					return
-
-			world_topic_spam_protect_time = world.time
-			world_topic_spam_protect_ip = addr
-			return "Bad Key"
-
-		return show_player_info_irc(ckey(input["notes"]))
-
-	else if(copytext(T,1,4) == "age")
-		var/input[] = params2list(T)
-		var/password = CONFIG_GET(string/comms_password)
-		if(!password || input["key"] != password)
-			if(world_topic_spam_protect_ip == addr && abs(world_topic_spam_protect_time - world.time) < 50)
-				spawn(50)
-					world_topic_spam_protect_time = world.time
-					return
-
-			world_topic_spam_protect_time = world.time
-			world_topic_spam_protect_ip = addr
-			return "Bad Key"
-
-		var/age = get_player_age(input["age"])
-		if(isnum(age))
-			if(age >= 0)
-				return "[age]"
-			else
-				return "Ckey not found"
+/// Returns TRUE if the world should do a TGS hard reboot.
+/world/proc/check_hard_reboot()
+	if(!TgsAvailable())
+		return FALSE
+	// byond-tracy can't clean up itself, and thus we should always hard reboot if its enabled, to avoid an infinitely growing trace.
+	//if(Tracy?.enabled)
+	//	return TRUE
+	var/ruhr = CONFIG_GET(number/rounds_until_hard_restart)
+	switch(ruhr)
+		if(-1)
+			return FALSE
+		if(0)
+			return TRUE
 		else
-			return "Database connection failed or not set up"
-
+			if(GLOB.restart_counter >= ruhr)
+				return TRUE
+			else
+				text2file("[++GLOB.restart_counter]", RESTART_COUNTER_PATH)
+				return FALSE
 
 /world/Reboot(reason = 0, fast_track = FALSE)
 	/*spawn(0)
@@ -477,6 +383,14 @@ var/world_topic_spam_protect_time = world.timeofday
 			if(CONFIG_GET(string/server))	//if you set a server location in config.txt, it sends you there instead of trying to reconnect to the same world address. -- NeoFite
 				C << link("byond://[CONFIG_GET(string/server)]")
 
+	if(check_hard_reboot())
+		log_world("World hard rebooted at [time_stamp()]")
+		//shutdown_logging() // See comment below.
+		//QDEL_NULL(Tracy)
+		//QDEL_NULL(Debugger)
+		TgsEndProcess()
+		return ..()
+
 	TgsReboot()
 	log_world("World rebooted at [time_stamp()]")
 	..()
@@ -493,34 +407,16 @@ var/world_topic_spam_protect_time = world.timeofday
 	var/list/Lines = file2list("data/mode.txt")
 	if(Lines.len)
 		if(Lines[1])
-			master_mode = Lines[1]
-			log_misc("Saved mode is '[master_mode]'")
+			GLOB.master_mode = Lines[1]
+			log_misc("Saved mode is '[GLOB.master_mode]'")
 
 /world/proc/save_mode(var/the_mode)
 	var/F = file("data/mode.txt")
 	fdel(F)
 	F << the_mode
 
-
-/hook/startup/proc/loadMOTD()
-	world.load_motd()
-	return 1
-
-/world/proc/load_motd()
-	join_motd = file2text("config/motd.txt")
-
-/* Replaced with configuration controller
-/proc/load_configuration()
-	config = new /datum/configuration()
-	config.load("config/config.txt")
-	config.load("config/game_options.txt","game_options")
-	config.loadsql("config/dbconfig.txt")
-	config.loadforumsql("config/forumdbconfig.txt")
-*/
-
 /hook/startup/proc/loadMods()
 	world.load_mods()
-	world.load_mentors() // no need to write another hook.
 	return 1
 
 /world/proc/load_mods()
@@ -544,40 +440,6 @@ var/world_topic_spam_protect_time = world.timeofday
 				var/datum/admins/D = new /datum/admins(title, rights, ckey)
 				D.associate(GLOB.directory[ckey])
 
-/world/proc/load_mentors()
-	if(CONFIG_GET(flag/admin_legacy_system))
-		var/text = file2text("config/mentors.txt")
-		if (!text)
-			error("Failed to load config/mentors.txt")
-		else
-			var/list/lines = splittext(text, "\n")
-			for(var/line in lines)
-				if (!line)
-					continue
-				if (copytext(line, 1, 2) == ";")
-					continue
-
-				var/ckey = copytext(line, 1, length(line)+1)
-				var/datum/mentor/M = new /datum/mentor(ckey)
-				M.associate(GLOB.directory[ckey])
-	else
-		establish_db_connection()
-		if(!SSdbcore.IsConnected())
-			error("Failed to connect to database in load_mentors().")
-			log_misc("Failed to connect to database in load_mentors().")
-			return
-
-		var/datum/db_query/query = SSdbcore.NewQuery("SELECT ckey, mentor FROM erro_mentor")
-		query.Execute()
-		while(query.NextRow())
-			var/ckey = query.item[1]
-			var/mentor = query.item[2]
-
-			if(mentor)
-				var/datum/mentor/M = new /datum/mentor(ckey)
-				M.associate(GLOB.directory[ckey])
-		qdel(query)
-
 /world/proc/update_status()
 	var/s = ""
 
@@ -595,8 +457,8 @@ var/world_topic_spam_protect_time = world.timeofday
 	var/list/features = list()
 
 	if(ticker)
-		if(master_mode)
-			features += master_mode
+		if(GLOB.master_mode)
+			features += GLOB.master_mode
 	else
 		features += span_bold("STARTING")
 
@@ -616,7 +478,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		features += "AI allowed"
 
 	var/n = 0
-	for (var/mob/M in player_list)
+	for (var/mob/M in GLOB.player_list)
 		if (M.client)
 			n++
 
@@ -768,33 +630,6 @@ var/failed_old_db_connections = 0
 	else
 		. += "[world.address]:[world.port]"
 
-var/global/game_id = null
-
-/hook/startup/proc/generate_gameid()
-	if(game_id != null)
-		return
-	game_id = ""
-
-	var/list/c = list(
-		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-		"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-		"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-		"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-		"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
-		)
-	var/l = c.len
-
-	var/t = world.timeofday
-	for(var/_ = 1 to 4)
-		game_id = "[c[(t % l) + 1]][game_id]"
-		t = round(t / l)
-	game_id = "-[game_id]"
-	t = round(world.realtime / (10 * 60 * 60 * 24))
-	for(var/_ = 1 to 3)
-		game_id = "[c[(t % l) + 1]][game_id]"
-		t = round(t / l)
-	return 1
-
 /proc/auxtools_stack_trace(msg)
 	CRASH(msg)
 
@@ -809,3 +644,5 @@ var/global/game_id = null
 	if (debug_server)
 		call_ext(debug_server, "auxtools_shutdown")()
 	. = ..()
+
+#undef RESTART_COUNTER_PATH

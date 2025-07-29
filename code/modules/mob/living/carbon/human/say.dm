@@ -1,5 +1,6 @@
 /mob/living/carbon/human/GetAltName()
-	if(ability_flags & AB_PHASE_SHIFTED)
+	var/datum/component/shadekin/SK = get_shadekin_component()
+	if(SK && SK.in_phase)
 		return ""
 	if(name != GetVoice())
 		return " (as [get_id_name("Unknown")])"
@@ -101,8 +102,9 @@
 					voice_sub = get_id_name()
 	if(voice_sub)
 		return voice_sub
-	if(mind && mind.changeling && mind.changeling.mimicing)
-		return mind.changeling.mimicing
+	var/datum/component/antag/changeling/comp = is_changeling(src)
+	if(comp && comp.mimicing)
+		return comp.mimicing
 	if(GetSpecialVoice())
 		return GetSpecialVoice()
 	return real_name
@@ -131,7 +133,7 @@
 			message_data[2] = pick(M.say_verbs)
 			. = 1
 
-	else if((CE_SPEEDBOOST in chem_effects) || is_jittery) // motor mouth
+	else if((CE_SPEEDBOOST in chem_effects) || (is_jittery && !stuttering)) // motor mouth, check for stuttering so anxiety doesn't do hyperzine text
 		// Despite trying to url/html decode these, byond is just being bad and I dunno.
 		var/static/regex/speedboost_initial = new (@"&[a-z]{2,5};|&#\d{2};","g")
 		// Not herestring because bad vs code syntax highlight panics at apostrophe

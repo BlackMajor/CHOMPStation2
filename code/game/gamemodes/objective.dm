@@ -1,5 +1,5 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:31
-var/global/list/all_objectives = list()
+GLOBAL_LIST_EMPTY(all_objectives)
 
 /datum/objective
 	var/datum/mind/owner = null			//Who owns the objective.
@@ -9,14 +9,14 @@ var/global/list/all_objectives = list()
 	var/completed = 0					//currently only used for custom objectives.
 
 /datum/objective/New(var/text)
-	all_objectives |= src
+	GLOB.all_objectives |= src
 	if(text)
 		explanation_text = text
 	..()
 
 /datum/objective/Destroy()
-	all_objectives -= src
-	..()
+	GLOB.all_objectives -= src
+	. = ..()
 
 /datum/objective/proc/check_completion()
 	return completed
@@ -67,7 +67,7 @@ var/global/list/all_objectives = list()
 /datum/objective/anti_revolution/execute/find_target()
 	..()
 	if(target && target.current)
-		var/datum/gender/T = gender_datums[target.current.get_visible_gender()]
+		var/datum/gender/T = GLOB.gender_datums[target.current.get_visible_gender()]
 		explanation_text = "[target.current.real_name], the [target.assigned_role] has extracted confidential information above their clearance. Execute [T.him]."
 	else
 		explanation_text = "Free Objective"
@@ -77,7 +77,7 @@ var/global/list/all_objectives = list()
 /datum/objective/anti_revolution/execute/find_target_by_role(role, role_type=0)
 	..(role, role_type)
 	if(target && target.current)
-		var/datum/gender/T = gender_datums[target.current.get_visible_gender()]
+		var/datum/gender/T = GLOB.gender_datums[target.current.get_visible_gender()]
 		explanation_text = "[target.current.real_name], the [!role_type ? target.assigned_role : target.special_role] has extracted confidential information above their clearance. Execute [T.him]."
 	else
 		explanation_text = "Free Objective"
@@ -126,7 +126,7 @@ var/global/list/all_objectives = list()
 /datum/objective/anti_revolution/demote/find_target()
 	..()
 	if(target && target.current)
-		var/datum/gender/T = gender_datums[target.current.get_visible_gender()]
+		var/datum/gender/T = GLOB.gender_datums[target.current.get_visible_gender()]
 		explanation_text = "[target.current.real_name], the [target.assigned_role]  has been classified as harmful to [using_map.company_name]'s goals. Demote [T.him] to assistant."
 	else
 		explanation_text = "Free Objective"
@@ -135,7 +135,7 @@ var/global/list/all_objectives = list()
 /datum/objective/anti_revolution/demote/find_target_by_role(role, role_type=0)
 	..(role, role_type)
 	if(target && target.current)
-		var/datum/gender/T = gender_datums[target.current.get_visible_gender()]
+		var/datum/gender/T = GLOB.gender_datums[target.current.get_visible_gender()]
 		explanation_text = "[target.current.real_name], the [!role_type ? target.assigned_role : target.special_role] has been classified as harmful to [using_map.company_name]'s goals. Demote [T.him] to assistant."
 	else
 		explanation_text = "Free Objective"
@@ -229,7 +229,7 @@ var/global/list/all_objectives = list()
 		return 0
 	var/area/shuttle = locate(/area/shuttle/escape/centcom)
 	var/list/protected_mobs = list(/mob/living/silicon/ai, /mob/living/silicon/pai)
-	for(var/mob/living/player in player_list)
+	for(var/mob/living/player in GLOB.player_list)
 		if(player.type in protected_mobs)	continue
 		if (player.mind && (player.mind != owner))
 			if(player.stat != DEAD)			//they're not dead!
@@ -251,7 +251,7 @@ var/global/list/all_objectives = list()
 		return 0
 	var/area/shuttle = locate(/area/shuttle/escape/centcom)
 	var/protected_mobs[] = list(/mob/living/silicon/ai, /mob/living/silicon/pai, /mob/living/silicon/robot)
-	for(var/mob/living/player in player_list)
+	for(var/mob/living/player in GLOB.player_list)
 		if(player.type in protected_mobs)	continue
 		if (player.mind)
 			if (player.stat != 2)
@@ -266,7 +266,7 @@ var/global/list/all_objectives = list()
 	if(!emergency_shuttle.returned())
 		return 0
 
-	for(var/mob/living/player in player_list)
+	for(var/mob/living/player in GLOB.player_list)
 		if(player == owner.current)
 			continue
 		if(player.mind)
@@ -521,7 +521,7 @@ var/global/list/all_objectives = list()
 					if(isAI(M) && M.stat != 2) //See if any AI's are alive inside that card.
 						return 1
 
-			for(var/mob/living/silicon/ai/ai in mob_list)
+			for(var/mob/living/silicon/ai/ai in GLOB.mob_list)
 				var/turf/T = get_turf(ai)
 				if(istype(T))
 					var/area/check_area = get_area(ai)
@@ -609,12 +609,13 @@ var/global/list/all_objectives = list()
 	if (ticker)
 		var/n_p = 1 //autowin
 		if (ticker.current_state == GAME_STATE_SETTING_UP)
-			for(var/mob/new_player/P in player_list)
+			for(var/mob/new_player/P in GLOB.player_list)
 				if(P.client && P.ready && P.mind!=owner)
 					n_p ++
 		else if (ticker.current_state == GAME_STATE_PLAYING)
-			for(var/mob/living/carbon/human/P in player_list)
-				if(P.client && !(P.mind.changeling) && P.mind!=owner)
+			for(var/mob/living/carbon/human/P in GLOB.player_list)
+				var/datum/component/antag/changeling/comp = P.GetComponent(/datum/component/antag/changeling)
+				if(P.client && !(comp) && P.mind!=owner)
 					n_p ++
 		target_amount = min(target_amount, n_p)
 
@@ -622,8 +623,10 @@ var/global/list/all_objectives = list()
 	return target_amount
 
 /datum/objective/absorb/check_completion()
-	if(owner && owner.changeling && owner.changeling.absorbed_dna && (owner.changeling.absorbedcount >= target_amount))
-		return 1
+	if(owner)
+		var/datum/component/antag/changeling/comp = owner.GetComponent(/datum/component/antag/changeling)
+		if(comp && comp.absorbed_dna && (comp.absorbedcount >= target_amount))
+			return 1
 	else
 		return 0
 
@@ -852,7 +855,7 @@ var/global/list/all_objectives = list()
 	explanation_text = "Summon Nar-Sie via the use of the appropriate rune (Hell join self). It will only work if nine cultists stand on and around it. The convert rune is join blood self."
 
 /datum/objective/cult/eldergod/check_completion()
-	return (locate(/obj/singularity/narsie/large) in machines)
+	return (locate(/obj/singularity/narsie/large) in GLOB.machines)
 
 /datum/objective/cult/sacrifice
 	explanation_text = "Conduct a ritual sacrifice for the glory of Nar-Sie."
@@ -860,7 +863,7 @@ var/global/list/all_objectives = list()
 /datum/objective/cult/sacrifice/find_target()
 	var/list/possible_targets = list()
 	if(!possible_targets.len)
-		for(var/mob/living/carbon/human/player in player_list)
+		for(var/mob/living/carbon/human/player in GLOB.player_list)
 			if(player.mind && !(player.mind in cult))
 				possible_targets += player.mind
 	if(possible_targets.len > 0)

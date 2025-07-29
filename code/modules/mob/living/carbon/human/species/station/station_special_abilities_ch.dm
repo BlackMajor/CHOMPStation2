@@ -2,7 +2,7 @@
 /mob/living/proc/succubus_bite()
 	set name = "Inject Prey"
 	set desc = "Bite prey and inject them with various toxins."
-	set category = "Abilities.Succubus" //CHOMPEdit
+	set category = "Abilities.Succubus"
 
 	if(last_special > world.time)
 		return
@@ -70,6 +70,7 @@ mob/living/carbon/proc/charmed() //TODO
 	metabolism = REM * 0.8
 	color = "#8A0829"
 	scannable = 0
+	wiki_flag = WIKI_SPOILER
 
 /datum/reagent/succubi_aphrodisiac/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(prob(3))
@@ -120,7 +121,7 @@ var/eggs = 0
 /mob/living/proc/mobegglaying()
 	set name = "Egg laying"
 	set desc = "you can lay Eggs"
-	set category = "Abilities.General" //CHOMPEdit
+	set category = "Abilities.General"
 
 	var/mob/living/carbon/human/C = src
 
@@ -174,7 +175,7 @@ var/eggs = 0
 /mob/living/proc/insect_sting()
 	set name = "Insect Sting"
 	set desc = "Sting a target and inject a small amount of toxin"
-	set category = "Abilities.General" //CHOMPEdit
+	set category = "Abilities.General"
 
 	if(last_special > world.time)
 		return
@@ -195,27 +196,3 @@ var/eggs = 0
 	src.visible_message(span_infoplain(span_red("[src] sinks their stinger into [T]!")))
 	T.bloodstr.add_reagent(REAGENT_ID_CONDENSEDCAPSAICINV,3)
 	last_special = world.time + 50 // Many little jabs instead of one big one
-
-/mob/living/carbon/proc/toggle_growth()
-	set name = "Toggle Growth"
-	set desc = "Toggles whether excess nutrition will be used to grow you or not"
-	set category = "Abilities.General"
-
-	species.grows = !species.grows
-
-	if(species.grows)
-		to_chat(src, span_notice("You now grow with excess nutrition!"))
-	else
-		to_chat(src, span_notice("You no longer grow with excess nutrition."))
-
-/mob/living/carbon/proc/toggle_shrinking()
-	set name = "Toggle Shrinking"
-	set desc = "Toggles whether a deficit of nutrition will cause you to shrink or not"
-	set category = "Abilities.General"
-
-	species.shrinks = !species.shrinks
-
-	if(species.shrinks)
-		to_chat(src, span_notice("You now shrink when not having enough nutrition!"))
-	else
-		to_chat(src, span_notice("You no longer shrink when not having enough nutrition."))

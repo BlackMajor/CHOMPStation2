@@ -44,11 +44,13 @@
 			. += "Use a welder on it to repair the damage."
 		else
 			. += "Use a crowbar on it to remove it."
+			. += "If using a crowbar and holding a floor tile in your offhand, you will automatically replace the floor with that tile."
 	else if(flooring)
 		if(flooring.flags & TURF_IS_FRAGILE)
 			. += "You can use a crowbar on it to remove it, but this will destroy it!"
 		else if(flooring.flags & TURF_REMOVE_CROWBAR)
 			. += "Use a crowbar on it to remove it."
+			. += "If using a crowbar and holding a floor tile in your offhand, you will automatically replace the floor with that tile."
 		if(flooring.flags & TURF_REMOVE_SCREWDRIVER)
 			. += "Use a screwdriver on it to remove it."
 		if(flooring.flags & TURF_REMOVE_WRENCH)
@@ -62,5 +64,5 @@
 	. += "Use an empty hand on it to scoop up some snow, which you can use to make snowballs or snowmen."
 
 /turf/simulated/floor/outdoors/grass/get_description_interaction()
-	. = "Use floor tiles on it to make a plating."  // using . = ..() would incorrectly say you can remove the grass with a shovel
+	. = list("Use floor tiles on it to make a plating.")  // using . = ..() would incorrectly say you can remove the grass with a shovel
 	. += "Use a shovel on it to dig for worms."

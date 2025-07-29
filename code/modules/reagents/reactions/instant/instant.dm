@@ -76,6 +76,7 @@
 	id = REAGENT_ID_WATER
 	result = REAGENT_ID_WATER
 	required_reagents = list(REAGENT_ID_OXYGEN = 1, REAGENT_ID_HYDROGEN = 2)
+	inhibitors = list(REAGENT_ID_SODIUM = 1, REAGENT_ID_CARBON = 1) // So it doesnt turn into water when you try to make lye. // CHOMPEdit
 	result_amount = 1
 
 /decl/chemical_reaction/instant/thermite
@@ -363,7 +364,7 @@
 	id = REAGENT_ID_STOXIN
 	result = REAGENT_ID_STOXIN
 	required_reagents = list(REAGENT_ID_CHLORALHYDRATE = 1, REAGENT_ID_SUGAR = 4)
-	inhibitors = list(REAGENT_ID_PHOSPHORUS) // Messes with the smoke
+	inhibitors = list(REAGENT_ID_PHOSPHORUS = 1) // Messes with the smoke
 	result_amount = 5
 
 /decl/chemical_reaction/instant/chloralhydrate
@@ -438,6 +439,13 @@
 	result = REAGENT_ID_DIETHYLAMINE
 	required_reagents = list (REAGENT_ID_AMMONIA = 1, REAGENT_ID_ETHANOL = 1)
 	result_amount = 2
+
+/decl/chemical_reaction/instant/lye
+	name = REAGENT_LYE
+	id = REAGENT_ID_LYE
+	result = REAGENT_ID_LYE
+	required_reagents = list(REAGENT_ID_SODIUM = 1, REAGENT_ID_HYDROGEN = 1, REAGENT_ID_OXYGEN = 1)
+	result_amount = 3
 
 /decl/chemical_reaction/instant/left4zed
 	name = "Left4Zed"
@@ -614,14 +622,15 @@
 /decl/chemical_reaction/instant/solidification/steel
 	name = "Solid Steel"
 	id = "solidsteel"
-	required_reagents = list(REAGENT_ID_FROSTOIL = 5, REAGENT_ID_STEEL = REAGENTS_PER_SHEET)
+	required_reagents = list(REAGENT_ID_FROSTOIL = 10, REAGENT_ID_IRON = REAGENTS_PER_SHEET, REAGENT_ID_CARBON = REAGENTS_PER_SHEET)
+	inhibitors = list(REAGENT_ID_PLATINUM = 1) // do not block plasteel formation
 	sheet_to_give = /obj/item/stack/material/steel
 
 
 /decl/chemical_reaction/instant/solidification/plasteel
 	name = "Solid Plasteel"
 	id = "solidplasteel"
-	required_reagents = list(REAGENT_ID_FROSTOIL = 10, REAGENT_ID_PLASTEEL = REAGENTS_PER_SHEET)
+	required_reagents = list(REAGENT_ID_FROSTOIL = 10, REAGENT_ID_IRON = REAGENTS_PER_SHEET, REAGENT_ID_CARBON = REAGENTS_PER_SHEET, REAGENT_ID_PLATINUM = REAGENTS_PER_SHEET)
 	sheet_to_give = /obj/item/stack/material/plasteel
 
 
@@ -635,6 +644,31 @@
 /decl/chemical_reaction/instant/plastication/on_reaction(var/datum/reagents/holder, var/created_volume)
 	new /obj/item/stack/material/plastic(get_turf(holder.my_atom), created_volume)
 	return
+
+/decl/chemical_reaction/instant/soapification
+	name = "Soapification"
+	id = "soapification"
+	result = null
+	required_reagents = list(REAGENT_ID_COOKINGOIL = 10, REAGENT_ID_LYE = 2)
+	result_amount = 1
+
+/decl/chemical_reaction/instant/soapification/on_reaction(var/datum/reagents/holder, var/created_volume)
+	for(var/i = 1, i <= created_volume, i++)
+		new /obj/item/soap(get_turf(holder.my_atom))
+
+/decl/chemical_reaction/instant/soapification/alt
+	name = "Soapification2"
+	id = "soapification2"
+	required_reagents = list(REAGENT_ID_CORNOIL = 10, REAGENT_ID_LYE = 2)
+
+/decl/chemical_reaction/instant/soapification/gibs // a bit less convinient and grosser, but it makes more potent soap.
+	name = "Soapification Gibs"
+	id = "soapificationgibs"
+	required_reagents = list(REAGENT_ID_PROTEIN = 10, REAGENT_ID_LYE = 10) //Change the protein to liquid gibs if/when those get ported. Thanks.
+
+/decl/chemical_reaction/instant/soapification/gibs/on_reaction(datum/reagents/holder, created_volume)
+	for(var/i = 1, i <= created_volume, i++)
+		new /obj/item/soap/homemade(get_turf(holder.my_atom))
 
 /*Carpet Creation*/
 
@@ -682,7 +716,7 @@
 
 /decl/chemical_reaction/instant/carpetify/pcarpet
 	name = "Purple Carpet"
-	id = "Purplecarpet"
+	id = "purplecarpet"
 	required_reagents = list(REAGENT_ID_LIQUIDCARPETP = 2, REAGENT_ID_PLASTICIDE = 1)
 	carpet_type = /obj/item/stack/tile/carpet/purcarpet
 
@@ -699,7 +733,7 @@
 	result_amount = 1
 
 /decl/chemical_reaction/instant/concrete/on_reaction(var/datum/reagents/holder, var/created_volume)
-	new /obj/item/stack/material/concrete(get_turf(holder.my_atom), created_volume)
+	new /obj/item/stack/material/concrete(get_turf(holder.my_atom), round(created_volume))
 	return
 
 /* Grenade reactions */
@@ -784,6 +818,8 @@
 	result_amount = 2
 	log_is_important = 1
 
+#ifndef UNIT_TEST
+// If it becomes possible to make this without exploding and clearing reagents, remove the UNIT_TEST wrapper
 /decl/chemical_reaction/instant/nitroglycerin/on_reaction(var/datum/reagents/holder, var/created_volume)
 	var/datum/effect/effect/system/reagents_explosion/e = new()
 	e.set_up(round (created_volume/2, 1), holder.my_atom, 0, 0)
@@ -792,14 +828,13 @@
 		var/mob/living/L = holder.my_atom
 		if(L.stat!=DEAD)
 			e.amount *= 0.5
-	//VOREStation Add Start
 	else
 		holder.clear_reagents() //No more powergaming by creating a tiny amount of this
-	//VOREStation Add End
 	e.start()
 
 	//holder.clear_reagents() //VOREStation Removal
 	return
+#endif
 
 /decl/chemical_reaction/instant/napalm
 	name = "Napalm"
@@ -1244,4 +1279,11 @@
 	id = "spidertoxin_neutral"
 	result = REAGENT_ID_PROTEIN
 	required_reagents = list(REAGENT_ID_ENZYME = 1, REAGENT_ID_SPIDERTOXIN = 1, REAGENT_ID_SIFSAP = 1)
+	result_amount = 1
+
+/decl/chemical_reaction/instant/artificial_sustenance
+	name = REAGENT_ASUSTENANCE
+	id = REAGENT_ID_ASUSTENANCE
+	result = REAGENT_ID_ASUSTENANCE
+	required_reagents = list(REAGENT_ID_NUTRIMENT = 1, REAGENT_ID_MUTAGEN = 1, REAGENT_ID_PHORON = 1)
 	result_amount = 1

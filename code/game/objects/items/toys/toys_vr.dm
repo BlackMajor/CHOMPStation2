@@ -551,7 +551,7 @@
 /obj/item/toy/AI/attack_self(mob/user as mob)
 	var/list/players = list()
 
-	for(var/mob/living/carbon/human/player in player_list)
+	for(var/mob/living/carbon/human/player in GLOB.player_list)
 		if(!player.mind || player_is_antag(player.mind, only_offstation_roles = 1) || player.client.inactivity > MinutesToTicks(10))
 			continue
 		players += player.real_name
@@ -718,8 +718,8 @@
 	var/bullets_left = 0
 	var/max_shots = 6
 
-/obj/item/toy/russian_revolver/New()
-	..()
+/obj/item/toy/russian_revolver/Initialize(mapload)
+	. = ..()
 	spin_cylinder()
 
 /obj/item/toy/russian_revolver/attack_self(mob/user)
@@ -756,7 +756,7 @@
 		return FALSE
 	if(bullets_left == 1)
 		bullets_left = 0
-		var/zone = "head"
+		var/zone = BP_HEAD
 		if(!(user.has_organ(zone))) // If they somehow don't have a head.
 			zone = "chest"
 		playsound(src, 'sound/effects/snap.ogg', 50, 1)
@@ -780,8 +780,8 @@
 	max_shots = 1
 	var/fake_bullets = 0
 
-/obj/item/toy/russian_revolver/trick_revolver/New()
-	..()
+/obj/item/toy/russian_revolver/trick_revolver/Initialize(mapload)
+	. = ..()
 	fake_bullets = rand(2, 7)
 
 /obj/item/toy/russian_revolver/trick_revolver/examine(mob/user)
@@ -848,8 +848,8 @@
 	var/popped = 0
 	var/real = 0
 
-/obj/item/toy/snake_popper/New()
-	..()
+/obj/item/toy/snake_popper/Initialize(mapload)
+	. = ..()
 	if(prob(0.1))
 		real = 1
 
@@ -858,15 +858,15 @@
 		to_chat(user, span_warning("A snake popped out of [src]!"))
 		if(real == 0)
 			var/obj/item/toy/C = new /obj/item/toy/plushie/snakeplushie(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		if(real == 1)
 			var/mob/living/simple_mob/C = new /mob/living/simple_mob/animal/passive/snake(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		if(real == 2)
 			var/mob/living/simple_mob/C = new /mob/living/simple_mob/vore/aggressive/giant_snake(get_turf(loc))
-			C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+			C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 		playsound(src, 'sound/items/confetti.ogg', 50, 0)
 		icon_state = "tastybread_popped"
@@ -891,15 +891,15 @@
 			to_chat(user, span_warning("A snake popped out of [src]!"))
 			if(real == 0)
 				var/obj/item/toy/C = new /obj/item/toy/plushie/snakeplushie(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			if(real == 1)
 				var/mob/living/simple_mob/C = new /mob/living/simple_mob/animal/passive/snake(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			if(real == 2)
 				var/mob/living/simple_mob/C = new /mob/living/simple_mob/vore/aggressive/giant_snake(get_turf(loc))
-				C.throw_at(get_step(src, pick(alldirs)), 9, 1, src)
+				C.throw_at(get_step(src, pick(GLOB.alldirs)), 9, 1, src)
 
 			playsound(src, 'sound/items/confetti.ogg', 50, 0)
 			icon_state = "tastybread_popped"
@@ -1044,10 +1044,10 @@
 		if(!isanimal(user))
 			if(!user.get_active_hand())		//if active hand is empty
 				var/mob/living/carbon/human/H = user
-				var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+				var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 
 				if (H.hand)
-					temp = H.organs_by_name["l_hand"]
+					temp = H.organs_by_name[BP_L_HAND]
 				if(temp && !temp.is_usable())
 					to_chat(user,span_notice("You try to move your [temp.name], but cannot!"))
 					return
@@ -1164,3 +1164,36 @@
 		return
 	user.visible_message(span_danger("\The [user] waves \the [src] in front of the [M]!"))
 	M.PounceTarget(user,100)
+
+/// Fluff item for digitalsquirrel
+
+/obj/item/toy/acorn_branch
+	name = "oak staff"
+	desc = "A branch of oak wood bearing a collection of still living leaves, and many acorns hanging among them."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "acorn_branch"
+	w_class = ITEMSIZE_SMALL
+	var/next_use = 0
+	var/registered_mob //On request, only one person is able to use it at a time.
+
+/obj/item/toy/acorn_branch/attack_self(mob/user)
+	if(user.stat || !ishuman(user))
+		return
+	if(world.time < next_use)
+		to_chat(user, span_notice("You need to wait a bit longer before you can pull out another acorn!"))
+		return
+	var/mob/living/carbon/human/H = user
+	if(registered_mob)
+		if(registered_mob != H)
+			to_chat(user, span_notice("It's a lovely branch!"))
+			return
+	else
+		registered_mob = H
+	if(H.get_inactive_hand())
+		to_chat(user, span_notice("You need to have a free hand to pick an acorn out!"))
+		return
+	var/spawnloc = get_turf(H)
+	var/obj/item/I = new /obj/item/reagent_containers/food/snacks/acorn(spawnloc)
+	H.put_in_inactive_hand(I)
+	next_use = (world.time + 30 SECONDS)
+	H.visible_message(span_notice("\The [H] pulls an acorn from \the [src]!"))

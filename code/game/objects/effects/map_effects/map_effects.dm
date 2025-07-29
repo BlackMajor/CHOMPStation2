@@ -2,7 +2,7 @@
 // Players cannot see or interact with these.
 /obj/effect/map_effect
 	anchored = TRUE
-	invisibility = 99 // So a badmin can go view these by changing their see_invisible.
+	invisibility = INVISIBILITY_BADMIN // So a badmin can go view these by changing their see_invisible.
 	icon = 'icons/effects/map_effects.dmi'
 
 	// Below vars concern check_for_player_proximity() and is used to not waste effort if nobody is around to appreciate the effects.
@@ -58,8 +58,8 @@
 	if(!proximity_to)
 		return FALSE
 
-	for(var/thing in player_list)
-		var/mob/M = thing // Avoiding typechecks for more speed, player_list will only contain mobs anyways.
+	for(var/thing in GLOB.player_list)
+		var/mob/M = thing // Avoiding typechecks for more speed, GLOB.player_list will only contain mobs anyways.
 		if(ignore_ghosts && isobserver(M))
 			continue
 		if(ignore_afk && M.client && M.client.is_afk(5 MINUTES))

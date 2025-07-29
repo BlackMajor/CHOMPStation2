@@ -18,13 +18,13 @@ const regexParseNode = (params: {
   const textLength = text.length;
   let nodes;
   let new_node;
-  let match;
+  let match = regex.exec(text);
   let lastIndex = 0;
   let fragment;
   let n = 0;
   let count = 0;
   // eslint-disable-next-line no-cond-assign
-  while ((match = regex.exec(text))) {
+  while (match !== null) {
     n += 1;
     // Safety check to prevent permanent
     // client crashing
@@ -55,6 +55,7 @@ const regexParseNode = (params: {
     new_node = createNode(matchText);
     nodes.push(new_node);
     fragment.appendChild(new_node);
+    match = regex.exec(text);
   }
   if (fragment) {
     // Insert the remaining unmatched chunk
@@ -103,7 +104,7 @@ export const replaceInTextNode =
     if (words) {
       let i = 0;
       let wordRegexStr = '(';
-      for (let word of words) {
+      for (const word of words) {
         // Capture if the word is at the beginning, end, middle,
         // or by itself in a message
         wordRegexStr += `^${word}\\s\\W|\\s\\W${word}\\s\\W|\\s\\W${word}$|^${word}\\s\\W$`;
@@ -115,7 +116,7 @@ export const replaceInTextNode =
       wordRegexStr += ')';
       const wordRegex = new RegExp(wordRegexStr, 'gi');
       if (regex && nodes) {
-        for (let a_node of nodes) {
+        for (const a_node of nodes) {
           result = regexParseNode({
             node: a_node,
             regex: wordRegex,

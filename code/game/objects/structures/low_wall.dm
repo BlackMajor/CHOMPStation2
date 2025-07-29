@@ -11,7 +11,6 @@
 	//atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_CAN_BE_PAINTED | ATOM_FLAG_ADJACENT_EXCEPTION
 	anchored = TRUE
 	density = TRUE
-	climbable = TRUE
 	throwpass = 1
 	layer = TABLE_LAYER
 
@@ -43,10 +42,11 @@
 
 	health = material.integrity
 
+	AddElement(/datum/element/climbable)
+
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/low_wall/LateInitialize()
-	. = ..()
 	update_connections(1)
 	update_icon()
 
@@ -124,9 +124,8 @@
 
 /obj/structure/low_wall/MouseDrop_T(atom/movable/AM, mob/user, src_location, over_location, src_control, over_control, params)
 	if(AM == user)
-		var/mob/living/H = user
-		if(istype(H) && can_climb(H))
-			do_climb(AM)
+		SEND_SIGNAL(src, COMSIG_CLIMBABLE_START_CLIMB, user)
+		return
 	var/obj/O = AM
 	if(!istype(O))
 		return
@@ -351,7 +350,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/grille/bay/LateInitialize()
-	. = ..()
 	update_connections(1)
 	update_icon()
 
@@ -412,7 +410,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/window/bay/LateInitialize()
-	. = ..()
 	icon_state = ""
 	update_icon()
 
@@ -503,7 +500,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/window/eris/LateInitialize()
-	. = ..()
 	icon_state = ""
 	update_icon()
 

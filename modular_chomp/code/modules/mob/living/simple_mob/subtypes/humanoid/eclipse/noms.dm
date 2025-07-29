@@ -3,10 +3,11 @@
 	vore_capacity = 2
 	vore_max_size = RESIZE_HUGE
 	vore_min_size = RESIZE_SMALL
-	vore_pounce_chance = 0 // Beat them into crit before eating.
+	vore_pounce_chance = 30
 	vore_icons = null
 
-	can_be_drop_prey = FALSE //CHOMP Add
+	can_be_drop_prey = FALSE
+	can_be_drop_pred = TRUE
 
 /mob/living/simple_mob/humanoid/eclipse/Login()
 	. = ..()
@@ -19,12 +20,8 @@
 /mob/living/simple_mob/humanoid/eclipse/MouseDrop_T(mob/living/M, mob/living/user)
 	return
 
-/mob/living/simple_mob/humanoid/eclipse/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
-	.=..()
+/mob/living/simple_mob/humanoid/eclipse/load_default_bellies()
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The fearsome preadtor gets a firm grip upon you, before dunking you into it's maw, then with a powerful swift gulp you're sent tumbling into it's stomach.."
@@ -58,12 +55,8 @@
 /mob/living/simple_mob/humanoid/eclipse/head/scientist/MouseDrop_T(mob/living/M, mob/living/user)
 	return
 
-/mob/living/simple_mob/humanoid/eclipse/head/scientist/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
-	.=..()
+/mob/living/simple_mob/humanoid/eclipse/head/scientist/load_default_bellies()
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The fearsome preadtor gets a firm grip upon you, before dunking you into it's maw, then with a powerful swift gulp you're sent tumbling into it's stomach.."
@@ -100,12 +93,8 @@
 /mob/living/simple_mob/humanoid/eclipse/head/security/MouseDrop_T(mob/living/M, mob/living/user)
 	return
 
-/mob/living/simple_mob/humanoid/eclipse/head/security/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
-	.=..()
+/mob/living/simple_mob/humanoid/eclipse/head/security/load_default_bellies()
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The fearsome preadtor gets a firm grip upon you, before dunking you into it's maw, then with a powerful swift gulp you're sent tumbling into it's stomach.."
@@ -143,12 +132,8 @@
 /mob/living/simple_mob/humanoid/eclipse/head/captain/MouseDrop_T(mob/living/M, mob/living/user)
 	return
 
-/mob/living/simple_mob/humanoid/eclipse/head/captain/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
-	.=..()
+/mob/living/simple_mob/humanoid/eclipse/head/captain/load_default_bellies()
+	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
 	B.desc = "The fearsome preadtor gets a firm grip upon you, before dunking you into it's maw, then with a powerful swift gulp you're sent tumbling into it's stomach.."

@@ -5,7 +5,7 @@
 
 // Returns true if news was updated since last seen.
 /client/proc/check_for_new_server_news()
-	if(servernews_hash != prefs.lastnews) //ChompEDIT
+	if(GLOB.servernews_hash != prefs.lastnews) //ChompEDIT
 		return TRUE
 	return FALSE
 
@@ -39,7 +39,7 @@
 
 		if(findtext(new_body,"<script",1,0) ) // Is this needed with santize()?
 			return
-		servernews_hash = md5("[new_title]" + "[new_body]") //ChompADD - update the servernews hash global
+		GLOB.servernews_hash = md5("[new_title]" + "[new_body]") //ChompADD - update the servernews hash global
 		F["title"] << new_title
 		F["body"] << new_body
 		F["author"] << key
@@ -49,8 +49,8 @@
 /client/proc/get_server_news() //ChompEDIT - child of /client/
 	var/savefile/F = new(NEWSFILE)
 	if(F)
-		if(servernews_hash != prefs.lastnews) //ChompADD
-			prefs.lastnews = servernews_hash //ChompADD
+		if(GLOB.servernews_hash != prefs.lastnews) //ChompADD
+			prefs.lastnews = GLOB.servernews_hash //ChompADD
 			SScharacter_setup.queue_preferences_save(prefs) //ChompADD
 		return F
 
@@ -87,8 +87,8 @@
 	text = replacetext(text, "\[/grid\]", "</td></tr></table>")
 	text = replacetext(text, "\[row\]", "</td><tr>")
 	text = replacetext(text, "\[cell\]", "<td>")
-	text = replacetext(text, "\[logo\]", "<img src = ntlogo.png>") // Not sure if these would get used but why not
-	text = replacetext(text, "\[sglogo\]", "<img src = sglogo.png>")
+	text = replacetext(text, "\[logo\]", "<img src=\ref['html/images/ntlogo.png']>") // Not sure if these would get used but why not
+	text = replacetext(text, "\[sglogo\]", "<img src=\ref['html/images/sglogo.png']>")
 	return text
 
 // This is used when reading text that went through paper_markup2html(), to reverse it so that edits don't need to replace everything once more to avoid sanitization.
@@ -124,8 +124,8 @@
 	text = replacetext(text, "</td></tr></table>", "\[/grid\]")
 	text = replacetext(text, "</td><tr>", "\[row\]")
 	text = replacetext(text, "<td>", "\[cell\]")
-	text = replacetext(text, "<img src = ntlogo.png>", "\[logo\]") // Not sure if these would get used but why not
-	text = replacetext(text, "<img src = sglogo.png>", "\[sglogo\]")
+	text = replacetext(text, "<img src=\ref['html/images/ntlogo.png']>", "\[logo\]") // Not sure if these would get used but why not
+	text = replacetext(text, "<img src=\ref['html/images/sglogo.png']>", "\[sglogo\]")
 	return text
 
 #undef NEWSFILE

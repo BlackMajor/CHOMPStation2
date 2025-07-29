@@ -159,7 +159,7 @@
 					return FALSE
 		//VOREStation add start
 		else if(forgive_resting && !isbelly(holder.loc))	//Doing it this way so we only think about the other conditions if the var is actually set
-			if((holder.health == holder.maxHealth) && !hostile && (L.resting || L.weakened || L.stunned))	//If our health is full, no one is fighting us, we can forgive
+			if((holder.health == holder.getMaxHealth()) && !hostile && (L.resting || L.weakened || L.stunned))	//If our health is full, no one is fighting us, we can forgive
 				var/mob/living/simple_mob/vore/eater = holder
 				if(!eater.will_eat(L))		//We forgive people we can eat by eating them
 					set_stance(STANCE_IDLE)
@@ -221,6 +221,7 @@
 
 // 'Hard' loss of target. Clean things up and return to idle.
 /datum/ai_holder/proc/remove_target()
+	SIGNAL_HANDLER
 	ai_log("remove_target() : Entering.", AI_LOG_TRACE)
 	if(target)
 		UnregisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(remove_target))
@@ -346,14 +347,12 @@
 	preferred_target = null
 
 /datum/ai_holder/proc/vore_check(mob/living/L)
-	//CHOMPEdit Start
-	var/mob/living/simple_mob/simple = holder
-	if(istype(simple))	//We probably don't have a belly so don't even try
-		if (!simple.vore_active)
-			return FALSE
-	else if (holder.vore_selected == null)
+	if(isanimal(holder))
+		var/mob/living/simple_mob/M = holder
+		if(!M.voremob_loaded)	//init vore if it's not already
+			M.init_vore(TRUE)
+	if(!holder.vore_selected)	//We probably don't have a belly so don't even try
 		return FALSE
-	// CHOMPEdit End
 	if(!isliving(L))	//We only want mob/living
 		return FALSE
 	if(!L.devourable || !L.allowmobvore)	//Check their prefs

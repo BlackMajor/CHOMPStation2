@@ -156,7 +156,7 @@
 /area/tether/surfacebase/outside/wilderness
 	name = "Outside - Wilderness"
 	icon_state = "invi"
-	forced_ambience = list('sound/music/Sacred_Grove.ogg')
+	forced_ambience = list('sound/music/sacred_grove.ogg')
 
 /area/tether/surfacebase/temple
 	name = "Outside - Wilderness" // ToDo: Make a way to hide spoiler areas off the list of areas ghosts can jump to.
@@ -315,8 +315,10 @@
 // Solars map areas
 /area/tether/outpost/solars_outside
 	name = "\improper Solar Farm"
+/area/tether/outpost/solars_outside/lower
+	name = "\improper Solar Farm Lower"
 /area/tether/outpost/solars_shed
-	name = "\improper Solar Farm Shed"
+	name = "\improper Solar Farm Lower Shed"
 
 // Exploration area - Plains
 /area/tether/outpost/exploration_plains
@@ -331,6 +333,8 @@
 	name = "\improper Mining Substation"
 /area/maintenance/substation/bar
 	name = "\improper Bar Substation"
+/area/maintenance/substation/bar/civilian
+	name = "\improper Surface Civilian Substation"
 /area/maintenance/substation/surface_atmos
 	name = "\improper Surface Atmos Substation"
 /area/maintenance/substation/civ_west
@@ -1410,6 +1414,10 @@
 	requires_power = 0
 	dynamic_lighting = 0
 
+/area/syndicate_station/southwest/outside
+	base_turf = /turf/simulated/floor/outdoors/dirt/virgo3b
+	forced_ambience = list('sound/music/sacred_grove.ogg')
+
 //Merc shuttle
 /area/shuttle/mercenary
 	name = "\improper Mercenary Shuttle"
@@ -1512,6 +1520,9 @@
 /area/shuttle/tether
 	name = "Tether Shuttle"
 	icon_state = "shuttle2"
+
+/area/shuttle/tether/reinforced_base
+	base_turf = /turf/simulated/floor/reinforced
 
 //Skipjack
 

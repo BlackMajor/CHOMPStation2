@@ -10,7 +10,7 @@ import {
 } from 'tgui-core/components';
 import { formatTime } from 'tgui-core/format';
 import { toFixed } from 'tgui-core/math';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 type Data = {
   card: string | null;
@@ -55,7 +55,7 @@ export const pda_timeclock = (props) => {
           OOC Note: PTO acquired is account-wide and shared across all
           characters. Info listed below is not IC information.
         </NoticeBox>
-        <Section title={'Time Off Balance for ' + user_name}>
+        <Section title={`Time Off Balance for ${user_name}`}>
           <LabeledList>
             {!!department_hours &&
               Object.keys(department_hours).map((key) => (
@@ -147,7 +147,7 @@ export const pda_timeclock = (props) => {
             (!!job_choices &&
               Object.keys(job_choices).length &&
               Object.keys(job_choices).map((job) => {
-                let alt_titles = job_choices[job];
+                const alt_titles = job_choices[job];
 
                 return alt_titles.map((title) => (
                   <Button

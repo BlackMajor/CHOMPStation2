@@ -87,7 +87,7 @@
 
 /obj/item/toy/bosunwhistle/fluff/strix/attack_self(mob/user as mob)
 	if(cooldown < world.time - 15)
-		user << span_notice("You blow on [src], creating an ear-splitting noise!")
+		to_chat(user, span_notice("You blow on [src], creating an ear-splitting noise!"))
 		playsound(user, 'sound/misc/boatswain.ogg', 25, 1)
 		cooldown = world.time
 
@@ -676,11 +676,10 @@
 		/obj/item/reagent_containers/food/snacks/chocolatebar,
 		)
 
-/obj/item/storage/secure/briefcase/fluff/jeans/New() //this is entierly nessicary to spawn stuff. "FUN" -luke
+/obj/item/storage/secure/briefcase/fluff/jeans/Initialize(mapload) //this is entierly nessicary to spawn stuff. "FUN" -luke
 	storage_slots = has_items.len
 	allowed = list()
 	for(var/P in has_items)
 		allowed += P
 		new P(src)
-	..()
-	return
+	. = ..()

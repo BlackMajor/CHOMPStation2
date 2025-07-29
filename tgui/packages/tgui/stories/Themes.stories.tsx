@@ -8,24 +8,29 @@ import { Input, LabeledList, Section } from 'tgui-core/components';
 
 export const meta = {
   title: 'Themes',
-  render: (theme, setTheme) => <Story theme={theme} setTheme={setTheme} />,
+  render: (
+    theme: string,
+    setTheme: (value: React.SetStateAction<string>) => void,
+  ) => <Story theme={theme} setTheme={setTheme} />,
 };
 
-const Story = (props: {
-  readonly theme: string;
-  readonly setTheme: Function;
-}) => {
+function Story(props: {
+  theme: string;
+  setTheme: (value: React.SetStateAction<string>) => void;
+}) {
+  const { theme, setTheme } = props;
+
   return (
     <Section>
       <LabeledList>
         <LabeledList.Item label="Use theme">
           <Input
             placeholder="theme_name"
-            value={props.theme}
-            onInput={(e, value) => props.setTheme(value)}
+            value={theme}
+            onChange={(value) => setTheme(value)}
           />
         </LabeledList.Item>
       </LabeledList>
     </Section>
   );
-};
+}

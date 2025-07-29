@@ -1,13 +1,13 @@
 ///////////////////////////
 //// Spawning and despawning
-var/global/list/latejoin_talon = list()
+GLOBAL_LIST_EMPTY(latejoin_talon)
 /obj/effect/landmark/talon
 	name = "JoinLateTalon"
 	delete_me = 1
 
 /obj/effect/landmark/talon/Initialize(mapload)
+	GLOB.latejoin_talon += loc // Register this turf as tram latejoin.
 	. = ..()
-	latejoin_talon += loc // Register this turf as tram latejoin.
 
 /datum/spawnpoint/talon
 	display_name = "ITV Talon Cryo"
@@ -17,7 +17,7 @@ var/global/list/latejoin_talon = list()
 
 /datum/spawnpoint/talon/New()
 	..()
-	turfs = latejoin_talon
+	turfs = GLOB.latejoin_talon
 
 /obj/machinery/cryopod/talon
 	announce_channel = "Talon"

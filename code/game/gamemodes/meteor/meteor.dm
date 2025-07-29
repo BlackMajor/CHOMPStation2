@@ -16,13 +16,13 @@
 
 /datum/game_mode/meteor/process()
 	if(world.time >= next_wave)
-		next_wave = world.time + meteor_wave_delay
+		next_wave = world.time + GLOB.meteor_wave_delay
 		spawn() spawn_meteors(6, meteors_normal)
 
 /datum/game_mode/meteor/declare_completion()
 	var/text
 	var/survivors = 0
-	for(var/mob/living/player in player_list)
+	for(var/mob/living/player in GLOB.player_list)
 		if(player.stat != DEAD)
 			var/turf/location = get_turf(player.loc)
 			if(!location)	continue

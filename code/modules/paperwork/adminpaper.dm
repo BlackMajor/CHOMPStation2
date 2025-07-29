@@ -16,7 +16,7 @@
 	var/footer = null
 	var/footerOn = FALSE
 
-/obj/item/paper/admin/Initialize(mapload) //ChompEDIT New --> Initialize
+/obj/item/paper/admin/Initialize(mapload, text, title)
 	. = ..()
 	generateInteractions()
 
@@ -44,15 +44,15 @@
 	if(!logo)
 		return
 	if(logo == "SolGov")
-		logo = "sglogo.png"
+		logo = 'html/images/sglogo.png'
 	//VOREStation Edit/Add
 	else if(logo == "NanoTrasen")
-		logo = "ntlogo.png"
+		logo = 'html/images/ntlogo.png'
 	else
-		logo = "trader.png"
+		logo = 'html/images/trader.png'
 	//VOREStation Edit/Add End
 	//TODO change logo based on who you're contacting.
-	text = "<center><img src = [logo]></br>"
+	text = "<center><img src=\ref[logo]></br>"
 	text += span_bold("[origin] Quantum Uplink Signed Message") + "<br>"
 	text += span_small("Encryption key: [originhash]<br>Challenge: [timehash]") + "<br></center><hr>"
 

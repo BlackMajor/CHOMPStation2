@@ -1,23 +1,24 @@
 
 /*
-VVVVVVVV           VVVVVVVV     OOOOOOOOO     RRRRRRRRRRRRRRRRR   EEEEEEEEEEEEEEEEEEEEEE
-V::::::V           V::::::V   OO:::::::::OO   R::::::::::::::::R  E::::::::::::::::::::E
-V::::::V           V::::::V OO:::::::::::::OO R::::::RRRRRR:::::R E::::::::::::::::::::E
-V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEEE::::E
- V:::::V           V:::::V O::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE
-  V:::::V         V:::::V  O:::::O     O:::::O  R::::R     R:::::R  E:::::E
-   V:::::V       V:::::V   O:::::O     O:::::O  R::::RRRRRR:::::R   E::::::EEEEEEEEEE
-    V:::::V     V:::::V    O:::::O     O:::::O  R:::::::::::::RR    E:::::::::::::::E
-     V:::::V   V:::::V     O:::::O     O:::::O  R::::RRRRRR:::::R   E:::::::::::::::E
-      V:::::V V:::::V      O:::::O     O:::::O  R::::R     R:::::R  E::::::EEEEEEEEEE
-       V:::::V:::::V       O:::::O     O:::::O  R::::R     R:::::R  E:::::E
-        V:::::::::V        O::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE
-         V:::::::V         O:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEE:::::E
-          V:::::V           OO:::::::::::::OO R::::::R     R:::::RE::::::::::::::::::::E
-           V:::V              OO:::::::::OO   R::::::R     R:::::RE::::::::::::::::::::E
-            VVV                 OOOOOOOOO     RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEE
-
--Aro <3 */
+ * VVVVVVVV           VVVVVVVV     OOOOOOOOO     RRRRRRRRRRRRRRRRR   EEEEEEEEEEEEEEEEEEEEEE
+ * V::::::V           V::::::V   OO:::::::::OO   R::::::::::::::::R  E::::::::::::::::::::E
+ * V::::::V           V::::::V OO:::::::::::::OO R::::::RRRRRR:::::R E::::::::::::::::::::E
+ * V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEEE::::E
+ *  V:::::V           V:::::V O::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE
+ *   V:::::V         V:::::V  O:::::O     O:::::O  R::::R     R:::::R  E:::::E
+ *    V:::::V       V:::::V   O:::::O     O:::::O  R::::RRRRRR:::::R   E::::::EEEEEEEEEE
+ *     V:::::V     V:::::V    O:::::O     O:::::O  R:::::::::::::RR    E:::::::::::::::E
+ *      V:::::V   V:::::V     O:::::O     O:::::O  R::::RRRRRR:::::R   E:::::::::::::::E
+ *       V:::::V V:::::V      O:::::O     O:::::O  R::::R     R:::::R  E::::::EEEEEEEEEE
+ *        V:::::V:::::V       O:::::O     O:::::O  R::::R     R:::::R  E:::::E
+ *         V:::::::::V        O::::::O   O::::::O  R::::R     R:::::R  E:::::E       EEEEEE
+ *          V:::::::V         O:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEEEE:::::E
+ *           V:::::V           OO:::::::::::::OO R::::::R     R:::::RE::::::::::::::::::::E
+ *            V:::V              OO:::::::::OO   R::::::R     R:::::RE::::::::::::::::::::E
+ *             VVV                 OOOOOOOOO     RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEE
+ *
+ * -Aro <3
+ */
 
 //
 // Overrides/additions to stock defines go here, as well as hooks. Sort them by
@@ -31,13 +32,6 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 //
 /client
 	var/datum/vore_preferences/prefs_vr
-
-/hook/client_new/proc/add_prefs_vr(client/C)
-	C.prefs_vr = new/datum/vore_preferences(C)
-	if(C.prefs_vr)
-		return TRUE
-
-	return FALSE
 
 /datum/vore_preferences
 	//Actual preferences
@@ -91,6 +85,8 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 	var/belly_rub_target = null
 	var/soulcatcher_pref_flags = 0
 	var/list/soulcatcher_prefs = list()
+	var/max_voreoverlay_alpha = 255
+	var/persistend_edit_mode = FALSE
 
 	var/list/belly_prefs = list()
 	var/vore_taste = "nothing in particular"
@@ -144,8 +140,7 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 		if(isanimal(O)) //On-demand belly loading.
 			var/mob/living/simple_mob/SM = O
 			if(SM.vore_active && !SM.voremob_loaded)
-				SM.voremob_loaded = TRUE
-				SM.init_vore()
+				SM.init_vore(TRUE)
 		if(O.vore_organs.len > 0)
 			return TRUE
 
@@ -247,6 +242,8 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 	belly_rub_target = json_from_file["belly_rub_target"]
 	soulcatcher_pref_flags = json_from_file["soulcatcher_pref_flags"]
 	soulcatcher_prefs = json_from_file["soulcatcher_prefs"]
+	persistend_edit_mode = json_from_file["persistend_edit_mode"]
+	max_voreoverlay_alpha = json_from_file["max_voreoverlay_alpha"]
 
 	//Quick sanitize
 	if(isnull(digestable))
@@ -376,6 +373,10 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 		soulcatcher_pref_flags = 0
 	if(isnull(soulcatcher_prefs))
 		soulcatcher_prefs = list()
+	if(isnull(persistend_edit_mode))
+		persistend_edit_mode = FALSE
+	if(isnull(max_voreoverlay_alpha))
+		max_voreoverlay_alpha = 255
 
 	return TRUE
 
@@ -437,7 +438,9 @@ V::::::V           V::::::VO:::::::OOO:::::::ORR:::::R     R:::::REE::::::EEEEEE
 			"no_latejoin_prey_warning_persists"		= no_latejoin_prey_warning_persists,
 			"belly_rub_target" = belly_rub_target,
 			"soulcatcher_pref_flags" = soulcatcher_pref_flags,
-			"soulcatcher_prefs"			= soulcatcher_prefs
+			"soulcatcher_prefs"			= soulcatcher_prefs,
+			"persistend_edit_mode" = persistend_edit_mode,
+			"max_voreoverlay_alpha" = max_voreoverlay_alpha,
 		)
 
 	//List to JSON

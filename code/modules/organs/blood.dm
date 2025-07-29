@@ -282,9 +282,10 @@ var/const/CE_STABLE_THRESHOLD = 0.5
 	if(!B.data["viruses"])
 		B.data["viruses"] = list()
 
-	for(var/datum/disease/D in GetViruses())
-		if(D.spread_flags & SPECIAL)
-			continue
+	for(var/datum/disease/D in GetSpreadableViruses())
+		B.data["viruses"] |= D.Copy()
+
+	for(var/datum/disease/D in GetDormantDiseases())
 		B.data["viruses"] |= D.Copy()
 
 	if(!B.data["resistances"])
@@ -327,7 +328,7 @@ var/const/CE_STABLE_THRESHOLD = 0.5
 	var/list/sniffles = injected.data["viruses"]
 	for(var/ID in sniffles)
 		var/datum/disease/D = ID
-		if((D.spread_flags & SPECIAL) || (D.spread_flags & NON_CONTAGIOUS)) // You can't put non-contagius diseases in blood, but just in case
+		if(D.spread_flags & (DISEASE_SPREAD_SPECIAL | DISEASE_SPREAD_NON_CONTAGIOUS)) // You can't put non-contagius diseases in blood, but just in case
 			continue
 		ContractDisease(D)
 	if (injected.data["resistances"] && prob(5))
@@ -370,9 +371,10 @@ var/const/CE_STABLE_THRESHOLD = 0.5
 		if(!our)
 			log_debug("Failed to re-initialize blood datums on [src]!")
 			return
-
-
-	if(blood_incompatible(injected.data["blood_type"],our.data["blood_type"],injected.data["species"],our.data["species"]) )
+	if(is_changeling(src)) //Changelings don't reject blood!
+		vessel.add_reagent(REAGENT_ID_BLOOD, amount, injected.data)
+		vessel.update_total()
+	else if(blood_incompatible(injected.data["blood_type"],our.data["blood_type"],injected.data["species"],our.data["species"]) )
 		reagents.add_reagent(REAGENT_ID_TOXIN,amount * 0.5)
 		reagents.update_total()
 	else
@@ -431,6 +433,11 @@ var/const/CE_STABLE_THRESHOLD = 0.5
 		if(M.isSynthetic()) synth = 1
 		source = M.get_blood(M.vessel)
 
+	//Someone fed us a weird source. Let's log it.
+	if(source && !istype(source, /datum/reagent/blood))
+		log_debug("A blood splatter was made using non-blood datum [source]!")
+		source = null //Clear the source since it's invalid. Fallback to non-source behavior.
+
 	// Are we dripping or splattering?
 	var/list/drips = list()
 	// Only a certain number of drips (or one large splatter) can be on a given turf.
@@ -465,18 +472,19 @@ var/const/CE_STABLE_THRESHOLD = 0.5
 
 	// Update blood information.
 	if(source.data["blood_DNA"])
-		B.blood_DNA = list()
+		var/list/new_data = list()
 		if(source.data["blood_type"])
-			B.blood_DNA[source.data["blood_DNA"]] = source.data["blood_type"]
+			new_data[source.data["blood_DNA"]] = source.data["blood_type"]
 		else
-			B.blood_DNA[source.data["blood_DNA"]] = "O+"
+			new_data[source.data["blood_DNA"]] = "O+"
+		B.init_forensic_data().merge_blooddna(null,new_data)
 
 	// Update virus information.
 	if(source.data["viruses"])
 		B.viruses = source.data["viruses"]
 
 	B.fluorescent  = 0
-	B.invisibility = 0
+	B.invisibility = INVISIBILITY_NONE
 	return B
 
 #undef BLOOD_MINIMUM_STOP_PROCESS

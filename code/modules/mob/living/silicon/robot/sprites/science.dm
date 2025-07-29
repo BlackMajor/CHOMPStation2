@@ -104,10 +104,10 @@
 	sprite_icon = 'icons/mob/robot/science_wide.dmi'
 
 /datum/robot_sprite/dogborg/science/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-
-	..()
 
 	var/obj/item/shockpaddles/robot/jumper/J = locate() in module.modules
 	if(J)
@@ -154,9 +154,10 @@
 	sprite_icon = 'icons/mob/robot/science_large.dmi'
 
 /datum/robot_sprite/dogborg/tall/science/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-	..()
 
 	var/obj/item/shockpaddles/robot/jumper/J = locate() in module.modules
 	if(J)
@@ -215,24 +216,40 @@
 	name = "Dullahan"
 	sprite_icon_state = "dullahansci"
 	sprite_icon = 'icons/mob/robot/dullahan/v1/dullahan_sci.dmi'
-	has_vore_belly_sprites = TRUE
 	has_eye_light_sprites = TRUE
+	has_rest_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	has_vore_belly_resting_sprites = TRUE
+	has_rest_lights_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
 	sprite_hud_icon_state = "sci-borg"
 	rest_sprite_options = list("Default", "Sit")
+	sprite_decals = list("breastplate","loincloth","eyecover")
 	icon_x = 32
 	pixel_x = 0
 
-
-/datum/robot_sprite/dogborg/tall/science/dullahan/scialt
-	name = "Dullahan v2"
-	sprite_icon_state = "dullahansci_alt"
+/datum/robot_sprite/dogborg/tall/science/dullataursci
+	name = "Dullataur"
+	sprite_icon_state = "dullataursci"
+	sprite_icon = 'icons/mob/robot/dullahan/dullataurs/dullataur.dmi'
+	rest_sprite_options = list("Default")
+	has_eye_light_sprites = TRUE
+	has_rest_sprites = TRUE
+	has_vore_belly_sprites = FALSE
+	has_vore_belly_resting_sprites = FALSE
+	has_rest_lights_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
+	sprite_decals = list("breastplate")
 	icon_x = 32
 	pixel_x = 0
 
-/datum/robot_sprite/dogborg/tall/science/dullahan/scialt2
+/datum/robot_sprite/dogborg/tall/science/dullahanv3
 	name = "Dullahan v3"
 	sprite_icon = 'icons/mob/robot/dullahan/v3/science.dmi'
+	has_vore_belly_sprites = TRUE
+	has_eye_light_sprites = TRUE
 	sprite_icon_state = "dullahanscience"
+	rest_sprite_options = list("Default", "Sit")
 	sprite_decals = list("decals")
 	icon_x = 64
 	pixel_x = -16
@@ -246,12 +263,11 @@
 	has_eye_light_sprites = TRUE
 	has_dead_sprite_overlay = FALSE
 
-
 /datum/robot_sprite/dogborg/science/smolraptor
 	sprite_icon = 'icons/mob/robot/smallraptors/smolraptor_sci.dmi'
 	name = "Small Raptor"
 	sprite_icon_state = "smolraptor"
-	has_dead_sprite_overlay = FALSE
 	has_eye_light_sprites = TRUE
 	has_vore_belly_sprites = TRUE
-	rest_sprite_options = list("Default", "Sit")
+	has_dead_sprite_overlay = FALSE
+	rest_sprite_options = list("Default", "Sit", "Bellyup")

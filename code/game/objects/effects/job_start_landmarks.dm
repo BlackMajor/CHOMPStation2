@@ -44,14 +44,14 @@
 	name = JOB_CARGO_TECHNICIAN
 /obj/effect/landmark/start/miner
 	name = JOB_SHAFT_MINER
- //CHOMP explo keep removed wide comment field
+//CHOMP explo keep removed wide comment field
 /obj/effect/landmark/start/pf
 	name = JOB_PATHFINDER
 /obj/effect/landmark/start/explorer
 	name = JOB_EXPLORER
 /obj/effect/landmark/start/fieldmedic
 	name = JOB_FIELD_MEDIC
- //CHOMP explo keep removed wide comment field end
+//CHOMP explo keep removed wide comment field end
 /obj/effect/landmark/start/bartender
 	name = JOB_BARTENDER
 /obj/effect/landmark/start/botanist
@@ -96,6 +96,9 @@
 	name = JOB_TALON_PILOT
 /obj/effect/landmark/start/talonminer
 	name = JOB_TALON_MINER
+
+/obj/effect/landmark/start/ghost_roles
+	name = JOB_GHOSTROLES
 /obj/effect/landmark/start/outsider
 	name = JOB_OUTSIDER
 /obj/effect/landmark/start/anomaly

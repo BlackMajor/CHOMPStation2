@@ -241,9 +241,9 @@
 	name = "Virus Samples - FRAGILE";
 	opened = 1
 	},
-/obj/item/reagent_containers/glass/bottle/culture/cold,
-/obj/item/reagent_containers/glass/bottle/culture/cold,
-/obj/item/reagent_containers/glass/bottle/culture/cold,
+/obj/item/reagent_containers/glass/beaker/vial/culture/cold,
+/obj/item/reagent_containers/glass/beaker/vial/culture/cold,
+/obj/item/reagent_containers/glass/beaker/vial/culture/cold,
 /turf/simulated/floor/tiled/yellow,
 /area/survivalpod/superpose/CrashedQurantineShip)
 "aL" = (
@@ -630,7 +630,7 @@
 /turf/simulated/floor/tiled/milspec/sterile,
 /area/survivalpod/superpose/CrashedQurantineShip)
 "bP" = (
-/obj/item/reagent_containers/glass/bottle/culture/cold,
+/obj/item/reagent_containers/glass/beaker/vial/culture/cold,
 /turf/simulated/floor/tiled/yellow,
 /area/survivalpod/superpose/CrashedQurantineShip)
 "bQ" = (
@@ -802,7 +802,7 @@
 "cj" = (
 /obj/machinery/door/airlock/external{
 	desc = "It opens and closes. It is stamped with the logo of Major Bill's Transportation";
-	frequency = 1380;
+	frequency = 1381;
 	icon_state = "door_locked";
 	id_tag = null;
 	locked = 1;
@@ -869,7 +869,7 @@
 "su" = (
 /obj/machinery/door/airlock/external{
 	desc = "It opens and closes. It is stamped with the logo of Major Bill's Transportation";
-	frequency = 1380;
+	frequency = 1381;
 	icon_state = "door_locked";
 	id_tag = null;
 	locked = 1;

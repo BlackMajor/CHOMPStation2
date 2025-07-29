@@ -47,7 +47,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/structure/closet/LateInitialize()
-	. = ..()
 	if(starts_with)
 		create_objects_in_loc(src, starts_with)
 		starts_with = null
@@ -312,8 +311,8 @@
 			for(var/obj/item/I in LB.contents)
 				LB.remove_from_storage(I, T)
 			user.visible_message(span_notice("[user] empties \the [LB] into \the [src]."), \
-								 span_notice("You empty \the [LB] into \the [src]."), \
-								 span_notice("You hear rustling of clothes."))
+									span_notice("You empty \the [LB] into \the [src]."), \
+									span_notice("You hear rustling of clothes."))
 			return
 		if(isrobot(user))
 			return
@@ -321,6 +320,7 @@
 			return
 		user.drop_item()
 		if(W)
+			W.do_drop_animation(user)
 			W.forceMove(loc)
 	else if(istype(W, /obj/item/packageWrap))
 		return
@@ -359,6 +359,9 @@
 	if(!isturf(user.loc)) // are you in a container/closet/pod/etc?
 		return
 	if(!opened)
+		// Attempt to climb if not opened!
+		if(O == user)
+			SEND_SIGNAL(src, COMSIG_CLIMBABLE_START_CLIMB, user)
 		return
 	if(istype(O, /obj/structure/closet))
 		return
@@ -585,4 +588,4 @@
 	playsound(src, vore_sound, 25)
 
 	var/mob/living/M = usr
-	M.perform_the_nom(usr,target,usr,usr.vore_selected,1)
+	M.perform_the_nom(usr,target,usr,usr.vore_selected,-1)

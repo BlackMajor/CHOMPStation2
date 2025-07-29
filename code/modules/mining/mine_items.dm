@@ -256,7 +256,7 @@
 	var/obj/item/stack/flag/F = locate() in get_turf(src)
 
 	var/turf/T = get_turf(src)
-	if(!T || !istype(T,/turf/simulated/mineral))
+	if(!T || !ismineralturf(T))
 		to_chat(user, "The flag won't stand up in this terrain.")
 		return
 
@@ -286,8 +286,8 @@
 	var/on = 0
 	var/brightness_on = 4 //luminosity when on
 
-/obj/item/stack/lightpole/New()
-	..()
+/obj/item/stack/lightpole/Initialize(mapload)
+	. = ..()
 	base_state = icon_state
 
 /obj/item/stack/lightpole/blue

@@ -31,7 +31,7 @@
 		far_dist += heavy_impact_range * 5
 		far_dist += devastation_range * 20
 		var/frequency = get_rand_frequency()
-		for(var/mob/M in player_list)
+		for(var/mob/M in GLOB.player_list)
 			if(M.z == epicenter.z)
 				var/turf/M_turf = get_turf(M)
 				var/dist = get_dist(M_turf, epicenter)
@@ -48,7 +48,7 @@
 
 		var/close = range(world.view+round(devastation_range,1), epicenter)
 		// to all distanced mobs play a different sound
-		for(var/mob/M in player_list)
+		for(var/mob/M in GLOB.player_list)
 			if(M.z == epicenter.z)
 				if(!(M in close))
 					// check if the mob can hear
@@ -101,11 +101,11 @@
 
 		var/took = (world.timeofday-start)/10
 		//You need to press the DebugGame verb to see these now....they were getting annoying and we've collected a fair bit of data. Just -test- changes  to explosion code using this please so we can compare
-		if(Debug2) to_world_log("## DEBUG: Explosion([x0],[y0],[z0])(d[devastation_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
+		if(GLOB.Debug2) to_world_log("## DEBUG: Explosion([x0],[y0],[z0])(d[devastation_range],h[heavy_impact_range],l[light_impact_range]): Took [took] seconds.")
 
 		//Machines which report explosions.
-		for(var/i,i<=doppler_arrays.len,i++)
-			var/obj/machinery/doppler_array/Array = doppler_arrays[i]
+		for(var/i, i <= GLOB.doppler_arrays.len, i++)
+			var/obj/machinery/doppler_array/Array = GLOB.doppler_arrays[i]
 			if(Array)
 				Array.sense_explosion(x0,y0,z0,devastation_range,heavy_impact_range,light_impact_range,took)
 		sleep(8)

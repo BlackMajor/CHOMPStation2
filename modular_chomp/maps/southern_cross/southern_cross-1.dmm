@@ -1,4 +1,12 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aa" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/abcargo)
+"ab" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/thrift)
 "ac" = (
 /obj/effect/floor_decal/industrial/arrows/yellow{
 	dir = 8
@@ -18,6 +26,14 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/zerocent)
+"ae" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/zerocent)
+"af" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/zerocent)
 "ag" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -31,6 +47,15 @@
 /obj/structure/foamedmetal,
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/zeroport)
+"ai" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/thrift)
+"aj" = (
+/obj/effect/recycler_beacon,
+/turf/simulated/floor/wood/turfpack/station,
+/area/maintenance/zerobar)
 "ak" = (
 /obj/effect/floor_decal/borderfloor{
 	dir = 8
@@ -55,6 +80,10 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/zerocent)
+"an" = (
+/obj/effect/recycler_vendor_beacon,
+/turf/simulated/floor/wood/turfpack/station,
+/area/maintenance/zerobar)
 "ao" = (
 /obj/machinery/atmospherics/binary/pump/on{
 	dir = 8;
@@ -111,6 +140,11 @@
 	},
 /turf/simulated/floor/tiled,
 /area/engineering/backuppowerlobby)
+"au" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/recycler_beacon,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/ragecage)
 "av" = (
 /obj/structure/railing/grey{
 	dir = 4
@@ -129,6 +163,11 @@
 	},
 /turf/simulated/floor/tiled/white,
 /area/maintenance/abfirstaid)
+"ax" = (
+/obj/effect/floor_decal/rust,
+/obj/effect/landmark/start/ghost_roles,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/zeroport)
 "ay" = (
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/floor_decal/industrial/arrows/yellow{
@@ -141,6 +180,28 @@
 /obj/item/tape/atmos,
 /turf/simulated/floor/tiled/techmaint,
 /area/maintenance/zeroaft)
+"az" = (
+/obj/effect/landmark/start/ghost_roles,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/thrift)
+"aA" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 4
+	},
+/obj/effect/landmark/start/ghost_roles,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/zerostarboard)
+"aB" = (
+/obj/random/trash,
+/obj/effect/landmark/start/ghost_roles,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/zerofore)
 "aC" = (
 /obj/effect/floor_decal/rust,
 /obj/structure/table/rack,
@@ -162,6 +223,10 @@
 	},
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/zeroport)
+"aE" = (
+/obj/structure/ghost_pod/ghost_activated/maintpred/no_announce,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/abcargo)
 "aF" = (
 /obj/effect/floor_decal/techfloor/corner{
 	dir = 5
@@ -173,12 +238,21 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
 /turf/simulated/floor/tiled/techfloor,
 /area/maintenance/engineering/gravgen)
+"aG" = (
+/obj/effect/decal/cleanable/flour,
+/obj/structure/ghost_pod/ghost_activated/morphspawn/no_announce,
+/turf/simulated/floor/plating/turfpack/station,
+/area/maintenance/abchemistry)
 "aH" = (
 /obj/structure/bed/chair/sofa/right/beige{
 	dir = 4
 	},
 /turf/simulated/floor/wood/alt/parquet/turfpack/station,
 /area/maintenance/lookout)
+"aI" = (
+/obj/structure/ghost_pod/ghost_activated/maintpred/no_announce,
+/turf/simulated/floor/wood/turfpack/station,
+/area/maintenance/zerobar)
 "aJ" = (
 /obj/machinery/light{
 	dir = 8;
@@ -186,6 +260,10 @@
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/engineering/gravgen)
+"aK" = (
+/obj/structure/ghost_pod/ghost_activated/maintpred/no_announce,
+/turf/simulated/floor/tiled/white,
+/area/maintenance/abscience)
 "aM" = (
 /obj/effect/floor_decal/rust,
 /obj/structure/catwalk,
@@ -2098,7 +2176,7 @@
 /area/engineering/backuppowerlobby)
 "iN" = (
 /obj/turbolift_map_holder/southern_cross/port,
-/turf/unsimulated/mask,
+/turf/simulated/floor/plating/eris/under,
 /area/engineering/lowlobby)
 "iP" = (
 /turf/simulated/floor/plating/turfpack/airless,
@@ -4339,6 +4417,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/structure/ghost_pod/ghost_activated/morphspawn/no_announce,
 /turf/simulated/floor/tiled/white,
 /area/maintenance/abfirstaid)
 "rZ" = (
@@ -4552,7 +4631,7 @@
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/fieldthrift)
 "sV" = (
-/turf/unsimulated/mask,
+/turf/simulated/floor/plating/eris/under,
 /area/engineering/lowlobby)
 "sW" = (
 /turf/simulated/wall,
@@ -9956,6 +10035,7 @@
 	dir = 5
 	},
 /obj/effect/decal/cleanable/cobweb2,
+/obj/effect/recycler_beacon,
 /turf/simulated/floor/plating/turfpack/station,
 /area/maintenance/abcargo)
 "Rh" = (
@@ -10704,6 +10784,8 @@
 /obj/structure/sign/warning/radioactive{
 	pixel_y = 32
 	},
+/obj/item/clothing/head/radiation/teshari,
+/obj/item/clothing/suit/radiation/teshari,
 /turf/simulated/floor/tiled,
 /area/maintenance/substation/gravgen)
 "US" = (
@@ -32352,7 +32434,7 @@ sV
 sV
 ua
 Nc
-PK
+ax
 ua
 TJ
 TJ
@@ -35689,7 +35771,7 @@ oY
 EP
 ly
 In
-Vb
+aI
 UP
 wq
 tm
@@ -36227,7 +36309,7 @@ gv
 KS
 qn
 VL
-zu
+aa
 zu
 zu
 WO
@@ -36485,7 +36567,7 @@ gv
 ls
 gK
 qn
-zu
+aE
 Re
 qh
 xl
@@ -39032,7 +39114,7 @@ wZ
 wZ
 wZ
 gr
-Vb
+aj
 Vb
 as
 Vb
@@ -39061,7 +39143,7 @@ PJ
 XP
 qi
 xf
-xz
+aG
 xf
 Sd
 sr
@@ -39548,7 +39630,7 @@ Yk
 Yk
 Yk
 gr
-Vb
+an
 Vb
 In
 Vb
@@ -42646,7 +42728,7 @@ WY
 LU
 br
 Nz
-hA
+aK
 hA
 GF
 Hy
@@ -43672,7 +43754,7 @@ wZ
 wZ
 wZ
 Qy
-TY
+aB
 je
 Lc
 IH
@@ -44463,7 +44545,7 @@ Gb
 sa
 bq
 wn
-xS
+ae
 Sb
 Sb
 xS
@@ -46011,7 +46093,7 @@ Lc
 Lc
 WY
 wn
-xS
+af
 HL
 Sb
 kd
@@ -49088,7 +49170,7 @@ wZ
 wZ
 HE
 HE
-ij
+au
 sD
 RF
 RF
@@ -54513,7 +54595,7 @@ wZ
 wZ
 Ky
 JA
-MZ
+aA
 sW
 CP
 KM
@@ -57376,7 +57458,7 @@ AR
 wS
 AR
 DR
-AR
+ab
 OG
 py
 hz
@@ -58133,7 +58215,7 @@ wZ
 Fv
 Fv
 xs
-Xc
+ai
 AR
 ZL
 fl
@@ -58143,7 +58225,7 @@ XE
 AR
 TG
 Pd
-AR
+az
 wX
 vp
 wS

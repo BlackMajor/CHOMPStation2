@@ -1,8 +1,6 @@
 
 //The advanced pea-green monochrome lcd of tomorrow.
 
-var/global/list/obj/item/pda/PDAs = list()
-
 /obj/item/pda
 	name = "\improper PDA"
 	desc = "A portable microcomputer by Thinktronic Systems, LTD. Functionality determined by a preprogrammed ROM cartridge."
@@ -128,16 +126,22 @@ var/global/list/obj/item/pda/PDAs = list()
 		close(user)
 	return 0
 
-/obj/item/pda/New(var/mob/living/carbon/human/H)
-	..()
+/obj/item/pda/Initialize(mapload)
+	. = ..()
 	PDAs += src
-	PDAs = sortAtom(PDAs)
+	PDAs = sort_names(PDAs)
 	update_programs()
 	if(default_cartridge)
 		cartridge = new default_cartridge(src)
 		cartridge.update_programs(src)
 	new /obj/item/pen(src)
-	pdachoice = isnull(H) ? 1 : (ishuman(H) ? H.pdachoice : 1)
+
+	if(ishuman(loc))
+		var/mob/living/carbon/human/H = loc
+		pdachoice = H.pdachoice
+	else
+		pdachoice = 1
+
 	switch(pdachoice)
 		if(1)
 			icon = 'icons/obj/pda_vr.dmi'			//VOREStation edit
@@ -517,8 +521,8 @@ var/global/list/obj/item/pda/PDAs = list()
 	icon = 'icons/obj/pda_vr.dmi'			//VOREStation edit
 	icon_state = "pdabox"
 
-/obj/item/storage/box/PDAs/New()
-	..()
+/obj/item/storage/box/PDAs/Initialize(mapload)
+	. = ..()
 	new /obj/item/pda(src)
 	new /obj/item/pda(src)
 	new /obj/item/pda(src)

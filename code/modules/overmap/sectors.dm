@@ -95,7 +95,7 @@
 
 	if(known)
 		plane = PLANE_LIGHTING_ABOVE
-		for(var/obj/machinery/computer/ship/helm/H in global.machines)
+		for(var/obj/machinery/computer/ship/helm/H in GLOB.machines)
 			H.get_known_sectors()
 	else
 		real_appearance = image(icon, src, icon_state)
@@ -107,7 +107,7 @@
 		real_desc = desc
 		desc = "Scan this to find out more information."
 	//at the moment only used for the OM location renamer. Initializing here in case we want shuttles incl as well in future. Also proc definition convenience.
-	visitable_overmap_object_instances |= src
+	GLOB.visitable_overmap_object_instances += src
 
 //To be used by GMs and calling through var edits for the overmap object
 //It causes the overmap object to "reinitialize" its real_appearance for known = FALSE objects
@@ -147,7 +147,7 @@
 
 /obj/effect/overmap/visitable/proc/register_z_levels()
 	for(var/zlevel in map_z)
-		map_sectors["[zlevel]"] = src
+		GLOB.map_sectors["[zlevel]"] = src
 
 	global.using_map.player_levels |= map_z
 	if(!in_space)
@@ -160,7 +160,7 @@
 	*/
 
 /obj/effect/overmap/visitable/proc/unregister_z_levels()
-	map_sectors -= map_z
+	GLOB.map_sectors -= map_z
 
 	global.using_map.player_levels -= map_z
 	if(!in_space)

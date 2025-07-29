@@ -430,15 +430,15 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 
 			if(helmet)
 				if(radiation_level > 2)
-					helmet.decontaminate()
+					helmet.wash(CLEAN_TYPE_RADIATION)
 				if(radiation_level > 1)
-					helmet.clean_blood()
+					helmet.wash(CLEAN_SCRUB)
 
 			if(suit)
 				if(radiation_level > 2)
-					suit.decontaminate()
+					suit.wash(CLEAN_TYPE_RADIATION)
 				if(radiation_level > 1)
-					suit.clean_blood()
+					suit.wash(CLEAN_SCRUB)
 
 			. = TRUE
 
@@ -535,7 +535,7 @@ GLOBAL_LIST_EMPTY(suit_cycler_typecache)
 		target_department.do_refit_suit(suit)
 	// Attached voidsuit helmet to new paint
 	if(target_department.can_refit_helmet(suit?.hood))
-		target_department.do_refit_helmet(suit.hood)
+		target_department.do_refit_helmet(suit?.hood)
 
 	// Species fitting for all 3 potential changes
 	if(target_species.can_refit_to(helmet, suit, suit?.hood))

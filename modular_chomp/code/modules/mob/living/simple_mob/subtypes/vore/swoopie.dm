@@ -84,11 +84,7 @@
 		return
 	. = ..() //if not vaccable, just do what it normally does
 
-/mob/living/simple_mob/vore/aggressive/corrupthound/swoopie/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return TRUE
+/mob/living/simple_mob/vore/aggressive/corrupthound/swoopie/load_default_bellies()
 	add_verb(src,/mob/living/proc/eat_trash) //CHOMPEdit TGPanel
 	add_verb(src,/mob/living/proc/toggle_trash_catching) //CHOMPEdit TGPanel
 	add_verb(src,/mob/living/proc/restrict_trasheater) //CHOMPEdit TGPanel
@@ -164,9 +160,6 @@
 	B.vore_sound = "Stomach Move"
 	B.sound_volume = 20
 
-	if(!soulgem)
-		soulgem = new(src)
-
 /obj/belly/longneck
 	affects_vore_sprites = TRUE
 	belly_sprite_to_affect = "neck1"
@@ -217,7 +210,7 @@
 			Vac.afterattack(S, src, 1)
 			return
 	for(var/obj/O in T)
-		if(is_type_in_list(O, edible_trash) && !O.anchored)
+		if(is_type_in_list(O, GLOB.edible_trash) && !O.anchored)
 			Vac.afterattack(T, src, 1)
 			return
 	for(var/mob/living/L in T)

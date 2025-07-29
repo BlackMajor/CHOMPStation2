@@ -107,6 +107,7 @@
 	name = "oven"
 	desc = "Old fashioned cookies are ready, dear."
 	icon_state = "yeoldovenopen"
+	tgui_id = "CookingOvenOld"
 
 /obj/machinery/appliance/cooker/oven/yeoldoven/update_icon()
 	if(!open)
@@ -264,7 +265,7 @@
 		else //Otherwise bad luck!!
 			to_chat(user, span_warning("It's dirty!"))
 			return 1
-	else if(is_type_in_list(O,acceptable_items))
+	else if(is_type_in_list(O,GLOB.acceptable_items))
 		var/list/workingList = cookingContents()
 		if(workingList.len>=(max_n_of_items + circuit_item_capacity))	//Adds component_parts to the maximum number of items. changed 1 to actually just be the circuit item capacity var.
 			to_chat(user, span_warning("This [src] is full of ingredients, you cannot put more."))
@@ -320,7 +321,7 @@
 		if (!O.reagents)
 			return 1
 		for (var/datum/reagent/R in O.reagents.reagent_list)
-			if (!(R.id in acceptable_reagents))
+			if (!(R.id in GLOB.acceptable_reagents))
 				to_chat(user, span_warning("Your [O] contains components unsuitable for cookery."))
 				return 1
 		return
@@ -479,7 +480,7 @@
 
 /obj/item/perfect_tele/magic/attack_self(mob/user, var/radial_menu_anchor = src)
 	if(loc_network)
-		for(var/obj/item/perfect_tele_beacon/stationary/nb in GLOB.premade_tele_beacons) //ChompEDIT - GLOB
+		for(var/obj/item/perfect_tele_beacon/stationary/nb in GLOB.premade_tele_beacons)
 			if(nb.tele_network == loc_network)
 				beacons[nb.tele_name] = nb
 		loc_network = null //Consumed

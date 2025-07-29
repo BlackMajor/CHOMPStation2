@@ -29,9 +29,8 @@
 		check_antagonists()
 		return
 
-	// CHOMPedit Start - Tickets System
 	if(href_list["ticket"])
-		if(!check_rights(R_ADMIN|R_MOD|R_DEBUG|R_EVENT))
+		if(!check_rights(R_ADMIN|R_MOD|R_DEBUG|R_EVENT|R_MENTOR))
 			return
 
 		var/ticket_ref = href_list["ticket"]
@@ -44,90 +43,7 @@
 	else if(href_list["tickets"])
 		GLOB.tickets.BrowseTickets(text2num(href_list["tickets"]))
 
-	// CHOMPedit End
-
-	// mentor_commands(href, href_list, src) // CHOMPedit - Skip this because client is already admin & contents already handled of code above
-
-	if(href_list["dbsearchckey"] || href_list["dbsearchadmin"])
-
-		var/adminckey = href_list["dbsearchadmin"]
-		var/playerckey = href_list["dbsearchckey"]
-		var/playerip = href_list["dbsearchip"]
-		var/playercid = href_list["dbsearchcid"]
-		var/dbbantype = text2num(href_list["dbsearchbantype"])
-		var/match = 0
-
-		if("dbmatch" in href_list)
-			match = 1
-
-		DB_ban_panel(playerckey, adminckey, playerip, playercid, dbbantype, match)
-		return
-
-	else if(href_list["dbbanedit"])
-		var/banedit = href_list["dbbanedit"]
-		var/banid = text2num(href_list["dbbanid"])
-		if(!banedit || !banid)
-			return
-
-		DB_ban_edit(banid, banedit)
-		return
-
-	else if(href_list["dbbanaddtype"])
-
-		var/bantype = text2num(href_list["dbbanaddtype"])
-		var/banckey = href_list["dbbanaddckey"]
-		var/banip = href_list["dbbanaddip"]
-		var/bancid = href_list["dbbanaddcid"]
-		var/banduration = text2num(href_list["dbbaddduration"])
-		var/banjob = href_list["dbbanaddjob"]
-		var/banreason = href_list["dbbanreason"]
-
-		banckey = ckey(banckey)
-
-		switch(bantype)
-			if(BANTYPE_PERMA)
-				if(!banckey || !banreason)
-					to_chat(usr, span_filter_adminlog("Not enough parameters (Requires ckey and reason)"))
-					return
-				banduration = null
-				banjob = null
-			if(BANTYPE_TEMP)
-				if(!banckey || !banreason || !banduration)
-					to_chat(usr, span_filter_adminlog("Not enough parameters (Requires ckey, reason and duration)"))
-					return
-				banjob = null
-			if(BANTYPE_JOB_PERMA)
-				if(!banckey || !banreason || !banjob)
-					to_chat(usr, span_filter_adminlog("Not enough parameters (Requires ckey, reason and job)"))
-					return
-				banduration = null
-			if(BANTYPE_JOB_TEMP)
-				if(!banckey || !banreason || !banjob || !banduration)
-					to_chat(usr, span_filter_adminlog("Not enough parameters (Requires ckey, reason and job)"))
-					return
-
-		var/mob/playermob
-
-		for(var/mob/M in player_list)
-			if(M.ckey == banckey)
-				playermob = M
-				break
-
-
-		banreason = "(MANUAL BAN) "+banreason
-
-		if(!playermob)
-			if(banip)
-				banreason = "[banreason] (CUSTOM IP)"
-			if(bancid)
-				banreason = "[banreason] (CUSTOM CID)"
-		else
-			message_admins("Ban process: A mob matching [playermob.ckey] was found at location [playermob.x], [playermob.y], [playermob.z]. Custom ip and computer id fields replaced with the ip and computer id from the located mob")
-		notes_add(banckey,banreason,usr)
-
-		DB_ban_record(bantype, playermob, banduration, banreason, banjob, null, banckey, banip, bancid )
-		if((bantype == BANTYPE_PERMA || bantype == BANTYPE_TEMP) && playermob.client)
-			qdel(playermob.client)
+	// mentor_commands(href, href_list, src) - Skip because client is already admin & contents handled above
 
 	else if(href_list["editrightsbrowser"])
 		edit_admin_permissions(0)
@@ -201,7 +117,7 @@
 		href_list["secretsadmin"] = "check_antagonist"
 
 	else if(href_list["delay_round_end"])
-		if(!check_rights(R_SERVER))	return //VOREStation Edit
+		if(!check_rights(R_SERVER))	return
 
 		ticker.delay_end = !ticker.delay_end
 		log_admin("[key_name(usr)] [ticker.delay_end ? "delayed the round end" : "has made the round end normally"].")
@@ -463,7 +379,6 @@
 
 		jobs += "</tr></table>"
 
-	//VOREStation Edit Start
 	//Exploration (Purple)
 		counter = 0
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
@@ -488,7 +403,7 @@
 		counter = 0
 		// Needs to be done early because it uses the length of the list for sizing
 		var/list/offmap_jobs = list()
-		for(var/dept in offmap_departments)
+		for(var/dept in GLOB.offmap_departments)
 			offmap_jobs += SSjob.get_job_titles_in_department(dept)
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
 		jobs += "<tr bgcolor='00ffff'><th colspan='[length(offmap_jobs)]'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=offmapdept;jobban4=\ref[M]'>Offmap Positions</a></th></tr><tr align='center'>"
@@ -508,7 +423,6 @@
 
 		jobs += "</tr></table>"
 
-	//VOREstation Edit End
 	//Civilian (Grey)
 		counter = 0
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
@@ -558,11 +472,11 @@
 		counter = 0
 		var/isbanned_dept = jobban_isbanned(M, JOB_SYNDICATE)
 		jobs += "<table cellpadding='1' cellspacing='0' width='100%'>"
-		jobs += "<tr bgcolor='ffeeaa'><th colspan='[length(all_antag_types)]'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=Syndicate;jobban4=\ref[M]'>Antagonist Positions</a></th></tr><tr align='center'>"
+		jobs += "<tr bgcolor='ffeeaa'><th colspan='[length(GLOB.all_antag_types)]'><a href='byond://?src=\ref[src];[HrefToken()];jobban3=Syndicate;jobban4=\ref[M]'>Antagonist Positions</a></th></tr><tr align='center'>"
 
 		// Antagonists.
-		for(var/antag_type in all_antag_types)
-			var/datum/antagonist/antag = all_antag_types[antag_type]
+		for(var/antag_type in GLOB.all_antag_types)
+			var/datum/antagonist/antag = GLOB.all_antag_types[antag_type]
 			if(!antag || !antag.bantype)
 				continue
 
@@ -663,7 +577,6 @@
 					var/datum/job/temp = job_master.GetJob(jobPos)
 					if(!temp) continue
 					joblist += temp.title
-			//VOREStation Edit Start
 			if("explorationdept")
 				for(var/jobPos in SSjob.get_job_titles_in_department(DEPARTMENT_PLANET))
 					if(!jobPos)	continue
@@ -671,13 +584,12 @@
 					if(!temp) continue
 					joblist += temp.title
 			if("offmapdept")
-				for(var/dept in offmap_departments)
+				for(var/dept in GLOB.offmap_departments)
 					for(var/jobPos in SSjob.get_job_titles_in_department(dept))
 						if(!jobPos)	continue
 						var/datum/job/temp = job_master.GetJob(jobPos)
 						if(!temp) continue
 						joblist += temp.title
-			//VOREStation Edit End
 			if("civiliandept")
 				for(var/jobPos in SSjob.get_job_titles_in_department(DEPARTMENT_CIVILIAN))
 					if(!jobPos)	continue
@@ -770,7 +682,7 @@
 		if(joblist.len) //at least 1 banned job exists in joblist so we have stuff to unban.
 			if(!CONFIG_GET(flag/ban_legacy_system))
 				to_chat(usr, span_filter_adminlog("Unfortunately, database based unbanning cannot be done through this panel"))
-				DB_ban_panel(M.ckey)
+				DB_ban_panel(usr.client, M.ckey)
 				return
 			var/msg
 			for(var/job in joblist)
@@ -808,7 +720,7 @@
 			log_admin("[key_name(usr)] booted [key_name(M)] for reason: '[reason]'.")
 			message_admins(span_blue("[key_name_admin(usr)] booted [key_name_admin(M)] for reason '[reason]'."), 1)
 			//M.client = null
-			admin_action_message(usr.key, M.key, "kicked", reason, 0) //VOREStation Add
+			admin_action_message(usr.key, M.key, "kicked", reason, 0)
 			qdel(M.client)
 
 	else if(href_list["removejobban"])
@@ -838,7 +750,7 @@
 		var/mob/M = locate(href_list["newban"])
 		if(!ismob(M)) return
 
-		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
+		if(M.client && check_rights_for(M.client, R_HOLDER))	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
 
 		switch(tgui_alert(usr, "Temporary Ban?","Temporary Ban",list("Yes","No","Cancel")))
 			if(null)
@@ -868,10 +780,9 @@
 					to_chat(M, span_filter_system(span_warning("No ban appeals URL has been set.")))
 				log_admin("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes.")
 				message_admins(span_blue("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis will be removed in [mins] minutes."))
-				// CHOMPedit Start - Tickets System
 				var/datum/ticket/T = M.client ? M.client.current_ticket : null
 				if(T)
-					T.Resolve()
+					T.Resolve(usr)
 				qdel(M.client)
 				// CHOMPedit End
 				//qdel(M)	// See no reason why to delete mob. Important stuff can be lost. And ban can be lifted before round ends.
@@ -898,11 +809,9 @@
 				message_admins(span_blue("[usr.client.ckey] has banned [M.ckey].\nReason: [reason]\nThis is a permanent ban."))
 				feedback_inc("ban_perma",1)
 				DB_ban_record(BANTYPE_PERMA, M, -1, reason)
-				// CHOMPedit Start - Tickets System
 				var/datum/ticket/T = M.client ? M.client.current_ticket : null
 				if(T)
-					T.Resolve()
-				// CHOMPedit End
+					T.Resolve(usr)
 				qdel(M.client)
 				//qdel(M)
 			if("Cancel")
@@ -931,7 +840,7 @@
 			dat += {"<A href='byond://?src=\ref[src];[HrefToken()];c_mode2=[mode]'>[config.mode_names[mode]]</A><br>"}
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];c_mode2=secret'>Secret</A><br>"}
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];c_mode2=random'>Random</A><br>"}
-		dat += {"Now: [master_mode]"}
+		dat += {"Now: [GLOB.master_mode]"}
 		usr << browse("<html>[dat]</html>", "window=c_mode")
 
 	else if(href_list["f_secret"])
@@ -939,13 +848,13 @@
 
 		if(ticker && ticker.mode)
 			return tgui_alert_async(usr, "The game has already started.")
-		if(master_mode != "secret")
+		if(GLOB.master_mode != "secret")
 			return tgui_alert_async(usr, "The game mode has to be secret!")
 		var/dat = {"<B>What game mode do you want to force secret to be? Use this if you want to change the game mode, but want the players to believe it's secret. This will only work if the current game mode is secret.</B><HR>"}
 		for(var/mode in config.modes)
 			dat += {"<A href='byond://?src=\ref[src];[HrefToken()];f_secret2=[mode]'>[config.mode_names[mode]]</A><br>"}
 		dat += {"<A href='byond://?src=\ref[src];[HrefToken()];f_secret2=secret'>Random (default)</A><br>"}
-		dat += {"Now: [secret_force_mode]"}
+		dat += {"Now: [GLOB.secret_force_mode]"}
 		usr << browse("<html>[dat]</html>", "window=f_secret")
 
 	else if(href_list["c_mode2"])
@@ -953,12 +862,12 @@
 
 		if (ticker && ticker.mode)
 			return tgui_alert_async(usr, "The game has already started.")
-		master_mode = href_list["c_mode2"]
-		log_admin("[key_name(usr)] set the mode as [config.mode_names[master_mode]].")
-		message_admins(span_blue("[key_name_admin(usr)] set the mode as [config.mode_names[master_mode]]."), 1)
-		to_world(span_world(span_blue("The mode is now: [config.mode_names[master_mode]]")))
+		GLOB.master_mode = href_list["c_mode2"]
+		log_admin("[key_name(usr)] set the mode as [config.mode_names[GLOB.master_mode]].")
+		message_admins(span_blue("[key_name_admin(usr)] set the mode as [config.mode_names[GLOB.master_mode]]."), 1)
+		to_world(span_world(span_blue("The mode is now: [config.mode_names[GLOB.master_mode]]")))
 		Game() // updates the main game menu
-		world.save_mode(master_mode)
+		world.save_mode(GLOB.master_mode)
 		.(href, list("c_mode"=1))
 
 	else if(href_list["f_secret2"])
@@ -966,18 +875,18 @@
 
 		if(ticker && ticker.mode)
 			return tgui_alert_async(usr, "The game has already started.")
-		if(master_mode != "secret")
+		if(GLOB.master_mode != "secret")
 			return tgui_alert_async(usr, "The game mode has to be secret!")
-		secret_force_mode = href_list["f_secret2"]
-		log_admin("[key_name(usr)] set the forced secret mode as [secret_force_mode].")
-		message_admins(span_blue("[key_name_admin(usr)] set the forced secret mode as [secret_force_mode]."), 1)
+		GLOB.secret_force_mode = href_list["f_secret2"]
+		log_admin("[key_name(usr)] set the forced secret mode as [GLOB.secret_force_mode].")
+		message_admins(span_blue("[key_name_admin(usr)] set the forced secret mode as [GLOB.secret_force_mode]."), 1)
 		Game() // updates the main game menu
 		.(href, list("f_secret"=1))
 
-	else if(href_list["monkeyone"])
+	else if(href_list[VV_HK_TURN_MONKEY])
 		if(!check_rights(R_SPAWN))	return
 
-		var/mob/living/carbon/human/H = locate(href_list["monkeyone"])
+		var/mob/living/carbon/human/H = locate(href_list[VV_HK_TURN_MONKEY])
 		if(!istype(H))
 			to_chat(usr, span_filter_adminlog("This can only be used on instances of type /mob/living/carbon/human"))
 			return
@@ -1026,7 +935,7 @@
 			to_chat(usr, span_filter_adminlog("This cannot be used on instances of type /mob/living/silicon/ai"))
 			return
 
-		var/turf/prison_cell = pick(prisonwarp)
+		var/turf/prison_cell = pick(GLOB.prisonwarp)
 		if(!prison_cell)	return
 
 		var/obj/structure/closet/secure_closet/brig/locker = new /obj/structure/closet/secure_closet/brig(prison_cell)
@@ -1094,7 +1003,7 @@
 
 		M.Paralyse(5)
 		sleep(5)
-		M.loc = pick(tdome1)
+		M.loc = pick(GLOB.tdome1)
 		spawn(50)
 			to_chat(M, span_filter_system(span_notice("You have been sent to the Thunderdome.")))
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 1)")
@@ -1119,7 +1028,7 @@
 
 		M.Paralyse(5)
 		sleep(5)
-		M.loc = pick(tdome2)
+		M.loc = pick(GLOB.tdome2)
 		spawn(50)
 			to_chat(M, span_filter_system(span_notice("You have been sent to the Thunderdome.")))
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Team 2)")
@@ -1141,7 +1050,7 @@
 
 		M.Paralyse(5)
 		sleep(5)
-		M.loc = pick(tdomeadmin)
+		M.loc = pick(GLOB.tdomeadmin)
 		spawn(50)
 			to_chat(M, span_filter_system(span_notice("You have been sent to the Thunderdome.")))
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Admin.)")
@@ -1170,7 +1079,7 @@
 			observer.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(observer), slot_shoes)
 		M.Paralyse(5)
 		sleep(5)
-		M.loc = pick(tdomeobserve)
+		M.loc = pick(GLOB.tdomeobserve)
 		spawn(50)
 			to_chat(M, span_filter_system(span_notice("You have been sent to the Thunderdome.")))
 		log_admin("[key_name(usr)] has sent [key_name(M)] to the thunderdome. (Observer.)")
@@ -1191,10 +1100,10 @@
 		else
 			to_chat(usr, span_filter_adminlog(span_filter_warning("Admin Rejuvinates have been disabled")))
 
-	else if(href_list["makeai"])
+	else if(href_list[VK_HK_TURN_AI])
 		if(!check_rights(R_SPAWN))	return
 
-		var/mob/living/carbon/human/H = locate(href_list["makeai"])
+		var/mob/living/carbon/human/H = locate(href_list[VK_HK_TURN_AI])
 		if(!istype(H))
 			to_chat(usr, span_filter_adminlog("This can only be used on instances of type /mob/living/carbon/human"))
 			return
@@ -1203,20 +1112,20 @@
 		log_admin("[key_name(usr)] AIized [key_name(H)]")
 		H.AIize()
 
-	else if(href_list["makealien"])
+	else if(href_list[VV_HK_TURN_ALIEN])
 		if(!check_rights(R_SPAWN))	return
 
-		var/mob/living/carbon/human/H = locate(href_list["makealien"])
+		var/mob/living/carbon/human/H = locate(href_list[VV_HK_TURN_ALIEN])
 		if(!istype(H))
 			to_chat(usr, span_filter_adminlog("This can only be used on instances of type /mob/living/carbon/human"))
 			return
 
 		usr.client.cmd_admin_alienize(H)
 
-	else if(href_list["makerobot"])
+	else if(href_list[VK_HK_TURN_ROBOT])
 		if(!check_rights(R_SPAWN))	return
 
-		var/mob/living/carbon/human/H = locate(href_list["makerobot"])
+		var/mob/living/carbon/human/H = locate(href_list[VK_HK_TURN_ROBOT])
 		if(!istype(H))
 			to_chat(usr, span_filter_adminlog("This can only be used on instances of type /mob/living/carbon/human"))
 			return
@@ -1251,14 +1160,14 @@
 			return
 		var/block=text2num(href_list["block"])
 		usr.client.cmd_admin_toggle_block(H,block)
-		show_player_panel(H)
+		SSadmin_verbs.dynamic_invoke_verb(usr.client, /datum/admin_verb/show_player_panel, H)
 
 	else if(href_list["adminplayeropts"])
 		var/mob/M = locate(href_list["adminplayeropts"])
-		show_player_panel(M)
+		SSadmin_verbs.dynamic_invoke_verb(usr.client, /datum/admin_verb/show_player_panel, M)
 
 	else if(href_list["adminplayerobservejump"])
-		if(!check_rights(R_MOD|R_ADMIN|R_SERVER))	return //VOREStation Edit
+		if(!check_rights(R_MOD|R_ADMIN|R_SERVER))	return
 
 		var/mob/M = locate(href_list["adminplayerobservejump"])
 
@@ -1268,7 +1177,7 @@
 		C.do_jumptomob(M)
 
 	else if(href_list["adminplayerobservefollow"])
-		if(!check_rights(R_MOD|R_ADMIN|R_SERVER)) //VOREStation Edit
+		if(!check_rights(R_MOD|R_ADMIN|R_SERVER))
 			return
 
 		var/mob/M = locate(href_list["adminplayerobservefollow"])
@@ -1291,7 +1200,6 @@
 				if(check_rights_for(X, (R_ADMIN|R_MOD|R_SERVER)))
 					to_chat(X, take_msg)
 			to_chat(M, span_filter_pm(span_boldnotice("Your adminhelp is being attended to by [usr.client]. Thanks for your patience!")))
-			// VoreStation Edit Start
 			if (CONFIG_GET(string/chat_webhook_url))
 				spawn(0)
 					var/query_string = "type=admintake"
@@ -1299,12 +1207,11 @@
 					query_string += "&admin=[url_encode(key_name(usr.client))]"
 					query_string += "&user=[url_encode(key_name(M))]"
 					world.Export("[CONFIG_GET(string/chat_webhook_url)]?[query_string]")
-			// VoreStation Edit End
 		else
 			to_chat(usr, span_warning("Unable to locate mob."))
 
 	else if(href_list["adminplayerobservecoodjump"])
-		if(!check_rights(R_ADMIN|R_SERVER|R_MOD))	return //VOREStation Edit
+		if(!check_rights(R_ADMIN|R_SERVER|R_MOD))	return
 
 		var/x = text2num(href_list["X"])
 		var/y = text2num(href_list["Y"])
@@ -1732,13 +1639,13 @@
 		log_and_message_admins("created [number] [english_list(paths)]")
 		return
 
-	else if(href_list["admin_secrets_panel"])
-		var/datum/admin_secret_category/AC = locate(href_list["admin_secrets_panel"]) in admin_secrets.categories
-		src.Secrets(AC)
+	//else if(href_list["admin_secrets_panel"])
+		//var/datum/admin_secret_category/AC = locate(href_list["admin_secrets_panel"]) in admin_secrets.categories
+		//src.Secrets(AC)
 
-	else if(href_list["admin_secrets"])
-		var/datum/admin_secret_item/item = locate(href_list["admin_secrets"]) in admin_secrets.items
-		item.execute(usr)
+	//else if(href_list["admin_secrets"])
+		//var/datum/admin_secret_item/item = locate(href_list["admin_secrets"]) in admin_secrets.items
+		//item.execute(usr)
 
 	else if(href_list["ac_view_wanted"])            //Admin newscaster Topic() stuff be here
 		src.admincaster_screen = 18                 //The ac_ prefix before the hrefs stands for AdminCaster.
@@ -1949,7 +1856,7 @@
 				vsc.SetDefault(usr)
 
 	else if(href_list["toglang"])
-		if(check_rights(R_SPAWN)) //VOREStation Edit
+		if(check_rights(R_SPAWN))
 			var/mob/M = locate(href_list["toglang"])
 			if(!istype(M))
 				to_chat(usr, span_filter_adminlog("[M] is illegal type, must be /mob!"))
@@ -1964,12 +1871,12 @@
 				if(!M.add_language(lang2toggle))
 					to_chat(usr, span_filter_adminlog("Failed to add language '[lang2toggle]' from \the [M]!"))
 
-			show_player_panel(M)
+			SSadmin_verbs.dynamic_invoke_verb(usr.client, /datum/admin_verb/show_player_panel, M)
 
 	else if(href_list["cryoplayer"])
 		if(!check_rights(R_ADMIN|R_EVENT))	return
 
-		var/mob/living/carbon/M = locate(href_list["cryoplayer"]) //VOREStation edit from just an all mob check to mob/living/carbon
+		var/mob/living/carbon/M = locate(href_list["cryoplayer"])
 		if(!istype(M))
 			to_chat(usr, span_warning("Mob doesn't exist!"))
 			return

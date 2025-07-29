@@ -38,15 +38,13 @@
 
 	var/affected_by_emp_until = 0
 
-	var/client_huds = list()
-
-	var/list/camera_computers_using_this = list()
+	var/client_huds = null
 
 /obj/machinery/camera/Initialize(mapload)
 	wires = new(src)
 	assembly = new(src)
 	assembly.state = 4
-	client_huds |= global_hud.whitense
+	LAZYOR(client_huds, GLOB.global_hud.whitense)
 
 	/* // Use this to look for cameras that have the same c_tag.
 	for(var/obj/machinery/camera/C in cameranet.cameras)
@@ -212,14 +210,18 @@
 			if(N)
 				info = N.notehtml
 		to_chat(U, "You hold \a [itemname] up to the camera ...")
-		for(var/mob/living/silicon/ai/O in living_mob_list)
+		for(var/mob/living/silicon/ai/O in GLOB.living_mob_list)
 			if(!O.client)
 				continue
 			if(U.name == "Unknown")
 				to_chat(O, span_infoplain(span_bold("[U]") + " holds \a [itemname] up to one of your cameras ..."))
 			else
 				to_chat(O, span_infoplain(span_bold("<a href='byond://?src=\ref[O];track2=\ref[O];track=\ref[U];trackname=[U.name]'>[U]</a>") + " holds \a [itemname] up to one of your cameras ..."))
-			O << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", itemname, info), text("window=[]", itemname))
+
+			var/datum/browser/popup = new(O, itemname, itemname)
+			popup.add_head_content("<TITLE>[itemname]</TITLE>")
+			popup.set_content("<TT>[info]</TT>")
+			popup.open()
 
 	else if (istype(W, /obj/item/camera_bug))
 		if (!src.can_use())

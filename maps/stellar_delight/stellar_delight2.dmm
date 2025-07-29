@@ -1174,7 +1174,7 @@
 /area/engineering/storage)
 "cq" = (
 /obj/machinery/air_sensor{
-	frequency = 1438;
+	frequency = 1433;
 	id_tag = "burn_chamber";
 	output = 63
 	},
@@ -2450,7 +2450,7 @@
 	dir = 4
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "starboard_escape_pod";
 	pixel_y = 24
 	},
@@ -3100,7 +3100,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod_berth{
 	dir = 4;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "port_escape_berth";
 	pixel_x = -24
 	},
@@ -3151,7 +3151,7 @@
 /obj/machinery/atmospherics/unary/vent_pump/engine{
 	external_pressure_bound = 100;
 	external_pressure_bound_default = 0;
-	frequency = 1438;
+	frequency = 1433;
 	icon_state = "map_vent_in";
 	id_tag = "cooling_out";
 	initialize_directions = 4;
@@ -3778,6 +3778,10 @@
 /obj/structure/low_wall/bay/reinforced/steel,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/portfore)
+"hP" = (
+/obj/machinery/space_heater,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck2/atmos)
 "hQ" = (
 /obj/structure/table/standard,
 /obj/item/storage/firstaid/surgery,
@@ -3982,6 +3986,16 @@
 /obj/structure/low_wall/bay/reinforced/white,
 /turf/simulated/floor,
 /area/medical/psych)
+"iq" = (
+/obj/structure/table/rack,
+/obj/random/maintenance/engineering,
+/obj/random/maintenance/engineering,
+/obj/random/bomb_supply,
+/obj/machinery/light/small{
+	dir = 8
+	},
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck2/atmos)
 "ir" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -4159,6 +4173,13 @@
 	},
 /turf/simulated/floor,
 /area/stellardelight/deck2/starboardescape)
+"iM" = (
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/machinery/space_heater,
+/turf/simulated/floor,
+/area/maintenance/stellardelight/deck2/atmos)
 "iN" = (
 /obj/machinery/door/firedoor/glass,
 /obj/machinery/door/airlock/angled_bay/standard/glass{
@@ -5726,9 +5747,7 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/engineering/engine_room)
 "lW" = (
-/obj/machinery/medical_kiosk{
-	pixel_y = 6
-	},
+/obj/structure/bed/chair,
 /turf/simulated/floor/tiled/eris/white/bluecorner,
 /area/medical/reception)
 "lX" = (
@@ -8133,6 +8152,7 @@
 /obj/machinery/alarm/angled{
 	dir = 4
 	},
+/obj/random/tank,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/atmos)
 "rt" = (
@@ -8575,6 +8595,7 @@
 /obj/structure/cable/orange{
 	icon_state = "4-8"
 	},
+/obj/random/trash_pile,
 /turf/simulated/wall/bay/r_wall/steel,
 /area/maintenance/stellardelight/deck2/atmos)
 "sy" = (
@@ -12824,6 +12845,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/recycler_beacon,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/portfore)
 "Cv" = (
@@ -12879,6 +12901,7 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/effect/recycler_beacon,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/portsolars)
 "CB" = (
@@ -14077,7 +14100,7 @@
 	dir = 6
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "cargo_bay";
 	pixel_y = 24
 	},
@@ -18731,9 +18754,7 @@
 /obj/machinery/firealarm/angled{
 	dir = 4
 	},
-/obj/structure/flora/pottedplant/smallcactus{
-	pixel_y = 14
-	},
+/obj/machinery/librarywikicomp,
 /turf/simulated/floor/wood,
 /area/stellardelight/deck2/briefingroom)
 "Pm" = (
@@ -19160,6 +19181,7 @@
 /obj/structure/cable/orange{
 	icon_state = "1-8"
 	},
+/obj/machinery/space_heater,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/atmos)
 "Qh" = (
@@ -19287,11 +19309,13 @@
 /turf/simulated/floor/tiled/eris/white/bluecorner,
 /area/stellardelight/deck2/triage)
 "Qq" = (
-/obj/structure/bed/chair,
 /obj/machinery/light{
 	dir = 4
 	},
 /obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/machinery/medical_kiosk{
+	pixel_y = 6
+	},
 /turf/simulated/floor/tiled/eris/white/bluecorner,
 /area/medical/reception)
 "Qr" = (
@@ -21531,7 +21555,7 @@
 /area/engineering/atmos/monitoring)
 "VB" = (
 /obj/machinery/atmospherics/unary/outlet_injector{
-	frequency = 1438;
+	frequency = 1433;
 	id = "cooling_in";
 	name = "Coolant Injector";
 	pixel_y = 1;
@@ -22491,7 +22515,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod_berth{
 	dir = 8;
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "starboard_escape_berth";
 	pixel_x = 24
 	},
@@ -22582,6 +22606,7 @@
 	nightshift_setting = 2
 	},
 /obj/structure/cable/orange,
+/obj/machinery/space_heater,
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck2/atmos)
 "XX" = (
@@ -23088,7 +23113,7 @@
 	dir = 8
 	},
 /obj/machinery/embedded_controller/radio/simple_docking_controller/escape_pod{
-	frequency = 1380;
+	frequency = 1381;
 	id_tag = "port_escape_pod";
 	pixel_y = 24
 	},
@@ -29590,10 +29615,10 @@ Jh
 Jh
 mI
 sx
-DB
+iq
 rs
-DB
-DB
+hP
+hP
 Hm
 Hm
 Hm
@@ -29874,7 +29899,7 @@ mI
 mI
 fQ
 th
-Wo
+iM
 XW
 Qg
 eq

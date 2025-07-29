@@ -82,13 +82,13 @@
 		top.bottom = null
 	if(middle)
 		middle.bottom = null
-	..()
+	. = ..()
 
 // These are necessarily fairly similar, but because the positional relations are different, we have to copy-pasta a fair bit
 /obj/structure/stairs/bottom/check_integrity(var/obj/structure/stairs/bottom/B = null,
-											 var/obj/structure/stairs/middle/M = null,
-											 var/obj/structure/stairs/top/T = null,
-											 var/turf/simulated/open/O = null)
+												var/obj/structure/stairs/middle/M = null,
+												var/obj/structure/stairs/top/T = null,
+												var/turf/simulated/open/O = null)
 
 	// In the case where we're provided all the pieces, just try connecting them.
 	// In order: all exist, they are appropriately adjacent, and they can connect
@@ -120,7 +120,7 @@
 		return TRUE
 
 	// Else, we have to look in other directions
-	for(var/dir in cardinal - src.dir)
+	for(var/dir in GLOB.cardinal - src.dir)
 		B2 = get_step(src, dir)
 		T2 = GetAbove(B2)
 		if(!istype(B2) || !istype(T2))
@@ -240,7 +240,6 @@
 	icon_state = "stair_u"
 	opacity   = TRUE
 	density   = TRUE // Too high to simply step up on
-	climbable = TRUE // But they can be climbed if the bottom is out
 
 	var/obj/structure/stairs/top/top = null
 	var/obj/structure/stairs/bottom/bottom = null
@@ -250,19 +249,20 @@
 	if(!GetAbove(src))
 		warning("Stair created without level above: ([loc.x], [loc.y], [loc.z])")
 		return INITIALIZE_HINT_QDEL
+	AddElement(/datum/element/climbable)
 
 /obj/structure/stairs/middle/Destroy()
 	if(top)
 		top.middle = null
 	if(bottom)
 		bottom.middle = null
-	..()
+	. = ..()
 
 // These are necessarily fairly similar, but because the positional relations are different, we have to copy-pasta a fair bit
 /obj/structure/stairs/middle/check_integrity(var/obj/structure/stairs/bottom/B = null,
-											 var/obj/structure/stairs/middle/M = null,
-											 var/obj/structure/stairs/top/T = null,
-											 var/turf/simulated/open/O = null)
+												var/obj/structure/stairs/middle/M = null,
+												var/obj/structure/stairs/top/T = null,
+												var/turf/simulated/open/O = null)
 
 	// In the  case where we're provided all the pieces, just try connecting them.
 	// In order: all exist, they are appropriately adjacent, and they can connect
@@ -293,7 +293,7 @@
 		return TRUE
 
 	// Else, we have to look in other directions
-	for(var/dir in cardinal - src.dir)
+	for(var/dir in GLOB.cardinal - src.dir)
 		B1 = get_step(src, turn(dir, 180))
 		O = GetAbove(B1)
 		if(!istype(B1) || !istype(O))
@@ -313,7 +313,6 @@
 /obj/structure/stairs/middle/MouseDrop_T(mob/target, mob/user)
 	. = ..()
 	if(check_integrity())
-		do_climb(user)
 		user.forceMove(get_turf(top)) // You can't really drag things when you have to climb up the gap in the stairs yourself
 
 /obj/structure/stairs/middle/Bumped(mob/user)
@@ -339,7 +338,7 @@
 		middle.top = null
 	if(bottom)
 		bottom.top = null
-	..()
+	. = ..()
 
 // These are necessarily fairly similar, but because the positional relations are different, we have to copy-pasta a fair bit
 /obj/structure/stairs/top/check_integrity(var/obj/structure/stairs/bottom/B = null,
@@ -377,7 +376,7 @@
 		return
 
 	// Else, we have to look in other directions
-	for(var/dir in cardinal - src.dir)
+	for(var/dir in GLOB.cardinal - src.dir)
 		O = get_step(src, turn(dir, 180))
 		B1 = GetBelow(O)
 		if(!istype(B1) || !istype(O))

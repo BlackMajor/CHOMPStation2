@@ -8,9 +8,9 @@
 	flags = RESTRICTED | HIVEMIND
 
 /datum/language/ling/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
-
-	if(speaker.mind && speaker.mind.changeling)
-		..(speaker,message,speaker.mind.changeling.changelingID)
+	var/datum/component/antag/changeling/comp = speaker.GetComponent(/datum/component/antag/changeling)
+	if(speaker.mind && comp)
+		..(speaker,message,comp.changelingID)
 	else
 		..(speaker,message)
 
@@ -86,7 +86,7 @@
 	syllables = list("sss","sSs","SSS")
 
 /datum/language/xenos
-	name = "Hivemind"
+	name = LANGUAGE_HIVEMIND
 	desc = "A psychic link permitting members of a xenomorph hive to communicate over enormous distances. Requires a specialized organ only found in xenomorph specimens." //CHOMPedit
 	machine_understands = 0 // CHOMPedit: Borgs and AI can't figure this one out.
 	speech_verb = "hisses"

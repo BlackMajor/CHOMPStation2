@@ -21,7 +21,11 @@
 	. = ..()
 	var/area/A = get_area(src)
 	if(A)
-		RegisterSignal(A, COMSIG_OBSERVER_APC, /atom/proc/update_icon)
+		RegisterSignal(A, COMSIG_OBSERVER_APC, PROC_REF(on_observer_apc))
+	update_icon()
+
+/obj/item/radio/intercom/proc/on_observer_apc()
+	SIGNAL_HANDLER
 	update_icon()
 
 /obj/item/radio/intercom/Destroy()
@@ -90,7 +94,7 @@
 
 /obj/item/radio/intercom/department/medbay/Initialize(mapload)
 	. = ..()
-	internal_channels = default_medbay_channels.Copy()
+	internal_channels = GLOB.default_medbay_channels.Copy()
 
 /obj/item/radio/intercom/department/security/Initialize(mapload)
 	. = ..()
@@ -235,4 +239,4 @@
 
 /obj/item/radio/intercom/locked/confessional
 	name = "confessional intercom"
-	frequency = 1480
+	frequency = 1481

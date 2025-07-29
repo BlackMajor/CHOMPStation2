@@ -2,7 +2,7 @@
 	if(istype(mover,/obj/item/projectile))
 		return (check_cover(mover,target))
 	if(flipped == 1)
-		if(get_dir(mover, target) == reverse_dir[dir]) // From elsewhere to here, can't move against our dir
+		if(get_dir(mover, target) == GLOB.reverse_dir[dir]) // From elsewhere to here, can't move against our dir
 			return !density
 		return TRUE
 	if(istype(mover) && mover.checkpass(PASSTABLE))
@@ -13,14 +13,6 @@
 	if(table && !(table.flipped == 1))
 		return TRUE
 	return FALSE
-
-/obj/structure/table/climb_to(mob/living/mover)
-	if(flipped == 1 && mover.loc == loc)
-		var/turf/T = get_step(src, dir)
-		if(T.Enter(mover))
-			return T
-
-	return ..()
 
 /obj/structure/table/Uncross(atom/movable/mover, turf/target)
 	if(flipped == 1 && (get_dir(mover, target) == dir)) // From here to elsewhere, can't move in our dir
@@ -61,9 +53,11 @@
 	return 1
 
 /obj/structure/table/MouseDrop_T(obj/O, mob/user, src_location, over_location, src_control, over_control, params)
-	if(user.is_incorporeal())
+	if(user.stat)
 		return
-	if(ismob(O.loc)) //If placing an item
+	if(can_reinforce && isliving(user) && istype(O, /obj/item/stack/material) && user.get_active_hand() == O && Adjacent(user))
+		reinforce_table(O, user)
+	else if(ismob(O.loc)) //If placing an item
 		if(!isitem(O) || user.get_active_hand() != O)
 			return ..()
 		if(isrobot(user))
@@ -96,7 +90,7 @@
 		var/obj/item/grab/G = W
 		if (isliving(G.affecting))
 			var/mob/living/M = G.affecting
-			var/obj/occupied = turf_is_crowded()
+			var/obj/occupied = can_climb_turf(src)
 			if(occupied)
 				to_chat(user, span_danger("There's \a [occupied] in the way."))
 				return
@@ -158,6 +152,7 @@
 
 // Placing stuff on tables
 	if(user.unEquip(W, 0, src.loc) && user.client?.prefs?.read_preference(/datum/preference/toggle/precision_placement))
+		W.do_drop_animation(user)
 		auto_align(W, click_parameters)
 		return 1
 

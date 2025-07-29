@@ -4,7 +4,6 @@
 	drop_sound = 'sound/items/drop/clothing.ogg'
 	pickup_sound = 'sound/items/pickup/clothing.ogg'
 	var/list/species_restricted = null //Only these species can wear this kit.
-	var/gunshot_residue //Used by forensics.
 
 	var/list/accessories
 	var/list/valid_accessory_slots
@@ -32,14 +31,8 @@
 /obj/item/clothing/proc/update_clothing_icon()
 	return
 
-// Aurora forensics port.
-/obj/item/clothing/clean_blood()
+/obj/item/clothing/Initialize(mapload)
 	. = ..()
-	gunshot_residue = null
-
-
-/obj/item/clothing/New()
-	..()
 	if(starting_accessories)
 		for(var/T in starting_accessories)
 			var/obj/item/clothing/accessory/tie = new T(src)
@@ -53,7 +46,7 @@
 
 /obj/item/clothing/update_icon()
 	cut_overlays() //This removes all the overlays on the sprite and then goes down a checklist adding them as required.
-	if(blood_DNA)
+	if(forensic_data?.has_blooddna())
 		add_blood()
 	. = ..()
 
@@ -288,8 +281,10 @@
 	icon_state = "block"
 	slot_flags = SLOT_EARS | SLOT_TWOEARS
 
-/obj/item/clothing/ears/offear/New(var/obj/O)
-	if(O)
+/obj/item/clothing/ears/offear/Initialize(mapload)
+	. = ..()
+	if(isobj(loc))
+		var/obj/O = loc
 		name = O.name
 		desc = O.desc
 		icon = O.icon
@@ -385,7 +380,7 @@
 		return
 */
 
-/obj/item/clothing/gloves/clean_blood()
+/obj/item/clothing/gloves/wash()
 	. = ..()
 	transfer_blood = 0
 	update_icon()
@@ -444,8 +439,8 @@
 	var/datum/unarmed_attack/special_attack = null //do the gloves have a special unarmed attack?
 	var/special_attack_type = null
 
-/obj/item/clothing/gloves/New()
-	..()
+/obj/item/clothing/gloves/Initialize(mapload)
+	. = ..()
 	if(special_attack_type && ispath(special_attack_type))
 		special_attack = new special_attack_type
 
@@ -556,17 +551,17 @@
 
 	if(light_on)
 		// Generate object icon.
-		if(!GLOB.light_overlay_cache["[light_overlay]_icon"]) //ChompEDIT Managed GLOB
-			GLOB.light_overlay_cache["[light_overlay]_icon"] = image(icon = 'icons/obj/light_overlays.dmi', icon_state = "[light_overlay]") //ChompEDIT Managed GLOB
-		helmet_light = GLOB.light_overlay_cache["[light_overlay]_icon"] //ChompEDIT Managed GLOB
+		if(!GLOB.light_overlay_cache["[light_overlay]_icon"])
+			GLOB.light_overlay_cache["[light_overlay]_icon"] = image(icon = 'icons/obj/light_overlays.dmi', icon_state = "[light_overlay]")
+		helmet_light = GLOB.light_overlay_cache["[light_overlay]_icon"]
 		add_overlay(helmet_light)
 
 		// Generate and cache the on-mob icon, which is used in update_inv_head().
 		var/body_type = (H && H.species.get_bodytype(H))
 		var/cache_key = "[light_overlay][body_type && LAZYACCESS(sprite_sheets, body_type) ? body_type : ""]"
-		if(!GLOB.light_overlay_cache[cache_key]) //ChompEDIT Managed GLOB
+		if(!GLOB.light_overlay_cache[cache_key])
 			var/use_icon = LAZYACCESS(sprite_sheets, body_type) || 'icons/mob/light_overlays.dmi'
-			GLOB.light_overlay_cache[cache_key] = image(icon = use_icon, icon_state = "[light_overlay]") //ChompEDIT Managed GLOB
+			GLOB.light_overlay_cache[cache_key] = image(icon = use_icon, icon_state = "[light_overlay]")
 
 	else if(helmet_light)
 		cut_overlay(helmet_light)
@@ -643,6 +638,7 @@
 
 	var/step_volume_mod = 1	//How quiet or loud footsteps in this shoe are
 	var/obj/item/clothing/shoes/shoes = null	//If we are wearing shoes in our shoes. Used primarily for magboots.
+	var/blocks_footsteps = TRUE //Does this shoe block custom footstep sounds?
 
 	permeability_coefficient = 0.50
 	slowdown = SHOES_SLOWDOWN
@@ -707,9 +703,9 @@
 
 /obj/item/clothing/shoes/attackby(var/obj/item/I, var/mob/user)
 	if((can_hold_knife == 1) && (istype(I, /obj/item/material/shard) || \
-	 istype(I, /obj/item/material/butterfly) || \
-	 istype(I, /obj/item/material/kitchen/utensil) || \
-	 istype(I, /obj/item/material/knife/tacknife)))
+		istype(I, /obj/item/material/butterfly) || \
+		istype(I, /obj/item/material/kitchen/utensil) || \
+		istype(I, /obj/item/material/knife/tacknife)))
 		if(holding)
 			to_chat(user, span_warning("\The [src] is already holding \a [holding]."))
 			return
@@ -739,15 +735,15 @@
 	if(contaminated)
 		add_overlay(contamination_overlay)
 	if(gurgled) //VOREStation Edit Start
-		decontaminate()
+		wash(CLEAN_ALL)
 		gurgle_contaminate() //VOREStation Edit End
 	if(ismob(usr))
 		var/mob/M = usr
 		M.update_inv_shoes()
 
-/obj/item/clothing/shoes/clean_blood()
+/obj/item/clothing/shoes/wash()
+	. = ..()
 	update_icon()
-	return ..()
 
 // CHOMPEdit Begin - tweaking handle_movement for inshoes steppies
 /obj/item/clothing/shoes/proc/handle_movement(var/turf/walking, var/running, var/mob/living/carbon/human/pred)
@@ -907,9 +903,9 @@
 
 	return ..()
 
-/obj/item/clothing/suit/proc/taurize(var/mob/living/carbon/human/Taur, has_taur_tail = FALSE)
+/obj/item/clothing/suit/proc/taurize(var/mob/living/carbon/human/taur, has_taur_tail = FALSE)
 	if(has_taur_tail)
-		var/datum/sprite_accessory/tail/taur/taurtail = Taur.tail_style
+		var/datum/sprite_accessory/tail/taur/taurtail = taur.tail_style
 		if(taurtail.suit_sprites && (get_worn_icon_state(slot_wear_suit_str) in cached_icon_states(taurtail.suit_sprites)))
 			icon_override = taurtail.suit_sprites
 			taurized = TRUE
@@ -1015,8 +1011,8 @@
 		return
 	..()
 
-/obj/item/clothing/under/New()
-	..()
+/obj/item/clothing/under/Initialize(mapload)
+	. = ..()
 	if(worn_state)
 		LAZYSET(item_state_slots, slot_w_uniform_str, worn_state)
 	else
@@ -1210,9 +1206,9 @@
 		to_chat(usr, span_notice("You roll down your [src]'s sleeves."))
 	update_clothing_icon()
 
-/obj/item/clothing/under/rank/New()
+/obj/item/clothing/under/rank/Initialize(mapload)
+	. = ..()
 	sensor_mode = pick(0,1,2,3)
-	..()
 
 /obj/item/clothing/Destroy()
 	STOP_PROCESSING(SSobj, src)

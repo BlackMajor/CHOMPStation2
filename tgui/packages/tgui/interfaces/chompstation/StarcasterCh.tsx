@@ -3,11 +3,11 @@ import { resolveAsset } from 'tgui/assets';
 import { useBackend } from 'tgui/backend';
 import { Window } from 'tgui/layouts';
 import { Button, Image, LabeledList, Section } from 'tgui-core/components';
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 type Data = {
   showing_archived: BooleanLike;
-  article: { title: String; cover: string; content: string } | null;
+  article: { title: string; cover: string; content: string } | null;
   all_articles: { name: string; uid: number; archived: BooleanLike }[];
 };
 
@@ -42,7 +42,7 @@ const SelectedArticle = (props) => {
 
   return (
     <Section
-      title={'Viewing: ' + title}
+      title={`Viewing: ${title}`}
       buttons={
         <Button icon="times" onClick={() => act('PRG_reset')}>
           Close

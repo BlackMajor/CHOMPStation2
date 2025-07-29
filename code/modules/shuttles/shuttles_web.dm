@@ -346,7 +346,7 @@
 				message_admins("ERROR: Shuttle computer was asked to traverse a nonexistant route.")
 				return
 
-			if(!check_docking(, ui.user, WS))
+			if(!check_docking(ui.user, WS))
 				return TRUE
 
 			var/datum/shuttle_destination/target_destination = new_route.get_other_side(WS.web_master.current_destination)
@@ -417,6 +417,7 @@
 
 // This is called whenever a shuttle is initialized.  If its our shuttle, do our thing!
 /obj/shuttle_connector/proc/setup_routes(var/new_shuttle)
+	SIGNAL_HANDLER
 	var/datum/shuttle/autodock/web_shuttle/ES = SSshuttles.shuttles[shuttle_name]
 	if(ES != new_shuttle)
 		return // Its not our shuttle! Ignore!

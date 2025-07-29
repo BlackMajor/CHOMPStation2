@@ -1,7 +1,7 @@
 // checks for when items are consumed by trash/ore eater
 /obj/item/proc/on_trash_eaten(var/mob/living/user)
 	SHOULD_CALL_PARENT(TRUE)
-	if(is_type_in_list(src,item_vore_blacklist) && !user.adminbus_trash) //If someone has adminbus, they can eat whatever they want.
+	if(is_type_in_list(src, GLOB.item_vore_blacklist) && !user.adminbus_trash) //If someone has adminbus, they can eat whatever they want.
 		to_chat(user, span_warning("You are not allowed to eat this."))
 		return FALSE
 	if(!trash_eatable) //OOC pref. This /IS/ respected, even if adminbus_trash is enabled
@@ -57,18 +57,41 @@
 		if(!watching)
 			return FALSE
 		else
-			visible_message(span_warning("[user] is threatening to make [src] disappear!"))
+			user.visible_message(span_warning("[user] is threatening to make [src] disappear!"))
 			if(id)
 				var/confirm = tgui_alert(user, "The PDA you're holding contains a vulnerable ID card. Will you risk it?", "Confirmation", list("Definitely", "Cancel"))
 				if(confirm != "Definitely")
 					return FALSE
 			if(!do_after(user, 100, src))
 				return FALSE
-			visible_message(span_warning("[user] successfully makes [src] disappear!"))
+			user.visible_message(span_warning("[user] successfully makes [src] disappear!"))
 	return TRUE
 
 /obj/item/pda/after_trash_eaten(var/mob/living/user)
 	to_chat(user, span_notice("You can taste the sweet flavor of delicious technology."))
+
+// ID
+
+/obj/item/card/id/on_trash_eaten(var/mob/living/user)
+	if(!..())
+		return FALSE
+	if(registered_name)
+		var/watching = FALSE
+		for(var/mob/living/carbon/human/H in view(user))
+			if(H.real_name == registered_name && H.client)
+				watching = TRUE
+				break
+		if(!watching)
+			return FALSE
+		else
+			user.visible_message(span_warning("[user] is threatening to make [src] disappear!"))
+			if(!do_after(user, 100, src))
+				return FALSE
+			user.visible_message(span_warning("[user] successfully makes [src] disappear!"))
+	return TRUE
+
+/obj/item/card/id/after_trash_eaten(var/mob/living/user)
+	to_chat(user, span_notice("You can taste the delicious flavour of a person's whole identity."))
 
 // Shoes
 /obj/item/clothing/shoes/on_trash_eaten(var/mob/living/user)
@@ -158,7 +181,7 @@
 	to_chat(user, span_notice("You can taste the sweet flavor of digital friendship. Or maybe it is something else."))
 
 /obj/item/reagent_containers/food/after_trash_eaten(var/mob/living/user)
-	if(!reagents.total_volume)
+	if(!reagents?.total_volume)
 		to_chat(user, span_notice("You can taste the flavor of garbage and leftovers. Delicious?"))
 	else
 		to_chat(user, span_notice("You can taste the flavor of gluttonous waste of food."))

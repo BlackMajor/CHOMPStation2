@@ -40,7 +40,7 @@
 
 // update the invisibility and icon
 /obj/machinery/magnetic_module/hide(var/intact)
-	invisibility = intact ? 101 : 0
+	invisibility = intact ? INVISIBILITY_ABSTRACT : INVISIBILITY_NONE
 	update_icon()
 
 // update the icon_state
@@ -215,7 +215,7 @@
 	. = ..()
 
 	if(autolink)
-		for(var/obj/machinery/magnetic_module/M in machines)
+		for(var/obj/machinery/magnetic_module/M in GLOB.machines)
 			if(M.freq == frequency && M.code == code)
 				magnets.Add(M)
 
@@ -230,7 +230,7 @@
 
 /obj/machinery/magnetic_controller/process()
 	if(magnets.len == 0 && autolink)
-		for(var/obj/machinery/magnetic_module/M in machines)
+		for(var/obj/machinery/magnetic_module/M in GLOB.machines)
 			if(M.freq == frequency && M.code == code)
 				magnets.Add(M)
 
@@ -242,7 +242,7 @@
 	if(stat & (BROKEN|NOPOWER))
 		return
 	user.set_machine(src)
-	var/dat = span_bold("Magnetic Control Console") + "<BR><BR>"
+	var/dat = ""
 	if(!autolink)
 		dat += {"
 		Frequency: <a href='byond://?src=\ref[src];operation=setfreq'>[frequency]</a><br>
@@ -263,8 +263,9 @@
 	dat += "Moving: <a href='byond://?src=\ref[src];operation=togglemoving'>[moving ? "Enabled":"Disabled"]</a>"
 
 
-	user << browse("<html>[dat]</html>", "window=magnet;size=400x500")
-	onclose(user, "magnet")
+	var/datum/browser/popup = new(user, "magnet", "Magnetic Control Console", 400, 500)
+	popup.set_content(dat)
+	popup.open()
 
 /obj/machinery/magnetic_controller/Topic(href, href_list)
 	if(stat & (BROKEN|NOPOWER))

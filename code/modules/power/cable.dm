@@ -7,21 +7,21 @@
 // Definitions
 ////////////////////////////////
 
-/* Cable directions (d1 and d2)
-
-
-  9   1   5
-	\ | /
-  8 - 0 - 4,
-	/ | \
-  10  2   6
+/** Cable directions (d1 and d2)
+ *
+ *
+ *  9   1   5
+ *	  \ | /
+ *  8 - 0 - 4,
+ *	  / | \
+ *  10  2   6
 
 If d1 = 0 and d2 = 0, there's no cable
 If d1 = 0 and d2 = dir, it's a O-X cable, getting from the center of the tile to dir (knot cable)
 If d1 = dir1 and d2 = dir2, it's a full X-X cable, getting from dir1 to dir2
 By design, d1 is the smallest direction and d2 is the highest
 */
-var/list/possible_cable_coil_colours = list(
+GLOBAL_LIST_INIT(possible_cable_coil_colours, list(
 		"White" = COLOR_WHITE,
 		"Silver" = COLOR_SILVER,
 		"Gray" = COLOR_GRAY,
@@ -41,7 +41,7 @@ var/list/possible_cable_coil_colours = list(
 		"Orange" = COLOR_ORANGE,
 		"Beige" = COLOR_BEIGE,
 		"Brown" = COLOR_BROWN
-	)
+	))
 
 /obj/structure/cable
 	level = 1
@@ -102,13 +102,13 @@ var/list/possible_cable_coil_colours = list(
 
 	var/turf/T = src.loc			// hide if turf is not intact
 	if(level==1) hide(!T.is_plating())
-	cable_list += src //add it to the global cable list
+	GLOB.cable_list += src //add it to the global cable list
 
 
 /obj/structure/cable/Destroy()					// called when a cable is deleted
 	if(powernet)
 		cut_cable_from_powernet()				// update the powernets
-	cable_list -= src							//remove it from global cable list
+	GLOB.cable_list -= src							//remove it from global cable list
 	return ..()									// then go ahead and delete the cable
 
 /obj/structure/cable/examine(mob/user)
@@ -151,14 +151,14 @@ var/list/possible_cable_coil_colours = list(
 //If underfloor, hide the cable
 /obj/structure/cable/hide(var/i)
 	if(istype(loc, /turf))
-		invisibility = i ? 101 : 0
+		invisibility = i ? INVISIBILITY_ABSTRACT : INVISIBILITY_NONE
 	update_icon()
 
 /obj/structure/cable/hides_under_flooring()
 	return 1
 
 /obj/structure/cable/update_icon()
-	 // We rely on the icon state for the wire Initialize(), prevent any updates to the icon before init passed
+	// We rely on the icon state for the wire Initialize(), prevent any updates to the icon before init passed
 	if(!(flags & ATOM_INITIALIZED))
 		return
 	icon_state = "[d1]-[d2]"
@@ -326,7 +326,7 @@ var/list/possible_cable_coil_colours = list(
 // merge with the powernets of power objects in the given direction
 /obj/structure/cable/proc/mergeConnectedNetworks(var/direction)
 
-	var/fdir = direction ? reverse_dir[direction] : 0 //flip the direction, to match with the source position on its turf
+	var/fdir = direction ? GLOB.reverse_dir[direction] : 0 //flip the direction, to match with the source position on its turf
 
 	if(!(d1 == direction || d2 == direction)) //if the cable is not pointed in this direction, do nothing
 		return
@@ -406,13 +406,13 @@ var/list/possible_cable_coil_colours = list(
 	for(var/cable_dir in list(d1, d2))
 		if(cable_dir == 0)
 			continue
-		var/reverse = reverse_dir[cable_dir]
+		var/reverse = GLOB.reverse_dir[cable_dir]
 		T = get_zstep(src, cable_dir)
 		if(T)
 			for(var/obj/structure/cable/C in T)
 				if(C.d1 == reverse || C.d2 == reverse)
 					. += C
-		if(cable_dir & (cable_dir - 1)) // Diagonal, check for /\/\/\ style cables along cardinal directions
+		if(cable_dir & (cable_dir - 1)) // Diagonal, check for /\/\/\ style cables along GLOB.cardinal directions
 			for(var/pair in list(NORTH|SOUTH, EAST|WEST))
 				T = get_step(src, cable_dir & pair)
 				if(T)
@@ -519,14 +519,6 @@ var/list/possible_cable_coil_colours = list(
 	tool_qualities = list(TOOL_CABLE_COIL)
 	singular_name = "cable"
 
-/obj/item/stack/cable_coil/cyborg
-	name = "cable coil synthesizer"
-	desc = "A device that makes cable."
-	gender = NEUTER
-	matter = null
-	uses_charge = 1
-	charge_costs = list(1)
-
 /obj/item/stack/cable_coil/Initialize(mapload, length = MAXCOIL, var/param_color = null)
 	. = ..()
 	amount = length
@@ -589,9 +581,9 @@ var/list/possible_cable_coil_colours = list(
 	if(!selected_color)
 		return
 
-	var/final_color = possible_cable_coil_colours[selected_color]
+	var/final_color = GLOB.possible_cable_coil_colours[selected_color]
 	if(!final_color)
-		final_color = possible_cable_coil_colours["Red"]
+		final_color = GLOB.possible_cable_coil_colours["Red"]
 		selected_color = "red"
 	color = final_color
 	to_chat(user, span_notice("You change \the [src]'s color to [lowertext(selected_color)]."))
@@ -604,7 +596,7 @@ var/list/possible_cable_coil_colours = list(
 
 /obj/item/stack/cable_coil/attackby(obj/item/W, mob/user)
 	if(istype(W, /obj/item/multitool))
-		var/selected_type = tgui_input_list(user, "Pick new colour.", "Cable Colour", possible_cable_coil_colours)
+		var/selected_type = tgui_input_list(user, "Pick new colour.", "Cable Colour", GLOB.possible_cable_coil_colours)
 		set_cable_color(selected_type, user)
 		return
 	return ..()
@@ -625,13 +617,6 @@ var/list/possible_cable_coil_colours = list(
 		src.use(15)
 	else
 		to_chat(M, span_notice("You cannot do that."))
-
-/obj/item/stack/cable_coil/cyborg/verb/set_colour()
-	set name = "Change Colour"
-	set category = "Object"
-
-	var/selected_type = tgui_input_list(usr, "Pick new colour.", "Cable Colour", possible_cable_coil_colours)
-	set_cable_color(selected_type, usr)
 
 // Items usable on a cable coil :
 //   - Wirecutters : cut them duh !
@@ -700,7 +685,11 @@ var/list/possible_cable_coil_colours = list(
 	if(!istype(F))
 		return
 
-	var/obj/structure/cable/C = new(F)
+	var/obj/structure/cable/C
+	if(istype(src,/obj/item/stack/cable_coil/heavyduty)) // this is the only cable that does this, not worth an override
+		C = new /obj/structure/cable/heavyduty(F)
+	else
+		C = new /obj/structure/cable(F)
 	C.cableColor(color)
 	C.d1 = d1
 	C.d2 = d2

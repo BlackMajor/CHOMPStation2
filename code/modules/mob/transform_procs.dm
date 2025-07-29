@@ -10,7 +10,7 @@
 	canmove = 0
 	stunned = 1
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	for(var/t in organs)
 		qdel(t)
 	var/atom/movable/overlay/animation = new /atom/movable/overlay( loc )
@@ -64,7 +64,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	return ..()
 
 /mob/proc/AIize(var/move = TRUE)
@@ -74,28 +74,28 @@
 	var/newloc = loc
 	if(move)
 		var/obj/loc_landmark
-		for(var/obj/effect/landmark/start/sloc in landmarks_list)
+		for(var/obj/effect/landmark/start/sloc in GLOB.landmarks_list)
 			if (sloc.name != JOB_AI)
 				continue
 			if ((locate(/mob/living) in sloc.loc) || (locate(/obj/structure/AIcore) in sloc.loc))
 				continue
 			loc_landmark = sloc
 		if (!loc_landmark)
-			for(var/obj/effect/landmark/tripai in landmarks_list)
+			for(var/obj/effect/landmark/tripai in GLOB.landmarks_list)
 				if (tripai.name == "tripai")
 					if((locate(/mob/living) in tripai.loc) || (locate(/obj/structure/AIcore) in tripai.loc))
 						continue
 					loc_landmark = tripai
 		if (!loc_landmark)
 			to_chat(src, "Oh god sorry we can't find an unoccupied AI spawn location, so we're spawning you on top of someone.")
-			for(var/obj/effect/landmark/start/sloc in landmarks_list)
+			for(var/obj/effect/landmark/start/sloc in GLOB.landmarks_list)
 				if (sloc.name == JOB_AI)
 					loc_landmark = sloc
 
 		newloc = loc_landmark.loc
 
-	var/mob/living/silicon/ai/O = new (newloc, using_map.default_law_type,,1)//No MMI but safety is in effect.
-	O.invisibility = 0
+	var/mob/living/silicon/ai/O = new (newloc, FALSE, using_map.default_law_type, null, 1)//No MMI but safety is in effect.
+	O.invisibility = INVISIBILITY_NONE
 	O.aiRestorePowerRoutine = 0
 
 	if(mind)
@@ -105,7 +105,7 @@
 		O.key = key
 
 	//Languages
-	add_language("Robot Talk", 1)
+	add_language(LANGUAGE_ROBOT_TALK, 1)
 	add_language(LANGUAGE_GALCOM, 1)
 	add_language(LANGUAGE_SOL_COMMON, 1)
 	add_language(LANGUAGE_UNATHI, 1)
@@ -151,14 +151,14 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	for(var/t in organs)
 		qdel(t)
 
-	var/mob/living/silicon/robot/O = new /mob/living/silicon/robot( loc )
+	var/mob/living/silicon/robot/O = new /mob/living/silicon/robot(loc)
 
 	O.gender = gender
-	O.invisibility = 0
+	O.invisibility = INVISIBILITY_NONE
 
 	if(mind)		//TODO
 		mind.transfer_to(O)
@@ -205,7 +205,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	for(var/t in organs)
 		qdel(t)
 
@@ -229,7 +229,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	for(var/t in organs)	//this really should not be necessary
 		qdel(t)
 
@@ -259,7 +259,7 @@
 	transforming = 1
 	canmove = 0
 	icon = null
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 
 	for(var/t in organs)
 		qdel(t)

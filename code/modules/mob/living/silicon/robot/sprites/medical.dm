@@ -141,29 +141,46 @@
 	has_vore_belly_sprites = FALSE
 	rest_sprite_options = list("Default", "Bellyup")
 
-/datum/robot_sprite/dogborg/tall/crisis/dullahan
+/datum/robot_sprite/dogborg/tall/medical/dullahanmed
+	sprite_icon = 'icons/mob/robot/dullahan/v1/dullahan_med.dmi'
 	name = "Dullahan"
 	sprite_icon_state = "dullahanmed"
-	module_type = "Crisis"
-	sprite_icon = 'icons/mob/robot/dullahan/v1/dullahan_med.dmi'
 	has_eye_light_sprites = TRUE
+	has_rest_sprites = TRUE
 	has_vore_belly_sprites = TRUE
+	has_vore_belly_resting_sprites = TRUE
+	has_rest_lights_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
 	rest_sprite_options = list("Default", "Sit")
+	sprite_decals = list("breastplate","loincloth","eyecover")
 	icon_x = 32
 	pixel_x = 0
 
-/datum/robot_sprite/dogborg/tall/crisis/dullahan/crisisalt
-	name = "Dullahan v2"
-	sprite_icon_state = "dullahanmed_alt"
+/datum/robot_sprite/dogborg/tall/medical/dullataurmed
+	name = "Dullataur"
+	sprite_icon_state = "dullataurmed"
+	sprite_icon = 'icons/mob/robot/dullahan/dullataurs/dullataur.dmi'
+	rest_sprite_options = list("Default")
+	has_eye_light_sprites = TRUE
+	has_rest_sprites = TRUE
+	has_vore_belly_sprites = FALSE
+	has_vore_belly_resting_sprites = FALSE
+	has_rest_lights_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
+	sprite_decals = list("breastplate")
 	icon_x = 32
 	pixel_x = 0
 
-/datum/robot_sprite/dogborg/tall/medical/dullahan/crisisalt2
+/datum/robot_sprite/dogborg/tall/medical/dullahanmedv3
 	name = "Dullahan medical v3"
 	sprite_decals = list("decals")
 	sprite_icon = 'icons/mob/robot/dullahan/v3/medical.dmi'
 	sprite_icon_state = "dullahanmedical"
+	has_eye_light_sprites = TRUE
+	has_rest_sprites = TRUE
+	has_vore_belly_sprites = TRUE
 	rest_sprite_options = list("Default", "Sit")
+	sprite_decals = list("decals")
 	icon_x = 64
 	pixel_x = -16
 
@@ -219,10 +236,10 @@
 	sprite_icon = 'icons/mob/robot/surgical_wide.dmi'
 
 /datum/robot_sprite/dogborg/surgical/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-
-	..()
 
 	var/obj/item/shockpaddles/robot/SP = locate() in module.modules
 	if(SP)
@@ -258,10 +275,10 @@
 	sprite_icon = 'icons/mob/robot/surgical_large.dmi'
 
 /datum/robot_sprite/dogborg/tall/surgical/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-
-	..()
 
 	var/obj/item/shockpaddles/robot/SP = locate() in module.modules
 	if(SP)
@@ -343,10 +360,10 @@
 		return ..()
 */
 /datum/robot_sprite/dogborg/crisis/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-
-	..()
 
 	var/obj/item/shockpaddles/robot/SP = locate() in module.modules
 	if(SP)
@@ -396,11 +413,10 @@
 	sprite_icon = 'icons/mob/robot/crisis_large.dmi'
 
 /datum/robot_sprite/dogborg/tall/crisis/do_equipment_glamour(var/obj/item/robot_module/module)
-	if(!has_custom_equipment_sprites)
-		return
-
 	..()
 
+	if(!has_custom_equipment_sprites)
+		return
 	var/obj/item/shockpaddles/robot/SP = locate() in module.modules
 	if(SP)
 		SP.name = "paws of life"
@@ -453,7 +469,10 @@
 	sprite_icon = 'icons/mob/robot/smallraptors/smolraptor_med.dmi'
 	name = "Small Raptor"
 	sprite_icon_state = "smolraptor"
-	has_dead_sprite_overlay = FALSE
 	has_eye_light_sprites = TRUE
 	has_vore_belly_sprites = TRUE
-	rest_sprite_options = list("Default", "Sit")
+	has_dead_sprite_overlay = FALSE
+	rest_sprite_options = list("Default", "Sit", "Bellyup")
+
+/datum/robot_sprite/dogborg/crisis/smolraptor/alt
+	sprite_icon_state = "smolraptor_alt"

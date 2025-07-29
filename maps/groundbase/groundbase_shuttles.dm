@@ -51,6 +51,9 @@
 	landmark_tag = "groundbase"
 
 ///////////////////////////////////////////////
+/obj/effect/shuttle_landmark/shuttle_initializer/axolotl/Initialize(mapload)
+	shuttle_type = /datum/shuttle/autodock/overmap/axolotl
+	. = ..()
 
 // Escape shuttle
 /datum/shuttle/autodock/ferry/emergency/escape
@@ -65,8 +68,6 @@
 	move_direction = EAST
 
 /datum/shuttle/autodock/ferry/emergency
-	var/frequency = 1380 // Why this frequency? BECAUSE! Thats what someone decided once.
-	var/datum/radio_frequency/radio_connection
 	move_direction = EAST
 
 /datum/shuttle/autodock/ferry/emergency/New()

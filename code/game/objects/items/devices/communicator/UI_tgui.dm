@@ -43,6 +43,7 @@
 // Parameters: None
 // Description: This refreshes the camera location
 /obj/item/communicator/proc/update_active_camera_screen()
+	SIGNAL_HANDLER
 	if(!video_source?.can_use())
 		show_static()
 		return
@@ -305,9 +306,9 @@
 /obj/item/communicator/tgui_static_data(mob/user, datum/tgui/ui, datum/tgui_state/state)
 	var/list/data = ..()
 	// Update manifest'
-	if(data_core)
-		data_core.get_manifest_list()
-	data["manifest"] = PDA_Manifest
+	if(GLOB.data_core)
+		GLOB.data_core.get_manifest_list()
+	data["manifest"] = GLOB.PDA_Manifest
 	data["mapRef"] = map_name
 	return data
 
@@ -383,7 +384,7 @@
 				log_pda("(COMM: [src]) sent \"[text]\" to [exonet.get_atom_from_address(their_address)]", ui.user)
 				var/obj/item/communicator/comm = exonet.get_atom_from_address(their_address)
 				to_chat(ui.user, span_notice("[icon2html(src, ui.user.client)] Sent message to [istype(comm, /obj/item/communicator) ? comm.owner : comm.name], <b>\"[text]\"</b> (<a href='byond://?src=\ref[src];action=Reply;target=\ref[exonet.get_atom_from_address(comm.exonet.address)]'>Reply</a>)"))
-				for(var/mob/M in player_list)
+				for(var/mob/M in GLOB.player_list)
 					if(M.stat == DEAD && M.client?.prefs?.read_preference(/datum/preference/toggle/ghost_ears))
 						if(isnewplayer(M) || M.forbid_seeing_deadchat)
 							continue

@@ -1,4 +1,8 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+"aaa" = (
+/obj/structure/ghost_pod/ghost_activated/maint_lurker/redgate,
+/turf/simulated/floor/tiled,
+/area/redgate/facility/nw)
 "aau" = (
 /obj/structure/closet/secure_closet/medical2,
 /turf/simulated/floor/tiled/white,
@@ -2954,7 +2958,10 @@
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/office8)
 "eku" = (
-/obj/machinery/telecomms/allinone,
+/obj/structure/prop/machine/core{
+	icon = 'icons/obj/stationobjs_vr.dmi';
+	icon_state = "allinone"
+	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/redgate/facility/lab3)
 "ekR" = (
@@ -13602,7 +13609,7 @@
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "2-4"
 	},
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -13873,7 +13880,7 @@
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "2-4"
 	},
 /turf/unsimulated/floor/techfloor_grid{
 	name = "singularity flooring"
@@ -14351,9 +14358,12 @@
 /turf/simulated/floor/tiled/white,
 /area/redgate/facility/entrance)
 "ulm" = (
-/obj/machinery/telecomms/bus,
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/structure/prop/machine/core{
+	icon = 'icons/obj/stationobjs_vr.dmi';
+	icon_state = "bus"
 	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/redgate/facility/lab3)
@@ -14743,7 +14753,10 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/redgate/facility/cell9)
 "uMg" = (
-/obj/machinery/telecomms/server,
+/obj/structure/prop/machine/core{
+	icon = 'icons/obj/stationobjs_vr.dmi';
+	icon_state = "comm_server"
+	},
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/redgate/facility/lab3)
 "uMq" = (
@@ -15248,7 +15261,7 @@
 	icon_state = "1-4"
 	},
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "2-4"
 	},
 /turf/unsimulated/floor/techfloor_grid{
 	name = "singularity flooring"
@@ -15276,7 +15289,7 @@
 	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "2-4"
 	},
 /turf/unsimulated/floor/techfloor_grid{
 	name = "singularity flooring"
@@ -16575,7 +16588,7 @@
 /area/redgate/facility/ne)
 "xtG" = (
 /obj/structure/cable{
-	icon_state = "1-4"
+	icon_state = "2-4"
 	},
 /turf/simulated/floor/tiled/eris/dark/orangecorner,
 /area/redgate/facility/cell29)
@@ -18579,7 +18592,7 @@ wCZ
 mnq
 tTv
 xEz
-rzR
+aaa
 xqm
 gCf
 gCf

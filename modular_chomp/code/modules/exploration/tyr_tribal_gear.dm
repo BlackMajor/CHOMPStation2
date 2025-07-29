@@ -45,10 +45,10 @@
 
 
 /obj/item/stack/material/weathered_agate
-	name = "weathered agate"
+	name = MAT_WAGATE
 	icon_state = "sheet-void_opal"
 	singular_name = "weathered agate"
-	default_type = "weathered agate"
+	default_type = MAT_WAGATE
 
 /obj/item/reagent_containers/food/snacks/weatherlily
 	name = "strange leaves"
@@ -70,7 +70,6 @@
 	icon = 'modular_chomp/icons/obj/tribal_gear.dmi'
 	density = TRUE
 	throwpass = 1
-	climbable = TRUE
 	anchored = TRUE
 	icon_state = "outcrop"
 	mindrop = 3
@@ -109,8 +108,8 @@
 	desc = "A strange plant."
 	icon_state = "tyrflora"
 
-/obj/structure/flora/tyr/flowers/New()
-	..()
+/obj/structure/flora/tyr/flowers/Initialize(mapload)
+	. = ..()
 	icon_state = "tyrflora[rand(1, 5)]gb"
 
 //tier 2
@@ -281,3 +280,66 @@
 	color = "#FF3300"
 	high_color = "#FF3300"
 	low_color = "#F08F4F"
+
+
+//other Tyr Loot
+/obj/item/melee/energy/sword/top_shield
+	name = "energy spike shield"
+	desc = "A makeshift shield."
+	icon = 'modular_chomp/icons/mob/tribal_gear.dmi'
+	icon_state = "topshield"
+	item_state = "topshield"
+	active_force = 10
+	active_armourpen = 60
+	active_throwforce = 40
+	throw_speed = 1
+	throw_range = 7
+	slowdown = 2
+	defend_chance = 70
+	projectile_parry_chance = 70
+	active_w_class = ITEMSIZE_HUGE
+	w_class = ITEMSIZE_HUGE
+	item_icons = list(
+		slot_l_hand_str = 'modular_chomp/icons/obj/guns/precursor/lefthand.dmi',
+		slot_r_hand_str = 'modular_chomp/icons/obj/guns/precursor/righthand.dmi',
+		)
+
+/obj/item/clothing/suit/armor/tyr_alien
+	name = "expirmental biosuit"
+	desc = "It's a strange piece of what appears to be a suit of some sort."
+	description_info = "Organic users of the suit will be slowly healed, and given nutrition."
+	icon_state = "lingchameleon"
+	body_parts_covered = CHEST
+	armor = list(melee = 60, bullet = 50, laser = 40, energy = 40, bomb = 0, bio = 80, rad = 80)
+	siemens_coefficient = 0.4
+
+/obj/item/clothing/suit/armor/tyr_alien/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSobj, src)
+
+/obj/item/clothing/suit/armor/tyr_alien/Destroy()
+	wearer = null
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/clothing/suit/armor/tyr_alien/process()
+	var/mob/living/carbon/human/H = wearer?.resolve()
+	if(!ishuman(H) || H.isSynthetic() || H.stat == DEAD || H.nutrition <= 10)
+		return // Robots and dead people don't have a metabolism.
+
+	if(H.getBruteLoss())
+		H.adjustBruteLoss(-0.2)
+		H.nutrition = max(H.nutrition + 5, 0)
+	if(H.getFireLoss())
+		H.adjustFireLoss(-0.2)
+		H.nutrition = max(H.nutrition + 5, 0)
+	if(H.getToxLoss())
+		H.adjustToxLoss(-0.2)
+		H.nutrition = max(H.nutrition + 5, 0)
+	if(H.getOxyLoss())
+		H.adjustOxyLoss(-0.2)
+		H.nutrition = max(H.nutrition + 5, 0)
+	if(H.getCloneLoss())
+		H.adjustCloneLoss(-0.2)
+		H.nutrition = max(H.nutrition + 5, 0)
+

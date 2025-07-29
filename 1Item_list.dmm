@@ -31441,7 +31441,7 @@
 	},
 /area/survivalpod)
 "jkQ" = (
-/mob/living/simple_mob/animal/passive/raccoon_ch{
+/mob/living/simple_mob/animal/passive/raccoon{
 	ai_holder_type = null
 	},
 /turf/simulated/floor/atoll,
@@ -48719,12 +48719,6 @@
 /area/survivalpod)
 "oim" = (
 /obj/item/clothing/gloves/bluespace/emagged,
-/turf/simulated/fitness{
-	icon_state = "vault"
-	},
-/area/survivalpod)
-"oir" = (
-/obj/machinery/exonet_node/map,
 /turf/simulated/fitness{
 	icon_state = "vault"
 	},
@@ -92075,7 +92069,7 @@ hhZ
 bSW
 huP
 bSW
-oir
+hih
 bSW
 nHW
 bSW

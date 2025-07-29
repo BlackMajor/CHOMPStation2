@@ -55,6 +55,8 @@
 
 // Release belly contents before being gc'd!
 /mob/living/simple_mob/Destroy()
+	if(mob_radio)
+		QDEL_NULL(mob_radio)
 	release_vore_contents()
 	LAZYCLEARLIST(prey_excludes)
 	return ..()
@@ -107,8 +109,6 @@
 		return 0
 	if(src == M) //Don't eat YOURSELF dork
 		//ai_log("vr/won't eat [M] because it's me!", 3) //VORESTATION AI TEMPORARY REMOVAL
-		return 0
-	if(!M.devourable)	// Why was there never a check for edibility to begin with
 		return 0
 	if(M.is_incorporeal()) // No eating the phased ones
 		return 0
@@ -172,12 +172,13 @@
 	vore_pounce_cooldown = world.time + 20 SECONDS // don't attempt another pounce for a while
 	if(prob(successrate)) // pounce success!
 		M.Weaken(5)
+		M.AdjustStunned(2)
 		M.visible_message(span_danger("\The [src] pounces on \the [M]!"))
 	else // pounce misses!
 		M.visible_message(span_danger("\The [src] attempts to pounce \the [M] but misses!"))
 		playsound(src, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 
-	if(will_eat(M) && (M.lying || vore_standing_too)) //if they're edible then eat them too //CHOMPEdit
+	if(will_eat(M) && (M.lying || vore_standing_too)) //if they're edible then eat them too
 		return EatTarget(M)
 	else
 		return //just leave them
@@ -209,7 +210,10 @@
 	. = ..()
 
 // Make sure you don't call ..() on this one, otherwise you duplicate work.
-/mob/living/simple_mob/init_vore()
+/mob/living/simple_mob/init_vore(force)
+	if(force)
+		vore_active = TRUE
+		voremob_loaded = TRUE
 	if(!vore_active || no_vore || !voremob_loaded)
 		return
 
@@ -222,10 +226,17 @@
 	add_verb(src, /mob/living/simple_mob/proc/toggle_digestion)
 	add_verb(src, /mob/living/simple_mob/proc/toggle_fancygurgle)
 	add_verb(src, /mob/living/proc/vertical_nom)
+	add_verb(src, /mob/living/simple_mob/proc/animal_nom)
+	add_verb(src, /mob/living/proc/shred_limb)
+	add_verb(src, /mob/living/simple_mob/proc/nutrition_heal)
 
 	if(LAZYLEN(vore_organs))
 		return
 
+	can_be_drop_pred = TRUE // Mobs will eat anyone that decides to drop/slip into them by default.
+	load_default_bellies()
+
+/mob/living/simple_mob/proc/load_default_bellies()
 	//A much more detailed version of the default /living implementation
 	var/obj/belly/B = new /obj/belly(src)
 	vore_selected = B

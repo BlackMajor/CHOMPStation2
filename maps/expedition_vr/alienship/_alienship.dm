@@ -17,7 +17,7 @@
 	icon = 'alienship.dmi'
 	icon_state = null
 	mouse_opacity = 0
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 
 	//Shared!
 	var/static/mission_mode
@@ -130,7 +130,7 @@
 			R.update_power()
 
 		//Teleport time!
-		for(var/mob in player_list) //This is extreme, but it's very hard to find people hiding in things, and this is pretty cheap.
+		for(var/mob in GLOB.player_list) //This is extreme, but it's very hard to find people hiding in things, and this is pretty cheap.
 			try
 				if(isliving(mob) && get_area(mob) == src)
 					abduct(mob)

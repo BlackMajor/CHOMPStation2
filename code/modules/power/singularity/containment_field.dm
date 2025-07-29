@@ -47,13 +47,20 @@
 /obj/machinery/containment_field/ex_act(severity)
 	return 0
 
-/obj/machinery/containment_field/Crossed(mob/living/L)
-	if(!istype(L) || L.is_incorporeal())
+/obj/machinery/containment_field/Crossed(atom/A)
+	if(!istype(A) || A.is_incorporeal())
 		return
-	shock(L)
+	if(isliving(A))
+		var/mob/living/L = A
+		shock(L)
+		return
+	if(A.density)
+		if(istype(A,/obj/machinery/containment_field) || istype(A,/obj/effect) || istype(A,/obj/singularity))
+			return
+		else
+			Destroy()
 
 /obj/machinery/containment_field/HasProximity(turf/T, datum/weakref/WF, old_loc)
-	SIGNAL_HANDLER
 	if(isnull(WF))
 		return
 	var/atom/movable/AM = WF.resolve()
@@ -83,9 +90,7 @@
 		var/atom/target = get_edge_target_turf(user, get_dir(src, get_step_away(user, src)))
 		user.throw_at(target, 200, 4)
 
-		sleep(20)
-
-		hasShocked = 0
+		VARSET_IN(src, hasShocked, FALSE, 2 SECONDS)
 
 /obj/machinery/containment_field/proc/set_master(var/master1,var/master2)
 	if(!master1 || !master2)

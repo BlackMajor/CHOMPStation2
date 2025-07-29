@@ -64,7 +64,7 @@
 		if(LAZYLEN(SS.breaches))
 			to_chat(user, span_warning("You should probably repair that before you start tinkering with it."))
 			return
-	if(O.blood_DNA || O.contaminated) //check if we're bloody or gooey or whatever, so modkits can't be used to hide crimes easily.
+	if(O.forensic_data?.has_blooddna() || O.contaminated) //check if we're bloody or gooey or whatever, so modkits can't be used to hide crimes easily.
 		to_chat(user, span_warning("You should probably clean that up before you start tinkering with it."))
 		return
 	//we have to check that it's not the original type first, because otherwise it might convert wrong based on pathing; the subtype can still count as the basetype
@@ -107,11 +107,9 @@
 	var/obj/N = new to_type(O.loc)
 	user.visible_message(span_notice("[user] opens \the [src] and modifies \the [O] into \the [N]."),span_notice("You open \the [src] and modify \the [O] into \the [N]."))
 
-	//crude, but transfer prints and fibers to avoid forensics abuse, same as the bloody/gooey check above
-	N.fingerprints = O.fingerprints
-	N.fingerprintshidden = O.fingerprintshidden
-	N.fingerprintslast = O.fingerprintslast
-	N.suit_fibers = O.suit_fibers
+	// Transfer forensics to, lets avoid CRIME exploits
+	O.transfer_fingerprints_to(N)
+	O.transfer_fibres_to(N)
 
 	//transfer logic could technically be made more thorough and handle stuff like helmet/boots/tank vars for suits, but in those cases you should be removing the items first anyway
 	if(skip_content_check && transfer_contents)
@@ -560,13 +558,17 @@
 	if((state == 1) && owner && (owner.stat == DEAD))
 		update_state(2)
 		visible_message(span_warning("The [name] begins flashing red."))
-		sleep(30)
-		visible_message(span_warning("The [name] shatters into dust!"))
-		if(owner_c)
-			to_chat(owner_c, span_notice("A signal is sent notifying of your demise by \the [name]."))
-		update_state(3)
-		name = "broken [initial(name)]"
-		desc = "This seems like a necklace, but the actual pendant is missing."
+		addtimer(CALLBACK(src, PROC_REF(shatter_into_dust)), 3 SECONDS, TIMER_DELETE_ME)
+
+/obj/item/clothing/accessory/collar/khcrystal/proc/shatter_into_dust()
+	SHOULD_NOT_OVERRIDE(TRUE)
+	PRIVATE_PROC(TRUE)
+	visible_message(span_warning("The [name] shatters into dust!"))
+	if(owner_c)
+		to_chat(owner_c, span_notice("A signal is sent notifying of your demise by \the [name].")) // CHOMPEdit
+	update_state(3)
+	name = "broken [initial(name)]"
+	desc = "This seems like a necklace, but the actual pendant is missing."
 
 /obj/item/clothing/accessory/collar/khcrystal/proc/update_state(var/tostate)
 	state = tostate
@@ -1573,3 +1575,42 @@ End CHOMP Removal*/
 	icon = 'icons/vore/custom_items_vr.dmi'
 	icon_state = "evelynn"
 	pointer_icon_state = "purple_laser"
+
+//sixberry: Thistle
+/obj/item/clothing/glasses/fluff/kintacts_aquamarine
+	name = "Aquamarine KINtacts"
+	desc = "A blueish-green pair of borosilicate glass contact lenses, designed solely for Shadekin. They seem to have some degree of iridescence to them."
+	icon = 'icons/vore/custom_clothes_vr.dmi'
+	icon_override = 'icons/vore/custom_clothes_vr.dmi'
+	icon_state = "kintacts"
+	item_state = "kintacts_mob"
+
+//Bricker98: Talenya Lapushkina
+/obj/item/remote_scene_tool/tally_necklace  //A reskinned sticker for the collar, using a modified golden collar sprite
+	name = "link bell collar"
+	desc = "A collar with a seemingly simple golden bell that contains advanced bluespace tech inside, allowing it to link to, and even recall, a matching doll."
+	icon = 'icons/vore/custom_remote_scene_tools.dmi'
+	icon_override = 'icons/vore/custom_remote_scene_tools.dmi'
+	icon_state = "collar_inactive"
+	icon_root = "collar"
+	item_state = "on_mob_collar"
+	slot_flags = SLOT_MASK | SLOT_OCLOTHING
+	replacementType = /obj/item/remote_scene_tool/tally_doll
+
+/obj/item/remote_scene_tool/tally_necklace/mob_can_equip(var/mob/living/carbon/human/H, slot, disable_warning = 0)
+	if(..())
+		if(H.ckey != "bricker98")
+			if(!disable_warning)
+				to_chat(H, span_warning("The collar doesn't fit you!"))
+			return FALSE
+		return TRUE
+
+/obj/item/remote_scene_tool/tally_doll  //A reskinned sticker for the doll, using a custom sprite
+	name = "Talenya's voodoo doll"
+	desc = "A cute custom plushie made to look like Talenya! With her bell and glassy beads for eyes, all the clothing articles are removable, it is incredibly detailed!"
+	icon = 'icons/vore/custom_remote_scene_tools.dmi'
+	icon_state = "doll_inactive"
+	icon_root = "doll"
+	slot_flags = NONE
+	can_summon = FALSE
+	can_replace = FALSE

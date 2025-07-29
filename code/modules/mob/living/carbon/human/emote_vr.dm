@@ -1,3 +1,7 @@
+#define SWITCH_TAIL_LAYER_UPPER    	"Upper"
+#define SWITCH_TAIL_LAYER_STANDARD 	"Standard"
+#define SWITCH_TAIL_LAYER_LOWER	   	"Lower"
+
 /mob/living/carbon/human/verb/toggle_resizing_immunity()
 	set name = "Toggle Resizing Immunity"
 	set desc = "Toggles your ability to resist resizing attempts"
@@ -45,8 +49,22 @@
 /mob/living/carbon/human/verb/switch_tail_layer()
 	set name = "Switch tail layer"
 	set category = "IC.Game"
-	set desc = "Switch tail layer on top."
-	tail_alt = !tail_alt
+	set desc = "Switch tail layer to show below/above/between clothing or other things such as wings!."
+
+	var/input = tgui_input_list(src, "Select a tail layer.", "Set Tail Layer", list(SWITCH_TAIL_LAYER_UPPER, SWITCH_TAIL_LAYER_STANDARD, SWITCH_TAIL_LAYER_LOWER))
+	if(isnull(input))
+		return
+	switch(input)
+		if(SWITCH_TAIL_LAYER_UPPER)
+			tail_layering = input
+			write_preference_directly(/datum/preference/numeric/human/tail_layering, TAIL_UPPER_LAYER_HIGH)
+		if(SWITCH_TAIL_LAYER_STANDARD)
+			tail_layering = input
+			write_preference_directly(/datum/preference/numeric/human/tail_layering, TAIL_UPPER_LAYER)
+		if(SWITCH_TAIL_LAYER_LOWER)
+			tail_layering = input
+			write_preference_directly(/datum/preference/numeric/human/tail_layering, TAIL_UPPER_LAYER_LOW)
+
 	update_tail_showing()
 
 /mob/living/carbon/human/verb/hide_wings_vr()
@@ -84,3 +102,7 @@
 	else
 		message = "hides their tail."
 	visible_message(span_filter_notice("[src] [message]"))
+
+#undef SWITCH_TAIL_LAYER_UPPER
+#undef SWITCH_TAIL_LAYER_STANDARD
+#undef SWITCH_TAIL_LAYER_LOWER

@@ -671,6 +671,7 @@
 	display_name = "fed uniform, sec"
 	path = /obj/item/clothing/suit/storage/fluff/fedcoat
 	allowed_roles = list(JOB_HEAD_OF_SECURITY, JOB_WARDEN, JOB_DETECTIVE, JOB_SECURITY_OFFICER, JOB_BLUESHIELD_GUARD, JOB_SECURITY_PILOT) //YW ADDITIONS
+	cost = 2
 
 /datum/gear/suit/job_fed/medsci
 	display_name = "fed uniform, med/sci"
@@ -691,7 +692,6 @@
 						JOB_SCIENTIST,JOB_ROBOTICIST,JOB_XENOBIOLOGIST,JOB_XENOBOTANIST,JOB_ATMOSPHERIC_TECHNICIAN,
 						JOB_ENGINEER,JOB_WARDEN,JOB_DETECTIVE,JOB_SECURITY_OFFICER,
 						JOB_PATHFINDER,JOB_EXPLORER,JOB_FIELD_MEDIC,JOB_BLUESHIELD_GUARD,JOB_SECURITY_PILOT) //YW ADDITIONS  //CHOMP keep explo
-
 /*
 Swimsuits
 */
@@ -879,3 +879,9 @@ Talon jumpsuit
 /datum/gear/uniform/cswoopdress/New()
 	..()
 	gear_tweaks += gear_tweak_free_color_choice
+
+// waiter's outfit, this should probably be in a selector with all the other service uniforms.
+/datum/gear/uniform/waiter
+	display_name = "waiter's outfit"
+	description = "It's a very smart uniform with a special pocket for tip."
+	path = /obj/item/clothing/under/waiter

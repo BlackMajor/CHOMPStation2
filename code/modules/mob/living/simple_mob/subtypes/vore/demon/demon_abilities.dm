@@ -72,7 +72,7 @@
 		//Affect nearby lights
 		var/destroy_lights = 0
 
-		for(var/obj/machinery/light/L in machines)
+		for(var/obj/machinery/light/L in GLOB.machines)
 			if(L.z != z || get_dist(src,L) > 10)
 				continue
 
@@ -109,7 +109,7 @@
 		density = FALSE
 		force_max_speed = TRUE
 
-/mob/living/simple_mob/vore/demon/verb/phase_shift()
+/mob/living/simple_mob/vore/demon/verb/demonic_phase_shift()
 	set name = "Phase Shift"
 	set desc = "Shift out of reality temporarily"
 	set category = "Abilities.Demon"

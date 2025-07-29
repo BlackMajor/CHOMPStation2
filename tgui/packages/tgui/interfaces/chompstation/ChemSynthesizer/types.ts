@@ -1,4 +1,4 @@
-import { BooleanLike } from 'tgui-core/react';
+import type { BooleanLike } from 'tgui-core/react';
 
 export type Data = {
   busy: BooleanLike;
@@ -30,6 +30,7 @@ export type reagent = {
 export type modalData = {
   id: string;
   text: string;
+  // biome-ignore lint/complexity/noBannedTypes: In this case we got any type of Object
   args: {};
   type: string;
 };

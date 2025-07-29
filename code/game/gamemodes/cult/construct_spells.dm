@@ -167,7 +167,7 @@
 	icon_state = "m_shield_cult"
 	light_color = "#B40000"
 	light_range = 2
-	invisibility = 0
+	invisibility = INVISIBILITY_NONE
 
 /obj/effect/forcefield/cult/cultify()
 	return
@@ -261,7 +261,7 @@
 	..()
 
 	var/destination = null
-	for(var/obj/singularity/narsie/large/N in narsie_list)
+	for(var/obj/singularity/narsie/large/N in GLOB.narsie_list)
 		destination = N.loc
 		break
 	if(destination)

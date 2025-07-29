@@ -70,7 +70,7 @@
 				if(!oldname)
 					oldname = cleanname ? cleanname : name
 				cleanname = "[d_stage_name] [oldname]"
-				decontaminate()
+				wash(CLEAN_ALL)
 				if(istype(B))
 					gurgled_color = B.contamination_color //Apply the correct color setting so uncontaminable things can still have the right overlay.
 					gurgle_contaminate(B, B.contamination_flavor, B.contamination_color)
@@ -119,7 +119,7 @@
 		if(istype(B) && recycled)
 			g_damage = w_class / 2
 			if(B.item_digest_logs)
-				to_chat(B.owner,span_notice("[src] was digested inside your [lowertext(B.name)]."))
+				to_chat(B.owner, span_vnotice("[src] was digested inside your [lowertext(B.name)]."))
 			qdel(src)
 		else if(istype(src,/obj/item/stack))
 			var/obj/item/stack/S = src
@@ -129,7 +129,7 @@
 				S.use(1)
 				digest_stage = w_class
 		else
-			if(istype(src, /obj/item/reagent_containers/food))
+			if(istype(B) && istype(src, /obj/item/reagent_containers/food))
 				if(ishuman(B.owner) && reagents)
 					var/mob/living/carbon/human/H = B.owner
 					reagents.trans_to_holder(H.ingested, (reagents.total_volume), B.nutrition_percent / 100, 0)
@@ -142,8 +142,8 @@
 						new goodmeal.package_trash(src)
 					if(goodmeal.trash)
 						new goodmeal.trash(src)
-			if(B.item_digest_logs)
-				to_chat(B.owner,span_notice("[src] was digested inside your [lowertext(B.name)]."))
+			if(istype(B) && B.item_digest_logs)
+				to_chat(B.owner, span_vnotice("[src] was digested inside your [lowertext(B.name)]."))
 			qdel(src)
 	if(g_damage > w_class)
 		return w_class

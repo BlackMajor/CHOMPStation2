@@ -36,25 +36,29 @@ export const BrigTimer = (props) => {
         <Section
           title="Cell Timer"
           buttons={
-            <>
-              <Button
-                icon="clock-o"
-                selected={timing}
-                onClick={() => act(timing ? 'stop' : 'start')}
-              >
-                {timing ? 'Stop' : 'Start'}
-              </Button>
-              {(flash_found && (
+            <Stack>
+              <Stack.Item>
                 <Button
-                  icon="lightbulb-o"
-                  disabled={flash_charging}
-                  onClick={() => act('flash')}
+                  icon="clock-o"
+                  selected={timing}
+                  onClick={() => act(timing ? 'stop' : 'start')}
                 >
-                  {flash_charging ? 'Recharging' : 'Flash'}
+                  {timing ? 'Stop' : 'Start'}
                 </Button>
+              </Stack.Item>
+              {(flash_found && (
+                <Stack.Item>
+                  <Button
+                    icon="lightbulb-o"
+                    disabled={flash_charging}
+                    onClick={() => act('flash')}
+                  >
+                    {flash_charging ? 'Recharging' : 'Flash'}
+                  </Button>
+                </Stack.Item>
               )) ||
                 null}
-            </>
+            </Stack>
           }
         >
           <NumberInput
@@ -74,7 +78,7 @@ export const BrigTimer = (props) => {
                 icon="hourglass-start"
                 onClick={() => act('preset', { preset: 'short' })}
               >
-                {'Add ' + formatTime(preset_short)}
+                {`Add ${formatTime(preset_short)}`}
               </Button>
             </Stack.Item>
             <Stack.Item grow>
@@ -83,7 +87,7 @@ export const BrigTimer = (props) => {
                 icon="hourglass-start"
                 onClick={() => act('preset', { preset: 'medium' })}
               >
-                {'Add ' + formatTime(preset_medium)}
+                {`Add ${formatTime(preset_medium)}`}
               </Button>
             </Stack.Item>
             <Stack.Item grow>
@@ -92,7 +96,7 @@ export const BrigTimer = (props) => {
                 icon="hourglass-start"
                 onClick={() => act('preset', { preset: 'long' })}
               >
-                {'Add ' + formatTime(preset_long)}
+                {`Add ${formatTime(preset_long)}`}
               </Button>
             </Stack.Item>
           </Stack>

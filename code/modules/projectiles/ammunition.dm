@@ -17,8 +17,8 @@
 	var/obj/item/projectile/BB = null	//The loaded bullet - make it so that the projectiles are created only when needed?
 	var/caseless = null					//Caseless ammo deletes its self once the projectile is fired.
 
-/obj/item/ammo_casing/New()
-	..()
+/obj/item/ammo_casing/Initialize(mapload)
+	. = ..()
 	if(ispath(projectile_type))
 		BB = new projectile_type(src)
 	randpixel_xy()
@@ -31,7 +31,7 @@
 /obj/item/ammo_casing/proc/expend()
 	. = BB
 	BB = null
-	set_dir(pick(cardinal)) //spin spent casings
+	set_dir(pick(GLOB.cardinal)) //spin spent casings
 	update_icon()
 
 /obj/item/ammo_casing/attackby(obj/item/I as obj, mob/user as mob)
@@ -124,8 +124,8 @@
 	var/list/icon_keys = list()		//keys
 	var/list/ammo_states = list()	//values
 
-/obj/item/ammo_magazine/New()
-	..()
+/obj/item/ammo_magazine/Initialize(mapload)
+	. = ..()
 	pixel_x = rand(-5, 5)
 	pixel_y = rand(-5, 5)
 	if(multiple_sprites)
@@ -185,7 +185,7 @@
 			playsound(src, "casing_sound", 50, 1)
 		for(var/obj/item/ammo_casing/C in stored_ammo)
 			C.loc = user.loc
-			C.set_dir(pick(cardinal))
+			C.set_dir(pick(GLOB.cardinal))
 		stored_ammo.Cut()
 		update_icon()
 	else
@@ -221,16 +221,16 @@
 	. += "There [(stored_ammo.len == 1)? "is" : "are"] [stored_ammo.len] round\s left!"
 
 //magazine icon state caching
-/var/global/list/magazine_icondata_keys = list()
-/var/global/list/magazine_icondata_states = list()
+GLOBAL_LIST_EMPTY(magazine_icondata_keys)
+GLOBAL_LIST_EMPTY(magazine_icondata_states)
 
 /proc/initialize_magazine_icondata(var/obj/item/ammo_magazine/M)
 	var/typestr = M.type
-	if(!(typestr in magazine_icondata_keys) || !(typestr in magazine_icondata_states))
+	if(!(typestr in GLOB.magazine_icondata_keys) || !(typestr in GLOB.magazine_icondata_states))
 		magazine_icondata_cache_add(M)
 
-	M.icon_keys = magazine_icondata_keys[typestr]
-	M.ammo_states = magazine_icondata_states[typestr]
+	M.icon_keys = GLOB.magazine_icondata_keys[typestr]
+	M.ammo_states = GLOB.magazine_icondata_states[typestr]
 
 /proc/magazine_icondata_cache_add(var/obj/item/ammo_magazine/M)
 	var/list/icon_keys = list()
@@ -242,8 +242,8 @@
 			icon_keys += i
 			ammo_states += ammo_state
 
-	magazine_icondata_keys[M.type] = icon_keys
-	magazine_icondata_states[M.type] = ammo_states
+	GLOB.magazine_icondata_keys[M.type] = icon_keys
+	GLOB.magazine_icondata_states[M.type] = ammo_states
 
 /*
  * Ammo Boxes

@@ -25,6 +25,15 @@
 	name = "Drake"
 	sprite_icon_state = "drake"
 
+/datum/robot_sprite/dogborg/syndie/smolraptor
+	sprite_icon = 'icons/mob/robot/smallraptors/smolraptor_syndie.dmi'
+	name = "Small Raptor"
+	sprite_icon_state = "smolraptor"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	has_dead_sprite_overlay = FALSE
+	rest_sprite_options = list("Default", "Sit", "Bellyup")
+
 // Tall sprites
 
 /datum/robot_sprite/dogborg/tall/syndie
@@ -75,7 +84,11 @@
 	sprite_icon_state = "dullahansyndi"
 	has_eye_light_sprites = TRUE
 	has_vore_belly_sprites = TRUE
+	has_vore_belly_resting_sprites = TRUE
+	has_rest_lights_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
 	rest_sprite_options = list("Default", "Sit")
+	sprite_decals = list("breastplate","loincloth","eyecover")
 	icon_x = 32
 	pixel_x = 0
 
@@ -215,10 +228,10 @@
 	sprite_hud_icon_state = "malf"
 
 /datum/robot_sprite/dogborg/combat_medic/do_equipment_glamour(var/obj/item/robot_module/module)
+	..()
+
 	if(!has_custom_equipment_sprites)
 		return
-
-	..()
 
 	var/obj/item/shockpaddles/robot/SP = locate() in module.modules
 	if(SP)
@@ -246,3 +259,73 @@
 	sprite_icon_state = "syndimediraptor"
 	has_eye_light_sprites = TRUE
 	rest_sprite_options = list("Default", "Bellyup")
+
+
+
+// Ninja models
+
+/datum/robot_sprite/dogborg/syndicate/ninja
+	module_type = "Ninja"
+	sprite_icon = 'icons/mob/robot/ninja.dmi'
+	sprite_hud_icon_state = "malf"
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja
+	module_type = "Ninja"
+	sprite_icon = 'icons/mob/robot/tallrobot/tallrobots.dmi'
+	sprite_hud_icon_state = "malf"
+	icon_x = 32
+	pixel_x = 0
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/dullahan
+	name = "dullahan"
+	sprite_icon = 'icons/mob/robot/dullahan/v3/ninja.dmi'
+	sprite_icon_state = "dullahanninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	sprite_decals = list("decals")
+	rest_sprite_options = list("Default", "Sit")
+	pixel_x = -16
+	icon_x = 64
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/mekaninja
+	name = "Meka"
+	sprite_icon = 'icons/mob/robot/tallrobot/tallrobots.dmi'
+	sprite_icon_state = "mekaninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	rest_sprite_options = list("Default", "Sit")
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/fmekaninja
+	name = "Niko"
+	sprite_icon = 'icons/mob/robot/tallrobot/tallrobots.dmi'
+	sprite_icon_state = "fmekaninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	rest_sprite_options = list("Default", "Sit")
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/mmekaninja
+	name = "Nika"
+	sprite_icon = 'icons/mob/robot/tallrobot/tallrobots.dmi'
+	sprite_icon_state = "mmekaninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	rest_sprite_options = list("Default", "Sit")
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/mmekaninja
+	name = "Nika"
+	sprite_icon = 'icons/mob/robot/tallrobot/tallrobots.dmi'
+	sprite_icon_state = "mmekaninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = TRUE
+	rest_sprite_options = list("Default", "Sit")
+
+/datum/robot_sprite/dogborg/tall/syndicate/ninja/dullataurninja
+	name = "Dullataur"
+	sprite_icon = 'icons/mob/robot/dullahan/dullataurs/dullataur.dmi'
+	sprite_icon_state = "dullataurninja"
+	has_eye_light_sprites = TRUE
+	has_vore_belly_sprites = FALSE
+	has_rest_sprites = TRUE
+	has_rest_eyes_sprites = TRUE
+	sprite_decals = list("breastplate", "breastplatehalo","swordhalo","tophalo")
+	rest_sprite_options = list("Default")

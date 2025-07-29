@@ -13,6 +13,7 @@ import {
   openChatSettings,
   removeHighlightSetting,
   toggleSettings,
+  toggleTTSSetting,
   updateHighlightSetting,
   updateSettings,
   updateToggle,
@@ -65,6 +66,8 @@ const initialState = {
   statLinked: true,
   statFontSize: 12,
   statTabsStyle: 'default',
+  ttsCategories: {},
+  ttsVoice: '',
 } as const;
 
 export function settingsReducer(
@@ -107,8 +110,8 @@ export function settingsReducer(
           ...payload,
         };
         nextState.initialized = true;
-        let newFilters = {};
-        for (let typeDef of MESSAGE_TYPES) {
+        const newFilters = {};
+        for (const typeDef of MESSAGE_TYPES) {
           if (
             nextState.storedTypes[typeDef.type] === null ||
             nextState.storedTypes[typeDef.type] === undefined
@@ -188,6 +191,18 @@ export function settingsReducer(
           ...state.view,
           activeTab: tabId,
         },
+      };
+    }
+
+    case toggleTTSSetting.type: {
+      const { type } = payload;
+      const ttsCategories = { ...state.ttsCategories };
+
+      ttsCategories[type] = !ttsCategories[type];
+
+      return {
+        ...state,
+        ttsCategories,
       };
     }
 

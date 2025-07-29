@@ -26,6 +26,7 @@
 		if(istype(I, /obj/item/book))
 			I.loc = src
 	update_icon()
+	AddElement(/datum/element/climbable)
 
 /obj/structure/bookcase/attackby(obj/item/O, mob/user)
 	if(istype(O, /obj/item/book))
@@ -127,20 +128,18 @@ Book Cart End
 /obj/structure/bookcase/manuals/medical
 	name = "Medical Manuals bookcase"
 
-/obj/structure/bookcase/manuals/medical/New()
-	..()
+/obj/structure/bookcase/manuals/medical/Initialize(mapload)
 	new /obj/item/book/manual/medical_cloning(src)
 	new /obj/item/book/manual/wiki/medical_diagnostics_manual(src)
 	new /obj/item/book/manual/wiki/medical_diagnostics_manual(src)
 	new /obj/item/book/manual/wiki/medical_diagnostics_manual(src)
-	update_icon()
+	. = ..()
 
 
 /obj/structure/bookcase/manuals/engineering
 	name = "Engineering Manuals bookcase"
 
-/obj/structure/bookcase/manuals/engineering/New()
-	..()
+/obj/structure/bookcase/manuals/engineering/Initialize(mapload)
 	new /obj/item/book/manual/wiki/engineering_construction(src)
 	new /obj/item/book/manual/engineering_particle_accelerator(src)
 	new /obj/item/book/manual/wiki/engineering_hacking(src)
@@ -148,15 +147,14 @@ Book Cart End
 	new /obj/item/book/manual/atmospipes(src)
 	new /obj/item/book/manual/engineering_singularity_safety(src)
 	new /obj/item/book/manual/evaguide(src)
-	update_icon()
+	. = ..()
 
 /obj/structure/bookcase/manuals/research_and_development
 	name = "R&D Manuals bookcase"
 
-/obj/structure/bookcase/manuals/research_and_development/New()
-	..()
+/obj/structure/bookcase/manuals/research_and_development/Initialize(mapload)
 	new /obj/item/book/manual/research_and_development(src)
-	update_icon()
+	. = ..()
 
 
 /*
@@ -208,9 +206,9 @@ Book Cart End
 
 /// Proc that handles sending the book information to the user, as well as some housekeeping stuff.
 /obj/item/book/proc/display_content(mob/living/user)
-	if(!findtext(dat, regex("^<html")))
-		dat = "<html>[dat]</html>"
-	user << browse(replacetext(dat, "<html>", "<html><TT><I>Penned by [author].</I></TT> <BR>"), "window=book")
+	var/datum/browser/popup = new(user, "book", "<TT><I>Penned by [author].</I></TT>")
+	popup.set_content(dat)
+	popup.open()
 
 /obj/item/book/attackby(obj/item/W, mob/user)
 	if(carved)

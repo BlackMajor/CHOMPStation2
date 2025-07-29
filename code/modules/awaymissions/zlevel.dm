@@ -2,7 +2,7 @@
 	#ifdef UNIT_TEST
 	return
 	#endif
-	if(awaydestinations.len)	//crude, but it saves another var! //VOREStation Edit - No loading away missions during CI testing
+	if(GLOB.awaydestinations.len)	//crude, but it saves another var! //VOREStation Edit - No loading away missions during CI testing
 		return
 
 	var/list/potentialRandomZlevels = list()
@@ -48,7 +48,7 @@
 			template.load_new_z()
 			to_world_log("away mission loaded: [map]")
 		/* VOREStation Removal - We do this in the special landmark init instead.
-		for(var/obj/effect/landmark/L in landmarks_list)
+		for(var/obj/effect/landmark/L in GLOB.landmarks_list)
 			if (L.name != "awaystart")
 				continue
 			awaydestinations.Add(L)
@@ -64,7 +64,7 @@
 	name = "uncalibrated gateway destination"
 /obj/effect/landmark/gateway_scatter/Initialize(mapload)
 	. = ..()
-	awaydestinations += src
+	GLOB.awaydestinations += src
 
 /obj/effect/landmark/gateway_scatter/abduct
 	name = "uncalibrated gateway abductor"
@@ -74,7 +74,7 @@
 	name = "uncalibrated event destination"
 /obj/effect/landmark/event_scatter/Initialize(mapload)
 	. = ..()
-	eventdestinations += src
+	GLOB.eventdestinations += src
 
 /obj/effect/landmark/event_scatter/abduct
 	name = "uncalibrated event abductor"
@@ -84,11 +84,11 @@
 	name = "abductor gateway destination"
 /obj/effect/landmark/gateway_abduct_dest/Initialize(mapload)
 	. = ..()
-	awayabductors += src
+	GLOB.awayabductors += src
 
 /obj/effect/landmark/event_abduct_dest
 	name = "abductor event destination"
 /obj/effect/landmark/event_abduct_dest/Initialize(mapload)
 	. = ..()
-	eventabductors += src
+	GLOB.eventabductors += src
 //VOREStation Add End

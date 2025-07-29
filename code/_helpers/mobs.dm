@@ -38,15 +38,17 @@
 	var/h_style = "Bald"
 
 	var/list/valid_hairstyles = list()
-	for(var/hairstyle in hair_styles_list)
-		var/datum/sprite_accessory/S = hair_styles_list[hairstyle]
+	for(var/hairstyle in GLOB.hair_styles_list)
+		var/datum/sprite_accessory/S = GLOB.hair_styles_list[hairstyle]
 		if(gender == MALE && S.gender == FEMALE)
 			continue
 		if(gender == FEMALE && S.gender == MALE)
 			continue
+		if(S.name == DEVELOPER_WARNING_NAME)
+			continue
 		if( !(species in S.species_allowed))
 			continue
-		valid_hairstyles[hairstyle] = hair_styles_list[hairstyle]
+		valid_hairstyles[hairstyle] = GLOB.hair_styles_list[hairstyle]
 
 	if(valid_hairstyles.len)
 		h_style = pick(valid_hairstyles)
@@ -57,16 +59,18 @@
 	var/f_style = "Shaved"
 
 	var/list/valid_facialhairstyles = list()
-	for(var/facialhairstyle in facial_hair_styles_list)
-		var/datum/sprite_accessory/S = facial_hair_styles_list[facialhairstyle]
+	for(var/facialhairstyle in GLOB.facial_hair_styles_list)
+		var/datum/sprite_accessory/S = GLOB.facial_hair_styles_list[facialhairstyle]
 		if(gender == MALE && S.gender == FEMALE)
 			continue
 		if(gender == FEMALE && S.gender == MALE)
 			continue
+		if(S.name == DEVELOPER_WARNING_NAME)
+			continue
 		if( !(species in S.species_allowed))
 			continue
 
-		valid_facialhairstyles[facialhairstyle] = facial_hair_styles_list[facialhairstyle]
+		valid_facialhairstyles[facialhairstyle] = GLOB.facial_hair_styles_list[facialhairstyle]
 
 	if(valid_facialhairstyles.len)
 		f_style = pick(valid_facialhairstyles)
@@ -130,7 +134,7 @@
 		else				return "unknown"
 
 /proc/RoundHealth(health)
-	var/list/icon_states = cached_icon_states(ingame_hud_med)
+	var/list/icon_states = cached_icon_states(GLOB.ingame_hud_med)
 	for(var/icon_state in icon_states)
 		if(health >= text2num(icon_state))
 			return icon_state
@@ -367,11 +371,11 @@ Proc for attack log creation, because really why not
 /proc/cached_character_icon(var/mob/desired)
 	var/cachekey = "\ref[desired][desired.real_name]"
 
-	if(cached_character_icons[cachekey])
-		. = cached_character_icons[cachekey]
+	if(GLOB.cached_character_icons[cachekey])
+		. = GLOB.cached_character_icons[cachekey]
 	else
 		. = getCompoundIcon(desired)
-		cached_character_icons[cachekey] = .
+		GLOB.cached_character_icons[cachekey] = .
 
 /proc/not_has_ooc_text(mob/user)
 	if (CONFIG_GET(flag/allow_metadata) && (!user.client?.prefs?.read_preference(/datum/preference/text/living/ooc_notes) || length(user.client.prefs.read_preference(/datum/preference/text/living/ooc_notes)) < 15))

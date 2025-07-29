@@ -8,11 +8,9 @@
 		return 1
 	if(feedback)
 		if(status[1] == HUMAN_EATING_NO_MOUTH)
-			// to_chat(src, "Where do you intend to put [food]? You don't have a mouth!")
-			balloon_alert(src, "you don't have a mouth!") // CHOMPEdit - Changed to balloon alert
+			balloon_alert(src, "you don't have a mouth!")
 		else if(status[1] == HUMAN_EATING_BLOCKED_MOUTH)
-			// to_chat(src, span_warning("\The [status[2]] is in the way!"))
-			balloon_alert(src, "\the [status[2]] is in the way!") // CHOMPEdit - Changed to balloon alert
+			balloon_alert(src, "\the [status[2]] is in the way!")
 	return 0
 
 /mob/living/carbon/human/can_force_feed(var/feeder, var/food, var/feedback = 1)
@@ -21,11 +19,9 @@
 		return 1
 	if(feedback)
 		if(status[1] == HUMAN_EATING_NO_MOUTH)
-			// to_chat(feeder, "Where do you intend to put [food]? \The [src] doesn't have a mouth!")
-			balloon_alert(src, "\the [src] doesn't have a mouth!") // CHOMPEdit - Changed to balloon alert
+			balloon_alert(src, "\the [src] doesn't have a mouth!")
 		else if(status[1] == HUMAN_EATING_BLOCKED_MOUTH)
-			// to_chat(feeder, span_warning("\The [status[2]] is in the way!"))
-			balloon_alert(feeder, "\the [status[2]] is in the way!") // CHOMPEdit - Changed to balloon alert
+			balloon_alert(feeder, "\the [status[2]] is in the way!")
 	return 0
 
 /mob/living/carbon/human/proc/can_eat_status()
@@ -60,8 +56,9 @@
 
 //This is called when we want different types of 'cloaks' to stop working, e.g. when attacking.
 /mob/living/carbon/human/break_cloak()
-	if(mind && mind.changeling) //Changeling visible camo
-		mind.changeling.cloaked = 0
+	var/datum/component/antag/changeling/comp = is_changeling(src)
+	if(comp) //Changeling visible camo
+		comp.cloaked = 0
 	if(istype(back, /obj/item/rig)) //Ninja cloak
 		var/obj/item/rig/suit = back
 		for(var/obj/item/rig_module/stealth_field/cloaker in suit.installed_modules)
@@ -71,7 +68,8 @@
 		dr.uncloak()
 
 /mob/living/carbon/human/is_cloaked()
-	if(mind && mind.changeling && mind.changeling.cloaked) // Ling camo.
+	var/datum/component/antag/changeling/comp = is_changeling(src)
+	if(comp && comp.cloaked) // Ling camo.
 		return TRUE
 	else if(istype(back, /obj/item/rig)) //Ninja cloak
 		var/obj/item/rig/suit = back
@@ -150,20 +148,20 @@
 	return FBP_NONE
 
 /mob/living/carbon/human/make_hud_overlays()
-	hud_list[HEALTH_HUD]      = gen_hud_image(ingame_hud_med, src, "100", plane = PLANE_CH_HEALTH)
+	hud_list[HEALTH_HUD]      = gen_hud_image(GLOB.ingame_hud_med, src, "100", plane = PLANE_CH_HEALTH)
 	if(isSynthetic())
-		hud_list[STATUS_HUD]  = gen_hud_image(ingame_hud, src, "hudrobo", plane = PLANE_CH_STATUS)
-		hud_list[LIFE_HUD]	  = gen_hud_image(ingame_hud, src, "hudrobo", plane = PLANE_CH_LIFE)
+		hud_list[STATUS_HUD]  = gen_hud_image(GLOB.ingame_hud, src, "hudrobo", plane = PLANE_CH_STATUS)
+		hud_list[LIFE_HUD]	  = gen_hud_image(GLOB.ingame_hud, src, "hudrobo", plane = PLANE_CH_LIFE)
 	else
-		hud_list[STATUS_HUD]  = gen_hud_image(ingame_hud, src, "hudhealthy", plane = PLANE_CH_STATUS)
-		hud_list[LIFE_HUD]    = gen_hud_image(ingame_hud, src, "hudhealthy", plane = PLANE_CH_LIFE)
+		hud_list[STATUS_HUD]  = gen_hud_image(GLOB.ingame_hud, src, "hudhealthy", plane = PLANE_CH_STATUS)
+		hud_list[LIFE_HUD]    = gen_hud_image(GLOB.ingame_hud, src, "hudhealthy", plane = PLANE_CH_LIFE)
 	hud_list[ID_HUD]          = gen_hud_image(using_map.id_hud_icons, src, "hudunknown", plane = PLANE_CH_ID)
-	hud_list[WANTED_HUD]      = gen_hud_image(ingame_hud, src, "hudblank", plane = PLANE_CH_WANTED)
-	hud_list[IMPLOYAL_HUD]    = gen_hud_image(ingame_hud, src, "hudblank", plane = PLANE_CH_IMPLOYAL)
-	hud_list[IMPCHEM_HUD]     = gen_hud_image(ingame_hud, src, "hudblank", plane = PLANE_CH_IMPCHEM)
-	hud_list[IMPTRACK_HUD]    = gen_hud_image(ingame_hud, src, "hudblank", plane = PLANE_CH_IMPTRACK)
-	hud_list[SPECIALROLE_HUD] = gen_hud_image(ingame_hud, src, "hudblank", plane = PLANE_CH_SPECIAL)
-	hud_list[STATUS_HUD_OOC]  = gen_hud_image(ingame_hud, src, "hudhealthy", plane = PLANE_CH_STATUS_OOC)
+	hud_list[WANTED_HUD]      = gen_hud_image(GLOB.ingame_hud, src, "hudblank", plane = PLANE_CH_WANTED)
+	hud_list[IMPLOYAL_HUD]    = gen_hud_image(GLOB.ingame_hud, src, "hudblank", plane = PLANE_CH_IMPLOYAL)
+	hud_list[IMPCHEM_HUD]     = gen_hud_image(GLOB.ingame_hud, src, "hudblank", plane = PLANE_CH_IMPCHEM)
+	hud_list[IMPTRACK_HUD]    = gen_hud_image(GLOB.ingame_hud, src, "hudblank", plane = PLANE_CH_IMPTRACK)
+	hud_list[SPECIALROLE_HUD] = gen_hud_image(GLOB.ingame_hud, src, "hudblank", plane = PLANE_CH_SPECIAL)
+	hud_list[STATUS_HUD_OOC]  = gen_hud_image(GLOB.ingame_hud, src, "hudhealthy", plane = PLANE_CH_STATUS_OOC)
 	hud_list[HEALTH_VR_HUD]   = gen_hud_image(ingame_hud_med_vr, src, "100", plane = PLANE_CH_HEALTH_VR)
 	hud_list[STATUS_R_HUD]    = gen_hud_image(ingame_hud_vr, src, "hudblank", plane = PLANE_CH_STATUS_R)
 	hud_list[BACKUP_HUD]      = gen_hud_image(ingame_hud_vr, src, "hudblank", plane = PLANE_CH_BACKUP)
@@ -201,7 +199,7 @@
 	if(vantag_hud)
 		compiled_vis |= VIS_CH_VANTAG
 
-	if(stomach_vision)
+	if(client?.prefs?.read_preference(/datum/preference/toggle/tummy_sprites))
 		compiled_vis += VIS_CH_STOMACH
 
 	if(soulgem?.flag_check(SOULGEM_SEE_SR_SOULS))

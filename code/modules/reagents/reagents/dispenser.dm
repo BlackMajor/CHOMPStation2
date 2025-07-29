@@ -104,6 +104,7 @@
 	allergen_factor = 1	//simulates mixed drinks containing less of the allergen, as they have only a single actual reagent unlike food
 
 	affects_robots = 1 //kiss my shiny metal ass
+	wiki_flag = WIKI_DRINK
 
 /datum/reagent/ethanol/touch_mob(var/mob/living/L, var/amount)
 	..()
@@ -213,6 +214,75 @@
 		to_chat(usr, span_notice("The solution dissolves the ink on the book."))
 	return
 
+/datum/reagent/ethanol/handle_addiction(var/mob/living/carbon/M, var/alien)
+	// A copy of the base with withdrawl, but with much less effects, such as vomiting.
+	var/current_addiction = M.get_addiction_to_reagent(id)
+	var/realistic_addiction = FALSE //DEFAULT set to FALSE. Toggle to TRUE for a more realistic addiction with potentially fatal side effects.
+	// slow degrade
+	if(prob(8))
+		current_addiction  -= 1
+	// withdrawl mechanics
+	if(!(CE_STABLE in M.chem_effects)) //Without stabilization effects
+		if(current_addiction <= 60)
+			M.pulse = PULSE_2FAST
+		if(prob(2))
+			if(current_addiction < 90 && prob(10))
+				to_chat(M, span_warning("[pick("You feel miserable.","You feel nauseous.","You get a raging headache.")]"))
+				M.adjustHalLoss(7)
+				M.make_jittery(25) //Restlessness.
+			else if(current_addiction <= 20)
+				to_chat(M, span_danger("You feel absolutely awful. You need some some liquor. Now."))
+				if(realistic_addiction && prob(20)) //1 in 5 on a 1 in 50, so 1 in 250 chance. DTs
+					to_chat(src, span_red("You have a seizure!"))
+					for(var/mob/O in viewers(M, null))
+						if(O == src)
+							continue
+						O.show_message(span_danger("[M] starts having a seizure!"), 1)
+					M.Paralyse(10)
+					M.make_jittery(1000)
+			else if(current_addiction <= 50)
+				to_chat(M, span_warning("You're really craving some alcohol. You feel nauseated."))
+				if(realistic_addiction)
+					M.emote("vomit")
+					M.AdjustConfused(10) // Disorientation.
+			else if(current_addiction <= 100)
+				to_chat(M, span_notice("You're feeling the need for some booze."))
+			// effects
+			if(current_addiction < 60 && prob(20)) // 1 in 50 x 1 in 5 = 1 in 250
+				M.emote(pick("pale","shiver","twitch"))
+				M.drop_item() //Hand tremors
+				if(realistic_addiction)
+					M.add_chemical_effect(CE_WITHDRAWL, rand(4,10) * REM)
+	else //Stabilization effects
+		if(current_addiction <= 60)
+			M.pulse = PULSE_FAST
+		if(prob(2))
+			if(current_addiction < 90 && prob(10))
+				to_chat(M, span_warning("[pick("You feel a light throbbing in your head.","Your stomach feels upset.","Your .")]"))
+				M.adjustHalLoss(3)
+				M.make_jittery(10) //Restlessness.
+			else if(current_addiction <= 20)
+				to_chat(M, span_warning("You feel nauseated."))
+				if(realistic_addiction)
+					M.emote("vomit")
+					M.AdjustConfused(10) // Disorientation.
+			else if(current_addiction <= 50)
+				to_chat(M, span_warning("Your head throbs and the room spins."))
+				if(realistic_addiction)
+					M.AdjustConfused(3) // Disorientation.
+			else if(current_addiction <= 100)
+				to_chat(M, span_notice("A drink would be nice."))
+			// effects
+			if(current_addiction < 60 && prob(5)) // 1 in 50 x 1 in 20 = 1 in 1000
+				M.emote(pick("pale","shiver","twitch"))
+				M.drop_item() //Hand tremors
+	if(current_addiction <= 0) //safety
+		current_addiction = 0
+	return current_addiction
+
+/datum/reagent/ethanol/addiction_cure_message()
+	return span_notice("You feel your symptoms end, you no longer feel the craving for alcohol.")
+
 /datum/reagent/fluorine
 	name = REAGENT_FLUORINE
 	id = REAGENT_ID_FLUORINE
@@ -254,7 +324,7 @@
 /datum/reagent/lithium/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(alien != IS_DIONA)
 		if(M.canmove && !M.restrained() && istype(M.loc, /turf/space))
-			step(M, pick(cardinal))
+			step(M, pick(GLOB.cardinal))
 		if(prob(5))
 			M.emote(pick("twitch", "drool", "moan"))
 
@@ -269,7 +339,7 @@
 /datum/reagent/mercury/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(alien != IS_DIONA)
 		if(M.canmove && !M.restrained() && istype(M.loc, /turf/space))
-			step(M, pick(cardinal))
+			step(M, pick(GLOB.cardinal))
 		if(prob(5))
 			M.emote(pick("twitch", "drool", "moan"))
 		M.adjustBrainLoss(0.5 * removed)
@@ -372,7 +442,7 @@
 	if(ishuman(M) && !isbelly(M.loc)) //CHOMPEdit Start
 		var/mob/living/carbon/human/H = M
 		if(H.head)
-			if(H.head.unacidable || is_type_in_list(H.head,item_digestion_blacklist))
+			if(H.head.unacidable || is_type_in_list(H.head, GLOB.item_digestion_blacklist))
 				to_chat(H, span_danger("Your [H.head] protects you from the acid."))
 				remove_self(volume)
 				return
@@ -386,7 +456,7 @@
 			return
 
 		if(H.wear_mask)
-			if(H.wear_mask.unacidable || is_type_in_list(H.wear_mask,item_digestion_blacklist))
+			if(H.wear_mask.unacidable || is_type_in_list(H.wear_mask, GLOB.item_digestion_blacklist))
 				to_chat(H, span_danger("Your [H.wear_mask] protects you from the acid."))
 				remove_self(volume)
 				return
@@ -400,7 +470,7 @@
 			return
 
 		if(H.glasses)
-			if(H.glasses.unacidable || is_type_in_list(H.glasses,item_digestion_blacklist))
+			if(H.glasses.unacidable || is_type_in_list(H.glasses, GLOB.item_digestion_blacklist))
 				to_chat(H, span_danger("Your [H.glasses] partially protect you from the acid!"))
 				removed /= 2
 			else if(removed > meltdose)
@@ -453,7 +523,7 @@
 				B.owner_adjust_nutrition((B.nutrition_percent / 100) * 5 * spent_amt)
 			return
 	..()
-	if(O.unacidable || is_type_in_list(O,item_digestion_blacklist)) //CHOMPEdit End
+	if(O.unacidable || is_type_in_list(O, GLOB.item_digestion_blacklist)) //CHOMPEdit End
 		return
 	if((istype(O, /obj/item) || istype(O, /obj/effect/plant)) && (volume > meltdose))
 		var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(O.loc)

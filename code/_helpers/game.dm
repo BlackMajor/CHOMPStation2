@@ -1,12 +1,12 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:31
 
-/proc/dopage(src,target)
+/proc/dopage(source, target)
 	var/href_list
 	var/href
-	href_list = params2list("src=\ref[src]&[target]=1")
-	href = "src=\ref[src];[target]=1"
-	src:temphtml = null
-	src:Topic(href, href_list)
+	href_list = params2list("src=\ref[source]&[target]=1")
+	href = "src=\ref[source];[target]=1"
+	source:temphtml = null
+	source:Topic(href, href_list)
 	return null
 
 /proc/is_on_same_plane_or_station(var/z1, var/z2)
@@ -41,8 +41,8 @@
 
 /** Checks if any living humans are in a given area. */
 /proc/area_is_occupied(var/area/myarea)
-	// Testing suggests looping over human_mob_list is quicker than looping over area contents
-	for(var/mob/living/carbon/human/H in human_mob_list)
+	// Testing suggests looping over GLOB.human_mob_list is quicker than looping over area contents
+	for(var/mob/living/carbon/human/H in GLOB.human_mob_list)
 		if(H.stat >= DEAD) //Conditions for exclusion here, like if disconnected people start blocking it.
 			continue
 		var/area/A = get_area(H)
@@ -219,14 +219,13 @@
 
 	return hear
 
-//CHOMPEdit - entire proc changed basically to use recursive listening
 /proc/get_mobs_in_radio_ranges(var/list/obj/item/radio/radios)
 
 	. = list()
 	// Returns a list of mobs who can hear any of the radios given in @radios
 	for(var/obj/item/radio/R as anything in radios)
 		if(get_turf(R))
-			for(var/turf/T in R.can_broadcast_to())	//CHOMPEdit
+			for(var/turf/T in R.can_broadcast_to())
 				for (var/atom/movable/hearing in T)
 					if (hearing.recursive_listeners)
 						. |= hearing.recursive_listeners
@@ -234,7 +233,7 @@
 	for (var/mob/M as anything in .)
 		if (!istype(M) || !M.client)
 			. -= M
-	for (var/mob/observer/O in player_list)
+	for (var/mob/observer/O in GLOB.player_list)
 		. |= O
 
 /mob/proc/can_hear_radio(var/list/hearturfs)
@@ -297,9 +296,9 @@
 			hearturfs |= get_turf(thing)
 
 	//A list of every mob with a client
-	for(var/mob in player_list)
+	for(var/mob in GLOB.player_list)
 		if(!ismob(mob))
-			player_list -= mob
+			GLOB.player_list -= mob
 			continue
 		//VOREStation Edit End - Trying to fix some vorestation bug.
 		if(get_turf(mob) in hearturfs)
@@ -317,7 +316,7 @@
 						mobs |= M
 
 	//For objects below the top level who still want to hear
-	for(var/obj in listening_objects)
+	for(var/obj in GLOB.listening_objects)
 		if(get_turf(obj) in hearturfs)
 			objs |= obj
 
@@ -382,7 +381,7 @@
 	else
 		return 0
 
-/proc/get_cardinal_step_away(atom/start, atom/finish) //returns the position of a step from start away from finish, in one of the cardinal directions
+/proc/get_cardinal_step_away(atom/start, atom/finish) //returns the position of a step from start away from finish, in one of the GLOB.cardinal directions
 	//returns only NORTH, SOUTH, EAST, or WEST
 	var/dx = finish.x - start.x
 	var/dy = finish.y - start.y
@@ -398,7 +397,7 @@
 			return get_step(start, EAST)
 
 /proc/get_mob_by_key(var/key)
-	for(var/mob/M in mob_list)
+	for(var/mob/M in GLOB.mob_list)
 		if(M.ckey == lowertext(key))
 			return M
 	return null
@@ -410,7 +409,7 @@
 	var/list/candidates = list() //List of candidate KEYS to assume control of the new larva ~Carn
 	var/i = 0
 	while(candidates.len <= 0 && i < 5)
-		for(var/mob/observer/dead/G in player_list)
+		for(var/mob/observer/dead/G in GLOB.player_list)
 			if(((G.client.inactivity/10)/60) <= buffer + i) // the most active players are more likely to become an alien
 				if(!(G.mind && G.mind.current && G.mind.current.stat != DEAD))
 					candidates += G.key
@@ -424,7 +423,7 @@
 	var/list/candidates = list() //List of candidate KEYS to assume control of the new larva ~Carn
 	var/i = 0
 	while(candidates.len <= 0 && i < 5)
-		for(var/mob/observer/dead/G in player_list)
+		for(var/mob/observer/dead/G in GLOB.player_list)
 			if(G.client.prefs.be_special & BE_ALIEN)
 				if(((G.client.inactivity/10)/60) <= ALIEN_SELECT_AFK_BUFFER + i) // the most active players are more likely to become an alien
 					if(!(G.mind && G.mind.current && G.mind.current.stat != DEAD))
@@ -550,7 +549,7 @@
 	return mixedcolor
 
 /**
-* Gets the highest and lowest pressures from the tiles in cardinal directions
+* Gets the highest and lowest pressures from the tiles in GLOB.cardinal directions
 * around us, then checks the difference.
 */
 /proc/getOPressureDifferential(var/turf/loc)
@@ -744,3 +743,6 @@
 
 	var/color = rgb(r, g, b)
 	return color
+
+/proc/remove_image_from_client(image/image, client/remove_from)
+	remove_from?.images -= image

@@ -69,11 +69,7 @@
 	vore_default_contamination_color = "grey"
 	vore_default_item_mode = IM_DIGEST
 
-/mob/living/simple_mob/vore/squirrel/init_vore()
-	if(!voremob_loaded)
-		return
-	if(LAZYLEN(vore_organs))
-		return
+/mob/living/simple_mob/vore/squirrel/load_default_bellies()
 	. = ..()
 	var/obj/belly/B = vore_selected
 	B.name = "stomach"
@@ -157,7 +153,7 @@
 /mob/living/simple_mob/vore/squirrel/Initialize(mapload)
 	. = ..()
 	if(do_seasons)
-		switch(GLOB.world_time_season) // CHOMPEdit - Managed Globals
+		switch(GLOB.world_time_season)
 			if("spring")
 				if(prob(1))
 					winterize()
