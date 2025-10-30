@@ -1,7 +1,7 @@
 /obj/structure/bed/chair	//YES, chairs are a type of bed, which are a type of stool. This works, believe me.	-Pete
 	name = "chair"
 	desc = "You sit in this. Either by will or force."
-	icon = 'icons/obj/furniture_vr.dmi' //VOREStation Edit - Using Eris furniture
+	icon = 'icons/obj/furniture.dmi'
 	icon_state = "chair_preview"
 	color = "#666666"
 	base_icon = "chair"
@@ -65,34 +65,6 @@
 	if(has_buckled_mobs())
 		for(var/mob/living/L as anything in buckled_mobs)
 			L.set_dir(dir)
-
-/obj/structure/bed/chair/verb/rotate_clockwise()
-	set name = "Rotate Chair Clockwise"
-	set category = "Object"
-	set src in oview(1)
-
-	if(!usr || !isturf(usr.loc))
-		return
-	if(usr.stat || usr.restrained())
-		return
-	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
-		return
-
-	src.set_dir(turn(src.dir, 270))
-
-/obj/structure/bed/chair/verb/rotate_counterclockwise()
-	set name = "Rotate Chair Counter-Clockwise"
-	set category = "Object"
-	set src in oview(1)
-
-	if(!usr || !isturf(usr.loc))
-		return
-	if(usr.stat || usr.restrained())
-		return
-	if(ismouse(usr) || (isobserver(usr) && !CONFIG_GET(flag/ghost_interaction)))
-		return
-
-	src.set_dir(turn(src.dir, 90))
 
 /obj/structure/bed/chair/shuttle
 	name = "chair"
@@ -164,6 +136,7 @@
 	name = "rounded chair"
 	desc = "It's a rounded chair. It looks comfy."
 	icon_state = "roundedchair"
+	icon = 'icons/obj/furniture.dmi' //CHOMP Edit - These need to be base dmi, chomp's does not have them.
 	base_icon = "roundedchair"
 
 /obj/structure/bed/chair/comfy/rounded/brown/Initialize(mapload, var/new_material, var/new_padding_material)
@@ -288,7 +261,6 @@
 /obj/structure/bed/chair/sofa
 	name = "sofa"
 	desc = "It's a sofa. You sit on it. Possibly with someone else."
-	icon = 'icons/obj/sofas.dmi'
 	base_icon = "sofamiddle"
 	icon_state = "sofamiddle"
 	applies_material_colour = 1
@@ -344,6 +316,7 @@
 	desc = "If they want you to go to church, why do they make these so uncomfortable?"
 	base_icon = "pewmiddle"
 	icon_state = "pewmiddle"
+	icon = 'icons/obj/furniture.dmi' //CHOMP Edit - These need to be base dmi, chomp's does not have them.
 	applies_material_colour = FALSE
 
 /obj/structure/bed/chair/sofa/pew/left
@@ -360,6 +333,7 @@
 	desc = "Almost as comfortable as waiting at a bus station for hours on end."
 	base_icon = "benchmiddle"
 	icon_state = "benchmiddle"
+	icon = 'icons/obj/furniture.dmi' //CHOMP Edit - These need to be base dmi, chomp's does not have them.
 	applies_material_colour = FALSE
 	color = null
 	var/padding_color = "#CC0000"
@@ -397,6 +371,7 @@
 	desc = "How corporate!"
 	base_icon = "corp_sofamiddle"
 	icon_state = "corp_sofamiddle"
+	icon = 'icons/obj/furniture.dmi' //CHOMP Edit - These need to be base dmi, chomp's does not have them.
 	applies_material_colour = FALSE
 
 /obj/structure/bed/chair/sofa/corp/left

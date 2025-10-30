@@ -26,31 +26,6 @@
 	var/mimeamt = 0 //How many silence left when infected with mime.exe
 	var/detonate = 1 // Can the PDA be blown up?
 	var/ttone = "beep" //The ringtone!
-	var/list/ttone_sound = list("beep" = 'sound/machines/twobeep.ogg',
-								"boom" = 'sound/effects/explosionfar.ogg',
-								"slip" = 'sound/misc/slip.ogg',
-								"honk" = 'sound/items/bikehorn.ogg',
-								"SKREE" = 'sound/voice/shriek1.ogg',
-								"xeno" = 'sound/voice/hiss1.ogg',
-								"dust" = 'sound/effects/supermatter.ogg', // CHOMPEdit - Keeps dust as ringtone
-								"spark" = 'sound/effects/sparks4.ogg',
-								"rad" = 'sound/items/geiger/high1.ogg',
-								"servo" = 'sound/machines/rig/rigservo.ogg',
-								// "buh-boop" = 'sound/misc/buh-boop.ogg', // CHOMPEdit - No.
-								"trombone" = 'sound/misc/sadtrombone.ogg',
-								"whistle" = 'sound/misc/boatswain.ogg',
-								"chirp" = 'sound/misc/nymphchirp.ogg',
-								"slurp" = 'sound/items/drink.ogg',
-								"pwing" = 'sound/items/nif_tone_good.ogg',
-								"clack" = 'sound/items/storage/toolbox.ogg',
-								"bzzt" = 'sound/misc/null.ogg',	//vibrate mode
-								"chimes" = 'sound/misc/notice3.ogg',
-								"prbt" = 'sound/voice/prbt.ogg',
-								"bark" = 'sound/voice/bark2.ogg',
-								"bork" = 'sound/voice/bork.ogg',
-								"roark" = 'sound/voice/roarbark.ogg',
-								"chitter" = 'sound/voice/moth/moth_chitter.ogg',
-								"squish" = 'sound/effects/slime_squish.ogg')
 	var/hidden = 0 // Is the PDA hidden from the PDA list?
 	var/touch_silent = 0 //If 1, no beeps on interacting.
 
@@ -72,6 +47,7 @@
 		new/datum/data/pda/app/messenger,
 		new/datum/data/pda/app/manifest,
 		new/datum/data/pda/app/atmos_scanner,
+		new/datum/data/pda/app/nerdle,
 		new/datum/data/pda/utility/scanmode/notes,
 		new/datum/data/pda/utility/flashlight)
 	var/list/shortcut_cache = list()
@@ -103,8 +79,8 @@
 /obj/item/pda/proc/play_ringtone()
 	var/S
 
-	if(ttone in ttone_sound)
-		S = ttone_sound[ttone]
+	if(ttone in GLOB.device_ringtones)
+		S = GLOB.device_ringtones[ttone]
 	else
 		S = 'sound/machines/twobeep.ogg'
 	playsound(loc, S, 50, 1)
@@ -182,7 +158,7 @@
 
 		else
 			icon = 'icons/obj/pda_old.dmi'
-			log_debug("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
+			log_runtime("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
 	//add_overlay("pda-pen") //ChompEDIT no icon ops on New
 	start_program(find_program(/datum/data/pda/app/main_menu))
 
@@ -206,7 +182,7 @@
 
 /obj/item/pda/MouseDrop(obj/over_object as obj, src_location, over_location)
 	var/mob/M = usr
-	if((!istype(over_object, /obj/screen)) && can_use(usr))
+	if((!istype(over_object, /atom/movable/screen)) && can_use(usr))
 		return attack_self(M)
 	return
 
@@ -214,8 +190,6 @@
 	SStgui.close_uis(src)
 
 /obj/item/pda/attack_self(mob/user as mob)
-	user.set_machine(src)
-
 	if(active_uplink_check(user))
 		return
 
@@ -464,12 +438,9 @@
 				if(id_check(user, 2))
 					to_chat(user, span_notice("You put the ID into \the [src]'s slot."))
 					add_overlay("pda-id")
-					updateSelfDialog()//Update self dialog on success.
 			return	//Return in case of failed check or when successful.
-		updateSelfDialog()//For the non-input related code.
 	else if(istype(C, /obj/item/paicard) && !src.pai)
-		user.drop_item()
-		C.loc = src
+		user.drop_item(src)
 		pai = C
 		to_chat(user, span_notice("You slot \the [C] into \the [src]."))
 		SStgui.update_uis(src) // update all UIs attached to src
@@ -478,8 +449,7 @@
 		if(O)
 			to_chat(user, span_notice("There is already a pen in \the [src]."))
 		else
-			user.drop_item()
-			C.loc = src
+			user.drop_item(src)
 			to_chat(user, span_notice("You slot \the [C] into \the [src]."))
 			add_overlay("pda-pen")
 	return

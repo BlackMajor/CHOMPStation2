@@ -228,7 +228,7 @@
 		//CHOMPAdd Start
 		user.visible_message(span_filter_notice("[user] begins to lick \the [target.name] clean..."), span_notice("You begin to lick \the [target.name] clean..."))
 		busy = 1
-		if(do_after(user, 50, exclusive = TRUE))
+		if(do_after(user, 50))
 			to_chat(user, span_notice("You clean \the [target.name]."))
 			water.use_charge(5)
 			var/obj/effect/decal/cleanable/C = locate() in target
@@ -321,7 +321,7 @@
 				return
 			to_chat(user, span_filter_notice("It has [uses] lights remaining. Attempting to fabricate a replacement. Please stand still."))
 			cooldown = 1
-			if(do_after(user, 50))
+			if(do_after(user, 5 SECONDS, target = src))
 				glass.use_charge(125)
 				add_uses(1)
 				cooldown = 0
@@ -354,7 +354,7 @@
 				return
 			busy = TRUE
 			to_chat(user, span_notice("You begin to attach \the [C] to \the [A]..."))
-			if(do_after(user, 30))
+			if(do_after(user, 3 SECONDS, target = src))
 				to_chat(user, span_notice("You have attached \the [src] to \the [A]."))
 				var/obj/machinery/clamp/clamp = new/obj/machinery/clamp(A.loc, A)
 				clamps.Add(clamp)
@@ -364,7 +364,7 @@
 		else
 			busy = TRUE
 			to_chat(user, span_notice("You begin to remove \the [C] from \the [A]..."))
-			if(do_after(user, 30))
+			if(do_after(user, 3 SECONDS, target = src))
 				to_chat(user, span_notice("You have removed \the [src] from \the [A]."))
 				clamps.Remove(C)
 				qdel(C)

@@ -45,7 +45,7 @@
 		to_chat(M, span_notice("You don't feel cool enough to name this gun, chump."))
 		return 0
 
-	var/input = sanitizeSafe(tgui_input_text(M, "What do you want to name the gun?","Rename Gun" ,"",MAX_NAME_LEN))
+	var/input = sanitizeSafe(tgui_input_text(M, "What do you want to name the gun?","Rename Gun" ,"",MAX_NAME_LEN, encode = FALSE))
 
 	if(src && input && !M.stat && in_range(M,src))
 		name = input
@@ -81,7 +81,6 @@
 	desc = "The MT Mk58 is a cheap, ubiquitous sidearm, produced by MarsTech. Found pretty much everywhere humans are. Uses .45 rounds."
 	description_fluff = "The leading civilian-sector high-quality small arms brand of Hephaestus Industries, \
 	MarsTech has been the provider of choice for law enforcement and security forces for over 300 years."
-	icon = 'icons/obj/gun_ch.dmi'
 	icon_state = "secguncomp"
 	magazine_type = /obj/item/ammo_magazine/m45/rubber
 	allowed_magazines = list(/obj/item/ammo_magazine/m45)

@@ -46,7 +46,7 @@
 				newrecord.id = copytext(md5(dna.real_name), 2, 6) // update this specially
 				continue
 			if("dna")
-				qdel_swap(newrecord.dna, dna.Clone())
+				QDEL_SWAP(newrecord.dna, dna.Clone())
 				continue
 		if(islist(vars[A]))
 			var/list/L = vars[A]
@@ -172,8 +172,6 @@
 		to_chat(usr, span_warning("There is already something inside."))
 		return
 	usr.stop_pulling()
-	usr.client.perspective = EYE_PERSPECTIVE
-	usr.client.eye = src
 	usr.forceMove(src)
 	set_occupant(usr)
 	icon_state = "scanner_1"
@@ -250,9 +248,6 @@
 	. = ..()
 
 /obj/machinery/dna_scannernew/proc/put_in(var/mob/M)
-	if(M.client)
-		M.client.perspective = EYE_PERSPECTIVE
-		M.client.eye = src
 	M.forceMove(src)
 	set_occupant(M)
 	icon_state = "scanner_1"
@@ -274,9 +269,6 @@
 	var/mob/living/carbon/WC = get_occupant()
 	if((!WC || locked))
 		return
-	if(WC.client)
-		WC.client.eye = WC.client.mob
-		WC.client.perspective = MOB_PERSPECTIVE
 	if(istype(WC,/mob/living/carbon/brain))
 		for(var/obj/O in src)
 			if(istype(O,/obj/item/organ/internal/brain))

@@ -1321,7 +1321,8 @@
 /area/stellardelight/deck3/aft)
 "eo" = (
 /obj/machinery/power/apc/angled{
-	dir = 4
+	dir = 4;
+	cell_type = /obj/item/cell/super
 	},
 /obj/structure/cable/blue{
 	icon_state = "0-2"
@@ -1902,7 +1903,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portcent)
 "gB" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -1990,12 +1991,7 @@
 /turf/simulated/open,
 /area/stellardelight/deck2/fore)
 "gQ" = (
-/obj/machinery/power/smes/buildable{
-	charge = 5e+006;
-	input_attempt = 1;
-	input_level = 200000;
-	output_level = 200000
-	},
+/obj/machinery/power/smes/buildable/engine_default,
 /obj/structure/window/reinforced{
 	dir = 1
 	},
@@ -2537,7 +2533,7 @@
 /turf/simulated/floor/tiled,
 /area/stellardelight/deck3/aft)
 "iY" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -4537,7 +4533,7 @@
 	},
 /area/tcommsat/chamber)
 "qb" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -5188,7 +5184,8 @@
 /area/ai)
 "su" = (
 /obj/machinery/power/apc/angled{
-	dir = 8
+	dir = 8;
+	cell_type = /obj/item/cell/super
 	},
 /obj/structure/cable/blue{
 	icon_state = "0-4"
@@ -6112,7 +6109,7 @@
 /turf/simulated/floor/bluegrid,
 /area/ai_cyborg_station)
 "we" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -8808,7 +8805,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portaft)
 "FH" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -8969,9 +8966,8 @@
 	icon_state = "0-2"
 	},
 /obj/structure/cable/blue,
-/obj/machinery/power/smes/buildable{
-	RCon_tag = "Substation - Command";
-	output_attempt = 0
+/obj/machinery/power/smes/buildable/disable_output{
+	RCon_tag = "Substation - Command"
 	},
 /turf/simulated/floor,
 /area/maintenance/stellardelight/substation/command)
@@ -10664,6 +10660,7 @@
 	pixel_y = 18
 	},
 /obj/item/book/manual/sd_guide,
+/obj/item/gold_star_printer,
 /turf/simulated/floor/carpet,
 /area/crew_quarters/heads/hop)
 "Mu" = (
@@ -11286,7 +11283,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/foreportrooma)
 "Op" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -12760,7 +12757,7 @@
 /turf/simulated/floor/tiled,
 /area/stellardelight/deck3/aft)
 "TE" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -12922,9 +12919,8 @@
 /obj/structure/cable/blue{
 	icon_state = "0-2"
 	},
-/obj/machinery/power/smes/buildable{
-	RCon_tag = "Substation - AI/Telecomms";
-	output_attempt = 0
+/obj/machinery/power/smes/buildable/disable_output{
+	RCon_tag = "Substation - AI/Telecomms"
 	},
 /turf/simulated/floor,
 /area/ai_cyborg_station)
@@ -13283,7 +13279,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/maintenance/stellardelight/deck3/forestarroomb)
 "Vz" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -13355,7 +13351,7 @@
 /turf/simulated/floor,
 /area/maintenance/stellardelight/deck3/portcent)
 "VM" = (
-/obj/machinery/power/pointdefense{
+/obj/machinery/pointdefense{
 	id_tag = "sd_pd"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -13466,9 +13462,7 @@
 /turf/simulated/open,
 /area/stellardelight/deck2/port)
 "Wn" = (
-/obj/machinery/power/smes/buildable{
-	charge = 500000
-	},
+/obj/machinery/power/smes/buildable/max_charge,
 /obj/effect/floor_decal/fancy_shuttle{
 	fancy_shuttle_tag = "sdboat"
 	},
@@ -13686,7 +13680,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = 24
 	},
-/obj/structure/closet/secure_closet/CMO,
+/obj/structure/closet/secure_closet/chief_medical_officer,
 /obj/item/clothing/accessory/stethoscope,
 /obj/item/flashlight/pen,
 /obj/item/storage/belt/medical,
@@ -14144,7 +14138,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = 24
 	},
-/obj/structure/closet/secure_closet/RD,
+/obj/structure/closet/secure_closet/research_director,
 /obj/item/aicard,
 /obj/item/clothing/glasses/omnihud/rnd,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{

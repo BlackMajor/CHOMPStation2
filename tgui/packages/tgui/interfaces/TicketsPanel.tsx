@@ -56,7 +56,7 @@ const StateColor = {
 type Data = {
   tickets: Ticket[];
 
-  selected_ticket: Ticket;
+  selected_ticket?: Ticket;
   is_admin: BooleanLike;
 };
 
@@ -126,7 +126,7 @@ export const TicketsPanel = (props) => {
         scroll.scrollTop = scroll.scrollHeight;
       }
     }
-  });
+  }, [selected_ticket?.log]);
 
   const availableLevel = is_admin ? AdminLevel : MentorLevel;
 
@@ -182,15 +182,8 @@ export const TicketsPanel = (props) => {
                           <Stack.Item>
                             <Stack align="center">
                               <Stack.Item>
-                                {ticket.ishandled ? (
-                                  <Box
-                                    textColor="white"
-                                    className="TicketPanel__Label"
-                                    backgroundColor={LevelColor[ticket.level]}
-                                  >
-                                    {availableLevel[ticket.level]}
-                                  </Box>
-                                ) : (
+                                {!ticket.ishandled &&
+                                ticket.state === State.open ? (
                                   <Blink>
                                     <Box
                                       textColor="white"
@@ -200,6 +193,14 @@ export const TicketsPanel = (props) => {
                                       {availableLevel[ticket.level]}
                                     </Box>
                                   </Blink>
+                                ) : (
+                                  <Box
+                                    textColor="white"
+                                    className="TicketPanel__Label"
+                                    backgroundColor={LevelColor[ticket.level]}
+                                  >
+                                    {availableLevel[ticket.level]}
+                                  </Box>
                                 )}
                               </Stack.Item>
                               <Stack.Item>{ticket.name}</Stack.Item>

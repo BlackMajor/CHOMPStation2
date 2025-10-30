@@ -161,7 +161,7 @@ var/SMALLSIZEBLOCK     = 0
 // Needs to match the highest number above.
 #define DNA_UI_LENGTH      65
 
-#define DNA_SE_LENGTH 90 // Traitgenes (Expanded from 49 to 84, there have been a considerable expansion of genes.
+#define DNA_SE_LENGTH 93 // Traitgenes (Expanded from 49 to 84, there have been a considerable expansion of genes. //CHOMPEdit: Upped to 93. NOTE: Ensure it's increased when there is a conflict here! Thanks!
 // This leaves room for future expansion. This can be arbitrarily raised without worry if genes start to get crowded.
 // Should have more than 10 empty genes after setup. - Willbird)
 
@@ -177,3 +177,7 @@ var/SMALLSIZEBLOCK     = 0
 // Gene flags
 #define GENE_ALWAYS_ACTIVATE 1
 #define MUTCHK_HIDEMSG       2 // Traitgenes (Hide gene activation/deactivation messages, mostly for resleeving so you don't get spammed)
+
+// Misc
+#define TK_DENIED_MESSAGE span_warning("You are too distracted to focus your telekinesis.")
+#define TK_OUTRANGED_MESSAGE span_notice("Your telekinesis won't reach that far.")

@@ -89,9 +89,6 @@
 
 	update_canmove()
 
-	dizziness = 0
-	jitteriness = 0
-
 	layer = MOB_LAYER
 
 	sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
@@ -125,8 +122,8 @@
 	handle_regular_hud_updates()
 	handle_vision()
 
-	if(ticker && ticker.mode)
-		ticker.mode.check_win()
+	if(SSticker && SSticker.mode)
+		SSticker.mode.check_win()
 
 	if(reagents)
 		for(var/datum/reagent/R in reagents.reagent_list)

@@ -1473,6 +1473,11 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/light_switch{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 11
+	},
 /turf/simulated/floor/tiled/dark,
 /area/security/nuke_storage)
 "agl" = (
@@ -1486,6 +1491,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/machinery/light_switch{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 11
 	},
 /turf/simulated/floor/tiled/dark,
 /area/hallway/primary/firstdeck/vaultcheckpoint)
@@ -2438,11 +2448,7 @@
 /turf/simulated/wall,
 /area/maintenance/firstdeck/foreport)
 "akp" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod1/station)
 "akw" = (
 /obj/structure/bed/chair{
@@ -2459,11 +2465,7 @@
 /turf/simulated/shuttle/floor,
 /area/shuttle/escape_pod2/station)
 "akx" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod2/station)
 "aky" = (
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
@@ -4225,23 +4227,14 @@
 /turf/simulated/wall,
 /area/hallway/primary/firstdeck/fore)
 "avf" = (
-/obj/machinery/door/airlock/vault/bolted{
-	autoclose = 0;
-	frequency = 1969;
-	id_tag = "vault_interior";
-	req_access = list(53)
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/access_button{
-	command = "cycle_interior";
-	frequency = 1969;
-	master_tag = "vault_airlock_control";
-	name = "Vault Access Button";
-	pixel_x = -26
+/obj/machinery/door/airlock/highsecurity{
+	req_one_access = list(58,41);
+	name = "Vault Airlock"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/blast/regular/open{
@@ -4767,6 +4760,11 @@
 	},
 /obj/structure/cable{
 	icon_state = "0-4"
+	},
+/obj/machinery/light_switch{
+	dir = 4;
+	pixel_x = -25;
+	pixel_y = 11
 	},
 /turf/simulated/floor/wood,
 /area/hallway/primary/firstdeck/vaultlobby)
@@ -5998,6 +5996,10 @@
 /obj/item/circuitboard/aiupload{
 	pixel_x = -1;
 	pixel_y = -1
+	},
+/obj/item/circuitboard/machine/ore_silo{
+	pixel_x = -2;
+	pixel_y = -5
 	},
 /turf/simulated/floor/tiled/dark,
 /area/storage/tech)
@@ -7847,11 +7849,7 @@
 /turf/simulated/floor/tiled,
 /area/expoutpost/stationshuttle)
 "aPF" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod5/station)
 "aPL" = (
 /obj/structure/cable{
@@ -8004,11 +8002,7 @@
 /turf/simulated/wall/r_wall,
 /area/quartermaster/mininglockerroom)
 "aQY" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod6/station)
 "aRa" = (
 /obj/effect/floor_decal/borderfloor/corner{
@@ -10061,6 +10055,10 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/light_switch{
+	pixel_x = 11;
+	pixel_y = 24
+	},
 /turf/simulated/floor/tiled,
 /area/hallway/primary/firstdeck/auxdockaft)
 "bLd" = (
@@ -10350,11 +10348,7 @@
 /turf/simulated/floor/tiled/steel,
 /area/hangar/three)
 "bYO" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod3/station)
 "bZv" = (
 /obj/structure/table/standard,
@@ -10467,9 +10461,6 @@
 /turf/simulated/floor/tiled/monotile,
 /area/hangar/two)
 "cdC" = (
-/obj/machinery/light_switch{
-	pixel_x = -36
-	},
 /obj/item/radio/intercom{
 	dir = 8;
 	name = "Station Intercom (General)";
@@ -11739,6 +11730,10 @@
 	},
 /obj/effect/floor_decal/borderfloor/corner,
 /obj/effect/floor_decal/corner/pink/bordercorner,
+/obj/machinery/light_switch{
+	pixel_x = 11;
+	pixel_y = -24
+	},
 /turf/simulated/floor/tiled,
 /area/expoutpost/stationshuttle)
 "dtt" = (
@@ -12713,13 +12708,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
 	},
-/obj/machinery/power/smes/buildable{
-	RCon_tag = "Auxiliary - Main";
-	charge = 2.4e+007;
-	cur_coils = 4;
-	input_level = 500000;
-	output_level = 500000
+/obj/machinery/power/smes/buildable/max_charge_max_output{
+	RCon_tag = "Auxiliary - Main"
 	},
+/obj/item/smes_coil,
+/obj/item/smes_coil,
+/obj/item/smes_coil,
+/obj/item/smes_coil,
 /turf/simulated/floor/plating,
 /area/engineering/auxiliary_engineering)
 "dWD" = (
@@ -15708,11 +15703,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/hallway/primary/firstdeck/elevator)
 "fBA" = (
-/turf/simulated/shuttle/wall/no_join{
-	base_state = "orange";
-	icon = 'icons/turf/shuttle_orange.dmi';
-	icon_state = "orange"
-	},
+/turf/simulated/shuttle/wall/no_join/orange,
 /area/shuttle/escape_pod4/station)
 "fBB" = (
 /obj/structure/table/glass,
@@ -16662,7 +16653,6 @@
 	},
 /obj/machinery/turretid/lethal{
 	ailock = 1;
-	check_synth = 1;
 	control_area = "\improper Telecomms Storage";
 	desc = "A firewall prevents AIs from interacting with this device.";
 	name = "Telecoms lethal turret control";
@@ -18436,13 +18426,8 @@
 /turf/simulated/floor/tiled,
 /area/medical/morgue)
 "iHD" = (
-/obj/machinery/power/smes/buildable{
-	RCon_tag = "Telecommunications Satellite";
-	charge = 6e+006;
-	input_attempt = 1;
-	input_level = 250000;
-	inputting = 1;
-	output_level = 250000
+/obj/machinery/power/smes/buildable/engine_default{
+	RCon_tag = "Telecommunications Satellite"
 	},
 /obj/structure/cable/cyan,
 /turf/simulated/floor/plating,
@@ -20441,6 +20426,10 @@
 /obj/effect/floor_decal/corner/blue,
 /obj/effect/floor_decal/corner/paleblue{
 	dir = 1
+	},
+/obj/machinery/light_switch{
+	pixel_x = 11;
+	pixel_y = 24
 	},
 /turf/simulated/floor/tiled/white,
 /area/medical/cryo/autoresleeve)
@@ -22693,11 +22682,12 @@
 	dir = 8;
 	pixel_x = -24
 	},
+/obj/machinery/vending/exploration_fieldmedic,
 /turf/simulated/floor/tiled/steel,
 /area/hangar/lockerroomthree)
 "nrb" = (
-/obj/structure/frame/computer,
 /obj/effect/floor_decal/steeldecal/steel_decals_central6,
+/obj/machinery/vending/exploration_pilot,
 /turf/simulated/floor/tiled/monotile,
 /area/hangar/lockerroomthree)
 "nrg" = (
@@ -22862,6 +22852,10 @@
 /obj/machinery/power/apc{
 	dir = 1;
 	name = "north bump";
+	pixel_y = 24
+	},
+/obj/machinery/light_switch{
+	pixel_x = 11;
 	pixel_y = 24
 	},
 /turf/simulated/floor/wood,
@@ -24363,9 +24357,6 @@
 /turf/simulated/floor/tiled,
 /area/hangar/lockerroomthree)
 "pvA" = (
-/obj/structure/bed/chair{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 6
 	},
@@ -24567,6 +24558,7 @@
 /area/hallway/secondary/firstdeck/research_access)
 "pDD" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/machinery/ore_silo,
 /turf/simulated/floor/tiled/dark,
 /area/security/nuke_storage)
 "pEp" = (
@@ -25571,11 +25563,7 @@
 	dir = 4
 	},
 /obj/effect/floor_decal/rust,
-/obj/structure/closet/secure_closet/guncabinet{
-	desc = "It's an immobile card-locked storage unit. For storing weapons and other items when station side.";
-	name = "Secure Locker";
-	req_one_access = list(67,43,3)
-	},
+/obj/machinery/vending/exploration_misc,
 /turf/simulated/floor/tiled,
 /area/hangar/lockerroomthree)
 "qGt" = (
@@ -25592,6 +25580,7 @@
 	dir = 1
 	},
 /obj/machinery/light,
+/obj/machinery/vending/exploration_weapons,
 /turf/simulated/floor/tiled,
 /area/hangar/lockerroomthree)
 "qGK" = (
@@ -25611,6 +25600,7 @@
 	pixel_y = -24
 	},
 /obj/effect/floor_decal/steeldecal/steel_decals_central6,
+/obj/machinery/vending/exploration_armor,
 /turf/simulated/floor/tiled,
 /area/hangar/lockerroomthree)
 "qGO" = (
@@ -29476,16 +29466,24 @@
 	pixel_x = 2;
 	pixel_y = 11
 	},
-/obj/item/circuitboard/rdserver{
-	pixel_x = 1;
-	pixel_y = 7
+/obj/item/circuitboard/machine/protolathe/department/engineering{
+	pixel_y = 7;
+	pixel_x = 1
 	},
-/obj/item/circuitboard/protolathe{
+/obj/item/circuitboard/machine/protolathe/department/medical{
 	pixel_y = 3
 	},
-/obj/item/circuitboard/destructive_analyzer{
+/obj/item/circuitboard/machine/protolathe/department/science{
 	pixel_x = -1;
 	pixel_y = -1
+	},
+/obj/item/circuitboard/machine/protolathe/department/security{
+	pixel_y = -5;
+	pixel_x = -2
+	},
+/obj/item/circuitboard/machine/protolathe/department/service{
+	pixel_x = -3;
+	pixel_y = -9
 	},
 /turf/simulated/floor/plating,
 /area/storage/tech)
@@ -32031,6 +32029,10 @@
 /obj/effect/floor_decal/corner/red/border,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/light_switch{
+	pixel_x = 12;
+	pixel_y = -24
 	},
 /turf/simulated/floor/tiled,
 /area/hallway/secondary/escape/firstdeck/ep_starboard)

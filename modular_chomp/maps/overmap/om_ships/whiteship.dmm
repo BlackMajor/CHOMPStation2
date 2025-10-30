@@ -144,10 +144,6 @@
 /obj/structure/shuttle/engine/router,
 /turf/simulated/wall/thull,
 /area/shuttle/whiteshipOM)
-"fg" = (
-/obj/screen/alert/highpressure,
-/turf/simulated/wall/thull,
-/area/shuttle/whiteshipOM)
 "fs" = (
 /obj/machinery/door/airlock/maintenance/common,
 /obj/machinery/atmospherics/pipe/simple/hidden{
@@ -181,8 +177,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/shuttle/whiteshipOM)
 "hb" = (
-/obj/machinery/r_n_d/protolathe,
-/obj/screen/alert/highpressure,
+/obj/machinery/rnd/production/protolathe/department/science,
 /turf/simulated/shuttle/floor/purple,
 /area/shuttle/whiteshipOM)
 "hB" = (
@@ -298,7 +293,7 @@
 /turf/simulated/floor/plating,
 /area/shuttle/whiteshipOM)
 "lu" = (
-/obj/machinery/r_n_d/circuit_imprinter,
+/obj/machinery/rnd/production/circuit_imprinter,
 /obj/item/reagent_containers/glass/beaker{
 	pixel_x = 9;
 	pixel_y = 8
@@ -731,7 +726,6 @@
 /obj/item/clothing/shoes/footwraps,
 /obj/item/clothing/shoes/footwraps,
 /obj/item/clothing/shoes/footwraps,
-/obj/item/toy/bosunwhistle/fluff/strix,
 /obj/item/blobcore_chunk,
 /obj/item/towel/random,
 /obj/item/towel/random,
@@ -981,11 +975,6 @@
 	pixel_x = -24
 	},
 /turf/simulated/floor/plating,
-/area/shuttle/whiteshipOM)
-"Cz" = (
-/obj/screen/alert/highpressure,
-/obj/machinery/r_n_d/destructive_analyzer,
-/turf/simulated/shuttle/floor/purple,
 /area/shuttle/whiteshipOM)
 "CW" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
@@ -1445,10 +1434,6 @@
 /obj/random/soap,
 /turf/simulated/floor/plating,
 /area/shuttle/whiteshipOM)
-"Kx" = (
-/obj/screen/alert/highpressure,
-/turf/template_noop,
-/area/template_noop)
 "KD" = (
 /obj/machinery/atmospherics/unary/vent_pump{
 	dir = 1;
@@ -1809,13 +1794,6 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/shuttle/whiteshipOM)
-"TF" = (
-/obj/screen/alert/highpressure,
-/obj/machinery/computer/rdconsole/public{
-	dir = 4
-	},
-/turf/simulated/shuttle/floor/purple,
-/area/shuttle/whiteshipOM)
 "Ug" = (
 /obj/machinery/atmospherics/pipe/simple/hidden,
 /obj/structure/extinguisher_cabinet{
@@ -2056,12 +2034,10 @@
 /obj/item/ore/marble,
 /obj/item/ore/osmium,
 /obj/item/ore/rutile,
-/obj/item/toy/bosunwhistle/fluff/strix,
 /obj/item/toy/character/wizard,
 /obj/item/reagent_containers/hypospray/autoinjector/biginjector/mindbreaker/unidentified,
 /obj/item/reagent_containers/hypospray/autoinjector/biginjector/mindbreaker/unidentified,
 /obj/item/fluff/squeezetoy,
-/obj/item/fluff/zekewatch,
 /obj/item/fluff/fidgetspinner/red,
 /obj/item/storage/pill_bottle/dice_nerd,
 /turf/simulated/floor/wood,
@@ -2192,14 +2168,14 @@ Eq
 Eq
 Eq
 Eq
-Kx
-fg
+Eq
+sH
 Bn
 Bn
 Bn
-fg
-Kx
-Kx
+sH
+Eq
+Eq
 Eq
 Eq
 Eq
@@ -2228,14 +2204,14 @@ Eq
 Eq
 sH
 Bn
-fg
+sH
 hb
-Cz
-TF
-fg
+ez
+ez
+sH
 Bn
-fg
-Kx
+sH
+Eq
 Eq
 Eq
 Eq
@@ -2270,7 +2246,7 @@ ez
 JG
 lu
 sH
-Kx
+Eq
 Eq
 Eq
 Eq

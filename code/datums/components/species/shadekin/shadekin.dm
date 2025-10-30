@@ -40,6 +40,14 @@
 	var/drop_items_on_phase = FALSE
 	///If cameras count as watchers for us
 	var/camera_counts_as_watcher = FALSE
+	///Phase in animation
+	var/obj/effect/temp_visual/phase_in_anim = /obj/effect/temp_visual/shadekin/phase_in
+	///Phase out animation
+	var/obj/effect/temp_visual/phase_out_anim = /obj/effect/temp_visual/shadekin/phase_out
+	//How long does it take to complete
+	var/phase_time = 0.5 SECONDS
+	//Phase sound
+	var/phase_noise = 'sound/effects/stealthoff.ogg'
 
 	//Dark Respite Vars (Unused on Virgo)
 	///If we are in dark respite or not
@@ -92,7 +100,7 @@
 
 /datum/component/shadekin/Initialize()
 	//normal component bs
-	if(!isliving(parent))
+	if(!isliving(parent) || issilicon(parent))
 		return COMPONENT_INCOMPATIBLE
 	owner = parent
 	if(ishuman(owner))
@@ -123,7 +131,8 @@
 	for(var/obj/effect/abstract/dark_maw/dm as anything in active_dark_maws) //if the component gets destroyed so does your precious maws
 		if(!QDELETED(dm))
 			qdel(dm)
-	owner.shadekin_display.invisibility = INVISIBILITY_ABSTRACT //hide it
+	if(owner.shadekin_display)
+		owner.shadekin_display.invisibility = INVISIBILITY_ABSTRACT //hide it
 	replace_shadekin_master()
 	active_dark_maws.Cut()
 	shadekin_abilities.Cut()
@@ -150,6 +159,13 @@
 	var/darkness = 1
 	var/dark_gains = 0
 
+	var/suit = owner.get_equipped_item(slot_wear_suit)
+	if(istype(suit, /obj/item/clothing/suit/space))
+		if(dark_energy)
+			to_chat(owner, span_warning("You feel your energy waning and your powers being blocked from the heavy equipment you're wearing!"))
+		dark_energy = 0
+		return
+
 	var/turf/T = get_turf(owner)
 	if(!T)
 		dark_gains = 0
@@ -175,7 +191,7 @@
 		else
 			dark_gains = energy_light
 
-	handle_nutrition_conversion(dark_gains)
+	dark_gains = handle_nutrition_conversion(dark_gains)
 
 	shadekin_adjust_energy(dark_gains)
 
@@ -191,6 +207,12 @@
 	if(flicker_break_chance > 0)
 		stun_time -= min(flicker_break_chance / 5, 1)
 	return stun_time
+
+///Sees if the savefile we have selected in CHARACTER SETUP is the same as our ACTIVE CHARACTER savefile.
+/datum/component/shadekin/proc/correct_savefile_selected()
+	if(owner.client.prefs.default_slot == owner.mind.loaded_from_slot)
+		return TRUE
+	return FALSE
 
 /datum/component/shadekin/tgui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -208,10 +230,14 @@
 		"no_retreat" = no_retreat,
 		"nutrition_energy_conversion" = nutrition_energy_conversion,
 		"extended_kin" = extended_kin,
+		"savefile_selected" = correct_savefile_selected()
 	)
 
 	return data
 
+/datum/component/shadekin/tgui_close(mob/user)
+	SScharacter_setup.queue_preferences_save(user?.client?.prefs)
+	. = ..()
 
 /datum/component/shadekin/tgui_act(action, list/params, datum/tgui/ui, datum/tgui_state/state)
 	if(..())
@@ -224,14 +250,14 @@
 			if(!isnum(new_time))
 				return FALSE
 			flicker_time = new_time
-			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_time, new_time)
+			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_time, new_time, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 			return TRUE
 		if("adjust_color")
 			var/set_new_color = tgui_color_picker(ui.user, "Select a color you wish the lights to flicker as (Default is #E0EFF0)", "Color Selector", flicker_color)
 			if(!set_new_color)
 				return FALSE
 			flicker_color = set_new_color
-			ui.user.write_preference_directly(/datum/preference/color/living/flicker_color, set_new_color)
+			ui.user.write_preference_directly(/datum/preference/color/living/flicker_color, set_new_color, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 			return TRUE
 		if("adjust_break")
 			var/new_break_chance = text2num(params["val"])
@@ -239,7 +265,7 @@
 			if(!isnum(new_break_chance))
 				return FALSE
 			flicker_break_chance = new_break_chance
-			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_break_chance, new_break_chance)
+			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_break_chance, new_break_chance, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 			return TRUE
 		if("adjust_distance")
 			var/new_distance = text2num(params["val"])
@@ -247,16 +273,16 @@
 			if(!isnum(new_distance))
 				return FALSE
 			flicker_distance = new_distance
-			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_distance, new_distance)
+			ui.user.write_preference_directly(/datum/preference/numeric/living/flicker_distance, new_distance, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 			return TRUE
 		if("toggle_retreat")
 			var/new_retreat = !no_retreat
 			no_retreat = !no_retreat
-			ui.user.write_preference_directly(/datum/preference/toggle/living/dark_retreat_toggle, new_retreat)
+			ui.user.write_preference_directly(/datum/preference/toggle/living/dark_retreat_toggle, new_retreat, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 		if("toggle_nutrition")
 			var/new_retreat = !nutrition_energy_conversion
 			nutrition_energy_conversion = !nutrition_energy_conversion
-			ui.user.write_preference_directly(/datum/preference/toggle/living/shadekin_nutrition_conversion, new_retreat)
+			ui.user.write_preference_directly(/datum/preference/toggle/living/shadekin_nutrition_conversion, new_retreat, WRITE_PREF_MANUAL, save_to_played_slot = TRUE)
 
 /mob/living/proc/shadekin_control_panel()
 	set name = "Shadekin Control Panel"

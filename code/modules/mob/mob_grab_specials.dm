@@ -90,8 +90,7 @@
 		return
 	if(target.lying)
 		return
-	var/datum/gender/T = GLOB.gender_datums[attacker.get_visible_gender()]
-	attacker.visible_message(span_danger("[attacker] thrusts [T.his] head into [target]'s skull!"))
+	attacker.visible_message(span_danger("[attacker] thrusts [attacker.p_their()] head into [target]'s skull!"))
 
 	var/damage = 20
 	var/obj/item/clothing/hat = attacker.head
@@ -135,7 +134,7 @@
 		return
 
 	attacker.visible_message(span_danger("[attacker] starts forcing [target] to the ground!"))
-	if(do_after(attacker, 20) && target)
+	if(do_after(attacker, 2 SECONDS, target) && target)
 		last_action = world.time
 		attacker.visible_message(span_danger("[attacker] forces [target] to the ground!"))
 		apply_pinning(target, attacker)

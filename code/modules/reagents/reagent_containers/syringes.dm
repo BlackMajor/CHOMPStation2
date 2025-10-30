@@ -20,7 +20,7 @@
 	center_of_mass_y = 14
 	matter = list(MAT_GLASS = 150)
 	amount_per_transfer_from_this = 5
-	possible_transfer_amounts = null
+	max_transfer_amount = null
 	volume = 15
 	w_class = ITEMSIZE_TINY
 	slot_flags = SLOT_EARS
@@ -251,7 +251,7 @@
 
 			//The warmup
 			user.setClickCooldown(DEFAULT_QUICK_COOLDOWN)
-			if(!do_after(user,warmup_time,target))
+			if(!do_after(user, warmup_time, target))
 				return
 
 			var/trans = 0
@@ -260,7 +260,7 @@
 				while(reagents.total_volume)
 					trans += reagents.trans_to_mob(target, amount_per_transfer_from_this, CHEM_BLOOD)
 					update_icon()
-					if(!reagents.total_volume || !do_after(user,cycle_time,target))
+					if(!reagents.total_volume || !do_after(user, cycle_time, target))
 						break
 			else
 				trans += reagents.trans_to_obj(target, amount_per_transfer_from_this)
@@ -288,7 +288,7 @@
 		var/obj/item/organ/external/affecting = H.get_organ(target_zone)
 
 		if (!affecting || affecting.is_stump())
-			balloon_alert(user, "they are missing that limb!") // CHOMPEdit - Changed to balloon_alert
+			balloon_alert(user, "they are missing that limb!")
 			return
 
 		var/hit_area = affecting.name

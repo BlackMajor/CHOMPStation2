@@ -28,13 +28,14 @@
 	movement_cooldown = -3
 	icon_state = "janitor"
 	icon_living = "janitor"
+	faction = FACTION_TYR
 
 /mob/living/simple_mob/mechanical/mecha/eclipse/hivebot/tyr
 	name = "ai control center"
-	desc = "A large, very important looking ai. Plating appears similiar to albative plating."
+	desc = "A large, very important looking ai. It sparks as it moves to attacks."
 	icon_state = "powertower"
 	icon_living = "powertower"
-	faction = FACTION_HIVEBOT
+	faction = FACTION_TYR
 	movement_cooldown = 10
 	size_multiplier = 2
 	maxHealth = 500
@@ -42,7 +43,27 @@
 	wreckage = /obj/item/prop/tyrlore/reddisc
 	ai_holder_type = /datum/ai_holder/simple_mob/intentional/three_phases
 	anchored = 1
-	armor = list(melee = 40, bullet = 40, laser = 80, energy = 80, bomb = 50, bio = 100, rad = 100)
+	armor = list(melee = 40, bullet = 40, laser = 40, energy = 40, bomb = 50, bio = 100, rad = 100)
+
+	loot_list = list(/obj/item/tool/wirecutters/hybrid/alien  = 10,
+		/obj/item/tool/wrench/hybrid/alien  = 10,
+		/obj/item/tool/crowbar/hybrid/alien  = 10,
+		/obj/item/tool/screwdriver/hybrid/alien  = 10,
+		/obj/item/pickaxe/diamonddrill/alien = 10,
+		/obj/item/melee/energy/sword/dualsaber = 10,
+		/obj/item/shield_projector/rectangle/automatic/tyrbarrier = 1,
+		/obj/item/stock_parts/scanning_module/omni = 80,
+		/obj/item/stock_parts/micro_laser/omni = 80,
+		/obj/item/stock_parts/capacitor/omni = 80,
+		/obj/item/stock_parts/manipulator/omni = 80,
+		/obj/item/stock_parts/matter_bin/omni = 80,
+		/obj/item/stock_parts/scanning_module/hyper = 80,
+		/obj/item/stock_parts/micro_laser/hyper = 80,
+		/obj/item/stock_parts/capacitor/hyper = 80,
+		/obj/item/stock_parts/manipulator/hyper = 80,
+		/obj/item/stock_parts/matter_bin/hyper = 80,
+		)
+
 
 /datum/ai_holder/simple_mob/intentional/three_phases/nomove/walk_to_destination()
 	return
@@ -50,19 +71,14 @@
 /mob/living/simple_mob/mechanical/mecha/eclipse/hivebot/tyr/do_special_attack(atom/A)
 	. = TRUE // So we don't fire a bolt as well.
 	if(attackcycle == 1)
-		addtimer(CALLBACK(src, PROC_REF(summon_janitor), A, 5, 2), 0.5 SECONDS, TIMER_DELETE_ME)
+		addtimer(CALLBACK(src, PROC_REF(bomb_lines), A, 2), 2 SECONDS, TIMER_DELETE_ME)
 		attackcycle = 0
 	else if(attackcycle == 2)
-		say("Prepare. Area. Cleanse. Radiation.")
-		specialattackprojectile = /obj/item/projectile/beam/gamma
-		addtimer(CALLBACK(src, PROC_REF(giant_burst), A, 3), 6 SECONDS, TIMER_DELETE_ME)
+		specialattackprojectile = /obj/item/projectile/energy/spikeenergy_ball/boss
+		addtimer(CALLBACK(src, PROC_REF(dual_spin), A, 3, 15), 1 SECOND, TIMER_DELETE_ME)
 		attackcycle = 0
 	else if(attackcycle == 3)
-		specialattackprojectile = /obj/item/projectile/energy/spikeenergy_ball/boss
-		addtimer(CALLBACK(src, PROC_REF(dual_spin), A, 4, 20), 1 SECOND, TIMER_DELETE_ME)
-		attackcycle = 0
-	else if(attackcycle == 4)
-		specialattackprojectile = /obj/item/projectile/energy/spikeenergy_ball/boss
+		specialattackprojectile = /obj/item/projectile/energy/eclipse/tyrjavelin
 		addtimer(CALLBACK(src, PROC_REF(quad_random_firing), A, 12, 1, 0.5 SECONDS), 1 SECOND, TIMER_DELETE_ME)
 		attackcycle = 0
 
@@ -70,7 +86,7 @@
 /mob/living/simple_mob/mechanical/mecha/eclipse/hivebot/tyr/proc/summon_janitor(atom/target, var/amount, var/next_cycle)
 	if(!target)
 		return
-	new /mob/living/simple_mob/mechanical/hivebot/tyr
+	new /mob/living/simple_mob/mechanical/hivebot/tyr(src.loc)
 	amount--
 	if(amount > 0)
 		addtimer(CALLBACK(src, PROC_REF(summon_janitor), target, amount, next_cycle), 0.5 SECONDS, TIMER_DELETE_ME)
@@ -116,7 +132,7 @@
 	. = TRUE // So we don't fire a bolt as well.
 	var/rng_cycle
 	if(attackcycle == 1)
-		specialattackprojectile = /obj/item/projectile/beam/burstlaser
+		specialattackprojectile = /obj/item/projectile/beam/midlaser/shortrange
 		rng_cycle = rand(1,4)
 		say("PROTOCOL: CROSS X.")
 		addtimer(CALLBACK(src, PROC_REF(star_burst), A, rng_cycle), 2 SECONDS, TIMER_DELETE_ME)

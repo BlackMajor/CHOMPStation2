@@ -20,6 +20,14 @@
 	pass_flags = PASSTABLE
 	movement_cooldown = -1
 
+/mob/living/simple_mob/mechanical/hivebot/nanoevent/bright_green/tyr
+	faction = FACTION_TYR
+	movement_cooldown = 0
+	maxHealth = 0.2 LASERS_TO_KILL // 10 HP
+	health = 0.2 LASERS_TO_KILL
+	melee_damage_lower = 12
+	melee_damage_upper = 12
+
 /mob/living/simple_mob/mechanical/hivebot/nanoevent/cyan //cracks the shell
 	name = "nanoweave cracker hivebot"
 	icon_state = "cyan"
@@ -164,7 +172,7 @@
 	. = TRUE // So we don't fire a bolt as well.
 	var/rng_cycle
 	if(attackcycle == 1)
-		specialattackprojectile = /obj/item/projectile/beam/burstlaser
+		specialattackprojectile = /obj/item/projectile/beam/midlaser/shortrange
 		rng_cycle = rand(1,5)
 		say("PROTOCOL: LASER. BLADE.")
 		addtimer(CALLBACK(src, PROC_REF(giant_burst), A, rng_cycle), 2 SECONDS, TIMER_DELETE_ME)

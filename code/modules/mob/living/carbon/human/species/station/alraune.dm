@@ -51,6 +51,8 @@
 	flags = NO_DNA | NO_SLEEVE | IS_PLANT | NO_MINOR_CUT
 	appearance_flags = HAS_HAIR_COLOR | HAS_LIPS | HAS_UNDERWEAR | HAS_SKIN_COLOR | HAS_EYE_COLOR
 
+	genders = list(MALE, FEMALE, NEUTER, PLURAL)
+
 	inherent_verbs = list(/mob/living/carbon/human/proc/alraune_fruit_select, //Give them the voremodes related to wrapping people in vines and sapping their fluids
 		/mob/living/carbon/human/proc/tie_hair,
 		/mob/living/proc/toggle_thorns)
@@ -146,7 +148,7 @@
 		else
 			H.adjustOxyLoss(ALRAUNE_CRIT_MAX_OXYLOSS)
 
-		H.throw_alert("pressure", /obj/screen/alert/lowpressure)
+		H.throw_alert("pressure", /atom/movable/screen/alert/lowpressure)
 
 		return ..() // skip air processing if there's no air
 	else
@@ -190,7 +192,7 @@
 		H.adjustOxyLoss(max(ALRAUNE_MAX_OXYLOSS*(1-ratio), 0))
 		failed_inhale = 1
 
-		H.throw_alert("oxy", /obj/screen/alert/not_enough_co2)
+		H.throw_alert("oxy", /atom/movable/screen/alert/not_enough_co2)
 	else
 		// We're in safe limits
 		H.clear_alert("oxy")
@@ -201,7 +203,7 @@
 
 	//Now we handle CO2.
 	if(inhale_pp > safe_exhaled_max * 0.7) // For a human, this would be too much exhaled gas in the air. But plants don't care.
-		H.throw_alert("co2", /obj/screen/alert/too_much_co2/plant) // Give them the alert on the HUD. They'll be aware when the good stuff is present.
+		H.throw_alert("co2", /atom/movable/screen/alert/too_much_co2/plant) // Give them the alert on the HUD. They'll be aware when the good stuff is present.
 	else
 		H.clear_alert("co2")
 
@@ -226,7 +228,7 @@
 		if(H.reagents)
 			H.reagents.add_reagent(REAGENT_ID_TOXIN, CLAMP(ratio, MIN_TOXIN_DAMAGE, MAX_TOXIN_DAMAGE))
 			breath.adjust_gas(poison_type, -poison/6, update = 0) //update after
-		H.throw_alert("tox_in_air", /obj/screen/alert/tox_in_air)
+		H.throw_alert("tox_in_air", /atom/movable/screen/alert/tox_in_air)
 	else
 		H.clear_alert("tox_in_air")
 
@@ -407,19 +409,18 @@
 			fruit_gland = F
 			break
 
-	if(fruit_gland)
-		var/selection = tgui_input_list(src, "Choose your character's fruit type. Choosing nothing will result in a default of apples.", "Fruit Type", GLOB.acceptable_fruit_types)
-		if(selection)
-			fruit_gland.fruit_type = selection
-		add_verb(src, /mob/living/carbon/human/proc/alraune_fruit_pick)
-		add_verb(src, /mob/living/carbon/human/proc/alraune_fruit_reagent)
-//		remove_verb(src, /mob/living/carbon/human/proc/alraune_fruit_select)  //We are allowing them to switch fruits now.
-		fruit_gland.organ_owner = src
-		fruit_gland.emote_descriptor = list("fruit right off of [fruit_gland.organ_owner]!", "a fruit from [fruit_gland.organ_owner]!")
-
-	else
+	if(!fruit_gland)
 		to_chat(src, span_notice("You lack the organ required to produce fruit."))
 		return
+	var/selection = tgui_input_list(src, "Choose your character's fruit type. Choosing nothing will result in a default of apples.", "Fruit Type", GLOB.acceptable_fruit_types)
+	if(!selection)
+		return
+	fruit_gland.fruit_type = selection
+	add_verb(src, /mob/living/carbon/human/proc/alraune_fruit_pick)
+	add_verb(src, /mob/living/carbon/human/proc/alraune_fruit_reagent)
+	// remove_verb(src, /mob/living/carbon/human/proc/alraune_fruit_select)
+	fruit_gland.organ_owner = src
+	fruit_gland.emote_descriptor = list("fruit right off of [fruit_gland.organ_owner]!", "a fruit from [fruit_gland.organ_owner]!")
 
 /mob/living/carbon/human/proc/alraune_fruit_pick()
 	set name = "Pick Fruit"
