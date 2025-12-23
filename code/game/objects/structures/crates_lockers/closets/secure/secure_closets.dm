@@ -19,9 +19,7 @@
 		return 0
 	return ..()
 
-/obj/structure/closet/secure_closet/emp_act(severity)
-	for(var/obj/O in src)
-		O.emp_act(severity)
+/obj/structure/closet/secure_closet/emp_act(severity, recursive)
 	if(!broken)
 		if(prob(50/severity))
 			locked = !locked
@@ -118,7 +116,7 @@
 	else
 		toggle(user)
 
-/obj/structure/closet/secure_closet/AltClick()
+/obj/structure/closet/secure_closet/click_alt()
 	..()
 	verb_togglelock()
 

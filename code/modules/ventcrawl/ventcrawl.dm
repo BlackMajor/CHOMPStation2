@@ -3,26 +3,10 @@ var/list/ventcrawl_machinery = list(
 	/obj/machinery/atmospherics/unary/vent_scrubber
 	)
 
-// Vent crawling whitelisted items, whoo
-/mob/living/var/list/can_enter_vent_with = list(
-	/obj/item/implant,
-	/obj/item/radio/borg,
-	/obj/item/radio/headset/mob_headset,
-	/obj/item/holder,
-	/obj/machinery/camera,
-	/obj/belly,
-	/obj/soulgem,
-	/atom/movable/screen,
-	/atom/movable/emissive_blocker,
-	/obj/item/rig/protean
-	)
-	//VOREStation Edit : added /obj/belly, to this list, CI is complaining about this in his indentation check. Added mob_headset for those with radios so there's no weirdness.
-	//mob/living/simple_mob/borer, //VORESTATION AI TEMPORARY REMOVAL REPLACE BACK IN LIST WHEN RESOLVED //VOREStation Edit
-
 /mob/living/var/list/icon/pipes_shown = list()
 /mob/living/var/last_played_vent
-/mob/living/var/is_ventcrawling = 0
-/mob/living/var/prepping_to_ventcrawl = 0
+/mob/living/var/is_ventcrawling = FALSE
+/mob/living/var/prepping_to_ventcrawl = FALSE
 /mob/var/next_play_vent = 0
 
 /mob/living/proc/can_ventcrawl()
@@ -75,7 +59,10 @@ var/list/ventcrawl_machinery = list(
 			return TRUE
 	//Try to find it in our allowed list (istype includes subtypes)
 	var/listed = FALSE
-	for(var/test_type in can_enter_vent_with)
+	var/list/vent_allow = ventcrawl_get_item_whitelist()
+	if(islist(ventcraw_item_admin_allow)) // If mob has a list varedited onto it, we allow anything in this list as well
+		vent_allow += ventcraw_item_admin_allow
+	for(var/test_type in vent_allow)
 		if(istype(carried_item,test_type))
 			listed = TRUE
 			break
@@ -107,6 +94,13 @@ var/list/ventcrawl_machinery = list(
 			to_chat(src, span_warning("You can't carry \the [A] while ventcrawling!"))
 			return FALSE
 	return TRUE
+
+/mob/living/proc/ventcrawl_get_item_whitelist()
+	return list(
+		VENTCRAWL_BASE_WHITELIST,
+		VENTCRAWL_VORE_WHITELIST,
+		VENTCRAWL_SMALLITEM_WHITELIST
+		)
 
 /mob/living/simple_mob/protean_blob/ventcrawl_carry()
 	for(var/atom/A in contents)
@@ -180,8 +174,12 @@ var/list/ventcrawl_machinery = list(
 				break
 
 	if(vent_found)
-		if(vent_found.network && (vent_found.network.normal_members.len || vent_found.network.line_members.len))
+		if(SEND_SIGNAL(src,COMSIG_MOB_VENTCRAWL_CHECK,vent_found) & VENT_CRAWL_BLOCK_ENTRY)
+			return
+		if(SEND_SIGNAL(vent_found,COMSIG_VENT_CRAWLER_CHECK,src) & VENT_CRAWL_BLOCK_ENTRY)
+			return
 
+		if(vent_found.network && (vent_found.network.normal_members.len || vent_found.network.line_members.len))
 			to_chat(src, "You begin climbing into the ventilation system...")
 			if(vent_found.air_contents && !issilicon(src))
 
@@ -202,15 +200,20 @@ var/list/ventcrawl_machinery = list(
 						to_chat(src, span_warning("You feel a strong drag pulling you into the vent."))
 					if(WARNING_HIGH_PRESSURE to HAZARD_HIGH_PRESSURE)
 						to_chat(src, span_warning("You feel a strong current pushing you away from the vent."))
-					if(HAZARD_HIGH_PRESSURE to INFINITY)
+					if(HAZARD_HIGH_PRESSURE to (HAZARD_HIGH_PRESSURE*2))
 						to_chat(src, span_danger("You feel a roaring wind pushing you away from the vent!"))
+					if((HAZARD_HIGH_PRESSURE*2) to INFINITY) // A little too crazy to enter
+						to_chat(src, span_danger("You're pushed away by the extreme pressure in the vent!"))
+						return
 
-			fade_towards(vent_found,45)
-			prepping_to_ventcrawl = 1
-			spawn(50)
-				prepping_to_ventcrawl = 0
-			if(!do_after(src, 45, target = src))
+			// Handle animation delay
+			fade_towards(vent_found, vent_crawl_time)
+			prepping_to_ventcrawl = TRUE
+			if(!do_after(src, vent_crawl_time, target = src))
+				prepping_to_ventcrawl = FALSE
 				return
+			prepping_to_ventcrawl = FALSE
+
 			if(!can_ventcrawl())
 				return
 
@@ -218,7 +221,8 @@ var/list/ventcrawl_machinery = list(
 
 			forceMove(vent_found)
 			add_ventcrawl(vent_found)
-
+			SEND_SIGNAL(src,COMSIG_MOB_VENTCRAWL_START,vent_found)
+			SEND_SIGNAL(vent_found,COMSIG_VENT_CRAWLER_ENTERED,src)
 		else
 			to_chat(src, "This vent is not connected to anything.")
 
@@ -226,7 +230,7 @@ var/list/ventcrawl_machinery = list(
 		to_chat(src, "You must be standing on or beside an air vent to enter it.")
 
 /mob/living/proc/add_ventcrawl(obj/machinery/atmospherics/starting_machine)
-	is_ventcrawling = 1
+	is_ventcrawling = TRUE
 	//candrop = 0
 	var/datum/pipe_network/network = starting_machine.return_network(starting_machine)
 	if(!network)
@@ -242,7 +246,7 @@ var/list/ventcrawl_machinery = list(
 		client.screen += GLOB.global_hud.centermarker
 
 /mob/living/proc/remove_ventcrawl()
-	is_ventcrawling = 0
+	is_ventcrawling = FALSE
 	//candrop = 1
 	if(client)
 		for(var/image/current_image in pipes_shown)

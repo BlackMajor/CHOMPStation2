@@ -60,13 +60,13 @@
 	if(Adjacent(user))
 		. += "The time [stationtime2text()] is displayed in the corner of the screen."
 
-/obj/item/pda/CtrlClick(mob/user)
+/obj/item/pda/item_ctrl_click(mob/user)
 	if(can_use(user) && !issilicon(user))
 		remove_pen()
 		return
 	..()
 
-/obj/item/pda/AltClick(mob/user)
+/obj/item/pda/click_alt(mob/user)
 	if(issilicon(user))
 		return
 
@@ -159,14 +159,8 @@
 		else
 			icon = 'icons/obj/pda_old.dmi'
 			log_runtime("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
-	//add_overlay("pda-pen") //ChompEDIT no icon ops on New
-	start_program(find_program(/datum/data/pda/app/main_menu))
-
-//ChompEDIT START - move icon ops to initialize
-/obj/item/pda/Initialize(mapload)
-	. = ..()
 	add_overlay("pda-pen")
-//ChompEDIT END
+	start_program(find_program(/datum/data/pda/app/main_menu))
 
 /obj/item/pda/proc/can_use(mob/user)
 	return (tgui_status(user, GLOB.tgui_inventory_state) == STATUS_INTERACTIVE)
@@ -505,8 +499,3 @@
 						/obj/item/cartridge/signal/science,
 						/obj/item/cartridge/quartermaster)
 	new newcart(src)
-
-// Pass along the pulse to atoms in contents, largely added so pAIs are vulnerable to EMP
-/obj/item/pda/emp_act(severity)
-	for(var/atom/A in src)
-		A.emp_act(severity)

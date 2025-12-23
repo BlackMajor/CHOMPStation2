@@ -58,7 +58,7 @@
 	holder_type = /obj/item/holder/protoblob
 	var/hiding = FALSE
 	vore_icons = TRUE
-	vore_active = TRUE
+	vore_active = FALSE
 
 	plane = ABOVE_MOB_PLANE	//Necessary for overlay based icons
 
@@ -297,9 +297,9 @@
 	else
 		return ..()
 
-/mob/living/simple_mob/protean_blob/emp_act(severity)
+/mob/living/simple_mob/protean_blob/emp_act(severity, recursive)
 	if(humanform)
-		return humanform.emp_act(severity)
+		return humanform.emp_act(severity, recursive)
 	else
 		return ..()
 
@@ -385,7 +385,7 @@
 			var/list/potentials = living_mobs(0)
 			if(potentials.len)
 				var/mob/living/target = pick(potentials)
-				if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
+				if(can_spontaneous_vore(src, target))
 					if(target.buckled)
 						target.buckled.unbuckle_mob(target, force = TRUE)
 					target.forceMove(vore_selected)
@@ -574,6 +574,7 @@
 
 		if(blob.mob_radio)
 			blob.mob_radio.forceMove(src)
+			equip_to_appropriate_slot(blob.mob_radio) // Actually put it back on the mob in a slot
 			blob.mob_radio = null
 		if(blob.myid)
 			blob.myid = null

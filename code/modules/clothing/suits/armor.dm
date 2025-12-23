@@ -160,7 +160,8 @@
 	body_parts_covered = CHEST
 	armor = list(melee = 40, bullet = 30, laser = 30, energy = 10, bomb = 10, bio = 0, rad = 0)
 
-
+// Ooold, old reactive armor.
+/*
 //Reactive armor
 //When the wearer gets hit, this armor will teleport the user a short distance away (to safety or to more danger, no one knows. That's the fun of it!)
 /obj/item/clothing/suit/armor/reactive
@@ -207,11 +208,11 @@
 		add_fingerprint(user)
 	return
 
-/obj/item/clothing/suit/armor/reactive/emp_act(severity)
-	active = 0
+/obj/item/clothing/suit/armor/reactive/emp_act(severity, recursive)
+	active = FALSE
 	icon_state = "reactiveoff"
 	..()
-
+*/
 // Alien armor has a chance to completely block attacks.
 /obj/item/clothing/suit/armor/alien
 	name = "alien enhancement vest"

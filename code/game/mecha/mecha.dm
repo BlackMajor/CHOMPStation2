@@ -13,7 +13,6 @@
 	opacity = 1							//Opaque. Menacing.
 	anchored = TRUE						//No pulling around.
 	unacidable = TRUE						//And no deleting hoomans inside
-	flags = REMOTEVIEW_ON_ENTER
 	layer = MOB_LAYER					//Icon draw layer
 	infra_luminosity = 15				//Byond implementation is bugged.
 	var/initial_icon = null				//Mech type for resetting icon. Only used for reskinning kits (see custom items)
@@ -1332,7 +1331,7 @@
 	return
 */
 
-/obj/mecha/emp_act(severity)
+/obj/mecha/emp_act(severity, recursive)
 	if(get_charge())
 		use_power((cell.charge/2)/severity)
 		take_damage(50 / severity,"energy")
@@ -2044,7 +2043,7 @@
 			else//Everyone else gets the normal noise
 				who << sound('sound/mecha/nominal.ogg',volume=50)
 
-/obj/mecha/AltClick(mob/living/user)
+/obj/mecha/click_alt(mob/living/user)
 	if(user == occupant)
 		strafing()
 

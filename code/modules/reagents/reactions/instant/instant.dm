@@ -397,6 +397,12 @@
 	required_reagents = list(REAGENT_ID_CARPOTOXIN = 5, REAGENT_ID_STOXIN = 5, REAGENT_ID_COPPER = 5)
 	result_amount = 2
 
+/decl/chemical_reaction/instant/zombiepowder/alt
+	name = REAGENT_ZOMBIEPOWDER + "_alternative_mix"
+	id = REAGENT_ID_ZOMBIEPOWDER + "_alternative_mix"
+	required_reagents = list(REAGENT_ID_POTASSIUMCHLOROPHORIDE = 5, REAGENT_ID_STOXIN = 5, REAGENT_ID_CHLORALHYDRATE = 5, REAGENT_ID_MERCURY = 5)
+	result_amount = 2
+
 /decl/chemical_reaction/instant/carpotoxin
 	name = REAGENT_CARPOTOXIN
 	id = REAGENT_ID_CARPOTOXIN
@@ -1502,3 +1508,9 @@
 	result = REAGENT_ID_APHRODISIAC
 	required_reagents = list(REAGENT_ID_CARBON = 2, REAGENT_ID_HYDROGEN = 2, REAGENT_ID_OXYGEN = 2, REAGENT_ID_WATER = 1)
 	result_amount = 6
+
+/decl/chemical_reaction/instant/tercozolam
+	id = REAGENT_ID_TERCOZOLAM
+	result = REAGENT_ID_TERCOZOLAM
+	required_reagents = list(REAGENT_ID_ANTITOXIN = 1, REAGENT_ID_ETHANOL = 1, REAGENT_ID_LITHIUM = 1)
+	result_amount = 3

@@ -133,7 +133,7 @@ FIRE ALARM
 /obj/machinery/firealarm/bullet_act()
 	return alarm()
 
-/obj/machinery/firealarm/emp_act(severity)
+/obj/machinery/firealarm/emp_act(severity, recursive)
 	if(prob(50 / severity))
 		alarm(rand(30 / severity, 60 / severity))
 	..()
@@ -173,7 +173,7 @@ FIRE ALARM
 		updateDialog()
 	last_process = world.timeofday
 
-	if(locate(/obj/fire) in src.loc)
+	if(detecting && (locate(/obj/fire) in loc))
 		alarm()
 
 	return

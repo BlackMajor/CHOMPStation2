@@ -59,7 +59,6 @@
 	var/slowdown = 0 // How much clothing is slowing you down. Negative values speeds you up
 	var/canremove = TRUE //Mostly for Ninja code at this point but basically will not allow the item to be removed if set to 0. /N
 	var/list/armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0)
-	var/list/armorsoak = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0)
 	var/list/allowed = null //suit storage stuff.
 	var/obj/item/uplink/hidden/hidden_uplink = null // All items can have an uplink hidden inside, just remember to add the triggers.
 	var/zoomdevicename = null //name used for message when binoculars/scope is used
@@ -185,6 +184,19 @@
 
 	return ..()
 
+
+/obj/item/click_ctrl(mob/user)
+	SHOULD_NOT_OVERRIDE(TRUE)
+
+	//If the item is on the ground & not anchored we allow the player to drag it
+	. = item_ctrl_click(user)
+	if(. & CLICK_ACTION_ANY)
+		return (isturf(loc) && !anchored) ? NONE : . //allow the object to get dragged on the floor
+
+/// Subtypes only override this proc for ctrl click purposes. obeys same principles as ctrl_click()
+/obj/item/proc/item_ctrl_click(mob/user)
+	SHOULD_CALL_PARENT(FALSE)
+	return NONE
 
 /// Called when an action associated with our item is deleted
 /obj/item/proc/on_action_deleted(datum/source)
@@ -321,7 +333,7 @@
 		else
 			to_chat(user, span_notice("This is anchored and you can't lift it."))
 		return // End CHOMPStation Edit
-	if (hasorgans(user))
+	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
 		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
 		if (user.hand)
@@ -403,7 +415,7 @@
 	else
 		return 0
 
-/obj/item/throw_impact(atom/hit_atom)
+/obj/item/throw_impact(atom/hit_atom, var/speed)
 	..()
 	if(isliving(hit_atom) && !hit_atom.is_incorporeal()) //Living mobs handle hit sounds differently.
 		var/volume = get_volume_by_throwforce_and_or_w_class()
@@ -439,7 +451,7 @@
 // called just as an item is picked up (loc is not yet changed)
 /obj/item/proc/pickup(mob/user)
 	SEND_SIGNAL(src, COMSIG_ITEM_PICKUP, user)
-	SEND_SIGNAL(user, COMSIG_PICKED_UP_ITEM, src)
+	SEND_SIGNAL(user, COMSIG_ITEM_PICKUP, src)
 	pixel_x = 0
 	pixel_y = 0
 	return
@@ -853,7 +865,7 @@ GLOBAL_LIST_EMPTY(blood_overlays_by_type)
 		can_zoom = FALSE
 
 	if(!zoom && can_zoom)
-		M.AddComponent(/datum/component/remote_view/item_zoom/allow_moving, focused_on = M, our_item = src, viewsize = viewsize, tileoffset = tileoffset, show_visible_messages = TRUE)
+		M.AddComponent(/datum/component/remote_view/item_zoom, focused_on = M, vconfig_path = /datum/remote_view_config/allow_movement, our_item = src, viewsize = viewsize, tileoffset = tileoffset, show_visible_messages = TRUE)
 		return
 	SEND_SIGNAL(src,COMSIG_REMOTE_VIEW_CLEAR)
 
@@ -942,11 +954,16 @@ GLOBAL_LIST_EMPTY(blood_overlays_by_type)
 	if(icon_override)
 		return icon_override
 
+	///Local var to remember if we failed the species specific sprite or not. Also stores species specific sheet - if any - for use to use the default species icon.
+	var/species_sheet
+
 	//2: species-specific sprite sheets (skipped for inhands)
 	if(LAZYLEN(sprite_sheets) && !inhands)
-		var/sheet = sprite_sheets[body_type]
-		if(sheet && icon_exists(sheet, icon_state)) //Checks to make sure our custom sheet actually HAS the icon_state
-			return sheet
+		species_sheet = sprite_sheets[body_type]
+		if(species_sheet)
+			if(icon_exists(species_sheet, icon_state)) //Checks to make sure our custom sheet actually HAS the icon_state
+				return species_sheet
+
 
 	//3: slot-specific sprite sheets
 	if(LAZYLEN(item_icons))
@@ -956,17 +973,25 @@ GLOBAL_LIST_EMPTY(blood_overlays_by_type)
 			if(!icon_exists(sheet, icon_state))
 				log_debug("Item [src] is equippable on the [slot_name] but has no sprite for it!")
 			*/
-			return sheet
+			if(!species_sheet || (species_sheet && body_type != SPECIES_TESHARI && body_type != SPECIES_VOX && body_type != SPECIES_WEREBEAST)) //These three are too different to use a default slot specific sheet. Other species look fine using the standard human sprites.
+				return sheet
 
 	//4: item's default icon
 	if(default_worn_icon)
 		return default_worn_icon
 
-	//5: provided default_icon
+	//5: Use our species_sheet as a fallback if we have one. A 'default' sprite is better than nothing at all (or a misaligned sprite)
+	//We ONLY do this if our species is 'abnormally shaped' i.e. tesh/vox/werebeast.
+	//It should be noted that if this is true, we FAILED to confirm the icon exists in our file. I.E: We're going to use the 'no name' item_state in the .dmi
+	//Otherwise, the human sprite (default_icon) looks fine on MOST species.
+	if(species_sheet && (body_type == SPECIES_TESHARI || body_type == SPECIES_VOX || body_type == SPECIES_WEREBEAST))
+		return species_sheet
+
+	//6: provided default_icon
 	if(default_icon)
 		return default_icon
 
-	//6: give up
+	//7: give up
 	return
 
 //Returns the state that should be used for the worn icon

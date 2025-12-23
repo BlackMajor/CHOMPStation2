@@ -165,8 +165,11 @@
 			SK.shadekin_adjust_energy(attack_damage)
 
 /datum/unarmed_attack/claws/chimera //special feral attack that gets stronger as they get angrier
+	sparring_variant_type = /datum/unarmed_attack/claws/chimera
 
 /datum/unarmed_attack/claws/chimera/get_unarmed_damage(var/mob/living/carbon/human/user)
+	if(HAS_TRAIT(user, TRAIT_NONLETHAL_BLOWS) && !user.get_feralness())//don't add extra species strength when pulling punches, but can't pull punches when feral
+		return damage
 	return user.species.unarmed_bonus + (user.get_feralness()/5)
 
 /datum/unarmed_attack/claws/chimera/apply_effects(var/mob/living/carbon/human/user,var/mob/living/carbon/human/target,var/armour,var/attack_damage,var/zone)
@@ -179,4 +182,4 @@
 				selfdamagezone=pick(BP_L_ARM, BP_L_HAND)
 			else
 				selfdamagezone=pick(BP_R_ARM, BP_R_HAND)
-			user.apply_damage(selfdamage, BRUTE, selfdamagezone, 0, 0, sharp=FALSE, edge=FALSE)
+			user.apply_damage(selfdamage, BRUTE, selfdamagezone, 0, FALSE, FALSE)

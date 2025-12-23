@@ -217,7 +217,7 @@
 				var/list/potentials = living_mobs(0)
 				if(potentials.len)
 					var/mob/living/target = pick(potentials)
-					if(istype(target) && target.devourable && target.can_be_drop_prey && vore_selected)
+					if(can_spontaneous_vore(src, target))
 						if(target.buckled)
 							target.buckled.unbuckle_mob(target, force = TRUE)
 						target.forceMove(vore_selected)
@@ -310,6 +310,7 @@
 	var/mob/living/simple_mob/vore/morph/parent_morph
 	var/mob/living/carbon/human/prey_body
 	var/prey_ckey
+	vore_active = FALSE
 
 
 /mob/living/simple_mob/vore/morph/dominated_prey/Initialize(mapload, pckey, parent, prey)

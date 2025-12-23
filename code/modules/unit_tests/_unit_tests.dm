@@ -88,8 +88,10 @@
 
 // BEGIN_INCLUDE
 #include "asset_smart_cache.dm"
+#include "autowiki.dm"
 //#include "clothing_tests.dm" // FIXME
 #include "component_tests.dm"
+#include "construction_tests.dm"
 #include "cosmetic_tests.dm"
 #include "dcs_check_list_arguments.dm"
 #include "dcs_get_id_from_elements.dm"
@@ -103,6 +105,7 @@
 #include "map_tests.dm"
 #include "mapping.dm"
 #include "material_tests.dm"
+#include "mob_vbo_test.dm"
 // #include "nuke_cinematic.dm" // TODO: This is probably fixed later on
 #include "poster_tests.dm"
 // #include "preferences.dm" // This unit test is missing some other stuff
