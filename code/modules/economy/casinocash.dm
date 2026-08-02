@@ -95,7 +95,7 @@
 		src.overlays += banknote
 	src.desc = "They are worth [worth] casino credits."
 
-/obj/item/spacecasinocash/proc/adjust_worth(var/adjust_worth = 0, var/update = 1)
+/obj/item/spacecasinocash/proc/adjust_worth(adjust_worth = 0, update = 1)
 	worth += adjust_worth
 	if(worth > 0)
 		if(update)
@@ -105,13 +105,16 @@
 		qdel(src)
 		return 0
 
-/obj/item/spacecasinocash/proc/set_worth(var/new_worth = 0, var/update = 1)
+/obj/item/spacecasinocash/proc/set_worth(new_worth = 0, update = 1)
 	worth = max(0, new_worth)
 	if(update)
 		update_icon()
 	return worth
 
 /obj/item/spacecasinocash/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	var/amount = tgui_input_number(user, "How much credits worth of chips do you want to take? (0 to [src.worth])", "Take chips", 20, src.worth)
 	if(!src || QDELETED(src))
 		return
@@ -173,7 +176,7 @@
 	desc = "It's worth 1000 credits."
 	worth = 1000
 
-/proc/spawn_casinochips(var/sum, spawnloc, mob/living/carbon/human/human_user as mob)
+/proc/spawn_casinochips(sum, spawnloc, mob/living/carbon/human/human_user as mob)
 	var/obj/item/spacecasinocash/SC = new (spawnloc)
 
 	SC.set_worth(sum, TRUE)
@@ -196,7 +199,10 @@
 	throw_range = 2
 	w_class = ITEMSIZE_SMALL
 
-/obj/item/casino_platinum_chip/attack_self(mob/user as mob)
+/obj/item/casino_platinum_chip/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	var/result = rand(1, sides)
 	var/comment = ""
 	if(result == 1)
@@ -270,7 +276,7 @@
 		src.overlays += banknote
 	src.desc = "They are worth [worth] replica casino credits."
 
-/obj/item/spacecasinocash_fake/proc/adjust_worth(var/adjust_worth = 0, var/update = 1)
+/obj/item/spacecasinocash_fake/proc/adjust_worth(adjust_worth = 0, update = 1)
 	worth += adjust_worth
 	if(worth > 0)
 		if(update)
@@ -280,13 +286,16 @@
 		qdel(src)
 		return 0
 
-/obj/item/spacecasinocash_fake/proc/set_worth(var/new_worth = 0, var/update = 1)
+/obj/item/spacecasinocash_fake/proc/set_worth(new_worth = 0, update = 1)
 	worth = max(0, new_worth)
 	if(update)
 		update_icon()
 	return worth
 
 /obj/item/spacecasinocash_fake/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	var/amount = tgui_input_number(user, "How much credits worth of chips do you want to take? (0 to [src.worth])", "Take chips", 20, src.worth)
 	if(!src || QDELETED(src))
 		return

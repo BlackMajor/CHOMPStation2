@@ -82,12 +82,14 @@
 				var/obj/item/organ/external/E = O.parent_organ
 				var/datum/wound/W = new /datum/wound/internal_bleeding(5)
 				E.wounds += W
+				E.update_damages()
+				M.handle_organs(TRUE) //Force an update so we start processing the internal bleeding.
 
 			if(M.stat == DEAD || M.allow_spontaneous_tf)
 				M.LoadComponent(/datum/component/xenochimera)
 				cure()
 	return
 
-/datum/disease/roanoke/proc/fever(var/mob/living/M, var/datum/disease/D)
+/datum/disease/roanoke/proc/fever(mob/living/M, datum/disease/D)
 	M.bodytemperature = min(M.bodytemperature + (2 * stage), BODYTEMP_HEAT_DAMAGE_LIMIT - 1)
 	return TRUE

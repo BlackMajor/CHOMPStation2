@@ -146,7 +146,8 @@
 			if(darth_airlock.locked || !darth_airlock.arePowerSystemsOn())
 				continue
 			to_chat(living_guy, span_warning("The airlock suddenly closes on you!"))
-			living_guy.Paralyse(1 SECONDS)
+			living_guy.Paralyse(5)
+			living_guy.Sleeping(5)
 			slam_airlock(darth_airlock)
 			consume_omen()
 			return
@@ -162,6 +163,8 @@
 			return
 
 		if(vorish)
+			if(living_guy.stat >= DEAD) // Make sure they're alive, else it might end up with insta-digestion
+				return
 			for(var/mob/living/living_mob in the_turf)
 				if(living_mob == our_guy || (living_mob.vore_selected == living_guy.vore_selected))
 					continue //Don't do anything to ourselves.
@@ -194,7 +197,7 @@
 				our_guy.visible_message(span_danger("[our_guy] slips on a spill near the [evil_disposal] and falls in!"), span_boldwarning("You slip on a spill near the [evil_disposal] and fall in!"))
 				living_guy.forceMove(evil_disposal)
 				evil_disposal.flush = TRUE
-				evil_disposal.update()
+				evil_disposal.update_icon()
 				living_guy.Stun(5)
 				consume_omen()
 				return
@@ -211,18 +214,23 @@
 
 				to_chat(living_guy, span_warning("[evil_light] glows ominously...")) // ominously
 				evil_light.visible_message(span_boldwarning("[evil_light] suddenly flares brightly and sparks!"))
-				//evil_light.broken(skip_sound_and_sparks = FALSE) //Let's not break it actually.
+				evil_light.broken(skip_sound_and_sparks = FALSE) // LET'S BREAK IT ACTUALLY
 				evil_light.Beam(living_guy, icon_state = "lightning[rand(1,12)]", time = 0.5 SECONDS)
-				living_guy.electrocute_act(35 * (damage_mod * 0.5), evil_light, stun = TRUE) //Stun is binary and scales on damage..Lame.
-				living_guy.emote("scream")
+				if(living_guy.electrocute_act(35 * (damage_mod * 0.5), evil_light, stun = TRUE)) //Stun is binary and scales on damage..Lame.)
+					living_guy.emote("scream")
 				consume_omen()
 				return
 
 		for(var/obj/machinery/vending/darth_vendor in the_turf)
-			if(darth_vendor.stat & (BROKEN|NOPOWER))
-				continue
-			to_chat(living_guy, span_warning("The delivery chute of [darth_vendor] raises up..."))
-			darth_vendor.throw_item(living_guy)
+			if(prob(50))
+				if(darth_vendor.stat & (BROKEN|NOPOWER))
+					continue
+				darth_vendor.visible_message(span_warning("[darth_vendor] suddenly clunks and the delivery chute raises up!"))
+				darth_vendor.throw_item(living_guy)
+			else
+				if(darth_vendor.tilted || !darth_vendor.density)
+					continue
+				darth_vendor.tilt(living_guy)
 			consume_omen()
 			return
 
@@ -278,6 +286,8 @@
 		for(var/obj/structure/table/evil_table in the_turf)
 			if(!evil_table.material) //We only want tables, not just table frames.
 				continue
+			if(prob(90)) //Reduce the chance further, due to the number of tables that are passed in normal play.
+				continue
 			living_guy.visible_message(span_danger("[living_guy] stubs [living_guy.p_their()] toe on [evil_table]!"), span_bolddanger("You stub your toe on [evil_table]!"))
 			living_guy.apply_damage(2 * damage_mod, BRUTE, pick(BP_L_FOOT, BP_R_FOOT), used_weapon = "blunt force trauma")
 			living_guy.adjustHalLoss(25) //It REALLY hurts.
@@ -332,7 +342,7 @@
 
 	return
 
-/datum/component/omen/proc/check_roll(mob/living/unlucky_soul, var/obj/item/dice/the_dice, silent, result)
+/datum/component/omen/proc/check_roll(mob/living/unlucky_soul, obj/item/dice/the_dice, silent, result)
 	SIGNAL_HANDLER
 	if(prob(20 * luck_mod))
 		//unlucky_soul.visible_message(span_danger("[unlucky_soul] rolls [the_dice] with it landing on the edge of [result] before tilting over!"), span_boldwarning("You feel dreadfully unlucky as you roll the dice!"))

@@ -18,9 +18,10 @@ opt-level = 0
 [dependencies]
 const_format = "0.2.33"
 eyre = "0.6.12"
-meowtonin = { git = "https://github.com/Absolucy/meowtonin.git", branch = "516", features = ["byond-1664"] }
-rand = "0.8.5"
+meowtonin = "0.3.1"
+rand = "0.10.1"
+rand_distr = "0.6"
 rayon = "1.10.0"
 
 [build-dependencies]
-bosion = "1.1.1"
+bosion = "2.0.0"

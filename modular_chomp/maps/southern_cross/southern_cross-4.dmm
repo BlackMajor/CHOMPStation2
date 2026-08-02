@@ -3051,9 +3051,16 @@
 	dir = 1
 	},
 /obj/structure/closet/radiation{
-	anchored = 1;
-	starts_with = list(/obj/item/clothing/suit/radiation=4,/obj/item/clothing/head/radiation=4,/obj/item/geiger=4)
+	anchored = 1
 	},
+/obj/item/geiger,
+/obj/item/geiger,
+/obj/item/clothing/suit/radiation,
+/obj/item/clothing/suit/radiation,
+/obj/item/clothing/head/radiation,
+/obj/item/clothing/head/radiation,
+/obj/item/clothing/suit/radiation/teshari,
+/obj/item/clothing/head/radiation/teshari,
 /turf/simulated/floor/tiled/dark,
 /area/rnd/research/particleaccelerator)
 "cCe" = (
@@ -9139,7 +9146,7 @@
 	desc = "Retains air, blocks radiation, allows passage.";
 	light_color = "#243550";
 	name = "hardlight radiation shield";
-	rad_resistance = 200
+	rad_insulation = 0
 	},
 /obj/machinery/door/window/brigdoor/northright{
 	name = "Particle Focus door";
@@ -15714,7 +15721,7 @@
 	desc = "Retains air, blocks radiation, allows passage.";
 	light_color = "#243550";
 	name = "hardlight radiation shield";
-	rad_resistance = 200
+	rad_insulation = 0
 	},
 /turf/simulated/floor/reinforced,
 /area/rnd/research/particleaccelerator)

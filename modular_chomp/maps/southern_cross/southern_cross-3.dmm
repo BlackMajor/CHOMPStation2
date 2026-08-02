@@ -3059,27 +3059,10 @@
 /turf/simulated/floor/tiled/dark,
 /area/security/tactical)
 "agi" = (
-/obj/structure/table/rack{
-	dir = 8;
-	layer = 2.6
-	},
-/obj/structure/window/reinforced{
-	dir = 4;
-	health = 1e+006
-	},
-/obj/structure/window/reinforced{
-	dir = 1
-	},
 /obj/effect/floor_decal/corner/yellow/full{
 	dir = 1
 	},
-/obj/item/clothing/gloves/arm_guard/combat,
-/obj/item/clothing/shoes/leg_guard/combat,
-/obj/item/clothing/suit/armor/combat,
-/obj/item/clothing/head/helmet/combat,
-/obj/machinery/door/window/brigdoor/westright{
-	name = "Combat Armor"
-	},
+/obj/machinery/vending/security_armory_armor,
 /turf/simulated/floor/tiled/dark,
 /area/security/tactical)
 "agn" = (
@@ -3811,7 +3794,8 @@
 /obj/machinery/hologram/holopad,
 /obj/effect/floor_decal/industrial/outline/grey,
 /obj/structure/table/steel,
-/obj/item/storage/firstaid/combat,
+/obj/item/storage/firstaid/adv,
+/obj/item/storage/firstaid/adv,
 /obj/item/personal_shield_generator/belt/security/loaded,
 /turf/simulated/floor/tiled/dark,
 /area/security/tactical)
@@ -3835,6 +3819,13 @@
 /obj/machinery/door/window/brigdoor/westleft{
 	name = "Combat Armor"
 	},
+/obj/structure/window/reinforced{
+	dir = 1
+	},
+/obj/item/clothing/head/helmet/combat,
+/obj/item/clothing/suit/armor/combat,
+/obj/item/clothing/shoes/leg_guard/combat,
+/obj/item/clothing/gloves/arm_guard/combat,
 /turf/simulated/floor/tiled/dark,
 /area/security/tactical)
 "aiv" = (
@@ -18442,7 +18433,7 @@
 /obj/structure/table/rack{
 	dir = 1
 	},
-/obj/item/storage/bag/ore,
+/obj/item/ore_bag,
 /obj/random/maintenance/cargo,
 /obj/random/maintenance/cargo,
 /obj/random/maintenance/cargo,
@@ -52325,15 +52316,20 @@
 	dir = 10
 	},
 /obj/structure/closet/radiation{
-	anchored = 1;
-	starts_with = list(/obj/item/clothing/suit/radiation=4,/obj/item/clothing/head/radiation=4,/obj/item/geiger=4)
+	anchored = 1
 	},
+/obj/item/clothing/suit/radiation,
+/obj/item/clothing/suit/radiation,
+/obj/item/clothing/head/radiation,
+/obj/item/clothing/head/radiation,
+/obj/item/geiger,
+/obj/item/geiger,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
 /obj/item/clothing/glasses/meson,
-/obj/item/clothing/suit/radiation/teshari,
 /obj/item/clothing/head/radiation/teshari,
+/obj/item/clothing/suit/radiation/teshari,
 /turf/simulated/floor/tiled/white,
 /area/rnd/research)
 "ilQ" = (
@@ -55661,14 +55657,6 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /turf/simulated/floor/tiled,
 /area/hallway/secondary/docking_hallway2)
-"kar" = (
-/obj/machinery/smartfridge/sheets/persistent_lossy{
-	desc = "An industrial sized storage unit for materials. Following company policy with B-Shift, this particular storage unit will retain a percentage of its material in-between crew transfers.";
-	name = "\improper Persistent Industrial Sheet Storage";
-	req_one_access = list(31,48)
-	},
-/turf/simulated/floor/tiled,
-/area/quartermaster/warehouse)
 "kay" = (
 /obj/machinery/ai_status_display{
 	pixel_x = -32
@@ -55963,6 +55951,23 @@
 	},
 /obj/effect/floor_decal/corner/purple/border{
 	dir = 8
+	},
+/obj/item/assembly/signaler/anomaly/flux,
+/obj/item/anomaly_releaser/science,
+/obj/item/anomaly_releaser/science{
+	pixel_x = 4;
+	pixel_y = 3
+	},
+/obj/item/anomaly_releaser/science{
+	pixel_x = 8;
+	pixel_y = 6
+	},
+/obj/item/anomaly_scanner{
+	pixel_y = -9;
+	pixel_x = 6
+	},
+/obj/item/anomaly_scanner{
+	pixel_y = -6
 	},
 /turf/simulated/floor/tiled/white,
 /area/rnd/misc_lab)
@@ -58967,6 +58972,13 @@
 	},
 /obj/effect/floor_decal/corner/purple/border{
 	dir = 8
+	},
+/obj/machinery/power/emitter{
+	anchored = 1;
+	dir = 4;
+	icon_state = "emitter2";
+	id = "EngineEmitter";
+	state = 2
 	},
 /turf/simulated/floor/tiled/white,
 /area/rnd/misc_lab)
@@ -62351,6 +62363,7 @@
 /obj/effect/floor_decal/corner/purple/border{
 	dir = 4
 	},
+/obj/machinery/anomaly_harvester,
 /turf/simulated/floor/tiled/white,
 /area/rnd/misc_lab)
 "nZY" = (
@@ -98565,7 +98578,7 @@ aOj
 aQI
 aSR
 bxr
-kar
+bGn
 bAG
 qmn
 bEy

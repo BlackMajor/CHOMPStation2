@@ -2,7 +2,7 @@ import { useBackend } from 'tgui/backend';
 import { Button, LabeledList, Stack } from 'tgui-core/components';
 
 import { digestModeToColor, modeToTooltip } from '../constants';
-import type { bellyModeData, DropdownEntry } from '../types';
+import type { BellyModeData, DropdownEntry } from '../types';
 import { VorePanelEditCheckboxes } from '../VorePanelElements/VorePanelEditCheckboxes';
 import { VorePanelEditDropdown } from '../VorePanelElements/VorePanelEditDropdown';
 import { VorePanelEditText } from '../VorePanelElements/VorePanelEditText';
@@ -12,7 +12,7 @@ export const VoreSelectedBellyControls = (props: {
   editMode: boolean;
   belly_name: string;
   display_name: string;
-  bellyModeData: bellyModeData;
+  bellyModeData: BellyModeData;
 }) => {
   const { act } = useBackend();
 
@@ -108,6 +108,7 @@ export const VoreSelectedBellyControls = (props: {
       </LabeledList.Item>
       <LabeledList.Item label="Mode">
         <VorePanelEditDropdown
+          searchInput
           editMode={editMode}
           options={mode_options}
           entry={mode}
@@ -128,6 +129,7 @@ export const VoreSelectedBellyControls = (props: {
       </LabeledList.Item>
       <LabeledList.Item label="Item Mode">
         <VorePanelEditDropdown
+          searchInput
           editMode={editMode}
           options={item_mode_options}
           entry={item_mode}

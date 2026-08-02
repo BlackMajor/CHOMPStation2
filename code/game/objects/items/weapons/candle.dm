@@ -44,7 +44,7 @@
 			light()
 
 
-/obj/item/flame/candle/proc/light(var/flavor_text = span_notice("\The [usr] lights the [src]."))
+/obj/item/flame/candle/proc/light(flavor_text = span_notice("\The [usr] lights the [src]."))
 	if(!lit)
 		lit = TRUE
 		visible_message(flavor_text)
@@ -65,9 +65,12 @@
 		var/turf/T = loc
 		T.hotspot_expose(700, 5)
 
-/obj/item/flame/candle/attack_self(mob/user as mob)
+/obj/item/flame/candle/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if(lit)
-		lit = 0
+		lit = FALSE
 		update_icon()
 		set_light(0)
 

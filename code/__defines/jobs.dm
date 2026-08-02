@@ -32,7 +32,7 @@
 	#define JOB_ALT_SECURITY_MANAGER "Security Manager"
 
 #define JOB_CHIEF_ENGINEER "Chief Engineer"
-	// Cheif Engineer alt titles
+	// Chief Engineer alt titles
 	#define JOB_ALT_HEAD_ENGINEER "Head Engineer"
 	#define JOB_ALT_FOREMAN "Foreman"
 	#define JOB_ALT_MAINTENANCE_MANAGER "Maintenance Manager"
@@ -113,6 +113,7 @@
 	#define JOB_ALT_DISPOSALS_SORTER "Disposals Sorter"
 	#define JOB_ALT_MAILMAN "Mailman"
 	#define JOB_ALT_DELIVERY_WORKER "Delivery Worker"
+	#define JOB_ALT_LOGISTICS_CONTRACTOR "Logistics Contractor"
 
 #define JOB_SHAFT_MINER "Shaft Miner"
 	// Shaft Miner alt titles
@@ -120,6 +121,7 @@
 	#define JOB_ALT_DRILL_TECHNICIAN "Drill Technician"
 	#define JOB_ALT_PROSPECTOR "Prospector"
 	#define JOB_ALT_EXCAVATOR "Excavator"
+	#define JOB_ALT_MINING_CONTRACTOR "Mining Contractor"
 
 #define JOB_JANITOR "Janitor"
 	// Janitor alt titles
@@ -297,6 +299,7 @@
 	#define JOB_ALT_GAS_PHYSICIST "Gas Physicist"
 	#define JOB_ALT_CIRCUIT_DESIGNER "Circuit Designer"
 	#define JOB_ALT_CIRCUIT_PROGRAMMER "Circuit Programmer"
+	#define JOB_ALT_RESEARCH_CONTRACTOR "Research Contractor"
 
 #define JOB_XENOBIOLOGIST "Xenobiologist"
 	// Xenobiologist alt titles

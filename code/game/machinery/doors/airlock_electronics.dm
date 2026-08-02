@@ -4,9 +4,9 @@
 	icon_state = "door_electronics"
 	w_class = ITEMSIZE_SMALL //It should be tiny! -Agouri
 
-	matter = list(MAT_STEEL = 50,MAT_GLASS = 50)
+	matter = list(MAT_STEEL = MATERIAL_COST(0.025),MAT_GLASS = MATERIAL_COST(0.025))
 
-	req_one_access = list(ACCESS_ENGINE, ACCESS_TALON) // Access to unlock the device, ignored if emagged //VOREStation Edit - Add talon
+	req_one_access = list(ACCESS_ENGINE, ACCESS_TALON_ENGINEER) // Access to unlock the device, ignored if emagged //VOREStation Edit - Add talon
 	var/list/apply_any_access = list(ACCESS_ENGINE) // Can apply any access, not just their own
 
 	var/secure = 0 //if set, then wires will be randomized and bolts will drop if the door is broken
@@ -16,15 +16,18 @@
 	var/locked = 1
 	var/emagged = 0
 
-/obj/item/airlock_electronics/emag_act(var/remaining_charges, var/mob/user)
+/obj/item/airlock_electronics/emag_act(remaining_charges, mob/user)
 	if(!emagged)
 		emagged = 1
 		to_chat(user, span_notice("You remove the access restrictions on [src]!"))
 		return 1
 
-/obj/item/airlock_electronics/attack_self(mob/user as mob)
+/obj/item/airlock_electronics/attack_self(mob/user)
+	. = ..(user)
+	if(.)
+		return TRUE
 	if (!ishuman(user) && !istype(user,/mob/living/silicon/robot))
-		return ..(user)
+		return FALSE
 
 	var/t1 = span_bold("Access control") + "<br>\n"
 
@@ -45,7 +48,7 @@
 
 		var/list/accesses = get_available_accesses(user)
 		for (var/acc in accesses)
-			var/aname = get_access_desc(acc)
+			var/aname = SSaccess.get_access_desc(acc)
 
 			if (!conf_access || !conf_access.len || !(acc in conf_access))
 				t1 += "<a href='byond://?src=\ref[src];access=[acc]'>[aname]</a><br>"
@@ -105,7 +108,7 @@
 
 	attack_self(usr)
 
-/obj/item/airlock_electronics/proc/toggle_access(var/acc)
+/obj/item/airlock_electronics/proc/toggle_access(acc)
 	if (acc == "all")
 		conf_access = null
 	else
@@ -121,7 +124,7 @@
 			if (!conf_access.len)
 				conf_access = null
 
-/obj/item/airlock_electronics/proc/get_available_accesses(var/mob/user)
+/obj/item/airlock_electronics/proc/get_available_accesses(mob/user)
 	var/obj/item/card/id/id
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -136,7 +139,7 @@
 
 	// Has engineer access, can put any access
 	else if(has_access(null, apply_any_access, id.GetAccess()))
-		return get_all_station_access()
+		return SSaccess.get_all_station_access()
 
 	// Not an engineer, can only pick your own accesses to program
 	else
@@ -145,9 +148,8 @@
 /obj/item/airlock_electronics/secure
 	name = "secure airlock electronics"
 	desc = "designed to be somewhat more resistant to hacking than standard electronics."
-	origin_tech = list(TECH_DATA = 2)
 	secure = 1
 
-/obj/item/airlock_electronics/secure/emag_act(var/remaining_charges, var/mob/user)
+/obj/item/airlock_electronics/secure/emag_act(remaining_charges, mob/user)
 	to_chat(user, span_warning("You don't appear to be able to bypass this hardened device!"))
 	return -1
