@@ -222,6 +222,13 @@
 	#define JOB_ALT_DISPOSALS_TECHNICIAN "Disposals Technician"
 	#define JOB_ALT_FUEL_TECHNICIAN "Fuel Technician"
 	#define JOB_ALT_FIREFIGHTER "Firefighter"
+
+#define JOB_TELECOMMS_SPECIALIST "Telecomms Specialist"
+	// Telecomms Specialist alt titles
+	#define JOB_ALT_WIRELESS_OPERATOR "Wireless Operator"
+	#define JOB_ALT_NETWORK_ENGINEER "Network Engineer"
+	#define JOB_ALT_SYSADMIN "Sysadmin"
+	#define JOB_ALT_TECHNICIAN "Tram Technician"
 //___________________________________________________________
 
 
@@ -389,6 +396,7 @@
 #define JOB_TALON_ENGINEER "Talon Engineer"
 	// Talon Engineer alt titles
 	#define JOB_ALT_TALON_TECHNICIAN "Talon Technician"
+	#define JOB_ALT_TALON_ATMOSTECHIAN "Talon Atmospheric Technician"
 
 #define JOB_TALON_GUARD "Talon Guard"
 	// Talon Guard alt titles
@@ -483,6 +491,7 @@
 #define AI_DEPT (1<<8)
 #define CYBORG (1<<9)
 #define BRIGPHYS (1<<10) // CHOMPAdd - Brig Physician
+#define TCOMMS (1<<12)
 #define CLOWN (1<<13)
 #define MIME (1<<14)
 #define INTERN (1<<15)

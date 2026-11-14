@@ -214,7 +214,7 @@
 
 //Called when the mob is hit with an item in combat. Returns the blocked result
 /mob/living/proc/hit_with_weapon(obj/item/I, mob/living/user, effective_force, hit_zone, hide_attack_message)
-	SEND_SIGNAL(I, COMSIG_ITEM_ATTACK_ZONE, I, user, hit_zone, effective_force)
+	SEND_SIGNAL(I, COMSIG_ITEM_ATTACK_ZONE, I, src, user, hit_zone, effective_force)
 	if(!hide_attack_message)
 		visible_message(span_danger("[src] has been [LAZYLEN(I.attack_verb) ? pick(I.attack_verb) : "attacked"] with [I.name] by [user]!"))
 
@@ -225,7 +225,7 @@
 
 	standard_weapon_hit_effects(I, user, effective_force, blocked, hit_zone)
 
-	if(I.damtype == BRUTE && prob(33)) // Added blood for whacking non-humans too
+	if(I.force >= 5 && I.damtype == BRUTE && prob(33)) // Added blood for whacking non-humans too
 		var/turf/simulated/location = get_turf(src)
 		if(istype(location)) location.add_blood_floor(src)
 
@@ -396,6 +396,10 @@
 	adjust_fire_stacks(4)
 	inflict_heat_damage(20) // Another 20, however this is instantly applied to unprotected mobs.
 	adjustFireLoss(10) // Lava cannot be 100% resisted with fire protection.
+
+///Override for subtypes if they can slip.
+/mob/living/proc/can_slip(lube)
+	return FALSE
 
 /mob/living/proc/reagent_permeability()
 	return 1

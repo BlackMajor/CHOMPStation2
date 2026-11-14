@@ -84,6 +84,7 @@
 	..()
 
 /obj/effect/mine/Crossed(atom/movable/AM as mob|obj)
+	. = ..()
 	if(AM.is_incorporeal())
 		return
 	Bumped(AM)
@@ -91,6 +92,9 @@
 /obj/effect/mine/Bumped(mob/M as mob|obj)
 
 	if(triggered)
+		return
+
+	if(M.throwing) // Weee!
 		return
 
 	if(istype(M, /obj/mecha))

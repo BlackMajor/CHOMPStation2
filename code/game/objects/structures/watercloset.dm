@@ -186,7 +186,13 @@
 		I.forceMove(src)
 		teleplumb_crystal = I
 		//TODO: add a way to link this to custom destinations.
-		teleplumb_dest_ref = WEAKREF(locate(/obj/effect/landmark/teleplumb_exit))
+		//CHOMPEdit Start: Toilets attempt to connect to waste tanks if they exist.
+		//teleplumb_dest_ref = WEAKREF(locate(/obj/effect/landmark/teleplumb_exit))
+		var/toilet_dest = locate(/obj/structure/biowaste_tank)
+		if(!toilet_dest) //No waste tank, try to connect to the teleplumb exit landmark.
+			toilet_dest = locate(/obj/effect/landmark/teleplumb_exit)
+		teleplumb_dest_ref = WEAKREF(toilet_dest)
+		//CHOMPEdit End
 		desc = "The BS-500, a bluespace rift-rotation-based waste disposal unit for small matter. This one seems remarkably clean."
 		return
 
@@ -541,23 +547,21 @@
 	A.wash(CLEAN_RAD | CLEAN_TYPE_WEAK) // Clean radiation non-instantly
 	A.wash(CLEAN_WASH)
 	A.wash(CLEAN_SCRUB)
+
+	if(isliving(A))
+		var/mob/living/L = A
+		check_heat(L)
+		L.extinguish_mob()
+		L.adjust_fire_stacks(-20) //Douse ourselves with water to avoid fire more easily
+		L.radiation = CLAMP(L.radiation - 5, 0, RADIATION_CAP)
+		//flush away reagents on the skin
+		if(iscarbon(A))
+			var/mob/living/carbon/C = A
+			if(C.touching)
+				var/remove_amount = C.touching.maximum_volume * C.reagent_permeability() //take off your suit first
+				C.touching.remove_any(remove_amount)
+
 	reagents.splash(A, reaction_volume / 20, 1, TRUE, min_spill = 0, max_spill = 0) //Reaction volume needs to be divided by 20 due to a larger internal volume
-
-	if(!isliving(A))
-		return
-	var/mob/living/L = A
-	check_heat(L)
-	L.extinguish_mob()
-	L.adjust_fire_stacks(-20) //Douse ourselves with water to avoid fire more easily
-	L.radiation = CLAMP(L.radiation - 5, 0, RADIATION_CAP)
-
-	if(!iscarbon(A))
-		return
-	//flush away reagents on the skin
-	var/mob/living/carbon/C = A
-	if(C.touching)
-		var/remove_amount = C.touching.maximum_volume * C.reagent_permeability() //take off your suit first
-		C.touching.remove_any(remove_amount)
 
 /obj/machinery/shower/process()
 	if(on)
@@ -679,7 +683,7 @@
 		if(honk_text)
 			audible_message(span_maroon("[honk_text]"))
 		var/turf/simulated/whereweare = get_turf(src)
-		whereweare.wet_floor(2)
+		whereweare.MakeSlippery(TURF_WET_LUBE, 160 SECONDS)
 	return
 
 /obj/item/bikehorn/rubberducky/pink

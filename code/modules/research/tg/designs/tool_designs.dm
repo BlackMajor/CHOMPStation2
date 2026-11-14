@@ -116,7 +116,7 @@
 
 /datum/design_techweb/minihoe
 	name = "mini hoe"
-	desc = "It's used for removing weeds or scratching your back."
+	desc = "It's used for removing weeds, or scratching your back."
 	id = "spade"
 	build_type = AUTOLATHE | PROTOLATHE
 	materials = list(MAT_STEEL = MATERIAL_COST(0.3125))
@@ -313,17 +313,6 @@
 	build_type = AUTOLATHE | PROTOLATHE
 	materials = list(MAT_STEEL = MATERIAL_COST(9.375))
 	build_path = /obj/item/beartrap
-	category = list(
-		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_JANITORIAL
-	)
-
-/datum/design_techweb/springtrap
-	name = "spring trap kit"
-	desc = "A mechanically activated spring trap. Low-tech, but reliable."
-	build_type = AUTOLATHE | PROTOLATHE
-	materials = list(MAT_STEEL = MATERIAL_COST(9.375))
-	id = "springtrap"
-	build_path = /obj/item/spring_trap_kit
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_JANITORIAL
 	)
@@ -1321,3 +1310,16 @@
 		RND_CATEGORY_TOOLS
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design_techweb/toolbox
+	name = "toolbox"
+	desc = "A metal toolbox with remarkably robust construction."
+	id = "toolbox"
+	build_type = AUTOLATHE | PROTOLATHE
+	materials = list(MAT_STEEL = MATERIAL_COST(5))
+	build_path = /obj/item/storage/toolbox/paintable
+	category = list(
+		RND_CATEGORY_INITIAL,
+		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_ENGINEERING
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING
